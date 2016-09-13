@@ -11,37 +11,35 @@ part of code_builder;
 /// This is the _recommended_ output (but not required) when comparing ASTs
 /// to expected golden files/text blobs.
 String prettyToSource(AstNode astNode) {
-  var writer = new PrintStringWriter();
-  var visitor = new _PrettyToSourceVisitor(writer);
+  var buffer = new StringBuffer();
+  var visitor = new _PrettyToSourceVisitor(buffer);
   astNode.accept(visitor);
-  return dartfmt(writer.toString());
+  return dartfmt(buffer.toString());
 }
 
 // TODO(matanl): Remove copied-pasted methods when API becomes available.
 // https://github.com/dart-lang/sdk/issues/27169
 class _PrettyToSourceVisitor extends ToSourceVisitor {
-  // Removed in a new version of the analyzer, but due to dartfmt it's not
-  // possible to refer to the newest analyzer and use dartfmt.
   // https://github.com/dart-lang/sdk/issues/27301
-  final PrintStringWriter _writer;
+  final StringBuffer _buffer;
 
-  _PrettyToSourceVisitor(PrintStringWriter writer)
-      : _writer = writer,
-        super(writer);
+  _PrettyToSourceVisitor(StringBuffer buffer)
+      : _buffer = buffer,
+        super(buffer);
 
   @override
   Object visitClassDeclaration(ClassDeclaration node) {
     _visitNodeListWithSeparatorAndSuffix(node.metadata, " ", " ");
     _visitTokenWithSuffix(node.abstractKeyword, " ");
-    _writer.print("class ");
+    _buffer.write("class ");
     _visitNode(node.name);
     _visitNode(node.typeParameters);
     _visitNodeWithPrefix(" ", node.extendsClause);
     _visitNodeWithPrefix(" ", node.withClause);
     _visitNodeWithPrefix(" ", node.implementsClause);
-    _writer.print(" {");
+    _buffer.write(" {");
     _visitNodeListWithSeparator(node.members, "\n\n");
-    _writer.print("}");
+    _buffer.write("}");
     return null;
   }
 
@@ -58,7 +56,7 @@ class _PrettyToSourceVisitor extends ToSourceVisitor {
       int size = nodes.length;
       for (int i = 0; i < size; i++) {
         if (i > 0) {
-          _writer.print(separator);
+          _buffer.write(separator);
         }
         nodes[i].accept(this);
       }
@@ -74,11 +72,11 @@ class _PrettyToSourceVisitor extends ToSourceVisitor {
       if (size > 0) {
         for (int i = 0; i < size; i++) {
           if (i > 0) {
-            _writer.print(separator);
+            _buffer.write(separator);
           }
           nodes[i].accept(this);
         }
-        _writer.print(suffix);
+        _buffer.write(suffix);
       }
     }
   }
@@ -87,7 +85,7 @@ class _PrettyToSourceVisitor extends ToSourceVisitor {
   // is non-`null`.
   void _visitNodeWithPrefix(String prefix, AstNode node) {
     if (node != null) {
-      _writer.print(prefix);
+      _buffer.write(prefix);
       node.accept(this);
     }
   }
@@ -96,8 +94,8 @@ class _PrettyToSourceVisitor extends ToSourceVisitor {
   // is non-`null`.
   void _visitTokenWithSuffix(Token token, String suffix) {
     if (token != null) {
-      _writer.print(token.lexeme);
-      _writer.print(suffix);
+      _buffer.write(token.lexeme);
+      _buffer.write(suffix);
     }
   }
 }
