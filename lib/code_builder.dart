@@ -31,7 +31,6 @@ library code_builder;
 import 'package:analyzer/analyzer.dart';
 import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/src/dart/ast/token.dart';
-import 'package:analyzer/src/generated/java_core.dart';
 import 'package:dart_style/dart_style.dart';
 import 'package:meta/meta.dart';
 
