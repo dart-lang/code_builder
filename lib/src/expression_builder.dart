@@ -98,7 +98,10 @@ abstract class ExpressionBuilder implements CodeBuilder<Expression> {
   /// Returns wrapped as a [FunctionExpression] AST.
   FunctionExpression toFunctionExpression() => _asFunctionExpression(this);
 
-  /// Returns as a [StatementBuilder].
+  /// Converts to a [StatementBuilder].
+  ///
+  /// __Example use__:
+  ///     literalNull.toStatement(); // ==> null;
   StatementBuilder toStatement();
 }
 
