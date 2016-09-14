@@ -22,11 +22,6 @@ abstract class FileBuilder extends _AbstractCodeBuilder<CompilationUnit> {
   void addDeclaration(CodeBuilder<Declaration> declaration) {
     _astNode.declarations.add(declaration.toAst());
   }
-
-  /// Adds [directive]'s resulting AST to the source.
-  void addDirective(CodeBuilder<Directive> directive) {
-    _astNode.directives.add(directive.toAst());
-  }
 }
 
 /// Builds a standalone Dart library [CompilationUnit] AST.
@@ -48,6 +43,11 @@ class LibraryBuilder extends FileBuilder {
   }
 
   LibraryBuilder._(CompilationUnit astNode) : super._(astNode);
+
+  /// Adds [directive]'s resulting AST to the source.
+  void addDirective(CodeBuilder<Directive> directive) {
+    _astNode.directives.add(directive.toAst());
+  }
 }
 
 /// Builds a `part of` [CompilationUnit] AST for an existing Dart library.
