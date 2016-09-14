@@ -8,17 +8,17 @@ import 'package:test/test.dart';
 
 void main() {
   test('should emit a blank file', () {
-    expect(new FileBuilder(), equalsSource(''));
+    expect(new LibraryBuilder(), equalsSource(''));
   });
 
   test('should emit a file with a library directive', () {
     expect(
-        new FileBuilder('code_builder'), equalsSource('library code_builder;'));
+        new LibraryBuilder('code_builder'), equalsSource('library code_builder;'));
   });
 
   test('should emit a file with a part of directive', () {
     expect(
-      new FileBuilder.partOf('code_builder'),
+      new PartBuilder('code_builder'),
       equalsSource('part of code_builder;'),
     );
   });

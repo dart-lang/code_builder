@@ -32,11 +32,11 @@ void main() {
             ],
           )),
       );
-    var lib = new FileBuilder()
+    var lib = new LibraryBuilder()
       ..addDirective(
         new ImportBuilder('app.dart'),
       )
-      ..addClass(clazz);
+      ..addDeclaration(clazz);
     expect(
       lib,
       equalsSource(
