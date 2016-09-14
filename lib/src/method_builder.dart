@@ -55,52 +55,6 @@ class MethodBuilder implements CodeBuilder<Declaration> {
     _parameters.add(parameter);
   }
 
-  static FunctionBody _emptyBlockBody() => new BlockFunctionBody(
-        null,
-        null,
-        new Block(
-          new Token(TokenType.OPEN_CURLY_BRACKET, 0),
-          null,
-          new Token(TokenType.CLOSE_CURLY_BRACKET, 0),
-        ),
-      );
-
-  static FunctionDeclaration _emptyFunction() => new FunctionDeclaration(
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        new FunctionExpression(
-          null,
-          _emptyParameters(),
-          _emptyBlockBody(),
-        ),
-      );
-
-  static MethodDeclaration _emptyMethod() => new MethodDeclaration(
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        _emptyParameters(),
-        null,
-      );
-
-  static FormalParameterList _emptyParameters() => new FormalParameterList(
-        new Token(TokenType.OPEN_PAREN, 0),
-        [],
-        null,
-        null,
-        new Token(TokenType.CLOSE_PAREN, 0),
-      );
-
   /// Lazily adds [statement].
   ///
   /// When the method is emitted as an AST, [StatementBuilder.toAst] is used.
@@ -132,11 +86,16 @@ class MethodBuilder implements CodeBuilder<Declaration> {
       ..returnType = _returnType?.toAst();
     if (_returnExpression != null) {
       functionAst.functionExpression = _returnExpression.toFunctionExpression();
+    } else {
+      functionAst.functionExpression = new FunctionExpression(
+        null,
+        _emptyParameters(),
+        _blockBody(_statements.map/*<Statement>*/((s) => s.toAst())),
+      );
     }
     if (_parameters.isNotEmpty) {
-      functionAst.functionExpression.parameters = _emptyParameters()
-        ..parameters
-            .addAll(_parameters.map/*<FormalParameter>*/((p) => p.toAst()));
+      functionAst.functionExpression.parameters.parameters
+          .addAll(_parameters.map/*<FormalParameter>*/((p) => p.toAst()));
     }
     return functionAst;
   }
@@ -154,12 +113,13 @@ class MethodBuilder implements CodeBuilder<Declaration> {
     if (static) {
       methodAst.modifierKeyword = _static;
       if (methodBody == null) {
-        methodBody = _emptyBlockBody();
+        methodBody = _blockBody();
       }
     }
     if (methodBody == null) {
-      methodBody =
-          canBeAbstract ? new EmptyFunctionBody(_semicolon) : _emptyBlockBody();
+      methodBody = canBeAbstract
+          ? new EmptyFunctionBody(_semicolon)
+          : _blockBody(_statements.map/*<Statement>*/((s) => s.toAst()));
     }
     if (_parameters.isNotEmpty) {
       methodAst.parameters.parameters
@@ -171,4 +131,51 @@ class MethodBuilder implements CodeBuilder<Declaration> {
 
   @override
   String toString() => 'MethodBuilder ${toAst().toSource()}';
+
+  static FunctionBody _blockBody([Iterable<Statement> statements]) =>
+      new BlockFunctionBody(
+        null,
+        null,
+        new Block(
+          new Token(TokenType.OPEN_CURLY_BRACKET, 0),
+          statements?.toList(),
+          new Token(TokenType.CLOSE_CURLY_BRACKET, 0),
+        ),
+      );
+
+  static FunctionDeclaration _emptyFunction() => new FunctionDeclaration(
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        new FunctionExpression(
+          null,
+          _emptyParameters(),
+          _blockBody(),
+        ),
+      );
+
+  static MethodDeclaration _emptyMethod() => new MethodDeclaration(
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        _emptyParameters(),
+        null,
+      );
+
+  static FormalParameterList _emptyParameters() => new FormalParameterList(
+        new Token(TokenType.OPEN_PAREN, 0),
+        [],
+        null,
+        null,
+        new Token(TokenType.CLOSE_PAREN, 0),
+      );
 }

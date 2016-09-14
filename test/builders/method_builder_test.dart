@@ -83,6 +83,39 @@ void main() {
       );
     });
 
+    group('with statements', () {
+      test('should work with an expression', () {
+        expect(
+          new MethodBuilder.returnVoid('main')
+            ..addStatement(const LiteralString('Hello World').toStatement()),
+          equalsSource(r'''
+          void main() {
+            'Hello World';
+          }
+        '''),
+        );
+      });
+
+      test('should work invoking an expression', () {
+        expect(
+          new MethodBuilder.returnVoid('main')
+            ..addStatement(
+              new ExpressionBuilder.invoke('print', positional: [
+                const LiteralString('Hello World').invokeSelf(
+                  'substring',
+                  positional: [const LiteralInt(1)],
+                )
+              ]).toStatement(),
+            ),
+          equalsSource(r'''
+            void main() {
+              print('Hello World'.substring(1));
+            }
+          '''),
+        );
+      });
+    });
+
     group('with parameters:', () {
       MethodBuilder method;
 

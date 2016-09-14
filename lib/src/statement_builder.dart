@@ -6,5 +6,17 @@ part of code_builder;
 
 /// Builds a [Statement] AST.
 abstract class StatementBuilder implements CodeBuilder<Statement> {
-  // TODO(matanl): Implement (not required immediately as we have expressions).
+  /// Returns a new [StatementBuilder] from the result of [ExpressionBuilder].
+  factory StatementBuilder.fromExpression(ExpressionBuilder builder) {
+    return new _ExpressionStatementBuilder(new ExpressionStatement(
+      builder.toAst(),
+      _semicolon,
+    ));
+  }
+}
+
+class _ExpressionStatementBuilder
+    extends _AbstractCodeBuilder<ExpressionStatement>
+    implements StatementBuilder {
+  _ExpressionStatementBuilder(ExpressionStatement astNode) : super._(astNode);
 }
