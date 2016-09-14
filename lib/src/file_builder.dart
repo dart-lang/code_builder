@@ -4,73 +4,74 @@
 
 part of code_builder;
 
+CompilationUnit _emptyCompilationUnit() => new CompilationUnit(
+  null,
+  null,
+  null,
+  null,
+  null,
+  );
+
 /// Builds files of Dart source code.
 ///
-/// Files may either be a standalone library or `part of` another library.
-class FileBuilder extends _AbstractCodeBuilder<CompilationUnit> {
-  static Token _library = new KeywordToken(Keyword.LIBRARY, 0);
-  static Token _part = new KeywordToken(Keyword.PART, 0);
-  static Token _of = new StringToken(TokenType.KEYWORD, 'of', 0);
+/// See [LibraryBuilder] and [PartBuilder] for concrete implementations.
+abstract class FileBuilder extends _AbstractCodeBuilder<CompilationUnit> {
+  FileBuilder._(CompilationUnit astNode) : super._(astNode);
+
+  /// Adds [declaration]'s resulting AST to the source.
+  void addDeclaration(CodeBuilder<Declaration> declaration) {
+    _astNode.declarations.add(declaration.toAst());
+  }
+
+  /// Adds [directive]'s resulting AST to the source.
+  void addDirective(CodeBuilder<Directive> directive) {
+    _astNode.directives.add(directive.toAst());
+  }
+}
+
+/// Builds a standalone Dart library [CompilationUnit] AST.
+class LibraryBuilder extends FileBuilder {
+  static final Token _library = new KeywordToken(Keyword.LIBRARY, 0);
 
   /// Create a new standalone Dart library, optionally with a [name].
-  factory FileBuilder([String name]) {
+  factory LibraryBuilder([String name]) {
     var astNode = _emptyCompilationUnit();
     if (name != null) {
       astNode.directives.add(new LibraryDirective(
-        null,
-        null,
-        _library,
-        new LibraryIdentifier([_stringId(name)]),
-        null,
-      ));
+          null,
+          null,
+          _library,
+          new LibraryIdentifier([_stringId(name)]),
+          null,));
     }
-    return new FileBuilder._(astNode);
+    return new LibraryBuilder._(astNode);
   }
 
-  /// Create a new `part of` the dart library with [name].
-  factory FileBuilder.partOf(String name) {
-    var astNode = _emptyCompilationUnit();
-    astNode.directives.add(new PartOfDirective(
-      null,
-      null,
-      _part,
-      _of,
-      new LibraryIdentifier([_stringId(name)]),
-      null,
-    ));
-    return new FileBuilder._(astNode);
-  }
-
-  FileBuilder._(CompilationUnit astNode) : super._(astNode);
-
-  /// Add a copy of [clazz] as a declaration in this file.
-  void addClass(ClassBuilder clazz) {
-    _astNode.declarations.add(clazz.toAst());
-  }
-
-  /// Adds an `import` or `export` [directive].
-  void addDirective(CodeBuilder<Directive> directive) {
-    if (isPartOf) {
-      throw const DartPartFileException._();
-    }
-    _astNode.directives.add(directive.toAst());
-  }
-
-  static CompilationUnit _emptyCompilationUnit() => new CompilationUnit(
-        null,
-        null,
-        null,
-        null,
-        null,
-      );
-
-  static bool _isPartOf(Directive d) => d is PartOfDirective;
-
-  /// Whether the file is `part of` another.
-  bool get isPartOf => _astNode.directives.contains(_isPartOf);
+  LibraryBuilder._(CompilationUnit astNode) : super._(astNode);
 }
 
-/// An `export` directive in a [FileBuilder].
+/// Builds a `part of` [CompilationUnit] AST for an existing Dart library.
+class PartBuilder extends FileBuilder {
+  static final Token _part = new KeywordToken(Keyword.PART, 0);
+  static final Token _of = new StringToken(TokenType.KEYWORD, 'of', 0);
+
+  /// Create a new `part of` source file.
+  factory PartBuilder(String name) {
+    var astNode = _emptyCompilationUnit();
+    astNode.directives.add(new PartOfDirective(
+        null,
+        null,
+        _part,
+        _of,
+        new LibraryIdentifier([_stringId(name)]),
+        null,
+        ));
+    return new PartBuilder._(astNode);
+  }
+
+  PartBuilder._(CompilationUnit astNode) : super._(astNode);
+}
+/// An `export` directive in a [LibraryBuilder].
 class ExportBuilder extends _AbstractCodeBuilder<ExportDirective> {
   /// Create a new `export` directive exporting [uri].
   factory ExportBuilder(String uri) {
@@ -81,13 +82,13 @@ class ExportBuilder extends _AbstractCodeBuilder<ExportDirective> {
   ExportBuilder._(ExportDirective astNode) : super._(astNode);
 
   static ExportDirective _createExportDirective() => new ExportDirective(
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
       );
 }
 
@@ -111,23 +112,15 @@ class ImportBuilder extends _AbstractCodeBuilder<ImportDirective> {
   ImportBuilder._(ImportDirective astNode) : super._(astNode);
 
   static ImportDirective _createImportDirective() => new ImportDirective(
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
       );
-}
-
-/// Thrown when an invalid operation is attempted on a [FileBuilder] instance.
-class DartPartFileException implements Exception {
-  const DartPartFileException._();
-
-  @override
-  String toString() => 'Not a valid operation for a `part of` file.';
 }
