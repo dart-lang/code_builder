@@ -1,6 +1,6 @@
 part of code_builder;
 
-/// Determines an [Identifier] given where it appears and where it is from.
+/// Determines an [Identifier] deppending on where it appears.
 ///
 /// __Example use__:
 ///     void useContext(Scope scope) {
@@ -23,7 +23,7 @@ abstract class Scope {
   /// Create a context that does _not_ apply any scoping.
   factory Scope.identity() = _IdentityScope;
 
-  /// Given a [symbol] and it's known [importUri], return an [Identifier].
+  /// Given a [symbol] and its known [importUri], return an [Identifier].
   Identifier getIdentifier(String symbol, String importUri);
 
   /// Returns a list of all imports needed to resolve identifiers.
