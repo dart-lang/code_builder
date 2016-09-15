@@ -34,17 +34,18 @@ import 'package:analyzer/src/dart/ast/token.dart';
 import 'package:dart_style/dart_style.dart';
 import 'package:meta/meta.dart';
 
-part 'src/annotation_builder.dart';
-part 'src/class_builder.dart';
-part 'src/constructor_builder.dart';
-part 'src/expression_builder.dart';
-part 'src/field_builder.dart';
-part 'src/file_builder.dart';
-part 'src/method_builder.dart';
-part 'src/parameter_builder.dart';
+part 'src/builders/annotation_builder.dart';
+part 'src/builders/class_builder.dart';
+part 'src/builders/constructor_builder.dart';
+part 'src/builders/expression_builder.dart';
+part 'src/builders/field_builder.dart';
+part 'src/builders/file_builder.dart';
+part 'src/builders/method_builder.dart';
+part 'src/builders/parameter_builder.dart';
+part 'src/builders/statement_builder.dart';
+part 'src/builders/type_builder.dart';
+
 part 'src/pretty_printer.dart';
-part 'src/statement_builder.dart';
-part 'src/type_builder.dart';
 
 /// Base class for building and emitting a Dart language [AstNode].
 abstract class CodeBuilder<A extends AstNode> {
