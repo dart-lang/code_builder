@@ -1,5 +1,8 @@
 # code_builder
 
+[![Build Status](https://travis-ci.org/dart-lang/code_builder.svg)](https://travis-ci.org/dart-lang/code_builder)
+[![Coverage Status](https://coveralls.io/repos/dart-lang/code_builder/badge.svg)](https://coveralls.io/r/dart-lang/code_builder)
+
 Code builder is a fluent Dart API for generating valid Dart source code.
 
 Generally speaking, code generation usually is done through a series of
