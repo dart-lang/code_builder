@@ -42,6 +42,13 @@ class LibraryBuilder extends FileBuilder {
     return new LibraryBuilder._(astNode);
   }
 
+  /// Create a new standalone Dart library, optionally with a [name].
+  ///
+  /// As references are added in the library that implements [RequiresImport]
+  /// they are re-written to avoid collisions and the imports are automatically
+  /// included at the top with optional prefixes.
+  factory LibraryBuilder.autoScope({String name}) => new LibraryBuilder(name);
+
   LibraryBuilder._(CompilationUnit astNode) : super._(astNode);
 
   /// Adds [directive]'s resulting AST to the source.
