@@ -77,6 +77,13 @@ class LibraryBuilder extends FileBuilder {
   void addDirective(CodeBuilder<Directive> directive) {
     _astNode.directives.add(directive.toAst());
   }
+
+  @override
+  CompilationUnit toAst() {
+    var originalAst = super.toAst();
+    originalAst.directives..addAll(_scope.getImports().map((i) => i.toAst()));
+    return originalAst;
+  }
 }
 
 /// Builds a `part of` [CompilationUnit] AST for an existing Dart library.
