@@ -22,6 +22,37 @@ void main() {
     );
   });
 
+  test('should emit a method returning a scoped Type', () {
+    expect(
+        new MethodBuilder(
+          name: 'toFoo',
+          returns: new TypeBuilder('Foo', importFrom: 'package:foo/foo.dart'),
+        )..addParameter(new ParameterBuilder(
+          'context',
+          type: new TypeBuilder('Context', importFrom: 'package:bar/bar.dart'),
+        )),
+        equalsSource(
+          r'''
+            foo.Foo toFoo(bar.Context context) {}
+          ''',
+          scope: simpleNameScope,
+        ));
+  });
+
+  test('should emit a method returning a scoped Type and scoped Param', () {
+    expect(
+        new MethodBuilder(
+          name: 'toFoo',
+          returns: new TypeBuilder('Foo', importFrom: 'package:foo/foo.dart'),
+        ),
+        equalsSource(
+          r'''
+            foo.Foo toFoo() {}
+          ''',
+          scope: simpleNameScope,
+        ));
+  });
+
   test('should emit a method annotated', () {
     expect(
         new MethodBuilder(name: 'oldMethod')..addAnnotation(atDeprecated()),

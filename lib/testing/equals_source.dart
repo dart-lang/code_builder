@@ -2,6 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:analyzer/analyzer.dart';
+import 'package:analyzer/dart/ast/token.dart';
+import 'package:analyzer/src/dart/ast/token.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:matcher/matcher.dart';
 
@@ -16,8 +19,41 @@ import 'package:matcher/matcher.dart';
 ///
 /// If you have code that is not consider a valid compilation unit (like an
 /// expression, you should flip [format] to `false`).
-Matcher equalsSource(String source, {bool format: true}) {
-  return new _EqualsSource(format ? dartfmt(source) : source, format);
+Matcher equalsSource(String source, {bool format: true, Scope scope}) {
+  return new _EqualsSource(
+    scope,
+    format ? dartfmt(source) : source,
+    format,
+  );
+}
+
+Identifier _stringId(String s) {
+  return new SimpleIdentifier(new StringToken(TokenType.STRING, s, 0));
+}
+
+/// Returns identifiers that are just the file name.
+///
+/// For example `getIdentifier('Foo', 'package:foo/foo.dart')` would return
+/// the identifier "foo.Foo". This isn't safe enough for use in a actual
+/// code-gen but makes it easy to debug issues in our tests.
+const Scope simpleNameScope = const _SimpleNameScope();
+
+class _SimpleNameScope implements Scope {
+  const _SimpleNameScope();
+
+  @override
+  Identifier getIdentifier(String symbol, String importUri) {
+    var fileWithoutExt =
+        Uri.parse(importUri).pathSegments.last.split('.').first;
+    return new PrefixedIdentifier(
+      _stringId(fileWithoutExt),
+      new Token(TokenType.PERIOD, 0),
+      _stringId(symbol),
+    );
+  }
+
+  @override
+  Iterable<ImportBuilder> getImports() => const [];
 }
 
 // Delegates to the default matcher (which delegates further).
@@ -25,10 +61,11 @@ Matcher equalsSource(String source, {bool format: true}) {
 // Would be nice to just use more of package:matcher directly:
 // https://github.com/dart-lang/matcher/issues/36
 class _EqualsSource extends Matcher {
+  final Scope _scope;
   final String _source;
   final bool _isFormatted;
 
-  _EqualsSource(this._source, this._isFormatted);
+  _EqualsSource(this._scope, this._source, this._isFormatted);
 
   @override
   Description describe(Description description) {
@@ -55,11 +92,16 @@ class _EqualsSource extends Matcher {
   }
 
   String _formatAst(CodeBuilder builder) {
-    var ast = builder.toAst();
-    if (_isFormatted) {
-      return prettyToSource(ast);
+    AstNode astNode;
+    if (_scope != null && builder is ScopeAware) {
+      astNode = builder.toScopedAst(_scope);
     } else {
-      return ast.toSource();
+      astNode = builder.toAst();
+    }
+    if (_isFormatted) {
+      return prettyToSource(astNode);
+    } else {
+      return astNode.toSource();
     }
   }
 

@@ -55,4 +55,40 @@ void main() {
       ),
     );
   });
+
+  test('Emits a complex generated file with conflicting imports scoped', () {
+    var lib = new LibraryBuilder.scope()
+      ..addDeclaration(new MethodBuilder(
+        name: 'doThing',
+        returns: new TypeBuilder(
+          'Thing',
+          importFrom: 'package:thing/thing.dart',
+        ),
+      ))
+      ..addDeclaration(new MethodBuilder(
+          name: 'doOtherThing',
+          returns: new TypeBuilder(
+            'Thing',
+            importFrom: 'package:thing/alternative.dart',
+          ))
+        ..addParameter(new ParameterBuilder(
+          'thing',
+          type: new TypeBuilder(
+            'Thing',
+            importFrom: 'package:thing/thing.dart',
+          ),
+        )));
+    expect(
+      lib,
+      equalsSource(
+        r'''
+          import 'package:thing/thing.dart' as _i1;
+          import 'package:thing/alternative.dart' as _i2;
+
+          _i1.Thing doThing() {}
+          _i2.Thing doOtherThing(_i1.Thing thing) {}
+        ''',
+      ),
+    );
+  });
 }

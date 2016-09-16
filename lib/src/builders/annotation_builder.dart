@@ -16,7 +16,7 @@ part of code_builder;
 ///   void destroyTheWorld() { ... }
 ///
 /// To create a `@DoNotUse('Blows up')` use [AnnotationBuilder.invoke].
-abstract class AnnotationBuilder implements RequiresImport<Annotation> {
+abstract class AnnotationBuilder implements ScopeAware<Annotation> {
   /// Create a new annotated `const` [constructor] invocation.
   ///
   /// May optionally specify an [importFrom] to auto-prefix the annotation _if_
@@ -46,7 +46,7 @@ abstract class AnnotationBuilder implements RequiresImport<Annotation> {
       [String importFrom]) = _ReferenceAnnotationBuilder;
 }
 
-class _ConstructorAnnotationBuilder extends RequiresImport<Annotation>
+class _ConstructorAnnotationBuilder extends ScopeAware<Annotation>
     implements AnnotationBuilder {
   final String _constructor;
   final ExpressionBuilder _expression;
