@@ -10,28 +10,28 @@ import 'package:test/test.dart';
 // Closely mirrors the API you would need to do dependency injection :)
 void main() {
   test('Emits a complex generated file', () {
-    var clazz = new ClassBuilder(r'Injector', implement: ['App'])
-      ..addField(new FieldBuilder.isFinal(
-        '_module',
-        type: const TypeBuilder('Module'),
-      ))
-      ..addConstructor(new ConstructorBuilder.initializeFields(
-        positionalArguments: ['_module'],
-      ))
-      ..addMethod(
-        new MethodBuilder(
-          name: 'getThing',
-          returns: const TypeBuilder('Thing'),
-        )
-          ..addAnnotation(atOverride)
-          ..setExpression(new ExpressionBuilder.invoke(
-            'new Thing',
-            positional: [
-              new ExpressionBuilder.invoke('_module.getDep1'),
-              new ExpressionBuilder.invoke('_module.getDep2'),
-            ],
-          )),
-      );
+    var clazz =
+        new ClassBuilder(r'Injector', implement: [new TypeBuilder('App')])
+          ..addField(new FieldBuilder.isFinal(
+            '_module',
+            type: const TypeBuilder('Module'),
+          ))
+          ..addConstructor(new ConstructorBuilder()
+            ..addParameter(new ParameterBuilder('_module', field: true)))
+          ..addMethod(
+            new MethodBuilder(
+              name: 'getThing',
+              returns: const TypeBuilder('Thing'),
+            )
+              ..addAnnotation(atOverride)
+              ..setExpression(new ExpressionBuilder.invokeNew(
+                const TypeBuilder('Thing'),
+                positional: [
+                  new ExpressionBuilder.invoke('_module.getDep1'),
+                  new ExpressionBuilder.invoke('_module.getDep2'),
+                ],
+              )),
+          );
     var lib = new LibraryBuilder()
       ..addDirective(
         new ImportBuilder('app.dart'),
@@ -50,6 +50,65 @@ void main() {
 
             @override
             Thing getThing() => new Thing(_module.getDep1(), _module.getDep2());
+          }
+        ''',
+      ),
+    );
+  });
+
+  test('Emits a complex generated file with scoping applied', () {
+    var clazz = new ClassBuilder(
+      r'Injector',
+      implement: [new TypeBuilder('App', importFrom: 'package:app/app.dart')],
+    )
+      ..addField(new FieldBuilder.isFinal(
+        '_module',
+        type: const TypeBuilder('Module', importFrom: 'package:app/app.dart',),
+      ))
+      ..addConstructor(new ConstructorBuilder()
+        ..addParameter(new ParameterBuilder('_module', field: true)))
+      ..addMethod(
+        new MethodBuilder(
+          name: 'getThing',
+          returns: const TypeBuilder(
+            'Thing',
+            importFrom: 'package:app/thing.dart',
+          ),
+        )
+          ..addAnnotation(atOverride)
+          ..setExpression(new ExpressionBuilder.invokeNew(
+            const TypeBuilder(
+              'Thing',
+              importFrom: 'package:app/thing.dart',
+            ),
+            positional: [
+              new ExpressionBuilder.invoke('_module.getDep1'),
+              new ExpressionBuilder.invoke('_module.getDep2'),
+            ],
+          )),
+      );
+    var lib = new LibraryBuilder.scope()
+      ..addDirective(
+        new ImportBuilder('app.dart'),
+      )
+      ..addDeclaration(clazz);
+    expect(
+      lib,
+      equalsSource(
+        r'''
+          import 'app.dart';
+          import 'package:app/app.dart' as _i1;
+          import 'dart:core' as _i2;
+          import 'package:app/thing.dart' as _i3;
+
+
+          class Injector implements _i1.App {
+            final _i1.Module _module;
+
+            Injector(this._module);
+
+            @_i2.override
+            _i3.Thing getThing() => new _i3.Thing(_module.getDep1(), _module.getDep2());
           }
         ''',
       ),

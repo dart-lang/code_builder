@@ -44,17 +44,38 @@ part 'src/builders/method_builder.dart';
 part 'src/builders/parameter_builder.dart';
 part 'src/builders/statement_builder.dart';
 part 'src/builders/type_builder.dart';
-
 part 'src/pretty_printer.dart';
 part 'src/scope.dart';
+
+final DartFormatter _dartfmt = new DartFormatter();
+
+// Simplifies some of the builders by having a mutable node we clone from.
+/// Returns [source] formatted by `dartfmt`.
+@visibleForTesting
+String dartfmt(String source) => _dartfmt.format(source);
+
+// Creates a defensive copy of an AST node.
+AstNode/*=E*/ _cloneAst/*<E extends AstNode>*/(AstNode/*=E*/ astNode) {
+  return new AstCloner().cloneNode/*<E>*/(astNode);
+}
+
+Identifier _stringId(String s) {
+  return new SimpleIdentifier(new StringToken(TokenType.STRING, s, 0));
+}
+
+Literal _stringLit(String s) {
+  return new SimpleStringLiteral(new StringToken(TokenType.STRING, s, 0), s);
+}
 
 /// Base class for building and emitting a Dart language [AstNode].
 abstract class CodeBuilder<A extends AstNode> {
   /// Returns a copy-safe [AstNode] representing the current builder state.
-  A toAst();
+  ///
+  /// Uses [scope] to output an AST re-written to use appropriate prefixes.
+  A toAst([Scope scope = const Scope.identity()]);
 }
 
-// Simplifies some of the builders by having a mutable node we clone from.
+@Deprecated('Builders are all becoming lazy')
 abstract class _AbstractCodeBuilder<A extends AstNode> extends CodeBuilder<A> {
   final A _astNode;
 
@@ -62,42 +83,8 @@ abstract class _AbstractCodeBuilder<A extends AstNode> extends CodeBuilder<A> {
 
   /// Returns a copy-safe [AstNode] representing the current builder state.
   @override
-  A toAst() => _cloneAst/*<A>*/(_astNode);
+  A toAst([_]) => _cloneAst/*<A>*/(_astNode);
 
   @override
   String toString() => '$runtimeType: ${_astNode.toSource()}';
-}
-
-/// Marker interface for builders that need an import to work.
-///
-/// **NOTE**: This currently (as of 0.2.0) has no effect. It is planned that
-/// the [FileBuilder] will be able to act as a scope 'resolver' and subtly
-/// rewrite the AST tree to use prefixing if required (or requested).
-abstract class ScopeAware<A extends AstNode> implements CodeBuilder<A> {
-  @override
-  A toAst() => toScopedAst(const Scope.identity());
-
-  /// Creates a copy-safe [AstNode] representing the current builder state.
-  ///
-  /// Uses [scope] to output an AST re-written to use appropriate prefixes.
-  A toScopedAst(Scope scope) => throw new UnimplementedError();
-}
-
-// Creates a defensive copy of an AST node.
-AstNode/*=E*/ _cloneAst/*<E extends AstNode>*/(AstNode/*=E*/ astNode) {
-  return new AstCloner().cloneNode/*<E>*/(astNode);
-}
-
-final DartFormatter _dartfmt = new DartFormatter();
-
-/// Returns [source] formatted by `dartfmt`.
-@visibleForTesting
-String dartfmt(String source) => _dartfmt.format(source);
-
-Literal _stringLit(String s) {
-  return new SimpleStringLiteral(new StringToken(TokenType.STRING, s, 0), s);
-}
-
-Identifier _stringId(String s) {
-  return new SimpleIdentifier(new StringToken(TokenType.STRING, s, 0));
 }

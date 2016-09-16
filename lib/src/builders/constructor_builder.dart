@@ -6,55 +6,51 @@ part of code_builder;
 
 /// Builds a [ConstructorDeclaration] AST.
 ///
-/// Similar to [MethodBuilder] but adds constructor-only features.
-///
-/// Use [ConstructorBuilder.initializeFields] to create something like:
-///     class Foo {
-///       final _one;
-///       final _two;
-///
-///       Foo(this._one, this._two);
-///     }
-class ConstructorBuilder extends _AbstractCodeBuilder<ConstructorDeclaration> {
+/// Similar to [MethodBuilder] but with constructor-only features.
+class ConstructorBuilder implements CodeBuilder<ConstructorDeclaration> {
   static final Token _const = new KeywordToken(Keyword.CONST, 0);
   static final Token _this = new KeywordToken(Keyword.THIS, 0);
 
-  /// Create a simple [ConstructorBuilder] that initializes class fields.
+  final bool _isConstant;
+  final String _name;
+  final List<ParameterBuilder> _parameters = <ParameterBuilder>[];
+
+  factory ConstructorBuilder([String name]) {
+    return new ConstructorBuilder._(false, name);
+  }
+
+  factory ConstructorBuilder.isConst([String name]) {
+    return new ConstructorBuilder._(true, name);
+  }
+
+  ConstructorBuilder._(this._isConstant, this._name);
+
+  /// Lazily adds [parameter].
   ///
-  /// May optionally be [constant] compatible, or have a [name].
-  factory ConstructorBuilder.initializeFields(
-      {bool constant: false,
-      String name,
-      Iterable<String> positionalArguments: const [],
-      Iterable<String> optionalArguments: const [],
-      Iterable<String> namedArguments: const []}) {
-    var parameters = <FormalParameter>[];
-    for (var a in positionalArguments) {
-      parameters.add(new ParameterBuilder(a, field: true).toAst());
-    }
-    for (var a in optionalArguments) {
-      parameters.add(new ParameterBuilder.optional(a, field: true).toAst());
-    }
-    for (var a in namedArguments) {
-      parameters.add(new ParameterBuilder.named(a, field: true).toAst());
-    }
+  /// When the method is emitted as an AST, [ParameterBuilder.toAst] is used.
+  void addParameter(ParameterBuilder builder) {
+    _parameters.add(builder);
+  }
+
+  @override
+  ConstructorDeclaration toAst([Scope scope = const Scope.identity()]) {
     var astNode = new ConstructorDeclaration(
       null,
       null,
       null,
       null,
-      constant ? _const : null,
+      _isConstant ? _const : null,
       null,
       null,
-      name != null ? _stringId(name) : null,
-      MethodBuilder._emptyParameters()..parameters.addAll(parameters),
+      _name != null ? _stringId(_name) : null,
+      MethodBuilder._emptyParameters()
+        ..parameters.addAll(
+            _parameters.map/*<FormalParameter>*/((p) => p.toAst(scope))),
       null,
       null,
       null,
       new EmptyFunctionBody(MethodBuilder._semicolon),
     );
-    return new ConstructorBuilder._(astNode);
+    return astNode;
   }
-
-  ConstructorBuilder._(ConstructorDeclaration astNode) : super._(astNode);
 }

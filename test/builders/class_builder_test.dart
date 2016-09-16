@@ -21,21 +21,25 @@ void main() {
 
   test('should emit a class extending another class', () {
     expect(
-      new ClassBuilder('Animal', extend: 'Organism'),
+      new ClassBuilder('Animal', extend: new TypeBuilder('Organism')),
       equalsSource('class Animal extends Organism {}'),
     );
   });
 
   test('should emit a class implementing another class', () {
     expect(
-      new ClassBuilder('Animal', implement: ['Delicious']),
+      new ClassBuilder('Animal', implement: [new TypeBuilder('Delicious')]),
       equalsSource('class Animal implements Delicious {}'),
     );
   });
 
   test('should emit a class extending and mixing in another class', () {
     expect(
-      new ClassBuilder('Animal', extend: 'Organism', mixin: ['Breathing']),
+      new ClassBuilder(
+        'Animal',
+        extend: new TypeBuilder('Organism'),
+        mixin: [new TypeBuilder('Breathing')],
+      ),
       equalsSource('class Animal extends Organism with Breathing {}'),
     );
   });
@@ -59,7 +63,7 @@ void main() {
     expect(
       new ClassBuilder('Animal', abstract: true)
         ..addMethod(
-          new MethodBuilder.returnVoid('eat'),
+          new MethodBuilder.returnVoid(name: 'eat', abstract: true),
         ),
       equalsSource(r'''
       abstract class Animal {
@@ -75,9 +79,9 @@ void main() {
         ..addMethod(
           new MethodBuilder(
             name: 'create',
+            static: true,
             returns: new TypeBuilder('Animal'),
           )..setExpression(literalNull),
-          static: true,
         ),
       equalsSource(r'''
       class Animal {
@@ -116,7 +120,7 @@ void main() {
     });
 
     test('default constructor', () {
-      clazz.addConstructor(new ConstructorBuilder.initializeFields());
+      clazz.addConstructor(new ConstructorBuilder());
       expect(
           clazz,
           equalsSource(
@@ -129,8 +133,7 @@ void main() {
     });
 
     test('default const constructor', () {
-      clazz.addConstructor(
-          new ConstructorBuilder.initializeFields(constant: true));
+      clazz.addConstructor(new ConstructorBuilder.isConst());
       expect(
           clazz,
           equalsSource(
@@ -143,10 +146,13 @@ void main() {
     });
 
     test('initializing fields', () {
-      clazz.addConstructor(new ConstructorBuilder.initializeFields(
-        positionalArguments: ['a'],
-        optionalArguments: ['b'],
-      ));
+      clazz.addConstructor(new ConstructorBuilder()
+        ..addParameter(
+          new ParameterBuilder('a', field: true),
+        )
+        ..addParameter(
+          new ParameterBuilder.optional('b', field: true),
+        ));
       expect(
           clazz,
           equalsSource(
