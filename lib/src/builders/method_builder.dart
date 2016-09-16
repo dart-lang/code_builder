@@ -100,7 +100,7 @@ class MethodBuilder implements CodeBuilder<Declaration> {
   FunctionDeclaration toFunctionAst([Scope scope = const Scope.identity()]) {
     var functionAst = _emptyFunction()
       ..metadata.addAll(_annotations.map/*<Annotation>*/((a) => a.toAst(scope)))
-      ..name = _stringId(_name)
+      ..name = _stringIdentifier(_name)
       ..returnType = _returnType?.toAst(scope);
     if (_returnExpression != null) {
       functionAst.functionExpression = _returnExpression.toFunctionExpression();
@@ -122,7 +122,7 @@ class MethodBuilder implements CodeBuilder<Declaration> {
   MethodDeclaration toMethodAst([Scope scope = const Scope.identity()]) {
     var methodAst = _emptyMethod()
       ..metadata.addAll(_annotations.map/*<Annotation>*/((a) => a.toAst(scope)))
-      ..name = _stringId(_name)
+      ..name = _stringIdentifier(_name)
       ..returnType = _returnType?.toAst(scope);
     FunctionBody methodBody = _returnExpression?.toFunctionBody(scope);
     if (_isStatic) {

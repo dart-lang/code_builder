@@ -42,7 +42,7 @@ class ConstructorBuilder implements CodeBuilder<ConstructorDeclaration> {
       _isConstant ? _const : null,
       null,
       null,
-      _name != null ? _stringId(_name) : null,
+      _name != null ? _stringIdentifier(_name) : null,
       MethodBuilder._emptyParameters()
         ..parameters.addAll(
             _parameters.map/*<FormalParameter>*/((p) => p.toAst(scope))),

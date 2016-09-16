@@ -131,7 +131,7 @@ class ParameterBuilder implements CodeBuilder<FormalParameter> {
         _type?.toAst(scope),
         _this,
         null,
-        _stringId(_name),
+        _stringIdentifier(_name),
         null,
         null,
       );
@@ -142,7 +142,7 @@ class ParameterBuilder implements CodeBuilder<FormalParameter> {
         null,
         null,
         _type?.toAst(scope),
-        _stringId(_name),
+        _stringIdentifier(_name),
       );
 
   static DefaultFormalParameter _createDefaultFormalParameter(

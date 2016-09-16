@@ -28,17 +28,28 @@ class ClassBuilder implements CodeBuilder<ClassDeclaration> {
   /// [implement] or [mixin]. You may also define a `class` as [abstract].
   factory ClassBuilder(
     String name, {
-    bool abstract: false,
     TypeBuilder extend,
     Iterable<TypeBuilder> implement: const [],
     Iterable<TypeBuilder> mixin: const [],
   }) =>
       new ClassBuilder._(
         name,
-        abstract,
+        false,
         extend,
-        implement,
-        mixin,
+        new List<TypeBuilder>.unmodifiable(implement),
+        new List<TypeBuilder>.unmodifiable(mixin),
+      );
+
+  factory ClassBuilder.asAbstract(String name,
+          {TypeBuilder extend,
+          Iterable<TypeBuilder> implement: const [],
+          Iterable<TypeBuilder> mixin: const []}) =>
+      new ClassBuilder._(
+        name,
+        true,
+        extend,
+        new List<TypeBuilder>.unmodifiable(implement),
+        new List<TypeBuilder>.unmodifiable(mixin),
       );
 
   ClassBuilder._(
@@ -71,7 +82,7 @@ class ClassBuilder implements CodeBuilder<ClassDeclaration> {
 
   @override
   ClassDeclaration toAst([Scope scope = const Scope.identity()]) {
-    var astNode = _emptyClassDeclaration()..name = _stringId(_name);
+    var astNode = _emptyClassDeclaration()..name = _stringIdentifier(_name);
     if (_isAbstract) {
       astNode.abstractKeyword = _abstract;
     }
@@ -91,7 +102,7 @@ class ClassBuilder implements CodeBuilder<ClassDeclaration> {
     astNode
       ..members.addAll(_fields.map/*<ClassMember>*/((f) => f.toFieldAst(scope)))
       ..members.addAll(_constructors.map/*<ClassMember>*/(
-          (c) => c.toAst(scope)..returnType = _stringId(_name)))
+          (c) => c.toAst(scope)..returnType = _stringIdentifier(_name)))
       ..members
           .addAll(_methods.map/*<ClassMember>*/((m) => m.toMethodAst(scope)));
     return astNode;

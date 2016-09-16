@@ -31,13 +31,13 @@ class FieldBuilder implements CodeBuilder<Declaration> {
     this._name, {
     TypeBuilder type,
     ExpressionBuilder initialize,
-    bool static: false,
+    bool asStatic: false,
   })
       : this._type = type,
         this._initialize = initialize,
         this._isFinal = false,
         this._isConst = false,
-        this._isStatic = static;
+        this._isStatic = asStatic;
 
   /// Create a new field builder that emits a `const` field.
   ///
@@ -46,7 +46,7 @@ class FieldBuilder implements CodeBuilder<Declaration> {
     this._name, {
     TypeBuilder type,
     ExpressionBuilder initialize,
-    bool static: false,
+    bool asStatic: false,
   })
       : this._type = type,
         this._initialize = initialize,
@@ -61,13 +61,13 @@ class FieldBuilder implements CodeBuilder<Declaration> {
     this._name, {
     TypeBuilder type,
     ExpressionBuilder initialize,
-    bool static: false,
+    bool asStatic: false,
   })
       : this._type = type,
         this._initialize = initialize,
         this._isFinal = true,
         this._isConst = false,
-        this._isStatic = static;
+        this._isStatic = asStatic;
 
   /// Returns a copy-safe [AstNode] representing the current builder state.
   ///
@@ -99,7 +99,7 @@ class FieldBuilder implements CodeBuilder<Declaration> {
         _type?.toAst(scope),
         [
           new VariableDeclaration(
-            _stringId(_name),
+            _stringIdentifier(_name),
             _initialize != null ? _equals : null,
             _initialize?.toAst(scope),
           )

@@ -39,7 +39,7 @@ class _DeduplicatingScope implements Scope {
   @override
   Identifier getIdentifier(String symbol, String import) {
     _imports.add(import);
-    return _stringId(symbol);
+    return _stringIdentifier(symbol);
   }
 
   @override
@@ -52,7 +52,7 @@ class _IdentityScope implements Scope {
   const _IdentityScope();
 
   @override
-  Identifier getIdentifier(String symbol, _) => _stringId(symbol);
+  Identifier getIdentifier(String symbol, _) => _stringIdentifier(symbol);
 
   @override
   Iterable<ImportBuilder> getImports() => const [];
@@ -66,8 +66,8 @@ class _IncrementingScope implements Scope {
   @override
   Identifier getIdentifier(String symbol, String import) {
     var newId = _imports.putIfAbsent(import, () => ++_counter);
-    return new PrefixedIdentifier(_stringId('_i$newId'),
-        new Token(TokenType.PERIOD, 0), _stringId(symbol));
+    return new PrefixedIdentifier(_stringIdentifier('_i$newId'),
+        new Token(TokenType.PERIOD, 0), _stringIdentifier(symbol));
   }
 
   @override

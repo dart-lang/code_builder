@@ -54,16 +54,16 @@ final DartFormatter _dartfmt = new DartFormatter();
 @visibleForTesting
 String dartfmt(String source) => _dartfmt.format(source);
 
-// Creates a defensive copy of an AST node.
+// Creates a deep copy of an AST node.
 AstNode/*=E*/ _cloneAst/*<E extends AstNode>*/(AstNode/*=E*/ astNode) {
   return new AstCloner().cloneNode/*<E>*/(astNode);
 }
 
-Identifier _stringId(String s) {
+Identifier _stringIdentifier(String s) {
   return new SimpleIdentifier(new StringToken(TokenType.STRING, s, 0));
 }
 
-Literal _stringLit(String s) {
+Literal _stringLiteral(String s) {
   return new SimpleStringLiteral(new StringToken(TokenType.STRING, s, 0), s);
 }
 

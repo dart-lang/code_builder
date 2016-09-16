@@ -63,7 +63,10 @@ void main() {
     )
       ..addField(new FieldBuilder.isFinal(
         '_module',
-        type: const TypeBuilder('Module', importFrom: 'package:app/app.dart',),
+        type: const TypeBuilder(
+          'Module',
+          importFrom: 'package:app/app.dart',
+        ),
       ))
       ..addConstructor(new ConstructorBuilder()
         ..addParameter(new ParameterBuilder('_module', field: true)))

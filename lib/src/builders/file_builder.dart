@@ -16,7 +16,7 @@ CompilationUnit _emptyCompilationUnit() => new CompilationUnit(
 class ExportBuilder extends _AbstractCodeBuilder<ExportDirective> {
   /// Create a new `export` directive exporting [uri].
   factory ExportBuilder(String uri) {
-    var astNode = _createExportDirective()..uri = _stringLit("'$uri'");
+    var astNode = _createExportDirective()..uri = _stringLiteral("'$uri'");
     return new ExportBuilder._(astNode);
   }
 
@@ -53,11 +53,11 @@ class ImportBuilder extends _AbstractCodeBuilder<ImportDirective> {
   ///
   /// Optionally prefix [as].
   factory ImportBuilder(String uri, {String as}) {
-    var astNode = _createImportDirective()..uri = _stringLit("'$uri'");
+    var astNode = _createImportDirective()..uri = _stringLiteral("'$uri'");
     if (as != null) {
       astNode
         ..asKeyword = _as
-        ..prefix = _stringId(as);
+        ..prefix = _stringIdentifier(as);
     }
     return new ImportBuilder._(astNode);
   }
@@ -92,7 +92,7 @@ class LibraryBuilder extends FileBuilder {
         null,
         null,
         _library,
-        new LibraryIdentifier([_stringId(name)]),
+        new LibraryIdentifier([_stringIdentifier(name)]),
         null,
       ));
     }
@@ -111,7 +111,7 @@ class LibraryBuilder extends FileBuilder {
         null,
         null,
         _library,
-        new LibraryIdentifier([_stringId(name)]),
+        new LibraryIdentifier([_stringIdentifier(name)]),
         null,
       ));
     }
@@ -151,7 +151,7 @@ class PartBuilder extends FileBuilder {
       null,
       _part,
       _of,
-      new LibraryIdentifier([_stringId(name)]),
+      new LibraryIdentifier([_stringIdentifier(name)]),
       null,
     ));
     return new PartBuilder._(astNode);

@@ -14,7 +14,7 @@ void main() {
 
   test('should emit an abstract class', () {
     expect(
-      new ClassBuilder('Animal', abstract: true),
+      new ClassBuilder.asAbstract('Animal'),
       equalsSource('abstract class Animal {}'),
     );
   });
@@ -61,7 +61,7 @@ void main() {
 
   test('should emit an abstract class with an abstract method', () {
     expect(
-      new ClassBuilder('Animal', abstract: true)
+      new ClassBuilder.asAbstract('Animal')
         ..addMethod(
           new MethodBuilder.returnVoid(name: 'eat', abstract: true),
         ),
