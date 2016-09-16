@@ -6,7 +6,29 @@ void main() {
   group('Identity scope', () {
     Scope scope;
 
-    setUp(() => scope = new Scope.identity());
+    setUp(() => scope = const Scope.identity());
+
+    test('should do nothing', () {
+      var identifiers = <Identifier> [
+        scope.getIdentifier('Foo', 'package:foo/foo.dart'),
+        scope.getIdentifier('Bar', 'package:foo/foo.dart'),
+        scope.getIdentifier('Baz', 'package:baz/baz.dart'),
+      ].map/*<String>*/((i) => i.toSource());
+
+      expect(identifiers, [
+        'Foo',
+        'Bar',
+        'Baz',
+      ],);
+
+      expect(scope.getImports(), isEmpty);
+    });
+  });
+
+  group('Deduplicating scope', () {
+    Scope scope;
+
+    setUp(() => scope = new Scope.dedupe());
 
     test('should just output non-prefixed and de-duplicate imports', () {
       var identifiers = <Identifier> [

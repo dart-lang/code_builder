@@ -20,8 +20,11 @@ abstract class Scope {
   /// will be unique in a given scope (actual implementation may be naive).
   factory Scope() = _IncrementingScope;
 
-  /// Create a context that does _not_ apply any scoping.
-  factory Scope.identity() = _IdentityScope;
+  /// Create a context that just de-duplicates imports (no scoping).
+  factory Scope.dedupe() = _DeduplicatingScope;
+
+  /// Create a context that does nothing.
+  const factory Scope.identity() = _IdentityScope;
 
   /// Given a [symbol] and its known [importUri], return an [Identifier].
   Identifier getIdentifier(String symbol, String importUri);
@@ -30,7 +33,7 @@ abstract class Scope {
   Iterable<ImportBuilder> getImports();
 }
 
-class _IdentityScope implements Scope {
+class _DeduplicatingScope implements Scope {
   final Set<String> _imports = new Set<String>();
 
   @override
@@ -43,6 +46,16 @@ class _IdentityScope implements Scope {
   Iterable<ImportBuilder> getImports() {
     return _imports.map/*<ImportBuilder*/((i) => new ImportBuilder(i));
   }
+}
+
+class _IdentityScope implements Scope {
+  const _IdentityScope();
+
+  @override
+  Identifier getIdentifier(String symbol, _) => _stringId(symbol);
+
+  @override
+  Iterable<ImportBuilder> getImports() => const [];
 }
 
 class _IncrementingScope implements Scope {

@@ -11,7 +11,9 @@ part of code_builder;
 /// the top level and within other methods) via [toFunctionAst].
 ///
 /// To return nothing (`void`), use [MethodBuilder.returnVoid].
-class MethodBuilder implements CodeBuilder<Declaration> {
+class MethodBuilder implements
+    CodeBuilder<Declaration>,
+    ScopeAware<Declaration> {
   static Token _abstract = new KeywordToken(Keyword.ABSTRACT, 0);
   static Token _semicolon = new Token(TokenType.SEMICOLON, 0);
   static Token _static = new KeywordToken(Keyword.STATIC, 0);
@@ -40,6 +42,9 @@ class MethodBuilder implements CodeBuilder<Declaration> {
   }
 
   MethodBuilder._(this._name, this._returnType);
+
+  @override
+  List<String> get requiredImports => null;
 
   /// Lazily adds [annotation].
   ///
@@ -76,14 +81,14 @@ class MethodBuilder implements CodeBuilder<Declaration> {
   /// [toMethodAst].
   @override
   @visibleForTesting
-  Declaration toAst() => toFunctionAst();
+  Declaration toAst() => toScopedAst(const Scope.identity());
 
   /// Returns a copy-safe [FunctionDeclaration] AST representing current state.
-  FunctionDeclaration toFunctionAst() {
+  FunctionDeclaration toFunctionAst({Scope scope: const Scope.identity()}) {
     var functionAst = _emptyFunction()
       ..metadata.addAll(_annotations.map/*<Annotation>*/((a) => a.toAst()))
       ..name = _stringId(_name)
-      ..returnType = _returnType?.toAst();
+      ..returnType = _returnType?.toScopedAst(scope);
     if (_returnExpression != null) {
       functionAst.functionExpression = _returnExpression.toFunctionExpression();
     } else {
@@ -95,7 +100,7 @@ class MethodBuilder implements CodeBuilder<Declaration> {
     }
     if (_parameters.isNotEmpty) {
       functionAst.functionExpression.parameters.parameters
-          .addAll(_parameters.map/*<FormalParameter>*/((p) => p.toAst()));
+          .addAll(_parameters.map/*<FormalParameter>*/((p) => p.toScopedAst(scope)));
     }
     return functionAst;
   }
@@ -104,11 +109,12 @@ class MethodBuilder implements CodeBuilder<Declaration> {
   MethodDeclaration toMethodAst({
     bool static: false,
     bool canBeAbstract: false,
+    Scope scope: const Scope.identity(),
   }) {
     var methodAst = _emptyMethod()
       ..metadata.addAll(_annotations.map/*<Annotation>*/((a) => a.toAst()))
       ..name = _stringId(_name)
-      ..returnType = _returnType?.toAst();
+      ..returnType = _returnType?.toScopedAst(scope);
     FunctionBody methodBody = _returnExpression?.toFunctionBody();
     if (static) {
       methodAst.modifierKeyword = _static;
@@ -123,11 +129,14 @@ class MethodBuilder implements CodeBuilder<Declaration> {
     }
     if (_parameters.isNotEmpty) {
       methodAst.parameters.parameters
-          .addAll(_parameters.map/*<FormalParameter>*/((p) => p.toAst()));
+          .addAll(_parameters.map/*<FormalParameter>*/((p) => p.toScopedAst(scope)));
     }
     methodAst.body = methodBody;
     return methodAst;
   }
+
+  @override
+  Declaration toScopedAst(Scope scope) => toFunctionAst(scope: scope);
 
   @override
   String toString() => 'MethodBuilder ${toAst().toSource()}';
@@ -156,7 +165,7 @@ class MethodBuilder implements CodeBuilder<Declaration> {
           _blockBody(),
         ),
       );
-
+  // TODO: implement requiredImports
   static MethodDeclaration _emptyMethod() => new MethodDeclaration(
         null,
         null,
