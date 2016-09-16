@@ -5,7 +5,7 @@
 part of code_builder;
 
 /// Build a [TypeName] AST.
-class TypeBuilder implements ScopeAware<TypeName> {
+class TypeBuilder implements CodeBuilder<TypeName> {
   final String _identifier;
   final String _importFrom;
 
@@ -19,13 +19,7 @@ class TypeBuilder implements ScopeAware<TypeName> {
       : _importFrom = importFrom;
 
   @override
-  List<String> get requiredImports => [_importFrom];
-
-  @override
-  TypeName toAst() => toScopedAst(const Scope.identity());
-
-  @override
-  TypeName toScopedAst(Scope scope) {
+  TypeName toAst([Scope scope = const Scope.identity()]) {
     return new TypeName(scope.getIdentifier(_identifier, _importFrom), null);
   }
 }

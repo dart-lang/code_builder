@@ -12,8 +12,8 @@ void main() {
   });
 
   test('should emit a file with a library directive', () {
-    expect(
-        new LibraryBuilder('code_builder'), equalsSource('library code_builder;'));
+    expect(new LibraryBuilder('code_builder'),
+        equalsSource('library code_builder;'));
   });
 
   test('should emit a file with a part of directive', () {

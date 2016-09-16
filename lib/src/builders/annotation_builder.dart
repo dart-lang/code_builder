@@ -16,7 +16,7 @@ part of code_builder;
 ///   void destroyTheWorld() { ... }
 ///
 /// To create a `@DoNotUse('Blows up')` use [AnnotationBuilder.invoke].
-abstract class AnnotationBuilder implements ScopeAware<Annotation> {
+abstract class AnnotationBuilder implements CodeBuilder<Annotation> {
   /// Create a new annotated `const` [constructor] invocation.
   ///
   /// May optionally specify an [importFrom] to auto-prefix the annotation _if_
@@ -46,8 +46,7 @@ abstract class AnnotationBuilder implements ScopeAware<Annotation> {
       [String importFrom]) = _ReferenceAnnotationBuilder;
 }
 
-class _ConstructorAnnotationBuilder extends ScopeAware<Annotation>
-    implements AnnotationBuilder {
+class _ConstructorAnnotationBuilder implements AnnotationBuilder {
   final String _constructor;
   final ExpressionBuilder _expression;
   final String _importFrom;
@@ -56,15 +55,12 @@ class _ConstructorAnnotationBuilder extends ScopeAware<Annotation>
       [this._importFrom]);
 
   @override
-  List<String> get requiredImports => [_importFrom];
-
-  @override
-  Annotation toAst() {
-    var expressionAst = _expression.toAst();
+  Annotation toAst([Scope scope = const Scope.identity()]) {
+    var expressionAst = _expression.toAst(scope);
     if (expressionAst is MethodInvocation) {
       return new Annotation(
         null,
-        _stringId(_constructor),
+        scope.getIdentifier(_constructor, _importFrom),
         null,
         null,
         // TODO(matanl): InvocationExpression needs to be public API.
@@ -82,17 +78,11 @@ class _ReferenceAnnotationBuilder implements AnnotationBuilder {
   const _ReferenceAnnotationBuilder(this._reference, [this._importFrom]);
 
   @override
-  List<String> get requiredImports => [_importFrom];
-
-  @override
-  Annotation toAst() => new Annotation(
+  Annotation toAst([Scope scope = const Scope.identity()]) => new Annotation(
         null,
-        _stringId(_reference),
+        scope.getIdentifier(_reference, _importFrom),
         null,
         null,
         null,
       );
-
-  @override
-  Annotation toScopedAst(_) => throw new UnimplementedError();
 }

@@ -11,9 +11,7 @@ part of code_builder;
 /// the top level and within other methods) via [toFunctionAst].
 ///
 /// To return nothing (`void`), use [MethodBuilder.returnVoid].
-class MethodBuilder implements
-    CodeBuilder<Declaration>,
-    ScopeAware<Declaration> {
+class MethodBuilder implements CodeBuilder<Declaration> {
   static Token _abstract = new KeywordToken(Keyword.ABSTRACT, 0);
   static Token _semicolon = new Token(TokenType.SEMICOLON, 0);
   static Token _static = new KeywordToken(Keyword.STATIC, 0);
@@ -26,25 +24,39 @@ class MethodBuilder implements
   final List<ParameterBuilder> _parameters = <ParameterBuilder>[];
   final List<StatementBuilder> _statements = <StatementBuilder>[];
 
+  final bool _isAbstract;
+  final bool _isStatic;
+
   ExpressionBuilder _returnExpression;
   TypeBuilder _returnType;
 
   /// Create a new method builder,
   ///
   /// Optionally set a [returns] type.
-  factory MethodBuilder({String name, TypeBuilder returns}) {
-    return new MethodBuilder._(name, returns);
+  factory MethodBuilder({
+    String name,
+    TypeBuilder returns,
+    bool abstract: false,
+    bool static: false,
+  }) {
+    return new MethodBuilder._(name, returns, static, abstract);
   }
 
   /// Creates a `void`-returning MethodBuilder with [name].
-  factory MethodBuilder.returnVoid([String name]) {
-    return new MethodBuilder._(name, _typeVoid);
+  factory MethodBuilder.returnVoid({
+    String name,
+    bool abstract: false,
+    bool static: false,
+  }) {
+    return new MethodBuilder._(name, _typeVoid, static, abstract);
   }
 
-  MethodBuilder._(this._name, this._returnType);
-
-  @override
-  List<String> get requiredImports => null;
+  MethodBuilder._(
+    this._name,
+    this._returnType,
+    this._isStatic,
+    this._isAbstract,
+  );
 
   /// Lazily adds [annotation].
   ///
@@ -81,62 +93,56 @@ class MethodBuilder implements
   /// [toMethodAst].
   @override
   @visibleForTesting
-  Declaration toAst() => toScopedAst(const Scope.identity());
+  Declaration toAst([Scope scope = const Scope.identity()]) =>
+      toFunctionAst(scope);
 
   /// Returns a copy-safe [FunctionDeclaration] AST representing current state.
-  FunctionDeclaration toFunctionAst({Scope scope: const Scope.identity()}) {
+  FunctionDeclaration toFunctionAst([Scope scope = const Scope.identity()]) {
     var functionAst = _emptyFunction()
-      ..metadata.addAll(_annotations.map/*<Annotation>*/((a) => a.toAst()))
-      ..name = _stringId(_name)
-      ..returnType = _returnType?.toScopedAst(scope);
+      ..metadata.addAll(_annotations.map/*<Annotation>*/((a) => a.toAst(scope)))
+      ..name = _stringIdentifier(_name)
+      ..returnType = _returnType?.toAst(scope);
     if (_returnExpression != null) {
       functionAst.functionExpression = _returnExpression.toFunctionExpression();
     } else {
       functionAst.functionExpression = new FunctionExpression(
         null,
         _emptyParameters(),
-        _blockBody(_statements.map/*<Statement>*/((s) => s.toAst())),
+        _blockBody(_statements.map/*<Statement>*/((s) => s.toAst(scope))),
       );
     }
     if (_parameters.isNotEmpty) {
       functionAst.functionExpression.parameters.parameters
-          .addAll(_parameters.map/*<FormalParameter>*/((p) => p.toScopedAst(scope)));
+          .addAll(_parameters.map/*<FormalParameter>*/((p) => p.toAst(scope)));
     }
     return functionAst;
   }
 
   /// Returns a copy-safe [FunctionDeclaration] AST representing current state.
-  MethodDeclaration toMethodAst({
-    bool static: false,
-    bool canBeAbstract: false,
-    Scope scope: const Scope.identity(),
-  }) {
+  MethodDeclaration toMethodAst([Scope scope = const Scope.identity()]) {
     var methodAst = _emptyMethod()
-      ..metadata.addAll(_annotations.map/*<Annotation>*/((a) => a.toAst()))
-      ..name = _stringId(_name)
-      ..returnType = _returnType?.toScopedAst(scope);
-    FunctionBody methodBody = _returnExpression?.toFunctionBody();
-    if (static) {
+      ..metadata.addAll(_annotations.map/*<Annotation>*/((a) => a.toAst(scope)))
+      ..name = _stringIdentifier(_name)
+      ..returnType = _returnType?.toAst(scope);
+    FunctionBody methodBody = _returnExpression?.toFunctionBody(scope);
+    if (_isStatic) {
       methodAst.modifierKeyword = _static;
       if (methodBody == null) {
         methodBody = _blockBody();
       }
     }
     if (methodBody == null) {
-      methodBody = canBeAbstract
+      methodBody = _isAbstract
           ? new EmptyFunctionBody(_semicolon)
-          : _blockBody(_statements.map/*<Statement>*/((s) => s.toAst()));
+          : _blockBody(_statements.map/*<Statement>*/((s) => s.toAst(scope)));
     }
     if (_parameters.isNotEmpty) {
       methodAst.parameters.parameters
-          .addAll(_parameters.map/*<FormalParameter>*/((p) => p.toScopedAst(scope)));
+          .addAll(_parameters.map/*<FormalParameter>*/((p) => p.toAst(scope)));
     }
     methodAst.body = methodBody;
     return methodAst;
   }
-
-  @override
-  Declaration toScopedAst(Scope scope) => toFunctionAst(scope: scope);
 
   @override
   String toString() => 'MethodBuilder ${toAst().toSource()}';

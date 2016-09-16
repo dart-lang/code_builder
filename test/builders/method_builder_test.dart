@@ -10,7 +10,7 @@ import 'package:test/test.dart';
 void main() {
   test('should emit a simple "void" method', () {
     expect(
-      new MethodBuilder.returnVoid('main'),
+      new MethodBuilder.returnVoid(name: 'main'),
       equalsSource('void main() {}'),
     );
   });
@@ -27,10 +27,12 @@ void main() {
         new MethodBuilder(
           name: 'toFoo',
           returns: new TypeBuilder('Foo', importFrom: 'package:foo/foo.dart'),
-        )..addParameter(new ParameterBuilder(
-          'context',
-          type: new TypeBuilder('Context', importFrom: 'package:bar/bar.dart'),
-        )),
+        )
+          ..addParameter(new ParameterBuilder(
+            'context',
+            type:
+                new TypeBuilder('Context', importFrom: 'package:bar/bar.dart'),
+          )),
         equalsSource(
           r'''
             foo.Foo toFoo(bar.Context context) {}
@@ -117,7 +119,7 @@ void main() {
     group('with statements', () {
       test('should work with an expression', () {
         expect(
-          new MethodBuilder.returnVoid('main')
+          new MethodBuilder.returnVoid(name: 'main')
             ..addStatement(const LiteralString('Hello World').toStatement()),
           equalsSource(r'''
           void main() {
@@ -129,7 +131,7 @@ void main() {
 
       test('should work invoking an expression', () {
         expect(
-          new MethodBuilder.returnVoid('main')
+          new MethodBuilder.returnVoid(name: 'main')
             ..addStatement(
               new ExpressionBuilder.invoke('print', positional: [
                 const LiteralString('Hello World').invokeSelf(
@@ -151,7 +153,7 @@ void main() {
       MethodBuilder method;
 
       setUp(() {
-        method = new MethodBuilder.returnVoid('main');
+        method = new MethodBuilder.returnVoid(name: 'main');
       });
 
       test('single required parameter', () {

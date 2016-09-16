@@ -23,16 +23,22 @@ final Token _openP = new Token(TokenType.OPEN_PAREN, 0);
 final Token _semicolon = new Token(TokenType.SEMICOLON, 0);
 
 // TODO(matanl): Make this part of the public API. See annotation_builder.dart.
-ExpressionFunctionBody _asFunctionBody(CodeBuilder<Expression> expression) {
+ExpressionFunctionBody _asFunctionBody(
+  CodeBuilder<Expression> expression,
+  Scope scope,
+) {
   return new ExpressionFunctionBody(
     null,
     null,
-    expression.toAst(),
+    expression.toAst(scope),
     _semicolon,
   );
 }
 
-FunctionExpression _asFunctionExpression(CodeBuilder<Expression> expression) {
+FunctionExpression _asFunctionExpression(
+  CodeBuilder<Expression> expression,
+  Scope scope,
+) {
   return new FunctionExpression(
     null,
     new FormalParameterList(
@@ -42,7 +48,7 @@ FunctionExpression _asFunctionExpression(CodeBuilder<Expression> expression) {
       null,
       _closeP,
     ),
-    _asFunctionBody(expression),
+    _asFunctionBody(expression, scope),
   );
 }
 
@@ -73,10 +79,26 @@ abstract class ExpressionBuilder implements CodeBuilder<Expression> {
   /// Optionally specify [positional] and [named] arguments.
   factory ExpressionBuilder.invoke(
     String name, {
+    String importFrom,
     Iterable<CodeBuilder<Expression>> positional: const [],
     Map<String, CodeBuilder<Expression>> named: const {},
   }) {
     return new _InvokeExpression(
+      name,
+      new List<CodeBuilder<Expression>>.unmodifiable(positional),
+      new Map<String, CodeBuilder<Expression>>.unmodifiable(named),
+      importFrom,
+    );
+  }
+
+  factory ExpressionBuilder.invokeNew(
+    TypeBuilder type, {
+    String name,
+    Iterable<CodeBuilder<Expression>> positional: const [],
+    Map<String, CodeBuilder<Expression>> named: const {},
+  }) {
+    return new _InvokeExpression.newInstance(
+      type,
       name,
       new List<CodeBuilder<Expression>>.unmodifiable(positional),
       new Map<String, CodeBuilder<Expression>>.unmodifiable(named),
@@ -93,10 +115,14 @@ abstract class ExpressionBuilder implements CodeBuilder<Expression> {
   }); // TODO(matanl): Rename to invoke when factory is removed.
 
   /// Returns wrapped as a [ExpressionFunctionBody] AST.
-  ExpressionFunctionBody toFunctionBody() => _asFunctionBody(this);
+  ExpressionFunctionBody toFunctionBody(
+          [Scope scope = const Scope.identity()]) =>
+      _asFunctionBody(this, scope);
 
   /// Returns wrapped as a [FunctionExpression] AST.
-  FunctionExpression toFunctionExpression() => _asFunctionExpression(this);
+  FunctionExpression toFunctionExpression(
+          [Scope scope = const Scope.identity()]) =>
+      _asFunctionExpression(this, scope);
 
   /// Converts to a [StatementBuilder].
   ///
@@ -118,7 +144,7 @@ class LiteralBool extends _LiteralExpression<BooleanLiteral> {
   const LiteralBool(this._value);
 
   @override
-  BooleanLiteral toAst() => _value ? _true : _false;
+  BooleanLiteral toAst([_]) => _value ? _true : _false;
 }
 
 /// Represents an expression value of a literal number.
@@ -129,8 +155,10 @@ class LiteralInt extends _LiteralExpression<IntegerLiteral> {
   const LiteralInt(this._value);
 
   @override
-  IntegerLiteral toAst() =>
-      new IntegerLiteral(new StringToken(TokenType.INT, '$_value', 0), _value);
+  IntegerLiteral toAst([_]) => new IntegerLiteral(
+        new StringToken(TokenType.INT, '$_value', 0),
+        _value,
+      );
 }
 
 /// Represents an expression value of a literal `'string'`.
@@ -141,7 +169,7 @@ class LiteralString extends _LiteralExpression<StringLiteral> {
   const LiteralString(this._value);
 
   @override
-  StringLiteral toAst() => new SimpleStringLiteral(
+  StringLiteral toAst([_]) => new SimpleStringLiteral(
         new StringToken(
           TokenType.STRING,
           "'$_value'",
@@ -151,26 +179,41 @@ class LiteralString extends _LiteralExpression<StringLiteral> {
       );
 }
 
-class _InvokeExpression extends ExpressionBuilder
-    implements CodeBuilder<InvocationExpression> {
+class _InvokeExpression extends ExpressionBuilder {
   static final Token _colon = new Token(TokenType.COLON, 0);
 
+  final String _importFrom;
   final ExpressionBuilder _target;
   final String _name;
   final List<CodeBuilder<Expression>> _positionalArguments;
   final Map<String, CodeBuilder<Expression>> _namedArguments;
+  final TypeBuilder _type;
 
   const _InvokeExpression(
     this._name,
     this._positionalArguments,
     this._namedArguments,
+    this._importFrom,
   )
       : _target = null,
+        _type = null,
+        super._();
+
+  const _InvokeExpression.newInstance(
+    this._type,
+    this._name,
+    this._positionalArguments,
+    this._namedArguments,
+  )
+      : _target = null,
+        _importFrom = null,
         super._();
 
   const _InvokeExpression.target(
       this._name, this._target, this._positionalArguments, this._namedArguments)
-      : super._();
+      : _importFrom = null,
+        _type = null,
+        super._();
 
   @override
   ExpressionBuilder invokeSelf(
@@ -181,30 +224,42 @@ class _InvokeExpression extends ExpressionBuilder
       _invokeSelfImpl(this, name, positional: positional, named: named);
 
   @override
-  InvocationExpression toAst() {
+  Expression toAst([Scope scope = const Scope.identity()]) {
+    // TODO(matanl): Move to TypeBuilder.newInstance.
+    if (_type != null) {
+      return new InstanceCreationExpression(
+        new KeywordToken(Keyword.NEW, 0),
+        new ConstructorName(
+          _type.toAst(scope),
+          _name != null ? new Token(TokenType.PERIOD, 0) : null,
+          _name != null ? _stringIdentifier(_name) : null,
+        ),
+        _getArgumentList(scope),
+      );
+    }
     return new MethodInvocation(
-      _target?.toAst(),
+      _target?.toAst(scope),
       _target != null ? new Token(TokenType.PERIOD, 0) : null,
-      _stringId(_name),
+      _stringIdentifier(_name),
       null,
-      _getArgumentList(),
+      _getArgumentList(scope),
     );
   }
 
   @override
   StatementBuilder toStatement() => new StatementBuilder.fromExpression(this);
 
-  ArgumentList _getArgumentList() {
+  ArgumentList _getArgumentList(Scope scope) {
     return new ArgumentList(
       new Token(TokenType.OPEN_CURLY_BRACKET, 0),
-      _positionalArguments.map/*<Expression*/((p) => p.toAst()).toList()
+      _positionalArguments.map/*<Expression*/((p) => p.toAst(scope)).toList()
         ..addAll(_namedArguments.keys
             .map/*<Expression>*/((name) => new NamedExpression(
                   new Label(
-                    _stringId(name),
+                    _stringIdentifier(name),
                     _colon,
                   ),
-                  _namedArguments[name].toAst(),
+                  _namedArguments[name].toAst(scope),
                 ))),
       new Token(TokenType.CLOSE_CURLY_BRACKET, 0),
     );
@@ -224,10 +279,14 @@ abstract class _LiteralExpression<A extends Literal>
       _invokeSelfImpl(this, name, positional: positional, named: named);
 
   @override
-  ExpressionFunctionBody toFunctionBody() => _asFunctionBody(this);
+  ExpressionFunctionBody toFunctionBody(
+          [Scope scope = const Scope.identity()]) =>
+      _asFunctionBody(this, scope);
 
   @override
-  FunctionExpression toFunctionExpression() => _asFunctionExpression(this);
+  FunctionExpression toFunctionExpression(
+          [Scope scope = const Scope.identity()]) =>
+      _asFunctionExpression(this, scope);
 
   @override
   StatementBuilder toStatement() => new StatementBuilder.fromExpression(this);
@@ -239,5 +298,5 @@ class _LiteralNull extends _LiteralExpression<NullLiteral> {
   const _LiteralNull();
 
   @override
-  NullLiteral toAst() => _null;
+  NullLiteral toAst([_]) => _null;
 }

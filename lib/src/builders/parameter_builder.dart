@@ -9,7 +9,7 @@ part of code_builder;
 /// A parameter is part of a built [MethodBuilder], and can refer to  a
 /// class-member (field) variable (see the `field` property in the
 /// constructors).
-class ParameterBuilder extends ScopeAware<FormalParameter> {
+class ParameterBuilder implements CodeBuilder<FormalParameter> {
   static final Token _this = new KeywordToken(Keyword.THIS, 0);
 
   final String _name;
@@ -104,7 +104,7 @@ class ParameterBuilder extends ScopeAware<FormalParameter> {
   }
 
   @override
-  FormalParameter toScopedAst(Scope scope) {
+  FormalParameter toAst([Scope scope = const Scope.identity()]) {
     FormalParameter astNode;
     if (_isField) {
       astNode = _createFieldFormalParameter(scope);
@@ -123,6 +123,28 @@ class ParameterBuilder extends ScopeAware<FormalParameter> {
     return astNode;
   }
 
+  FieldFormalParameter _createFieldFormalParameter(Scope scope) =>
+      new FieldFormalParameter(
+        null,
+        null,
+        null,
+        _type?.toAst(scope),
+        _this,
+        null,
+        _stringIdentifier(_name),
+        null,
+        null,
+      );
+
+  SimpleFormalParameter _createSimpleFormalParameter(Scope scope) =>
+      new SimpleFormalParameter(
+        null,
+        null,
+        null,
+        _type?.toAst(scope),
+        _stringIdentifier(_name),
+      );
+
   static DefaultFormalParameter _createDefaultFormalParameter(
     FormalParameter parameter,
     bool named,
@@ -138,26 +160,4 @@ class ParameterBuilder extends ScopeAware<FormalParameter> {
       defaultTo?.toAst(),
     );
   }
-
-  FieldFormalParameter _createFieldFormalParameter(Scope scope) =>
-      new FieldFormalParameter(
-        null,
-        null,
-        null,
-        _type?.toScopedAst(scope),
-        _this,
-        null,
-        _stringId(_name),
-        null,
-        null,
-      );
-
-  SimpleFormalParameter _createSimpleFormalParameter(Scope scope) =>
-      new SimpleFormalParameter(
-        null,
-        null,
-        null,
-        _type?.toScopedAst(scope),
-        _stringId(_name),
-      );
 }
