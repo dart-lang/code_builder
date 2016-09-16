@@ -28,6 +28,8 @@ abstract class FileBuilder extends _AbstractCodeBuilder<CompilationUnit> {
 class LibraryBuilder extends FileBuilder {
   static final Token _library = new KeywordToken(Keyword.LIBRARY, 0);
 
+  final Scope _scope;
+
   /// Create a new standalone Dart library, optionally with a [name].
   factory LibraryBuilder([String name]) {
     var astNode = _emptyCompilationUnit();
@@ -39,17 +41,37 @@ class LibraryBuilder extends FileBuilder {
           new LibraryIdentifier([_stringId(name)]),
           null,));
     }
-    return new LibraryBuilder._(astNode);
+    return new LibraryBuilder._(astNode, new Scope.dedupe());
   }
 
   /// Create a new standalone Dart library, optionally with a [name].
   ///
-  /// As references are added in the library that implements [RequiresImport]
+  /// As references are added in the library that implements [ScopeAware]
   /// they are re-written to avoid collisions and the imports are automatically
   /// included at the top with optional prefixes.
-  factory LibraryBuilder.autoScope({String name}) => new LibraryBuilder(name);
+  factory LibraryBuilder.scope({String name, Scope scope}) {
+    var astNode = _emptyCompilationUnit();
+    if (name != null) {
+      astNode.directives.add(new LibraryDirective(
+          null,
+          null,
+          _library,
+          new LibraryIdentifier([_stringId(name)]),
+          null,));
+    }
+    return new LibraryBuilder._(astNode, scope ?? new Scope());
+  }
 
-  LibraryBuilder._(CompilationUnit astNode) : super._(astNode);
+  LibraryBuilder._(CompilationUnit astNode, this._scope) : super._(astNode);
+
+  @override
+  void addDeclaration(CodeBuilder<Declaration> declaration) {
+    if (declaration is ScopeAware<Declaration>) {
+      _astNode.declarations.add(declaration.toScopedAst(_scope));
+    } else {
+      super.addDeclaration(declaration);
+    }
+  }
 
   /// Adds [directive]'s resulting AST to the source.
   void addDirective(CodeBuilder<Directive> directive) {

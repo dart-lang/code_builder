@@ -9,8 +9,17 @@ part of code_builder;
 /// A parameter is part of a built [MethodBuilder], and can refer to  a
 /// class-member (field) variable (see the `field` property in the
 /// constructors).
-class ParameterBuilder extends _AbstractCodeBuilder<FormalParameter> {
+class ParameterBuilder extends ScopeAware<FormalParameter> {
   static final Token _this = new KeywordToken(Keyword.THIS, 0);
+
+  final String _name;
+  final bool _isField;
+  final bool _isOptional;
+  final bool _isNamed;
+  final TypeBuilder _type;
+  final ExpressionBuilder _defaultTo;
+
+  final List<AnnotationBuilder> _annotations = <AnnotationBuilder>[];
 
   /// Create a new _required_ parameter of [name].
   factory ParameterBuilder(
@@ -18,29 +27,30 @@ class ParameterBuilder extends _AbstractCodeBuilder<FormalParameter> {
     bool field: false,
     TypeBuilder type,
   }) {
-    FormalParameter astNode;
-    if (field) {
-      astNode = new FieldFormalParameter(
-        null,
-        null,
-        null,
-        type?.toAst(),
-        _this,
-        null,
-        _stringId(name),
-        null,
-        null,
-      );
-    } else {
-      astNode = new SimpleFormalParameter(
-        null,
-        null,
-        null,
-        type?.toAst(),
-        _stringId(name),
-      );
-    }
-    return new ParameterBuilder._(astNode);
+    return new ParameterBuilder._(
+      name,
+      field,
+      false,
+      false,
+      type,
+      null,
+    );
+  }
+
+  /// Create a new _optional_ _named_ parameter.
+  factory ParameterBuilder.named(
+    String name, {
+    bool field: false,
+    TypeBuilder type,
+    ExpressionBuilder defaultTo,
+  }) {
+    return new ParameterBuilder._optional(
+      name,
+      true,
+      field: field,
+      type: type,
+      defaultTo: defaultTo,
+    );
   }
 
   /// Create a new _optional_ (but positional) parameter.
@@ -61,21 +71,14 @@ class ParameterBuilder extends _AbstractCodeBuilder<FormalParameter> {
     );
   }
 
-  /// Create a new _optional_ _named_ parameter.
-  factory ParameterBuilder.named(
-    String name, {
-    bool field: false,
-    TypeBuilder type,
-    ExpressionBuilder defaultTo,
-  }) {
-    return new ParameterBuilder._optional(
-      name,
-      true,
-      field: field,
-      type: type,
-      defaultTo: defaultTo,
-    );
-  }
+  ParameterBuilder._(
+    this._name,
+    this._isField,
+    this._isOptional,
+    this._isNamed,
+    this._type,
+    this._defaultTo,
+  );
 
   // Actual implementation of optional and named.
   factory ParameterBuilder._optional(
@@ -85,46 +88,76 @@ class ParameterBuilder extends _AbstractCodeBuilder<FormalParameter> {
     TypeBuilder type,
     ExpressionBuilder defaultTo,
   }) {
-    FormalParameter astNode;
-    if (field) {
-      astNode = new FieldFormalParameter(
-        null,
-        null,
-        null,
-        type?.toAst(),
-        _this,
-        null,
-        _stringId(name),
-        null,
-        null,
-      );
-    } else {
-      astNode = new SimpleFormalParameter(
-        null,
-        null,
-        null,
-        type?.toAst(),
-        _stringId(name),
-      );
-    }
-    Token defaultToEq;
-    if (defaultTo != null) {
-      defaultToEq =
-          named ? new Token(TokenType.COLON, 0) : new Token(TokenType.EQ, 0);
-    }
-    astNode = new DefaultFormalParameter(
-      astNode,
-      named ? ParameterKind.NAMED : ParameterKind.POSITIONAL,
-      defaultToEq,
-      defaultTo?.toAst(),
+    return new ParameterBuilder._(
+      name,
+      field,
+      true,
+      named,
+      type,
+      defaultTo,
     );
-    return new ParameterBuilder._(astNode);
   }
-
-  ParameterBuilder._(FormalParameter astNode) : super._(astNode);
 
   /// Adds a metadata annotation from [builder].
   void addAnnotation(AnnotationBuilder builder) {
-    _astNode.metadata.add(builder.toAst());
+    _annotations.add(builder);
   }
+
+  @override
+  FormalParameter toScopedAst(Scope scope) {
+    FormalParameter astNode;
+    if (_isField) {
+      astNode = _createFieldFormalParameter(scope);
+    } else {
+      astNode = _createSimpleFormalParameter(scope);
+    }
+    if (_isOptional) {
+      astNode = _createDefaultFormalParameter(
+        astNode,
+        _isNamed,
+        _defaultTo,
+        scope,
+      );
+    }
+    astNode.metadata.addAll(_annotations.map/*<Annotation>*/((a) => a.toAst()));
+    return astNode;
+  }
+
+  static DefaultFormalParameter _createDefaultFormalParameter(
+    FormalParameter parameter,
+    bool named,
+    ExpressionBuilder defaultTo,
+    Scope scope,
+  ) {
+    return new DefaultFormalParameter(
+      parameter,
+      named ? ParameterKind.NAMED : ParameterKind.POSITIONAL,
+      defaultTo != null
+          ? named ? new Token(TokenType.COLON, 0) : new Token(TokenType.EQ, 0)
+          : null,
+      defaultTo?.toAst(),
+    );
+  }
+
+  FieldFormalParameter _createFieldFormalParameter(Scope scope) =>
+      new FieldFormalParameter(
+        null,
+        null,
+        null,
+        _type?.toScopedAst(scope),
+        _this,
+        null,
+        _stringId(_name),
+        null,
+        null,
+      );
+
+  SimpleFormalParameter _createSimpleFormalParameter(Scope scope) =>
+      new SimpleFormalParameter(
+        null,
+        null,
+        null,
+        _type?.toScopedAst(scope),
+        _stringId(_name),
+      );
 }

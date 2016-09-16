@@ -73,14 +73,14 @@ abstract class _AbstractCodeBuilder<A extends AstNode> extends CodeBuilder<A> {
 /// **NOTE**: This currently (as of 0.2.0) has no effect. It is planned that
 /// the [FileBuilder] will be able to act as a scope 'resolver' and subtly
 /// rewrite the AST tree to use prefixing if required (or requested).
-abstract class RequiresImport<A extends AstNode> implements CodeBuilder<A> {
-  /// Imports that are required for this AST to work.
-  List<String> get requiredImports;
+abstract class ScopeAware<A extends AstNode> implements CodeBuilder<A> {
+  @override
+  A toAst() => toScopedAst(const Scope.identity());
 
   /// Creates a copy-safe [AstNode] representing the current builder state.
   ///
   /// Uses [scope] to output an AST re-written to use appropriate prefixes.
-  A toScopedAst(FileBuilder scope) => throw new UnimplementedError();
+  A toScopedAst(Scope scope) => throw new UnimplementedError();
 }
 
 // Creates a defensive copy of an AST node.
