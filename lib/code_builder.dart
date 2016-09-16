@@ -46,6 +46,7 @@ part 'src/builders/statement_builder.dart';
 part 'src/builders/type_builder.dart';
 
 part 'src/pretty_printer.dart';
+part 'src/scope.dart';
 
 /// Base class for building and emitting a Dart language [AstNode].
 abstract class CodeBuilder<A extends AstNode> {
