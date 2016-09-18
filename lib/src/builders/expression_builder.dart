@@ -247,7 +247,7 @@ class _InvokeExpression extends ExpressionBuilder {
   }
 
   @override
-  StatementBuilder toStatement() => new StatementBuilder.fromExpression(this);
+  StatementBuilder toStatement() => new _ExpressionStatementBuilder(this);
 
   ArgumentList _getArgumentList(Scope scope) {
     return new ArgumentList(
@@ -289,7 +289,7 @@ abstract class _LiteralExpression<A extends Literal>
       _asFunctionExpression(this, scope);
 
   @override
-  StatementBuilder toStatement() => new StatementBuilder.fromExpression(this);
+  StatementBuilder toStatement() => new _ExpressionStatementBuilder(this);
 }
 
 class _LiteralNull extends _LiteralExpression<NullLiteral> {

@@ -5,6 +5,8 @@
 part of code_builder;
 
 /// Builds a [ClassDeclaration] AST.
+///
+///
 class ClassBuilder implements CodeBuilder<ClassDeclaration> {
   static Token _abstract = new KeywordToken(Keyword.ABSTRACT, 0);
   static Token _extends = new KeywordToken(Keyword.EXTENDS, 0);
