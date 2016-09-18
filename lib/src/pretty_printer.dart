@@ -11,7 +11,7 @@ part of code_builder;
 /// This is the _recommended_ output (but not required) when comparing ASTs
 /// to expected golden files/text blobs.
 String prettyToSource(AstNode astNode) {
-  var buffer = new StringBuffer();
+  var buffer = new PrintBuffer();
   var visitor = new _PrettyToSourceVisitor(buffer);
   astNode.accept(visitor);
   return dartfmt(buffer.toString());
@@ -23,7 +23,7 @@ class _PrettyToSourceVisitor extends ToSourceVisitor {
   // https://github.com/dart-lang/sdk/issues/27301
   final StringBuffer _buffer;
 
-  _PrettyToSourceVisitor(StringBuffer buffer)
+  _PrettyToSourceVisitor(PrintBuffer buffer)
       : _buffer = buffer,
         super(buffer);
 

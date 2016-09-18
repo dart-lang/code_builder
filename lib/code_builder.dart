@@ -34,6 +34,8 @@ import 'package:analyzer/src/dart/ast/token.dart';
 import 'package:dart_style/dart_style.dart';
 import 'package:meta/meta.dart';
 
+import 'src/analyzer_patch.dart';
+
 part 'src/builders/annotation_builder.dart';
 part 'src/builders/class_builder.dart';
 part 'src/builders/constructor_builder.dart';
