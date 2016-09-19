@@ -15,17 +15,21 @@ class ConstructorBuilder implements CodeBuilder<ConstructorDeclaration> {
   final String _name;
   final List<ParameterBuilder> _parameters = <ParameterBuilder>[];
 
+  /// Create a new builder for a constructor, optionally with a [name].
   factory ConstructorBuilder([String name]) {
     return new ConstructorBuilder._(false, name);
   }
 
+  /// Create a new builder for a constructor, optionally with a [name].
+  ///
+  /// The resulting constructor will be `const`.
   factory ConstructorBuilder.isConst([String name]) {
     return new ConstructorBuilder._(true, name);
   }
 
   ConstructorBuilder._(this._isConstant, this._name);
 
-  /// Lazily adds [parameter].
+  /// Lazily adds [builder].
   ///
   /// When the method is emitted as an AST, [ParameterBuilder.toAst] is used.
   void addParameter(ParameterBuilder builder) {

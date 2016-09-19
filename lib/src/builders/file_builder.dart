@@ -106,7 +106,7 @@ class LibraryBuilder extends FileBuilder {
 
   /// Create a new standalone Dart library, optionally with a [name].
   ///
-  /// As references are added in the library that implements [ScopeAware]
+  /// As references are added in the library that implements [CodeBuilder]
   /// they are re-written to avoid collisions and the imports are automatically
   /// included at the top with optional prefixes.
   factory LibraryBuilder.scope({String name, Scope scope}) {

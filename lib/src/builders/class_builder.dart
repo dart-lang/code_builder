@@ -25,7 +25,7 @@ class ClassBuilder implements CodeBuilder<ClassDeclaration> {
   /// Create a new builder for a `class` named [name].
   ///
   /// Optionally, define another class to [extend] or classes to either
-  /// [implement] or [mixin]. You may also define a `class` as [abstract].
+  /// [implement] or [mixin].
   factory ClassBuilder(
     String name, {
     TypeBuilder extend,
@@ -40,6 +40,7 @@ class ClassBuilder implements CodeBuilder<ClassDeclaration> {
         new List<TypeBuilder>.unmodifiable(mixin),
       );
 
+  /// Create a new builder for an `abstract class` named [name].
   factory ClassBuilder.asAbstract(String name,
           {TypeBuilder extend,
           Iterable<TypeBuilder> implement: const [],
