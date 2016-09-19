@@ -77,6 +77,6 @@ class _IncrementingScope implements Scope {
   @override
   Iterable<ImportBuilder> getImports() {
     return _imports.keys.map/*<ImportBuilder*/(
-        (i) => new ImportBuilder(i, as: '_i${_imports[i]}'));
+        (i) => new ImportBuilder(i, prefix: '_i${_imports[i]}'));
   }
 }

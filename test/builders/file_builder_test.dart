@@ -32,7 +32,7 @@ void main() {
 
   test('should emit an import directive and a prefix', () {
     expect(
-      new ImportBuilder('package:foo/foo.dart', as: 'foo'),
+      new ImportBuilder('package:foo/foo.dart', prefix: 'foo'),
       equalsSource("import 'package:foo/foo.dart' as foo;"),
     );
   });

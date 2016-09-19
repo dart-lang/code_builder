@@ -66,10 +66,10 @@ class ImportBuilder implements CodeBuilder<ImportDirective> {
 
   /// Create a new `import` directive importing [uri].
   ///
-  /// Optionally prefix [as].
-  const factory ImportBuilder(String uri, {String as}) = ImportBuilder._;
+  /// Optionally prefix [prefix].
+  const factory ImportBuilder(String uri, {String prefix}) = ImportBuilder._;
 
-  const ImportBuilder._(this._uri, {String as}) : _prefix = as;
+  const ImportBuilder._(this._uri, {String prefix}) : _prefix = prefix;
 
   @override
   ImportDirective toAst([_]) => _createImportDirective()
