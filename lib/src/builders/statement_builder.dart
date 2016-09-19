@@ -6,17 +6,19 @@ part of code_builder;
 
 /// Builds a [Statement] AST.
 abstract class StatementBuilder implements CodeBuilder<Statement> {
-  /// Returns a new [StatementBuilder] from the result of [ExpressionBuilder].
-  factory StatementBuilder.fromExpression(ExpressionBuilder builder) {
-    return new _ExpressionStatementBuilder(new ExpressionStatement(
-      builder.toAst(),
-      _semicolon,
-    ));
-  }
+  StatementBuilder._sealed();
 }
 
-class _ExpressionStatementBuilder
-    extends _AbstractCodeBuilder<ExpressionStatement>
-    implements StatementBuilder {
-  _ExpressionStatementBuilder(ExpressionStatement astNode) : super._(astNode);
+class _ExpressionStatementBuilder implements StatementBuilder {
+  final ExpressionBuilder _expression;
+
+  _ExpressionStatementBuilder(this._expression);
+
+  @override
+  Statement toAst([Scope scope = const Scope.identity()]) {
+    return new ExpressionStatement(
+      _expression.toAst(scope),
+      new Token(TokenType.SEMICOLON, 0),
+    );
+  }
 }

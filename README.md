@@ -3,20 +3,35 @@
 [![Build Status](https://travis-ci.org/dart-lang/code_builder.svg)](https://travis-ci.org/dart-lang/code_builder)
 [![Coverage Status](https://coveralls.io/repos/dart-lang/code_builder/badge.svg)](https://coveralls.io/r/dart-lang/code_builder)
 
-Code builder is a fluent Dart API for generating valid Dart source code.
+`code_builder` is a fluent Dart API for generating valid Dart source code.
 
-Generally speaking, code generation usually is done through a series of
-string concatenation which results in messy and sometimes invalid code
-that is not easily readable.
+Code generation was traditionally done through a series of 
+package-specific string concatenations which usually results in messy
+and sometimes invalid Dart code that is not easily readable and is very
+difficult to refactor.
 
-Code builder uses the [analyzer](analyzer) package to create real Dart
+`code_builder` uses the [analyzer](analyzer) package to create real Dart
 language ASTs, which, while not guaranteed to be correct, always follows
 the analyzer's own understood format.
 
 [analyzer]: https://pub.dartlang.org/packages/analyzer
 
-Code builder also adds a more narrow and user-friendly API. For example
-creating a class with a method is an easy affair:
+## Experimental
+
+While `code_builder` is considered *stable*, the APIs are subject to
+frequent breaking change - a number of Dart language features are not
+yet implemented that make it unsuitable for all forms of code
+generation. 
+
+**Contributions are [welcome][welcome]!**
+
+[welcome]: CONTRIBUTING.md
+
+## Usage
+
+Code builder has a narrow and user-friendly API.
+
+For example creating a class with a method:
 
 ```dart
 new ClassBuilder('Animal', extends: 'Organism')
@@ -32,4 +47,39 @@ class Animal extends Organism {
 }
 ```
 
-This package is in development and APIs are subject to frequent change.
+Have a complicated set of dependencies for your generated code?
+`code_builder` supports automatic scoping of your ASTs to automatically
+use prefixes to avoid symbol conflicts:
+
+```dart
+var lib = new LibraryBuilder.scope()
+      ..addDeclaration(new MethodBuilder(
+        name: 'doThing',
+        returns: new TypeBuilder(
+          'Thing',
+          importFrom: 'package:thing/thing.dart',
+        ),
+      ))
+      ..addDeclaration(new MethodBuilder(
+          name: 'doOtherThing',
+          returns: new TypeBuilder(
+            'Thing',
+            importFrom: 'package:thing/alternative.dart',
+          ))
+        ..addParameter(new ParameterBuilder(
+          'thing',
+          type: new TypeBuilder(
+            'Thing',
+            importFrom: 'package:thing/thing.dart',
+          ),
+        )));
+```
+
+Outputs:
+```dart
+import 'package:thing/thing.dart' as _i1;
+import 'package:thing/alternative.dart' as _i2;
+
+_i1.Thing doThing() {}
+_i2.Thing doOtherThing(_i1.Thing thing) {}
+```

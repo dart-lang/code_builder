@@ -90,16 +90,11 @@ void main() {
             ],
           )),
       );
-    var lib = new LibraryBuilder.scope()
-      ..addDirective(
-        new ImportBuilder('app.dart'),
-      )
-      ..addDeclaration(clazz);
+    var lib = new LibraryBuilder.scope()..addDeclaration(clazz);
     expect(
       lib,
       equalsSource(
         r'''
-          import 'app.dart';
           import 'package:app/app.dart' as _i1;
           import 'dart:core' as _i2;
           import 'package:app/thing.dart' as _i3;

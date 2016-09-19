@@ -76,7 +76,7 @@ ExpressionBuilder _invokeSelfImpl(
 abstract class ExpressionBuilder implements CodeBuilder<Expression> {
   /// Invoke [name] (which should be available in the local scope).
   ///
-  /// Optionally specify [positional] and [named] arguments.
+  /// May specify [positional] and [named] arguments.
   factory ExpressionBuilder.invoke(
     String name, {
     String importFrom,
@@ -91,6 +91,9 @@ abstract class ExpressionBuilder implements CodeBuilder<Expression> {
     );
   }
 
+  /// Invoke the 'new' operator on [type].
+  ///
+  /// May use a [name] of a constructor and [positional] and [named] arguments.
   factory ExpressionBuilder.invokeNew(
     TypeBuilder type, {
     String name,
@@ -247,7 +250,7 @@ class _InvokeExpression extends ExpressionBuilder {
   }
 
   @override
-  StatementBuilder toStatement() => new StatementBuilder.fromExpression(this);
+  StatementBuilder toStatement() => new _ExpressionStatementBuilder(this);
 
   ArgumentList _getArgumentList(Scope scope) {
     return new ArgumentList(
@@ -289,7 +292,7 @@ abstract class _LiteralExpression<A extends Literal>
       _asFunctionExpression(this, scope);
 
   @override
-  StatementBuilder toStatement() => new StatementBuilder.fromExpression(this);
+  StatementBuilder toStatement() => new _ExpressionStatementBuilder(this);
 }
 
 class _LiteralNull extends _LiteralExpression<NullLiteral> {

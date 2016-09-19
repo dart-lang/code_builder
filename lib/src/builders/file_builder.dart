@@ -13,14 +13,18 @@ CompilationUnit _emptyCompilationUnit() => new CompilationUnit(
     );
 
 /// An `export` directive in a [LibraryBuilder].
-class ExportBuilder extends _AbstractCodeBuilder<ExportDirective> {
-  /// Create a new `export` directive exporting [uri].
-  factory ExportBuilder(String uri) {
-    var astNode = _createExportDirective()..uri = _stringLiteral("'$uri'");
-    return new ExportBuilder._(astNode);
-  }
+class ExportBuilder implements CodeBuilder<ExportDirective> {
+  final String _uri;
 
-  ExportBuilder._(ExportDirective astNode) : super._(astNode);
+  /// Create a new `export` directive exporting [uri].
+  factory ExportBuilder(String uri) = ExportBuilder._;
+
+  const ExportBuilder._(this._uri);
+
+  @override
+  ExportDirective toAst([_]) {
+    return _createExportDirective()..uri = _stringLiteral("'$_uri'");
+  }
 
   static ExportDirective _createExportDirective() => new ExportDirective(
         null,
@@ -36,33 +40,41 @@ class ExportBuilder extends _AbstractCodeBuilder<ExportDirective> {
 /// Builds files of Dart source code.
 ///
 /// See [LibraryBuilder] and [PartBuilder] for concrete implementations.
-abstract class FileBuilder extends _AbstractCodeBuilder<CompilationUnit> {
-  FileBuilder._(CompilationUnit astNode) : super._(astNode);
+abstract class FileBuilder implements CodeBuilder<CompilationUnit> {
+  final List<CodeBuilder<Declaration>> _declarations =
+      <CodeBuilder<Declaration>>[];
+
+  FileBuilder._();
 
   /// Adds [declaration]'s resulting AST to the source.
   void addDeclaration(CodeBuilder<Declaration> declaration) {
-    _astNode.declarations.add(declaration.toAst());
+    _declarations.add(declaration);
   }
+
+  @override
+  @mustCallSuper
+  CompilationUnit toAst([Scope scope = const Scope.identity()]) =>
+      _emptyCompilationUnit()
+        ..declarations
+            .addAll(_declarations.map/*<Declaration>*/((d) => d.toAst(scope)));
 }
 
 /// An `import` directive in a [FileBuilder].
-class ImportBuilder extends _AbstractCodeBuilder<ImportDirective> {
-  static Token _as = new KeywordToken(Keyword.AS, 0);
+class ImportBuilder implements CodeBuilder<ImportDirective> {
+  final String _uri;
+  final String _prefix;
 
   /// Create a new `import` directive importing [uri].
   ///
-  /// Optionally prefix [as].
-  factory ImportBuilder(String uri, {String as}) {
-    var astNode = _createImportDirective()..uri = _stringLiteral("'$uri'");
-    if (as != null) {
-      astNode
-        ..asKeyword = _as
-        ..prefix = _stringIdentifier(as);
-    }
-    return new ImportBuilder._(astNode);
-  }
+  /// Optionally prefix [prefix].
+  const factory ImportBuilder(String uri, {String prefix}) = ImportBuilder._;
 
-  ImportBuilder._(ImportDirective astNode) : super._(astNode);
+  const ImportBuilder._(this._uri, {String prefix}) : _prefix = prefix;
+
+  @override
+  ImportDirective toAst([_]) => _createImportDirective()
+    ..uri = _stringLiteral("'$_uri'")
+    ..prefix = _prefix != null ? _stringIdentifier(_prefix) : null;
 
   static ImportDirective _createImportDirective() => new ImportDirective(
         null,
@@ -82,57 +94,47 @@ class ImportBuilder extends _AbstractCodeBuilder<ImportDirective> {
 class LibraryBuilder extends FileBuilder {
   static final Token _library = new KeywordToken(Keyword.LIBRARY, 0);
 
+  final String _name;
   final Scope _scope;
+
+  final List<CodeBuilder<Directive>> _directives = <CodeBuilder<Directive>>[];
 
   /// Create a new standalone Dart library, optionally with a [name].
   factory LibraryBuilder([String name]) {
-    var astNode = _emptyCompilationUnit();
-    if (name != null) {
-      astNode.directives.add(new LibraryDirective(
-        null,
-        null,
-        _library,
-        new LibraryIdentifier([_stringIdentifier(name)]),
-        null,
-      ));
-    }
-    return new LibraryBuilder._(astNode, const Scope.identity());
+    return new LibraryBuilder._(name, const Scope.identity());
   }
 
   /// Create a new standalone Dart library, optionally with a [name].
   ///
-  /// As references are added in the library that implements [ScopeAware]
+  /// As references are added in the library that implements [CodeBuilder]
   /// they are re-written to avoid collisions and the imports are automatically
   /// included at the top with optional prefixes.
   factory LibraryBuilder.scope({String name, Scope scope}) {
-    var astNode = _emptyCompilationUnit();
-    if (name != null) {
-      astNode.directives.add(new LibraryDirective(
-        null,
-        null,
-        _library,
-        new LibraryIdentifier([_stringIdentifier(name)]),
-        null,
-      ));
-    }
-    return new LibraryBuilder._(astNode, scope ?? new Scope());
+    return new LibraryBuilder._(name, scope ?? new Scope());
   }
 
-  LibraryBuilder._(CompilationUnit astNode, this._scope) : super._(astNode);
-
-  @override
-  void addDeclaration(CodeBuilder<Declaration> declaration) {
-    _astNode.declarations.add(declaration.toAst(_scope));
-  }
+  LibraryBuilder._(this._name, this._scope) : super._();
 
   /// Adds [directive]'s resulting AST to the source.
   void addDirective(CodeBuilder<Directive> directive) {
-    _astNode.directives.add(directive.toAst());
+    _directives.add(directive);
   }
 
   @override
   CompilationUnit toAst([_]) {
-    var originalAst = super.toAst();
+    var originalAst = super.toAst(_scope);
+    if (_name != null) {
+      originalAst.directives.add(
+        new LibraryDirective(
+          null,
+          null,
+          _library,
+          new LibraryIdentifier([_stringIdentifier(_name)]),
+          null,
+        ),
+      );
+    }
+    originalAst.directives..addAll(_directives.map((d) => d.toAst()));
     originalAst.directives..addAll(_scope.getImports().map((i) => i.toAst()));
     return originalAst;
   }
@@ -143,19 +145,24 @@ class PartBuilder extends FileBuilder {
   static final Token _part = new KeywordToken(Keyword.PART, 0);
   static final Token _of = new StringToken(TokenType.KEYWORD, 'of', 0);
 
+  final String _name;
+
   /// Create a new `part of` source file.
-  factory PartBuilder(String name) {
-    var astNode = _emptyCompilationUnit();
-    astNode.directives.add(new PartOfDirective(
+  factory PartBuilder(String name) = PartBuilder._;
+
+  PartBuilder._(this._name) : super._();
+
+  @override
+  CompilationUnit toAst([Scope scope = const Scope.identity()]) {
+    var originalAst = super.toAst();
+    originalAst.directives.add(new PartOfDirective(
       null,
       null,
       _part,
       _of,
-      new LibraryIdentifier([_stringIdentifier(name)]),
+      new LibraryIdentifier([_stringIdentifier(_name)]),
       null,
     ));
-    return new PartBuilder._(astNode);
+    return originalAst;
   }
-
-  PartBuilder._(CompilationUnit astNode) : super._(astNode);
 }

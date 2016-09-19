@@ -34,6 +34,8 @@ import 'package:analyzer/src/dart/ast/token.dart';
 import 'package:dart_style/dart_style.dart';
 import 'package:meta/meta.dart';
 
+import 'src/analyzer_patch.dart';
+
 part 'src/builders/annotation_builder.dart';
 part 'src/builders/class_builder.dart';
 part 'src/builders/constructor_builder.dart';
@@ -54,11 +56,6 @@ final DartFormatter _dartfmt = new DartFormatter();
 @visibleForTesting
 String dartfmt(String source) => _dartfmt.format(source);
 
-// Creates a deep copy of an AST node.
-AstNode/*=E*/ _cloneAst/*<E extends AstNode>*/(AstNode/*=E*/ astNode) {
-  return new AstCloner().cloneNode/*<E>*/(astNode);
-}
-
 Identifier _stringIdentifier(String s) {
   return new SimpleIdentifier(new StringToken(TokenType.STRING, s, 0));
 }
@@ -73,18 +70,4 @@ abstract class CodeBuilder<A extends AstNode> {
   ///
   /// Uses [scope] to output an AST re-written to use appropriate prefixes.
   A toAst([Scope scope = const Scope.identity()]);
-}
-
-@Deprecated('Builders are all becoming lazy')
-abstract class _AbstractCodeBuilder<A extends AstNode> extends CodeBuilder<A> {
-  final A _astNode;
-
-  _AbstractCodeBuilder._(this._astNode);
-
-  /// Returns a copy-safe [AstNode] representing the current builder state.
-  @override
-  A toAst([_]) => _cloneAst/*<A>*/(_astNode);
-
-  @override
-  String toString() => '$runtimeType: ${_astNode.toSource()}';
 }
