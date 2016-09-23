@@ -102,6 +102,9 @@ abstract class ExpressionBuilder implements CodeBuilder<Expression> {
     );
   }
 
+  /// Assign [left] to [right].
+  ///
+  /// If [nullAware] is true, the assignment uses the `??=` operator.
   factory ExpressionBuilder.assignment(
       String left, CodeBuilder<Expression> right,
       {bool nullAware: false}) {
