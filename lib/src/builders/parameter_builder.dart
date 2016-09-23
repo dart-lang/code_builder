@@ -10,8 +10,6 @@ part of code_builder;
 /// class-member (field) variable (see the `field` property in the
 /// constructors).
 class ParameterBuilder implements CodeBuilder<FormalParameter> {
-  static final Token _this = new KeywordToken(Keyword.THIS, 0);
-
   final String _name;
   final bool _isField;
   final bool _isOptional;
@@ -129,7 +127,7 @@ class ParameterBuilder implements CodeBuilder<FormalParameter> {
         null,
         null,
         _type?.toAst(scope),
-        _this,
+        $this,
         null,
         _stringIdentifier(_name),
         null,
@@ -154,9 +152,7 @@ class ParameterBuilder implements CodeBuilder<FormalParameter> {
     return new DefaultFormalParameter(
       parameter,
       named ? ParameterKind.NAMED : ParameterKind.POSITIONAL,
-      defaultTo != null
-          ? named ? new Token(TokenType.COLON, 0) : new Token(TokenType.EQ, 0)
-          : null,
+      defaultTo != null ? named ? $colon : $equals : null,
       defaultTo?.toAst(),
     );
   }

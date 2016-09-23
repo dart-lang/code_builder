@@ -129,6 +129,39 @@ void main() {
         );
       });
 
+      test('should work with an assignment', () {
+        expect(
+          new MethodBuilder.returnVoid(name: 'main')
+            ..addStatement(new ExpressionBuilder.assignment(
+              'foo',
+              const LiteralString('Hello World'),
+            )
+                .toStatement()),
+          equalsSource(r'''
+        void main() {
+          foo = 'Hello World';
+        }
+      '''),
+        );
+      });
+
+      test('should work with a null-aware assignment', () {
+        expect(
+          new MethodBuilder.returnVoid(name: 'main')
+            ..addStatement(new ExpressionBuilder.assignment(
+              'foo',
+              const LiteralString('Hello World'),
+              nullAware: true,
+            )
+                .toStatement()),
+          equalsSource(r'''
+        void main() {
+          foo ??= 'Hello World';
+        }
+      '''),
+        );
+      });
+
       test('should work invoking an expression', () {
         expect(
           new MethodBuilder.returnVoid(name: 'main')

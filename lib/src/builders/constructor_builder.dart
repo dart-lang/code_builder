@@ -8,9 +8,6 @@ part of code_builder;
 ///
 /// Similar to [MethodBuilder] but with constructor-only features.
 class ConstructorBuilder implements CodeBuilder<ConstructorDeclaration> {
-  static final Token _const = new KeywordToken(Keyword.CONST, 0);
-  static final Token _this = new KeywordToken(Keyword.THIS, 0);
-
   final bool _isConstant;
   final String _name;
   final List<ParameterBuilder> _parameters = <ParameterBuilder>[];
@@ -43,7 +40,7 @@ class ConstructorBuilder implements CodeBuilder<ConstructorDeclaration> {
       null,
       null,
       null,
-      _isConstant ? _const : null,
+      _isConstant ? $const : null,
       null,
       null,
       _name != null ? _stringIdentifier(_name) : null,
@@ -53,7 +50,7 @@ class ConstructorBuilder implements CodeBuilder<ConstructorDeclaration> {
       null,
       null,
       null,
-      new EmptyFunctionBody(MethodBuilder._semicolon),
+      new EmptyFunctionBody($semicolon),
     );
     return astNode;
   }

@@ -18,7 +18,7 @@ class _ExpressionStatementBuilder implements StatementBuilder {
   Statement toAst([Scope scope = const Scope.identity()]) {
     return new ExpressionStatement(
       _expression.toAst(scope),
-      new Token(TokenType.SEMICOLON, 0),
+      $semicolon,
     );
   }
 }

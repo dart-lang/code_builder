@@ -92,8 +92,6 @@ class ImportBuilder implements CodeBuilder<ImportDirective> {
 
 /// Builds a standalone Dart library [CompilationUnit] AST.
 class LibraryBuilder extends FileBuilder {
-  static final Token _library = new KeywordToken(Keyword.LIBRARY, 0);
-
   final String _name;
   final Scope _scope;
 
@@ -128,7 +126,7 @@ class LibraryBuilder extends FileBuilder {
         new LibraryDirective(
           null,
           null,
-          _library,
+          $library,
           new LibraryIdentifier([_stringIdentifier(_name)]),
           null,
         ),
@@ -142,9 +140,6 @@ class LibraryBuilder extends FileBuilder {
 
 /// Builds a `part of` [CompilationUnit] AST for an existing Dart library.
 class PartBuilder extends FileBuilder {
-  static final Token _part = new KeywordToken(Keyword.PART, 0);
-  static final Token _of = new StringToken(TokenType.KEYWORD, 'of', 0);
-
   final String _name;
 
   /// Create a new `part of` source file.
@@ -158,8 +153,8 @@ class PartBuilder extends FileBuilder {
     originalAst.directives.add(new PartOfDirective(
       null,
       null,
-      _part,
-      _of,
+      $part,
+      $of,
       new LibraryIdentifier([_stringIdentifier(_name)]),
       null,
     ));

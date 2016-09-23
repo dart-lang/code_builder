@@ -14,15 +14,8 @@ const literalNull = const _LiteralNull();
 /// Represents an expression value of `true`.
 const literalTrue = const LiteralBool(true);
 
-// Returns wrapped as a [ExpressionFunctionBody] AST.
-final Token _closeP = new Token(TokenType.CLOSE_PAREN, 0);
-
-// Returns wrapped as a [FunctionExpression] AST.
-final Token _openP = new Token(TokenType.OPEN_PAREN, 0);
-
-final Token _semicolon = new Token(TokenType.SEMICOLON, 0);
-
 // TODO(matanl): Make this part of the public API. See annotation_builder.dart.
+// Returns wrapped as a [ExpressionFunctionBody] AST.
 ExpressionFunctionBody _asFunctionBody(
   CodeBuilder<Expression> expression,
   Scope scope,
@@ -31,10 +24,11 @@ ExpressionFunctionBody _asFunctionBody(
     null,
     null,
     expression.toAst(scope),
-    _semicolon,
+    $semicolon,
   );
 }
 
+// Returns wrapped as a [FunctionExpression] AST.
 FunctionExpression _asFunctionExpression(
   CodeBuilder<Expression> expression,
   Scope scope,
@@ -42,11 +36,11 @@ FunctionExpression _asFunctionExpression(
   return new FunctionExpression(
     null,
     new FormalParameterList(
-      _openP,
+      $openParen,
       const [],
       null,
       null,
-      _closeP,
+      $closeParen,
     ),
     _asFunctionBody(expression, scope),
   );
@@ -108,6 +102,12 @@ abstract class ExpressionBuilder implements CodeBuilder<Expression> {
     );
   }
 
+  factory ExpressionBuilder.assignment(
+      String left, CodeBuilder<Expression> right,
+      {bool nullAware: false}) {
+    return new _AssignmentExpression(left, right, nullAware: nullAware);
+  }
+
   const ExpressionBuilder._();
 
   /// Return a new [ExpressionBuilder] invoking the result of this expression.
@@ -136,10 +136,8 @@ abstract class ExpressionBuilder implements CodeBuilder<Expression> {
 
 /// Creates a new literal `bool` value.
 class LiteralBool extends _LiteralExpression<BooleanLiteral> {
-  static final BooleanLiteral _true =
-      new BooleanLiteral(new KeywordToken(Keyword.TRUE, 0), true);
-  static final BooleanLiteral _false =
-      new BooleanLiteral(new KeywordToken(Keyword.FALSE, 0), false);
+  static final BooleanLiteral _true = new BooleanLiteral($true, true);
+  static final BooleanLiteral _false = new BooleanLiteral($false, false);
 
   final bool _value;
 
@@ -159,7 +157,7 @@ class LiteralInt extends _LiteralExpression<IntegerLiteral> {
 
   @override
   IntegerLiteral toAst([_]) => new IntegerLiteral(
-        new StringToken(TokenType.INT, '$_value', 0),
+        intToken(_value),
         _value,
       );
 }
@@ -173,18 +171,12 @@ class LiteralString extends _LiteralExpression<StringLiteral> {
 
   @override
   StringLiteral toAst([_]) => new SimpleStringLiteral(
-        new StringToken(
-          TokenType.STRING,
-          "'$_value'",
-          0,
-        ),
+        stringToken("'$_value'"),
         _value,
       );
 }
 
 class _InvokeExpression extends ExpressionBuilder {
-  static final Token _colon = new Token(TokenType.COLON, 0);
-
   final String _importFrom;
   final ExpressionBuilder _target;
   final String _name;
@@ -231,10 +223,10 @@ class _InvokeExpression extends ExpressionBuilder {
     // TODO(matanl): Move to TypeBuilder.newInstance.
     if (_type != null) {
       return new InstanceCreationExpression(
-        new KeywordToken(Keyword.NEW, 0),
+        $new,
         new ConstructorName(
           _type.toAst(scope),
-          _name != null ? new Token(TokenType.PERIOD, 0) : null,
+          _name != null ? $period : null,
           _name != null ? _stringIdentifier(_name) : null,
         ),
         _getArgumentList(scope),
@@ -242,7 +234,7 @@ class _InvokeExpression extends ExpressionBuilder {
     }
     return new MethodInvocation(
       _target?.toAst(scope),
-      _target != null ? new Token(TokenType.PERIOD, 0) : null,
+      _target != null ? $period : null,
       _stringIdentifier(_name),
       null,
       _getArgumentList(scope),
@@ -254,19 +246,44 @@ class _InvokeExpression extends ExpressionBuilder {
 
   ArgumentList _getArgumentList(Scope scope) {
     return new ArgumentList(
-      new Token(TokenType.OPEN_CURLY_BRACKET, 0),
+      $openCurly,
       _positionalArguments.map/*<Expression*/((p) => p.toAst(scope)).toList()
         ..addAll(_namedArguments.keys
             .map/*<Expression>*/((name) => new NamedExpression(
                   new Label(
                     _stringIdentifier(name),
-                    _colon,
+                    $colon,
                   ),
                   _namedArguments[name].toAst(scope),
                 ))),
-      new Token(TokenType.CLOSE_CURLY_BRACKET, 0),
+      $closeCurly,
     );
   }
+}
+
+class _AssignmentExpression extends ExpressionBuilder {
+  final String left;
+  final CodeBuilder<Expression> right;
+  final bool nullAware;
+
+  _AssignmentExpression(this.left, this.right, {this.nullAware: false})
+      : super._();
+
+  @override
+  ExpressionBuilder invokeSelf(String name,
+      {Iterable<CodeBuilder<Expression>> positional: const [],
+      Map<String, CodeBuilder<Expression>> named: const {}}) {
+    return _invokeSelfImpl(this, name, positional: positional, named: named);
+  }
+
+  @override
+  Expression toAst([Scope scope = const Scope.identity()]) {
+    return new AssignmentExpression(_stringIdentifier(left),
+        nullAware ? $nullAwareEquals : $equals, right.toAst(scope));
+  }
+
+  @override
+  StatementBuilder toStatement() => new _ExpressionStatementBuilder(this);
 }
 
 abstract class _LiteralExpression<A extends Literal>
@@ -296,7 +313,7 @@ abstract class _LiteralExpression<A extends Literal>
 }
 
 class _LiteralNull extends _LiteralExpression<NullLiteral> {
-  static NullLiteral _null = new NullLiteral(new KeywordToken(Keyword.NULL, 0));
+  static final NullLiteral _null = new NullLiteral($null);
 
   const _LiteralNull();
 

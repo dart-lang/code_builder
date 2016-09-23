@@ -12,10 +12,6 @@ part of code_builder;
 ///
 /// To return nothing (`void`), use [MethodBuilder.returnVoid].
 class MethodBuilder implements CodeBuilder<Declaration> {
-  static Token _abstract = new KeywordToken(Keyword.ABSTRACT, 0);
-  static Token _semicolon = new Token(TokenType.SEMICOLON, 0);
-  static Token _static = new KeywordToken(Keyword.STATIC, 0);
-
   // Void is a "type" that is only valid as a return type on a method.
   static const TypeBuilder _typeVoid = const TypeBuilder('void');
 
@@ -126,14 +122,14 @@ class MethodBuilder implements CodeBuilder<Declaration> {
       ..returnType = _returnType?.toAst(scope);
     FunctionBody methodBody = _returnExpression?.toFunctionBody(scope);
     if (_isStatic) {
-      methodAst.modifierKeyword = _static;
+      methodAst.modifierKeyword = $static;
       if (methodBody == null) {
         methodBody = _blockBody();
       }
     }
     if (methodBody == null) {
       methodBody = _isAbstract
-          ? new EmptyFunctionBody(_semicolon)
+          ? new EmptyFunctionBody($semicolon)
           : _blockBody(_statements.map/*<Statement>*/((s) => s.toAst(scope)));
     }
     if (_parameters.isNotEmpty) {
@@ -152,9 +148,9 @@ class MethodBuilder implements CodeBuilder<Declaration> {
         null,
         null,
         new Block(
-          new Token(TokenType.OPEN_CURLY_BRACKET, 0),
+          $openCurly,
           statements?.toList(),
-          new Token(TokenType.CLOSE_CURLY_BRACKET, 0),
+          $closeCurly,
         ),
       );
 
@@ -187,10 +183,10 @@ class MethodBuilder implements CodeBuilder<Declaration> {
       );
 
   static FormalParameterList _emptyParameters() => new FormalParameterList(
-        new Token(TokenType.OPEN_PAREN, 0),
+        $openParen,
         [],
         null,
         null,
-        new Token(TokenType.CLOSE_PAREN, 0),
+        $closeParen,
       );
 }

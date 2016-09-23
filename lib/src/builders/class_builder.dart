@@ -6,11 +6,6 @@ part of code_builder;
 
 /// Builds a [ClassDeclaration] AST.
 class ClassBuilder implements CodeBuilder<ClassDeclaration> {
-  static Token _abstract = new KeywordToken(Keyword.ABSTRACT, 0);
-  static Token _extends = new KeywordToken(Keyword.EXTENDS, 0);
-  static Token _implements = new KeywordToken(Keyword.IMPLEMENTS, 0);
-  static Token _with = new KeywordToken(Keyword.WITH, 0);
-
   final String _name;
   final bool _isAbstract;
   final TypeBuilder _extend;
@@ -85,18 +80,18 @@ class ClassBuilder implements CodeBuilder<ClassDeclaration> {
   ClassDeclaration toAst([Scope scope = const Scope.identity()]) {
     var astNode = _emptyClassDeclaration()..name = _stringIdentifier(_name);
     if (_isAbstract) {
-      astNode.abstractKeyword = _abstract;
+      astNode.abstractKeyword = $abstract;
     }
     if (_extend != null) {
-      astNode.extendsClause = new ExtendsClause(_extends, _extend.toAst(scope));
+      astNode.extendsClause = new ExtendsClause($extends, _extend.toAst(scope));
     }
     if (_implement.isNotEmpty) {
-      astNode.implementsClause = new ImplementsClause(_implements,
+      astNode.implementsClause = new ImplementsClause($implements,
           _implement.map/*<TypeName>*/((i) => i.toAst(scope)).toList());
     }
     if (_mixin.isNotEmpty) {
       astNode.withClause = new WithClause(
-          _with, _mixin.map/*<TypeName>*/((i) => i.toAst(scope)).toList());
+          $with, _mixin.map/*<TypeName>*/((i) => i.toAst(scope)).toList());
     }
     astNode
       ..metadata.addAll(_metadata.map/*<Annotation>*/((a) => a.toAst(scope)));

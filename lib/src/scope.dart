@@ -70,8 +70,8 @@ class _IncrementingScope implements Scope {
   @override
   Identifier getIdentifier(String symbol, String import) {
     var newId = _imports.putIfAbsent(import, () => ++_counter);
-    return new PrefixedIdentifier(_stringIdentifier('_i$newId'),
-        new Token(TokenType.PERIOD, 0), _stringIdentifier(symbol));
+    return new PrefixedIdentifier(
+        _stringIdentifier('_i$newId'), $period, _stringIdentifier(symbol));
   }
 
   @override
