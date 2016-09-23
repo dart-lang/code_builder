@@ -56,7 +56,8 @@ final DartFormatter _dartfmt = new DartFormatter();
 @visibleForTesting
 String dartfmt(String source) => _dartfmt.format(source);
 
-Identifier _stringIdentifier(String s) => new SimpleIdentifier(stringToken(s));
+SimpleIdentifier _stringIdentifier(String s) =>
+    new SimpleIdentifier(stringToken(s));
 
 Literal _stringLiteral(String s) => new SimpleStringLiteral(stringToken(s), s);
 
