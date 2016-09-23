@@ -3,9 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:analyzer/analyzer.dart';
-import 'package:analyzer/dart/ast/token.dart';
-import 'package:analyzer/src/dart/ast/token.dart';
 import 'package:code_builder/code_builder.dart';
+import 'package:code_builder/src/tokens.dart';
 import 'package:matcher/matcher.dart';
 
 /// Returns identifiers that are just the file name.
@@ -38,9 +37,7 @@ Matcher equalsSource(
   );
 }
 
-Identifier _stringId(String s) {
-  return new SimpleIdentifier(new StringToken(TokenType.STRING, s, 0));
-}
+Identifier _stringId(String s) => new SimpleIdentifier(stringToken(s));
 
 class _EqualsSource extends Matcher {
   final Scope _scope;
@@ -106,7 +103,7 @@ class _SimpleNameScope implements Scope {
         Uri.parse(importUri).pathSegments.last.split('.').first;
     return new PrefixedIdentifier(
       _stringId(fileWithoutExt),
-      new Token(TokenType.PERIOD, 0),
+      $period,
       _stringId(symbol),
     );
   }

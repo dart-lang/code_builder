@@ -30,11 +30,11 @@ library code_builder;
 
 import 'package:analyzer/analyzer.dart';
 import 'package:analyzer/dart/ast/token.dart';
-import 'package:analyzer/src/dart/ast/token.dart';
 import 'package:dart_style/dart_style.dart';
 import 'package:meta/meta.dart';
 
 import 'src/analyzer_patch.dart';
+import 'src/tokens.dart';
 
 part 'src/builders/annotation_builder.dart';
 part 'src/builders/class_builder.dart';
@@ -56,13 +56,10 @@ final DartFormatter _dartfmt = new DartFormatter();
 @visibleForTesting
 String dartfmt(String source) => _dartfmt.format(source);
 
-Identifier _stringIdentifier(String s) {
-  return new SimpleIdentifier(new StringToken(TokenType.STRING, s, 0));
-}
+SimpleIdentifier _stringIdentifier(String s) =>
+    new SimpleIdentifier(stringToken(s));
 
-Literal _stringLiteral(String s) {
-  return new SimpleStringLiteral(new StringToken(TokenType.STRING, s, 0), s);
-}
+Literal _stringLiteral(String s) => new SimpleStringLiteral(stringToken(s), s);
 
 /// Base class for building and emitting a Dart language [AstNode].
 abstract class CodeBuilder<A extends AstNode> {

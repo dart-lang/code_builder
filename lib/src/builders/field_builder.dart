@@ -10,13 +10,6 @@ part of code_builder;
 /// AST (for class members) via [toFieldAst] or a variable declaration (used
 /// both at the top-level and within methods) via [toVariablesAst].
 class FieldBuilder implements CodeBuilder<Declaration> {
-  static Token _equals = new Token(TokenType.EQ, 0);
-  static Token _semicolon = new Token(TokenType.SEMICOLON, 0);
-  static Token _static = new KeywordToken(Keyword.STATIC, 0);
-  static Token _final = new KeywordToken(Keyword.FINAL, 0);
-  static Token _const = new KeywordToken(Keyword.CONST, 0);
-  static Token _var = new KeywordToken(Keyword.VAR, 0);
-
   final bool _isConst;
   final bool _isFinal;
   final bool _isStatic;
@@ -84,7 +77,7 @@ class FieldBuilder implements CodeBuilder<Declaration> {
       new FieldDeclaration(
         null,
         null,
-        _isStatic ? _static : null,
+        _isStatic ? $static : null,
         toVariablesAst(scope),
         null,
       );
@@ -100,7 +93,7 @@ class FieldBuilder implements CodeBuilder<Declaration> {
         [
           new VariableDeclaration(
             _stringIdentifier(_name),
-            _initialize != null ? _equals : null,
+            _initialize != null ? $equals : null,
             _initialize?.toAst(scope),
           )
         ],
@@ -108,11 +101,11 @@ class FieldBuilder implements CodeBuilder<Declaration> {
 
   Token _getVariableKeyword() {
     if (_isFinal) {
-      return _final;
+      return $final;
     }
     if (_isConst) {
-      return _const;
+      return $const;
     }
-    return _type == null ? _var : null;
+    return _type == null ? $var : null;
   }
 }
