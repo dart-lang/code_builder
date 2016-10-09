@@ -40,6 +40,7 @@ part 'src/builders/annotation_builder.dart';
 part 'src/builders/class_builder.dart';
 part 'src/builders/constructor_builder.dart';
 part 'src/builders/expression_builder.dart';
+part 'src/builders/expression/operators.dart';
 part 'src/builders/field_builder.dart';
 part 'src/builders/file_builder.dart';
 part 'src/builders/method_builder.dart';
@@ -54,7 +55,13 @@ final DartFormatter _dartfmt = new DartFormatter();
 // Simplifies some of the builders by having a mutable node we clone from.
 /// Returns [source] formatted by `dartfmt`.
 @visibleForTesting
-String dartfmt(String source) => _dartfmt.format(source);
+String dartfmt(String source) {
+  try {
+    return _dartfmt.format(source);
+  } on FormatterException catch (_) {
+    return _dartfmt.formatStatement(source);
+  }
+}
 
 SimpleIdentifier _stringIdentifier(String s) =>
     new SimpleIdentifier(stringToken(s));
@@ -66,5 +73,5 @@ abstract class CodeBuilder<A extends AstNode> {
   /// Returns a copy-safe [AstNode] representing the current builder state.
   ///
   /// Uses [scope] to output an AST re-written to use appropriate prefixes.
-  A toAst([Scope scope = const Scope.identity()]);
+  A build([Scope scope = Scope.identity]);
 }

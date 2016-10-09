@@ -120,21 +120,56 @@ abstract class ExpressionBuilder implements CodeBuilder<Expression> {
     Map<String, CodeBuilder<Expression>> named: const {},
   }); // TODO(matanl): Rename to invoke when factory is removed.
 
+  /// Returns a new statement of `assert(expression)`.
+  StatementBuilder asAssert();
+
   /// Returns wrapped as a [ExpressionFunctionBody] AST.
-  ExpressionFunctionBody toFunctionBody(
-          [Scope scope = const Scope.identity()]) =>
-      _asFunctionBody(this, scope);
+  ExpressionFunctionBody toFunctionBody([Scope scope = const Scope.identity()]);
 
   /// Returns wrapped as a [FunctionExpression] AST.
   FunctionExpression toFunctionExpression(
-          [Scope scope = const Scope.identity()]) =>
-      _asFunctionExpression(this, scope);
+      [Scope scope = const Scope.identity()]);
+
+  /// Returns as an `if (<expression>) {' builder.
+  IfStatementBuilder asIfStatement();
+
+  /// Converts to a `return <expression>`.
+  StatementBuilder asReturnStatement();
+
+  /// Returns as an `<expression> == <other>` expression.
+  ExpressionBuilder asEquals(ExpressionBuilder other);
+
+  /// Returns as an `<expression> != <other>` expression.
+  ExpressionBuilder asNotEquals(ExpressionBuilder other);
 
   /// Converts to a [StatementBuilder].
   ///
   /// __Example use__:
   ///     literalNull.toStatement(); // ==> null;
   StatementBuilder toStatement();
+}
+
+abstract class _ExpressionBase implements ExpressionBuilder {
+  const _ExpressionBase();
+
+  @override
+  StatementBuilder asAssert() => new _AssertionStatementBuilder(this);
+
+  @override
+  ExpressionFunctionBody toFunctionBody(
+      [Scope scope = const Scope.identity()]) =>
+      _asFunctionBody(this, scope);
+
+  @override
+  FunctionExpression toFunctionExpression(
+      [Scope scope = const Scope.identity()]) =>
+      _asFunctionExpression(this, scope);
+
+  @override
+  IfStatementBuilder asIfStatement() => new IfStatementBuilder._(this);
+
+  @override
+  StatementBuilder asReturnStatement() => new _ReturnStatementBuilder(this);
 }
 
 /// Creates a new literal `bool` value.
@@ -179,7 +214,7 @@ class LiteralString extends _LiteralExpression<StringLiteral> {
       );
 }
 
-class _InvokeExpression extends ExpressionBuilder {
+class _InvokeExpression extends _ExpressionBase {
   final String _importFrom;
   final ExpressionBuilder _target;
   final String _name;
@@ -194,8 +229,7 @@ class _InvokeExpression extends ExpressionBuilder {
     this._importFrom,
   )
       : _target = null,
-        _type = null,
-        super._();
+        _type = null;
 
   const _InvokeExpression.newInstance(
     this._type,
@@ -204,14 +238,12 @@ class _InvokeExpression extends ExpressionBuilder {
     this._namedArguments,
   )
       : _target = null,
-        _importFrom = null,
-        super._();
+        _importFrom = null;
 
   const _InvokeExpression.target(
       this._name, this._target, this._positionalArguments, this._namedArguments)
       : _importFrom = null,
-        _type = null,
-        super._();
+        _type = null;
 
   @override
   ExpressionBuilder invokeSelf(
@@ -264,13 +296,12 @@ class _InvokeExpression extends ExpressionBuilder {
   }
 }
 
-class _AssignmentExpression extends ExpressionBuilder {
+class _AssignmentExpression extends _ExpressionBase {
   final String left;
   final CodeBuilder<Expression> right;
   final bool nullAware;
 
-  _AssignmentExpression(this.left, this.right, {this.nullAware: false})
-      : super._();
+  _AssignmentExpression(this.left, this.right, {this.nullAware: false});
 
   @override
   ExpressionBuilder invokeSelf(String name,
@@ -289,7 +320,50 @@ class _AssignmentExpression extends ExpressionBuilder {
   StatementBuilder toStatement() => new _ExpressionStatementBuilder(this);
 }
 
+class _ClosureExpressionBuilder extends _ExpressionBase {
+  final MethodBuilder _method;
+
+  _ClosureExpressionBuilder(this._method);
+
+  @override
+  ExpressionBuilder invokeSelf(String name,
+      {Iterable<CodeBuilder<Expression>> positional: const [],
+      Map<String, CodeBuilder<Expression>> named: const {}}) {
+    return _invokeSelfImpl(this, name, positional: positional, named: named);
+  }
+
+  @override
+  Expression toAst([Scope scope = const Scope.identity()]) {
+    final expression = new FunctionExpression(
+      null,
+      MethodBuilder._emptyParameters(),
+      null,
+    );
+    if (_method._returnExpression != null) {
+      return expression..body = new ExpressionFunctionBody(
+        null,
+        null,
+        _method._returnExpression.toAst(scope),
+        $semicolon,
+      );
+    }
+    return expression..body = new BlockFunctionBody(
+      null,
+      null,
+      new Block(
+        null,
+        _method._statements.map/*<Statement>*/((s) => s.toAst(scope)).toList(),
+        null,
+      ),
+    );
+  }
+
+  @override
+  StatementBuilder toStatement() => new _ExpressionStatementBuilder(this);
+}
+
 abstract class _LiteralExpression<A extends Literal>
+    extends _ExpressionBase
     implements ExpressionBuilder, CodeBuilder<A> {
   const _LiteralExpression();
 
@@ -310,6 +384,9 @@ abstract class _LiteralExpression<A extends Literal>
   FunctionExpression toFunctionExpression(
           [Scope scope = const Scope.identity()]) =>
       _asFunctionExpression(this, scope);
+
+  @override
+  StatementBuilder asAssert() => new _AssertionStatementBuilder(this);
 
   @override
   StatementBuilder toStatement() => new _ExpressionStatementBuilder(this);

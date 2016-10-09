@@ -340,4 +340,21 @@ void main() {
       });
     });
   });
+
+  test('should be able to emit a closure', () {
+    var assertion = (new MethodBuilder()
+        ..addStatement(literalTrue.asReturnStatement()))
+        .toClosure()
+        .asAssert();
+    expect(
+      new MethodBuilder.returnVoid(name: 'main')..addStatement(assertion),
+      equalsSource(r'''
+        void main() {
+          assert(() {
+            return true;
+          });
+        }
+      '''),
+    );
+  });
 }

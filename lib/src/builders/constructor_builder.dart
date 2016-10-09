@@ -10,7 +10,10 @@ part of code_builder;
 class ConstructorBuilder implements CodeBuilder<ConstructorDeclaration> {
   final bool _isConstant;
   final String _name;
+
+  final List<AnnotationBuilder> _annotations = <AnnotationBuilder>[];
   final List<ParameterBuilder> _parameters = <ParameterBuilder>[];
+  final List<StatementBuilder> _statements = <StatementBuilder>[];
 
   /// Create a new builder for a constructor, optionally with a [name].
   factory ConstructorBuilder([String name]) {
@@ -26,6 +29,13 @@ class ConstructorBuilder implements CodeBuilder<ConstructorDeclaration> {
 
   ConstructorBuilder._(this._isConstant, this._name);
 
+  /// Lazily adds [annotation].
+  ///
+  /// When the method is emitted as an AST, [AnnotationBuilder.toAst] is used.
+  void addAnnotation(AnnotationBuilder annotation) {
+    _annotations.add(annotation);
+  }
+
   /// Lazily adds [builder].
   ///
   /// When the method is emitted as an AST, [ParameterBuilder.toAst] is used.
@@ -33,25 +43,34 @@ class ConstructorBuilder implements CodeBuilder<ConstructorDeclaration> {
     _parameters.add(builder);
   }
 
+  /// Lazily adds [statement].
+  ///
+  /// When the method is emitted as an AST, [StatementBuilder.toAst] is used.
+  void addStatement(StatementBuilder statement) {
+    _statements.add(statement);
+  }
+
   @override
   ConstructorDeclaration toAst([Scope scope = const Scope.identity()]) {
     var astNode = new ConstructorDeclaration(
-      null,
-      null,
-      null,
-      null,
-      _isConstant ? $const : null,
-      null,
-      null,
-      _name != null ? _stringIdentifier(_name) : null,
-      MethodBuilder._emptyParameters()
-        ..parameters.addAll(
-            _parameters.map/*<FormalParameter>*/((p) => p.toAst(scope))),
-      null,
-      null,
-      null,
-      new EmptyFunctionBody($semicolon),
-    );
+        null,
+        _annotations.map/*<Annotation>*/((a) => a.toAst(scope)),
+        null,
+        null,
+        _isConstant ? $const : null,
+        null,
+        null,
+        _name != null ? _stringIdentifier(_name) : null,
+        MethodBuilder._emptyParameters()
+          ..parameters.addAll(
+              _parameters.map/*<FormalParameter>*/((p) => p.toAst(scope))),
+        null,
+        null,
+        null,
+        _statements.isEmpty
+            ? new EmptyFunctionBody($semicolon)
+            : MethodBuilder._blockBody(
+                _statements.map/*<Statement>*/((s) => s.toAst(scope))));
     return astNode;
   }
 }

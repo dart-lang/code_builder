@@ -5,9 +5,11 @@
 import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/src/dart/ast/token.dart';
 
-// Keywords
 /// The `abstract` token.
 final Token $abstract = new KeywordToken(Keyword.ABSTRACT, 0);
+
+/// The `assert` token.
+final Token $assert = new KeywordToken(Keyword.ASSERT, 0);
 
 /// The `extends` token.
 final Token $extends = new KeywordToken(Keyword.EXTENDS, 0);
@@ -76,11 +78,17 @@ final Token $semicolon = new Token(TokenType.SEMICOLON, 0);
 /// The '=' token.
 final Token $equals = new Token(TokenType.EQ, 0);
 
+/// The `if` token.
+final Token $if = new KeywordToken(Keyword.IF, 0);
+
 /// The '??=' token.
 final Token $nullAwareEquals = new Token(TokenType.QUESTION_QUESTION_EQ, 0);
 
 /// The '.' token.
 final Token $period = new Token(TokenType.PERIOD, 0);
+
+/// The `return` token.
+final Token $return = new KeywordToken(Keyword.RETURN, 0);
 
 /// Returns a string token for the given string [s].
 StringToken stringToken(String s) => new StringToken(TokenType.STRING, s, 0);

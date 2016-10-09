@@ -19,7 +19,7 @@ class TypeBuilder implements CodeBuilder<TypeName> {
       : _importFrom = importFrom;
 
   @override
-  TypeName toAst([Scope scope = const Scope.identity()]) {
+  TypeName build([Scope scope = Scope.identity]) {
     return new TypeName(scope.getIdentifier(_identifier, _importFrom), null);
   }
 }

@@ -92,6 +92,9 @@ class MethodBuilder implements CodeBuilder<Declaration> {
   Declaration toAst([Scope scope = const Scope.identity()]) =>
       toFunctionAst(scope);
 
+  /// Returns as a closure expression.
+  ExpressionBuilder toClosure() => new _ClosureExpressionBuilder(this);
+
   /// Returns a copy-safe [FunctionDeclaration] AST representing current state.
   FunctionDeclaration toFunctionAst([Scope scope = const Scope.identity()]) {
     var functionAst = _emptyFunction()

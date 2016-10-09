@@ -18,6 +18,9 @@ part of code_builder;
 ///       print(scope.getIdentifier('Baz', 'package:bar/bar.dart');
 ///     }
 abstract class Scope {
+  /// A scoping context that does nothing.
+  static const identity = const _IdentityScope();
+
   /// Create a default scope context.
   ///
   /// Actual implementation is _not_ guaranteed, only that all import prefixes
@@ -26,9 +29,6 @@ abstract class Scope {
 
   /// Create a context that just de-duplicates imports (no scoping).
   factory Scope.dedupe() = _DeduplicatingScope;
-
-  /// Create a context that does nothing.
-  const factory Scope.identity() = _IdentityScope;
 
   /// Given a [symbol] and its known [importUri], return an [Identifier].
   Identifier getIdentifier(String symbol, String importUri);

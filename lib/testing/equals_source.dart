@@ -5,6 +5,7 @@
 import 'package:analyzer/analyzer.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:code_builder/src/tokens.dart';
+import 'package:dart_style/dart_style.dart';
 import 'package:matcher/matcher.dart';
 
 /// Returns identifiers that are just the file name.
@@ -19,21 +20,35 @@ const Scope simpleNameScope = const _SimpleNameScope();
 /// On failure, uses the default string matcher to show a detailed diff between
 /// the expected and actual source code results.
 ///
-/// **NOTE**: By default it both runs `dartfmt` _and_ prints the source with
-/// additional formatting over the default `Ast.toSource` implementation (i.e.
-/// adds new lines between methods in classes, and more).
-///
-/// If you have code that is not consider a valid compilation unit (like an
-/// expression, you should flip [format] to `false`).
+/// **NOTE**: Runs `dartfmt` _and_ prints the source with additional formatting
+/// over the default `Ast.toSource` implementation (i.e. adds new lines between
+/// methods in classes, and more).
 Matcher equalsSource(
   String source, {
-  bool format: true,
-  Scope scope: const Scope.identity(),
+  Scope scope: Scope.identity,
+}) {
+  try {
+    source = dartfmt(source);
+  } on FormatterException catch (_) {}
+  return new _EqualsSource(
+    scope,
+    source,
+  );
+}
+
+/// Returns a [Matcher] that checks a [CodeBuilder versus [source].
+///
+/// On failure, uses the default string matcher to show a detailed diff between
+/// the expected and actual source code results.
+///
+/// **NOTE**: Whitespace is ignored.
+Matcher equalsUnformatted(
+  String source, {
+  Scope scope: Scope.identity,
 }) {
   return new _EqualsSource(
     scope,
-    format ? dartfmt(source) : source,
-    format,
+    source,
   );
 }
 
@@ -42,9 +57,8 @@ Identifier _stringId(String s) => new SimpleIdentifier(stringToken(s));
 class _EqualsSource extends Matcher {
   final Scope _scope;
   final String _source;
-  final bool _isFormatted;
 
-  _EqualsSource(this._scope, this._source, this._isFormatted);
+  _EqualsSource(this._scope, this._source);
 
   @override
   Description describe(Description description) {
@@ -60,8 +74,7 @@ class _EqualsSource extends Matcher {
   ) {
     if (item is CodeBuilder) {
       var origin = _formatAst(item);
-      print(origin);
-      return equals(_source).describeMismatch(
+      return equalsIgnoringWhitespace(_source).describeMismatch(
         origin,
         mismatchDescription.addDescriptionOf(origin),
         matchState,
@@ -75,18 +88,14 @@ class _EqualsSource extends Matcher {
   @override
   bool matches(item, _) {
     if (item is CodeBuilder) {
-      return _formatAst(item) == _source;
+      return equalsIgnoringWhitespace(_formatAst(item)).matches(_source, {});
     }
     return false;
   }
 
   String _formatAst(CodeBuilder builder) {
-    var astNode = builder.toAst(_scope);
-    if (_isFormatted) {
-      return prettyToSource(astNode);
-    } else {
-      return astNode.toSource();
-    }
+    var astNode = builder.build(_scope);
+    return prettyToSource(astNode);
   }
 }
 

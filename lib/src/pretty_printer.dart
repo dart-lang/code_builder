@@ -14,7 +14,12 @@ String prettyToSource(AstNode astNode) {
   var buffer = new PrintBuffer();
   var visitor = new _PrettyToSourceVisitor(buffer);
   astNode.accept(visitor);
-  return dartfmt(buffer.toString());
+  var source = buffer.toString();
+  try {
+    return dartfmt(source);
+  } on FormatterException catch (_) {
+    return source;
+  }
 }
 
 // TODO(matanl): Remove copied-pasted methods when API becomes available.
