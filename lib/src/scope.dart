@@ -34,7 +34,7 @@ abstract class Scope {
   Identifier getIdentifier(String symbol, String importUri);
 
   /// Returns a list of all imports needed to resolve identifiers.
-  Iterable<ImportBuilder> getImports();
+  Iterable< /*ImportBuilder*/ dynamic> getImports();
 }
 
 class _DeduplicatingScope implements Scope {
@@ -47,8 +47,9 @@ class _DeduplicatingScope implements Scope {
   }
 
   @override
-  Iterable<ImportBuilder> getImports() {
-    return _imports.map/*<ImportBuilder*/((i) => new ImportBuilder(i));
+  Iterable< /*ImportBuilder*/ dynamic> getImports() {
+    return _imports
+        .map/*<ImportBuilder*/((i) => new /*ImportBuilder*/ dynamic(i));
   }
 }
 
@@ -59,7 +60,7 @@ class _IdentityScope implements Scope {
   Identifier getIdentifier(String symbol, _) => _stringIdentifier(symbol);
 
   @override
-  Iterable<ImportBuilder> getImports() => const [];
+  Iterable< /*ImportBuilder*/ dynamic> getImports() => const [];
 }
 
 class _IncrementingScope implements Scope {
@@ -75,8 +76,8 @@ class _IncrementingScope implements Scope {
   }
 
   @override
-  Iterable<ImportBuilder> getImports() {
+  Iterable< /*ImportBuilder*/ dynamic> getImports() {
     return _imports.keys.map/*<ImportBuilder*/(
-        (i) => new ImportBuilder(i, prefix: '_i${_imports[i]}'));
+        (i) => new /*ImportBuilder*/ dynamic(i, prefix: '_i${_imports[i]}'));
   }
 }

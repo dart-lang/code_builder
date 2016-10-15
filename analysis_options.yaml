@@ -15,7 +15,7 @@ linter:
     - valid_regexps
     - always_declare_return_types
     - annotate_overrides
-    - avoid_as
+    # - avoid_as
     - avoid_init_to_null
     - avoid_return_types_on_setters
     - await_only_futures

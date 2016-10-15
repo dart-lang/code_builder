@@ -72,7 +72,7 @@ class _EqualsSource extends Matcher {
     Map matchState,
     bool verbose,
   ) {
-    if (item is CodeBuilder) {
+    if (item is AstBuilder) {
       var origin = _formatAst(item);
       return equalsIgnoringWhitespace(_source).describeMismatch(
         origin,
@@ -87,14 +87,14 @@ class _EqualsSource extends Matcher {
 
   @override
   bool matches(item, _) {
-    if (item is CodeBuilder) {
+    if (item is AstBuilder) {
       return equalsIgnoringWhitespace(_formatAst(item)).matches(_source, {});
     }
     return false;
   }
 
-  String _formatAst(CodeBuilder builder) {
-    var astNode = builder.build(_scope);
+  String _formatAst(AstBuilder builder) {
+    var astNode = builder.buildAst(_scope);
     return prettyToSource(astNode);
   }
 }
@@ -118,5 +118,5 @@ class _SimpleNameScope implements Scope {
   }
 
   @override
-  Iterable<ImportBuilder> getImports() => const [];
+  Iterable< /*ImportBuilder*/ dynamic> getImports() => const [];
 }

@@ -9,118 +9,126 @@
 /// to be automatically generated (at least partially) in the near future.
 library code_builder.dart.core;
 
-import 'package:code_builder/code_builder.dart';
+import 'package:code_builder/src/builders/annotation.dart';
+import 'package:code_builder/src/builders/reference.dart';
+import 'package:code_builder/src/builders/type.dart';
 
 /// An alias for `new AnnotationBuilder('override')`.
-const AnnotationBuilder atOverride = const AnnotationBuilder.reference(
+final ReferenceBuilder atOverride = reference(
   'override',
   'dart:core',
 );
 
+/// A reference to the `print` method.
+final ReferenceBuilder printMethod = reference(
+  'print',
+  'dart:core',
+);
+
 /// An alias for `new TypeBuilder('bool')`.
-const TypeBuilder typeBool = const TypeBuilder(
+final TypeBuilder typeBool = new TypeBuilder(
   'bool',
   importFrom: 'dart:core',
 );
 
 /// An alias for `new TypeBuilder('DateTime')`.
-const TypeBuilder typeDateTime = const TypeBuilder(
+final TypeBuilder typeDateTime = new TypeBuilder(
   'DateTime',
   importFrom: 'dart:core',
 );
 
 /// An alias for `new TypeBuilder('double')`.
-const TypeBuilder typeDouble = const TypeBuilder(
+final TypeBuilder typeDouble = new TypeBuilder(
   'double',
   importFrom: 'dart:core',
 );
 
 /// An alias for `new TypeBuilder('Duration')`.
-const TypeBuilder typeDuration = const TypeBuilder(
+final TypeBuilder typeDuration = new TypeBuilder(
   'Duration',
   importFrom: 'dart:core',
 );
 
 /// An alias for `new TypeBuilder('Expando')`.
-const TypeBuilder typeExpando = const TypeBuilder(
+final TypeBuilder typeExpando = new TypeBuilder(
   'Expando',
   importFrom: 'dart:core',
 );
 
 /// An alias for `const  TypeBuilder('Function')`.
-const TypeBuilder typeFunction = const TypeBuilder(
+final TypeBuilder typeFunction = new TypeBuilder(
   'Function',
   importFrom: 'dart:core',
 );
 
 /// An alias for `const  TypeBuilder('int')`.
-const TypeBuilder typeInt = const TypeBuilder(
+final TypeBuilder typeInt = new TypeBuilder(
   'int',
   importFrom: 'dart:core',
 );
 
 /// An alias for `const  TypeBuilder('Iterable')`.
-const TypeBuilder typeIterable = const TypeBuilder(
+final TypeBuilder typeIterable = new TypeBuilder(
   'Iterable',
   importFrom: 'dart:core',
 );
 
 /// An alias for `const  TypeBuilder('List')`.
-const TypeBuilder typeList = const TypeBuilder(
+final TypeBuilder typeList = new TypeBuilder(
   'List',
   importFrom: 'dart:core',
 );
 
 /// An alias for `const  TypeBuilder('Map')`.
-const TypeBuilder typeMap = const TypeBuilder(
+final TypeBuilder typeMap = new TypeBuilder(
   'Map',
   importFrom: 'dart:core',
 );
 
 /// An alias for `const  TypeBuilder('Null')`.
-const TypeBuilder typeNull = const TypeBuilder(
+final TypeBuilder typeNull = new TypeBuilder(
   'Null',
   importFrom: 'dart:core',
 );
 
 /// An alias for `const  TypeBuilder('num')`.
-const TypeBuilder typeNum = const TypeBuilder(
+final TypeBuilder typeNum = new TypeBuilder(
   'num',
   importFrom: 'dart:core',
 );
 
 /// An alias for `const  TypeBuilder('Object')`.
-const TypeBuilder typeObject = const TypeBuilder(
+final TypeBuilder typeObject = new TypeBuilder(
   'Object',
   importFrom: 'dart:core',
 );
 
 /// An alias for `const  TypeBuilder('Set')`.
-const TypeBuilder typeSet = const TypeBuilder(
+final TypeBuilder typeSet = new TypeBuilder(
   'Set',
   importFrom: 'dart:core',
 );
 
 /// An alias for `const  TypeBuilder('String')`.
-const TypeBuilder typeString = const TypeBuilder(
+final TypeBuilder typeString = new TypeBuilder(
   'String',
   importFrom: 'dart:core',
 );
 
 /// An alias for `const  TypeBuilder('Symbol')`.
-const TypeBuilder typeSymbol = const TypeBuilder(
+final TypeBuilder typeSymbol = new TypeBuilder(
   'Symbol',
   importFrom: 'dart:core',
 );
 
 /// An alias for `const  TypeBuilder('Type')`.
-const TypeBuilder typeType = const TypeBuilder(
+final TypeBuilder typeType = new TypeBuilder(
   'Type',
   importFrom: 'dart:core',
 );
 
 /// An alias for `const  TypeBuilder('Uri')`.
-const TypeBuilder typeUri = const TypeBuilder(
+final TypeBuilder typeUri = new TypeBuilder(
   'Uri',
   importFrom: 'dart:core',
 );
@@ -128,10 +136,7 @@ const TypeBuilder typeUri = const TypeBuilder(
 /// Creates either a `@deprecated` or `@Deprecated('Message')` annotation.
 AnnotationBuilder atDeprecated([String message]) {
   if (message == null) {
-    return new AnnotationBuilder.reference('deprecated', 'dart:core');
+    return reference('deprecated', 'dart:core');
   }
-  return new AnnotationBuilder.invoke(
-    'Deprecated',
-    positional: [new LiteralString(message)],
-  );
+  throw new UnimplementedError();
 }
