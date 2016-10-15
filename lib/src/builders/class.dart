@@ -1,48 +1,54 @@
-library code_builder.src.builders.clazz;
-
 import 'package:analyzer/analyzer.dart';
-import 'package:code_builder/code_builder.dart';
+import 'package:code_builder/src/builders/annotation.dart';
 import 'package:code_builder/src/builders/shared.dart';
-import 'package:code_builder/src/tokens.dart';
 
-part 'class/constructor.dart';
-
-/// Returns a new [ClassBuilder].
-///
-/// Shorthand for `new ClassBuilder` for more functional aficionados.
-ClassBuilder clazz(String name, [Iterable<AstBuilder> members = const []]) {
+/// A more short-hand way of constructing a [ClassBuilder].
+ClassBuilder clazz(
+  String name, [
+  Iterable<ValidClassMember> members = const [],
+]) {
   final clazz = new ClassBuilder(name);
   for (final member in members) {
     if (member is AnnotationBuilder) {
       clazz.addAnnotation(member);
+    } else {
+      throw new StateError('Invalid AST type: ${member.runtimeType}');
     }
   }
   return clazz;
 }
 
-/// Builds a [ClassDeclaration] AST.
-class ClassBuilder implements AstBuilder {
-  final List<AnnotationBuilder> _annotations = <AnnotationBuilder>[];
+/// Lazily builds an [ClassDeclaration] AST when [buildClass] is invoked.
+abstract class ClassBuilder
+    implements AstBuilder<ClassDeclaration>, HasAnnotations {
+  /// Returns a new [ClassBuilder] with [name].
+  factory ClassBuilder(String name) = _ClassBuilderImpl;
+
+  /// Returns an [ClassDeclaration] AST representing the builder.
+  ClassDeclaration buildClass([Scope scope]);
+}
+
+/// A marker interface for an AST that could be added to [ClassBuilder].
+abstract class ValidClassMember implements AstBuilder {}
+
+class _ClassBuilderImpl extends Object
+    with HasAnnotationsMixin
+    implements ClassBuilder {
   final String _name;
 
-  /// Create a new `class`.
-  ClassBuilder(this._name);
-
-  /// Adds [annotation].
-  void addAnnotation(AnnotationBuilder annotation) {
-    _annotations.add(annotation);
-  }
+  _ClassBuilderImpl(this._name);
 
   @override
-  AstNode buildAst([Scope scope = Scope.identity]) {
+  ClassDeclaration buildAst([Scope scope]) => buildClass(scope);
+
+  @override
+  ClassDeclaration buildClass([Scope scope]) {
     return new ClassDeclaration(
       null,
-      _annotations
-          .map/*<Annotation>*/((a) => a.buildAnnotation(scope))
-          .toList(),
+      buildAnnotations(scope),
       null,
-      $class,
-      new SimpleIdentifier(stringToken(_name)),
+      null,
+      stringIdentifier(_name),
       null,
       null,
       null,

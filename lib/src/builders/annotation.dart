@@ -1,14 +1,41 @@
 import 'package:analyzer/analyzer.dart';
-import 'package:code_builder/code_builder.dart';
+import 'package:code_builder/src/builders/class.dart';
 import 'package:code_builder/src/builders/shared.dart';
 
-/// Returns a new [AnnotationBuilder] referencing [identifier].
-AnnotationBuilder annotation(String identifier, [String importFrom]) {
-  return reference(identifier, importFrom);
+/// Lazily builds an [Annotation] AST when [buildAnnotation] is invoked.
+abstract class AnnotationBuilder implements ValidClassMember {
+  /// Returns an [Annotation] AST representing the builder.
+  Annotation buildAnnotation([Scope scope]);
 }
 
-/// Builds an [Annotation] AST.
-abstract class AnnotationBuilder implements AstBuilder, ValidParameterMember {
-  /// Returns as an [Annotation] AST.
-  Annotation buildAnnotation([Scope scope = Scope.identity]);
+/// An [AstBuilder] that can be annotated with [AnnotationBuilder].
+abstract class HasAnnotations implements AstBuilder {
+  /// Adds [annotation] to the builder.
+  void addAnnotation(AnnotationBuilder annotation);
+
+  /// Adds [annotations] to the builder.
+  void addAnnotations(Iterable<AnnotationBuilder> annotations);
+}
+
+/// Implements [HasAnnotations].
+abstract class HasAnnotationsMixin extends HasAnnotations {
+  final List<AnnotationBuilder> _annotations = <AnnotationBuilder> [];
+
+  @override
+  void addAnnotation(AnnotationBuilder annotation) {
+    _annotations.add(annotation);
+  }
+
+  @override
+  void addAnnotations(Iterable<AnnotationBuilder> annotations) {
+    _annotations.addAll(annotations);
+  }
+
+  /// Clones all annotations to [clone].
+  void cloneAnnotationsTo(HasAnnotations clone) {
+    clone.addAnnotations(_annotations);
+  }
+
+  /// Returns a [List] of all built [Annotation]s.
+  List<Annotation> buildAnnotations([Scope scope]) => _annotations.map/*<Annotation>*/((a) => a.buildAnnotation(scope)).toList();
 }
