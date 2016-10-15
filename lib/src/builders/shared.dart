@@ -3,8 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:analyzer/analyzer.dart';
-import 'package:analyzer/dart/ast/token.dart';
-import 'package:analyzer/src/dart/ast/token.dart';
+import 'package:code_builder/src/tokens.dart';
 
 /// Lazily builds an analyzer [AstNode] when [buildAst] is invoked.
 ///
@@ -42,9 +41,6 @@ class _IdentityScope implements Scope {
 Identifier stringIdentifier(String value) => new SimpleIdentifier(
   stringToken(value),
 );
-
-/// Returns a string [Token] from [value].
-Token stringToken(String value) => new StringToken(TokenType.STRING, value, 0);
 
 /// Returns an [Identifier] for [name] via [scope].
 ///
