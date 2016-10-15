@@ -23,7 +23,7 @@ abstract class HasAnnotations implements AstBuilder {
 
 /// Implements [HasAnnotations].
 abstract class HasAnnotationsMixin extends HasAnnotations {
-  final List<AnnotationBuilder> _annotations = <AnnotationBuilder> [];
+  final List<AnnotationBuilder> _annotations = <AnnotationBuilder>[];
 
   @override
   void addAnnotation(AnnotationBuilder annotation) {
@@ -41,5 +41,7 @@ abstract class HasAnnotationsMixin extends HasAnnotations {
   }
 
   /// Returns a [List] of all built [Annotation]s.
-  List<Annotation> buildAnnotations([Scope scope]) => _annotations.map/*<Annotation>*/((a) => a.buildAnnotation(scope)).toList();
+  List<Annotation> buildAnnotations([Scope scope]) => _annotations
+      .map/*<Annotation>*/((a) => a.buildAnnotation(scope))
+      .toList();
 }

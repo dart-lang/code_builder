@@ -14,6 +14,9 @@ final Token $assert = new KeywordToken(Keyword.ASSERT, 0);
 /// The `class` token.
 final Token $class = new KeywordToken(Keyword.CLASS, 0);
 
+/// The `const` token.
+final Token $const = new KeywordToken(Keyword.CONST, 0);
+
 /// The `extends` token.
 final Token $extends = new KeywordToken(Keyword.EXTENDS, 0);
 
@@ -28,9 +31,6 @@ final Token $static = new KeywordToken(Keyword.STATIC, 0);
 
 /// The `final` token.
 final Token $final = new KeywordToken(Keyword.FINAL, 0);
-
-/// The `const` token.
-final Token $const = new KeywordToken(Keyword.CONST, 0);
 
 /// The `var` token.
 final Token $var = new KeywordToken(Keyword.VAR, 0);
@@ -75,6 +75,12 @@ final Token $openCurly = new Token(TokenType.OPEN_CURLY_BRACKET, 0);
 
 /// The '}' token.
 final Token $closeCurly = new Token(TokenType.CLOSE_CURLY_BRACKET, 0);
+
+/// The '[` token.
+final Token $openBracket = new Token(TokenType.OPEN_SQUARE_BRACKET, 0);
+
+/// The `]` token.
+final Token $closeBracket = new Token(TokenType.CLOSE_SQUARE_BRACKET, 0);
 
 /// The `>` token.
 final Token $gt = new Token(TokenType.GT, 0);

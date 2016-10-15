@@ -39,8 +39,8 @@ class _IdentityScope implements Scope {
 
 /// Returns a string [Literal] from [value].
 Identifier stringIdentifier(String value) => new SimpleIdentifier(
-  stringToken(value),
-);
+      stringToken(value),
+    );
 
 /// Returns an [Identifier] for [name] via [scope].
 ///

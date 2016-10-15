@@ -13,7 +13,7 @@ abstract class StatementBuilder implements AstBuilder {
 
 /// An [AstBuilder] that can add [StatementBuilder].
 abstract class HasStatements implements AstBuilder {
-  final List<StatementBuilder> _statements = <StatementBuilder> [];
+  final List<StatementBuilder> _statements = <StatementBuilder>[];
 
   /// Adds [statement] to the builder.
   void addStatement(StatementBuilder statement) {
@@ -34,5 +34,6 @@ abstract class HasStatementsMixin extends HasStatements {
   }
 
   /// Returns a [List] of all built [Statement]s.
-  List<Statement> buildStatements([Scope scope]) => _statements.map/*<Statement>*/((e) => e.buildStatement(scope)).toList();
+  List<Statement> buildStatements([Scope scope]) =>
+      _statements.map/*<Statement>*/((e) => e.buildStatement(scope)).toList();
 }

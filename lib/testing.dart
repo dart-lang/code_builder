@@ -2,9 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:analyzer/analyzer.dart';
 import 'package:code_builder/code_builder.dart';
-import 'package:code_builder/src/tokens.dart';
 import 'package:dart_style/dart_style.dart';
 import 'package:matcher/matcher.dart';
 
@@ -17,16 +15,16 @@ import 'package:matcher/matcher.dart';
 /// over the default `Ast.toSource` implementation (i.e. adds new lines between
 /// methods in classes, and more).
 Matcher equalsSource(
-    String source, {
-    Scope scope: Scope.identity,
-    }) {
+  String source, {
+  Scope scope: Scope.identity,
+}) {
   try {
     source = dartfmt(source);
   } on FormatterException catch (_) {}
   return new _EqualsSource(
-      scope,
-      source,
-      );
+    scope,
+    source,
+  );
 }
 
 /// Returns a [Matcher] that checks a [CodeBuilder versus [source].
@@ -36,13 +34,13 @@ Matcher equalsSource(
 ///
 /// **NOTE**: Whitespace is ignored.
 Matcher equalsUnformatted(
-    String source, {
-    Scope scope: Scope.identity,
-    }) {
+  String source, {
+  Scope scope: Scope.identity,
+}) {
   return new _EqualsSource(
-      scope,
-      source,
-      );
+    scope,
+    source,
+  );
 }
 
 class _EqualsSource extends Matcher {
@@ -58,19 +56,19 @@ class _EqualsSource extends Matcher {
 
   @override
   Description describeMismatch(
-      item,
-      Description mismatchDescription,
-      Map matchState,
-      bool verbose,
-      ) {
+    item,
+    Description mismatchDescription,
+    Map matchState,
+    bool verbose,
+  ) {
     if (item is AstBuilder) {
       var origin = _formatAst(item);
       return equalsIgnoringWhitespace(_source).describeMismatch(
-          origin,
-          mismatchDescription.addDescriptionOf(origin),
-          matchState,
-          verbose,
-          );
+        origin,
+        mismatchDescription.addDescriptionOf(origin),
+        matchState,
+        verbose,
+      );
     } else {
       return mismatchDescription.add('$item is not a CodeBuilder');
     }
@@ -86,6 +84,6 @@ class _EqualsSource extends Matcher {
 
   String _formatAst(AstBuilder builder) {
     var astNode = builder.buildAst(_scope);
-    return prettyToSource(astNode);
+    return /*prettyToSource(astNode)*/ astNode.toSource();
   }
 }
