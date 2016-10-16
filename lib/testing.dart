@@ -6,6 +6,8 @@ import 'package:code_builder/code_builder.dart';
 import 'package:dart_style/dart_style.dart';
 import 'package:matcher/matcher.dart';
 
+import 'src/pretty_printer.dart';
+
 /// Returns a [Matcher] that checks an [AstBuilder] versus [source].
 ///
 /// On failure, uses the default string matcher to show a detailed diff between
@@ -84,6 +86,6 @@ class _EqualsSource extends Matcher {
 
   String _formatAst(AstBuilder builder) {
     var astNode = builder.buildAst(_scope);
-    return /*prettyToSource(astNode)*/ astNode.toSource();
+    return prettyToSource(astNode);
   }
 }

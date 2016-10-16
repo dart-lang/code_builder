@@ -3,6 +3,11 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:analyzer/analyzer.dart';
+import 'package:analyzer/dart/ast/token.dart';
+import 'package:code_builder/code_builder.dart';
+import 'package:dart_style/dart_style.dart';
+
+import 'analyzer_patch.dart';
 
 /// Augments [AstNode.toSource] by adding some whitespace/line breaks.
 ///

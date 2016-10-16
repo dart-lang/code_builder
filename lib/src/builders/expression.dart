@@ -5,11 +5,12 @@
 import 'package:analyzer/analyzer.dart';
 import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/src/dart/ast/token.dart';
+import 'package:code_builder/src/builders/parameter.dart';
 import 'package:code_builder/src/builders/shared.dart';
 import 'package:code_builder/src/tokens.dart';
 
 /// Lazily builds an [Expression] AST when [buildExpression] is invoked.
-abstract class ExpressionBuilder implements AstBuilder {
+abstract class ExpressionBuilder implements AstBuilder, ValidParameterMember {
   /// Returns an [Expression] AST representing the builder.
   Expression buildExpression([Scope scope]);
 }

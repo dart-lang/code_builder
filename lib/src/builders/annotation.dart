@@ -4,10 +4,12 @@
 
 import 'package:analyzer/analyzer.dart';
 import 'package:code_builder/src/builders/class.dart';
+import 'package:code_builder/src/builders/parameter.dart';
 import 'package:code_builder/src/builders/shared.dart';
 
 /// Lazily builds an [Annotation] AST when [buildAnnotation] is invoked.
-abstract class AnnotationBuilder implements ValidClassMember {
+abstract class AnnotationBuilder
+    implements ValidClassMember, ValidParameterMember {
   /// Returns an [Annotation] AST representing the builder.
   Annotation buildAnnotation([Scope scope]);
 }
