@@ -11,9 +11,9 @@ export 'src/builders/class.dart'
 export 'src/builders/expression.dart' show literal, ExpressionBuilder;
 export 'src/builders/method.dart' show constructor, constructorNamed, fieldFormal, method, named, ConstructorBuilder, MethodBuilder;
 export 'src/builders/parameter.dart' show parameter, ParameterBuilder;
-export 'src/builders/reference.dart' show reference, ReferenceBuilder;
+export 'src/builders/reference.dart' show explicitThis, reference, ReferenceBuilder;
 export 'src/builders/shared.dart' show AstBuilder, Scope;
-export 'src/builders/statement.dart' show StatementBuilder;
+export 'src/builders/statement.dart' show ifThen, elseIf, elseThen, IfStatementBuilder, StatementBuilder;
 
 final _dartFmt = new DartFormatter();
 

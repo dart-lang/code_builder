@@ -61,7 +61,7 @@ abstract class MethodBuilder implements HasAnnotations, HasParameters {
 
   /// Creates a new [MethodBuilder] that returns `void`.
   factory MethodBuilder.returnVoid(String name) {
-    return new _MethodBuilderImpl(name, returns: core.Void);
+    return new _MethodBuilderImpl(name, returns: core.$void);
   }
 
   /// Returns a [FunctionDeclaration] AST representing the builder.

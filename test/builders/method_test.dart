@@ -20,7 +20,7 @@ void main() {
   test('should emit a top-level void main() function', () {
     expect(
       method('main', [
-        core.Void,
+        core.$void,
       ]),
       equalsSource(r'''
         void main();

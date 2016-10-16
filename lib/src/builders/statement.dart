@@ -4,36 +4,59 @@
 
 import 'package:analyzer/analyzer.dart';
 import 'package:code_builder/src/builders/shared.dart';
+import 'package:code_builder/src/builders/statement/if.dart';
+import 'package:code_builder/src/tokens.dart';
+
+export 'package:code_builder/src/builders/statement/if.dart'
+   show IfStatementBuilder, elseIf, elseThen, ifThen;
 
 /// Lazily builds an [Statement] AST when [buildStatement] is invoked.
-abstract class StatementBuilder implements AstBuilder {
+abstract class StatementBuilder implements AstBuilder, ValidIfStatementMember {
   /// Returns an [Statement] AST representing the builder.
   Statement buildStatement([Scope scope]);
 }
 
 /// An [AstBuilder] that can add [StatementBuilder].
 abstract class HasStatements implements AstBuilder {
-  final List<StatementBuilder> _statements = <StatementBuilder>[];
-
   /// Adds [statement] to the builder.
-  void addStatement(StatementBuilder statement) {
-    _statements.add(statement);
-  }
+  void addStatement(StatementBuilder statement);
 
   /// Adds [statements] to the builder.
-  void addStatements(Iterable<StatementBuilder> statements) {
-    _statements.addAll(statements);
-  }
+  void addStatements(Iterable<StatementBuilder> statements);
 }
 
 /// Implements [HasStatements].
 abstract class HasStatementsMixin extends HasStatements {
+  final List<StatementBuilder> _statements = <StatementBuilder>[];
+
+  @override
+  void addStatement(StatementBuilder statement) {
+    _statements.add(statement);
+  }
+
+  @override
+  void addStatements(Iterable<StatementBuilder> statements) {
+    _statements.addAll(statements);
+  }
+
   /// Clones all expressions to [clone].
   void cloneStatementsTo(HasStatements clone) {
     clone.addStatements(_statements);
   }
 
+  /// Returns a [Block] statement.
+  Block buildBlock([Scope scope]) {
+    return new Block(
+      $openCurly,
+      buildStatements(scope),
+      $closeCurly,
+    );
+  }
+
   /// Returns a [List] of all built [Statement]s.
-  List<Statement> buildStatements([Scope scope]) =>
-      _statements.map/*<Statement>*/((e) => e.buildStatement(scope)).toList();
+  List<Statement> buildStatements([Scope scope]) {
+    return _statements
+        .map/*<Statement>*/((e) => e.buildStatement(scope))
+        .toList();
+  }
 }

@@ -118,8 +118,17 @@ final Token $notEquals = new Token(TokenType.BANG_EQ, 0);
 /// The '.' token.
 final Token $period = new Token(TokenType.PERIOD, 0);
 
-/// The '+' token.
+/// The `+` token.
 final Token $plus = new Token(TokenType.PLUS, 0);
+
+/// The `-` token.
+final Token $minus = new Token(TokenType.MINUS, 0);
+
+/// The `*` token.
+final Token $multiply = new Token(TokenType.STAR, 0);
+
+/// The `/` token.
+final Token $divide = new Token(TokenType.SLASH, 0);
 
 /// The `return` token.
 final Token $return = new KeywordToken(Keyword.RETURN, 0);

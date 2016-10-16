@@ -4,9 +4,13 @@
 
 import 'package:analyzer/analyzer.dart';
 import 'package:code_builder/src/builders/annotation.dart';
+import 'package:code_builder/src/builders/expression.dart';
 import 'package:code_builder/src/builders/shared.dart';
 import 'package:code_builder/src/builders/type.dart';
 import 'package:code_builder/src/tokens.dart';
+
+/// An explicit reference to `this`.
+final ReferenceBuilder explicitThis = reference('this');
 
 /// Creates a reference called [name].
 ReferenceBuilder reference(String name, [String importUri]) {
@@ -14,7 +18,9 @@ ReferenceBuilder reference(String name, [String importUri]) {
 }
 
 /// An abstract way of representing other types of [AstBuilder].
-class ReferenceBuilder implements AnnotationBuilder, TypeBuilder {
+class ReferenceBuilder extends Object
+    with AbstractExpressionMixin
+    implements AnnotationBuilder, ExpressionBuilder, TypeBuilder {
   final String _importFrom;
   final String _name;
 
@@ -33,6 +39,15 @@ class ReferenceBuilder implements AnnotationBuilder, TypeBuilder {
 
   @override
   AstNode buildAst([Scope scope]) => throw new UnimplementedError();
+
+  @override
+  Expression buildExpression([Scope scope]) {
+    return getIdentifier(
+      scope,
+      _name,
+      _importFrom != null ? Uri.parse(_importFrom) : null,
+    );
+  }
 
   @override
   TypeName buildType([Scope scope]) {
