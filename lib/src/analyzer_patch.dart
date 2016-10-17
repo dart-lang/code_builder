@@ -11,9 +11,6 @@ class PrintBuffer implements PrintWriter, StringBuffer {
   final StringBuffer _impl = new StringBuffer();
 
   @override
-  void clear() {}
-
-  @override
   bool get isEmpty => _impl.isEmpty;
 
   @override
@@ -21,6 +18,9 @@ class PrintBuffer implements PrintWriter, StringBuffer {
 
   @override
   int get length => _impl.length;
+
+  @override
+  void clear() {}
 
   @override
   void newLine() {
@@ -41,6 +41,9 @@ class PrintBuffer implements PrintWriter, StringBuffer {
   }
 
   @override
+  String toString() => _impl.toString();
+
+  @override
   void write(Object obj) {
     _impl.write(obj);
   }
@@ -59,7 +62,4 @@ class PrintBuffer implements PrintWriter, StringBuffer {
   void writeln([Object obj = ""]) {
     _impl.writeln(obj);
   }
-
-  @override
-  String toString() => _impl.toString();
 }

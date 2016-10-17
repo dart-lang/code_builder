@@ -7,13 +7,31 @@ import 'package:meta/meta.dart';
 
 export 'src/builders/annotation.dart' show AnnotationBuilder;
 export 'src/builders/class.dart'
-    show clazz, extend, implement, mixin, ClassBuilder;
-export 'src/builders/expression.dart' show literal, ExpressionBuilder;
-export 'src/builders/method.dart' show constructor, constructorNamed, fieldFormal, method, named, ConstructorBuilder, MethodBuilder;
+    show asStatic, clazz, extend, implement, mixin, ClassBuilder;
+export 'src/builders/expression.dart'
+    show literal, ExpressionBuilder, InvocationBuilder;
+export 'src/builders/field.dart'
+    show varConst, varField, varFinal, FieldBuilder;
+export 'src/builders/method.dart'
+    show
+        constructor,
+        constructorNamed,
+        getter,
+        setter,
+        thisField,
+        lambda,
+        method,
+        named,
+        ConstructorBuilder,
+        MethodBuilder,
+        ValidMethodMember;
 export 'src/builders/parameter.dart' show parameter, ParameterBuilder;
-export 'src/builders/reference.dart' show explicitThis, reference, ReferenceBuilder;
+export 'src/builders/reference.dart'
+    show explicitThis, reference, ReferenceBuilder;
 export 'src/builders/shared.dart' show AstBuilder, Scope;
-export 'src/builders/statement.dart' show ifThen, elseIf, elseThen, IfStatementBuilder, StatementBuilder;
+export 'src/builders/statement.dart'
+    show ifThen, elseIf, elseThen, IfStatementBuilder, StatementBuilder;
+export 'src/builders/type.dart' show NewInstanceBuilder, TypeBuilder;
 
 final _dartFmt = new DartFormatter();
 

@@ -5,6 +5,18 @@
 import 'package:analyzer/analyzer.dart';
 import 'package:code_builder/src/tokens.dart';
 
+/// Returns an [Identifier] for [name] via [scope].
+///
+/// If [scope] is `null`, automatically uses [Scope.identity].
+Identifier getIdentifier(Scope scope, String name, [Uri importFrom]) {
+  return (scope ?? Scope.identity).getIdentifier(name, importFrom);
+}
+
+/// Returns a string [Literal] from [value].
+Identifier stringIdentifier(String value) => new SimpleIdentifier(
+      stringToken(value),
+    );
+
 /// Lazily builds an analyzer [AstNode] when [buildAst] is invoked.
 ///
 /// Most builders should also have specific typed methods for returning their
@@ -35,16 +47,4 @@ class _IdentityScope implements Scope {
 
   @override
   Identifier getIdentifier(String name, [_]) => stringIdentifier(name);
-}
-
-/// Returns a string [Literal] from [value].
-Identifier stringIdentifier(String value) => new SimpleIdentifier(
-      stringToken(value),
-    );
-
-/// Returns an [Identifier] for [name] via [scope].
-///
-/// If [scope] is `null`, automatically uses [Scope.identity].
-Identifier getIdentifier(Scope scope, String name, [Uri importFrom]) {
-  return (scope ?? Scope.identity).getIdentifier(name, importFrom);
 }

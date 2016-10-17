@@ -5,6 +5,7 @@
 import 'package:analyzer/analyzer.dart';
 import 'package:code_builder/dart/core.dart';
 import 'package:code_builder/src/builders/annotation.dart';
+import 'package:code_builder/src/builders/field.dart';
 import 'package:code_builder/src/builders/method.dart';
 import 'package:code_builder/src/builders/shared.dart';
 import 'package:code_builder/src/builders/type.dart';
@@ -29,11 +30,37 @@ ClassBuilder clazz(
       }
     } else if (member is ConstructorBuilder) {
       clazz.addConstructor(member);
+    } else if (member is _StaticFieldWrapper) {
+      var wrapped = (member as _StaticFieldWrapper)._member;
+      if (wrapped is MethodBuilder) {
+        clazz.addMethod(wrapped as MethodBuilder, asStatic: true);
+      } else {
+        clazz.addField(wrapped as FieldBuilder, asStatic: true);
+      }
+    } else if (member is FieldBuilder) {
+      clazz.addField(member);
+    } else if (member is MethodBuilder) {
+      clazz.addMethod(member as MethodBuilder);
     } else {
       throw new StateError('Invalid AST type: ${member.runtimeType}');
     }
   }
   return clazz;
+}
+
+/// Wrap [member] to be emitted as a `static` method or field.
+_StaticFieldWrapper asStatic(ValidClassMember member) {
+  return new _StaticFieldWrapper(member);
+}
+
+class _StaticFieldWrapper implements ValidClassMember {
+  final ValidClassMember _member;
+
+  _StaticFieldWrapper(this._member);
+
+  @override
+  AstNode buildAst([Scope scope]) =>
+      throw new UnsupportedError('Use inside varField');
 }
 
 /// Returns a wrapper around [type] for use with [clazz].
@@ -60,29 +87,9 @@ _TypeNameWrapper mixin(TypeBuilder type) {
   );
 }
 
-class _TypeNameWrapper implements ValidClassMember {
-  final bool extend;
-  final bool implement;
-  final bool mixin;
-  final TypeBuilder type;
-
-  _TypeNameWrapper(
-    this.type, {
-    this.extend: false,
-    this.implement: false,
-    this.mixin: false,
-  });
-
-  @override
-  AstNode buildAst([_]) => throw new UnsupportedError('Use within clazz');
-}
-
 /// Lazily builds an [ClassDeclaration] AST when [buildClass] is invoked.
 abstract class ClassBuilder
-    implements
-        AstBuilder<ClassDeclaration>,
-        HasAnnotations,
-        TypeBuilder {
+    implements AstBuilder<ClassDeclaration>, HasAnnotations, TypeBuilder {
   /// Returns a new [ClassBuilder] with [name].
   factory ClassBuilder(
     String name, {
@@ -92,11 +99,11 @@ abstract class ClassBuilder
     Iterable<TypeBuilder> asImplements,
   }) = _ClassBuilderImpl;
 
-  /// Returns an [ClassDeclaration] AST representing the builder.
-  ClassDeclaration buildClass([Scope scope]);
-
   /// Adds a [constructor].
   void addConstructor(ConstructorBuilder constructor);
+
+  /// Adds a [field].
+  void addField(FieldBuilder field, {bool asStatic: false});
 
   /// Adds an [interface] to implement.
   void addImplement(TypeBuilder interface);
@@ -104,11 +111,17 @@ abstract class ClassBuilder
   /// Adds [interfaces] to implement.
   void addImplements(Iterable<TypeBuilder> interfaces);
 
+  /// Adds a [method].
+  void addMethod(MethodBuilder method, {bool asStatic: false});
+
   /// Adds a [mixin].
   void addMixin(TypeBuilder mixin);
 
   /// Adds [mixins].
   void addMixins(Iterable<TypeBuilder> mixins);
+
+  /// Returns an [ClassDeclaration] AST representing the builder.
+  ClassDeclaration buildClass([Scope scope]);
 
   /// Sets [extend].
   void setExtends(TypeBuilder extend);
@@ -118,9 +131,11 @@ abstract class ClassBuilder
 abstract class ValidClassMember implements AstBuilder {}
 
 class _ClassBuilderImpl extends Object
-    with HasAnnotationsMixin
+    with AbstractTypeBuilderMixin, HasAnnotationsMixin
     implements ClassBuilder {
-  final _constructors = <ConstructorBuilder> [];
+  final _constructors = <ConstructorBuilder>[];
+  final _fields = <FieldBuilder, bool>{};
+  final _methods = <MethodBuilder, bool>{};
 
   TypeBuilder _extends;
   final List<TypeBuilder> _with;
@@ -147,6 +162,11 @@ class _ClassBuilderImpl extends Object
   }
 
   @override
+  void addField(FieldBuilder field, {bool asStatic: false}) {
+    _fields[field] = asStatic;
+  }
+
+  @override
   void addImplement(TypeBuilder interface) {
     _implements.add(interface);
   }
@@ -154,6 +174,11 @@ class _ClassBuilderImpl extends Object
   @override
   void addImplements(Iterable<TypeBuilder> interfaces) {
     _implements.addAll(interfaces);
+  }
+
+  @override
+  void addMethod(MethodBuilder method, {bool asStatic: false}) {
+    _methods[method] = asStatic;
   }
 
   @override
@@ -204,22 +229,45 @@ class _ClassBuilderImpl extends Object
       null,
       null,
     );
+    _fields.forEach((field, static) {
+      clazz.members.add(field.buildField(static, scope));
+    });
     _constructors.forEach((constructor) {
       clazz.members.add(constructor.buildConstructor(
         this,
         scope,
       ));
     });
+    _methods.forEach((method, static) {
+      clazz.members.add(method.buildMethod(static, scope));
+    });
     return clazz;
-  }
-
-  @override
-  void setExtends(TypeBuilder extend) {
-    _extends = extend;
   }
 
   @override
   TypeName buildType([Scope scope]) {
     return new TypeBuilder(_name).buildType(scope);
   }
+
+  @override
+  void setExtends(TypeBuilder extend) {
+    _extends = extend;
+  }
+}
+
+class _TypeNameWrapper implements ValidClassMember {
+  final bool extend;
+  final bool implement;
+  final bool mixin;
+  final TypeBuilder type;
+
+  _TypeNameWrapper(
+    this.type, {
+    this.extend: false,
+    this.implement: false,
+    this.mixin: false,
+  });
+
+  @override
+  AstNode buildAst([_]) => throw new UnsupportedError('Use within clazz');
 }

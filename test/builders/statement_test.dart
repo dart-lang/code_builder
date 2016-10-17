@@ -41,11 +41,9 @@ void main() {
       expect(
         ifThen(a.equals(literal(1)), [
           core.print.call([literal('Was 1')]),
-          elseIf(ifThen(
-            a.equals(literal(2)), [
-              core.print.call([literal('Was 2')]),
-            ]
-          )),
+          elseIf(ifThen(a.equals(literal(2)), [
+            core.print.call([literal('Was 2')]),
+          ])),
         ]),
         equalsSource(r'''
           if (a == 1) {
@@ -61,16 +59,15 @@ void main() {
       final a = reference('a');
       expect(
         ifThen(
-          a.equals(literal(1)), [
+          a.equals(literal(1)),
+          [
             core.print.call([literal('Was 1')]),
-            elseIf(ifThen(
-              a.equals(literal(2)), [
-                core.print.call([literal('Was 2')]),
-                elseThen([
-                  core.print.call([literal('Was ') + a]),
-                ]),
-              ]
-            )),
+            elseIf(ifThen(a.equals(literal(2)), [
+              core.print.call([literal('Was 2')]),
+              elseThen([
+                core.print.call([literal('Was ') + a]),
+              ]),
+            ])),
           ],
         ),
         equalsSource(r'''

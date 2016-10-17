@@ -13,47 +13,37 @@ import 'src/pretty_printer.dart';
 /// On failure, uses the default string matcher to show a detailed diff between
 /// the expected and actual source code results.
 ///
-/// **NOTE**: Runs `dartfmt` _and_ prints the source with additional formatting
-/// over the default `Ast.toSource` implementation (i.e. adds new lines between
-/// methods in classes, and more).
+/// **NOTE*:: [source] needs to have `dartfmt` run on it, exact match only.
 Matcher equalsSource(
   String source, {
   Scope scope: Scope.identity,
 }) {
+  var canParse = false;
   try {
     source = dartfmt(source);
+    canParse = true;
   } on FormatterException catch (_) {}
   return new _EqualsSource(
     scope,
     source,
-  );
-}
-
-/// Returns a [Matcher] that checks a [CodeBuilder versus [source].
-///
-/// On failure, uses the default string matcher to show a detailed diff between
-/// the expected and actual source code results.
-///
-/// **NOTE**: Whitespace is ignored.
-Matcher equalsUnformatted(
-  String source, {
-  Scope scope: Scope.identity,
-}) {
-  return new _EqualsSource(
-    scope,
-    source,
+    canParse,
   );
 }
 
 class _EqualsSource extends Matcher {
   final Scope _scope;
   final String _source;
+  final bool _canParse;
 
-  _EqualsSource(this._scope, this._source);
+  _EqualsSource(this._scope, this._source, this._canParse);
 
   @override
   Description describe(Description description) {
-    return equals(_source).describe(description);
+    if (_canParse) {
+      return equals(_source).describe(description);
+    } else {
+      return equalsIgnoringWhitespace(_source).describe(description);
+    }
   }
 
   @override
@@ -65,12 +55,21 @@ class _EqualsSource extends Matcher {
   ) {
     if (item is AstBuilder) {
       var origin = _formatAst(item);
-      return equalsIgnoringWhitespace(_source).describeMismatch(
-        origin,
-        mismatchDescription.addDescriptionOf(origin),
-        matchState,
-        verbose,
-      );
+      if (_canParse) {
+        return equals(_source).describeMismatch(
+          origin,
+          mismatchDescription.addDescriptionOf(origin),
+          matchState,
+          verbose,
+        );
+      } else {
+        return equalsIgnoringWhitespace(_source).describeMismatch(
+          origin,
+          mismatchDescription.addDescriptionOf(origin),
+          matchState,
+          verbose,
+        );
+      }
     } else {
       return mismatchDescription.add('$item is not a CodeBuilder');
     }
@@ -79,13 +78,20 @@ class _EqualsSource extends Matcher {
   @override
   bool matches(item, _) {
     if (item is AstBuilder) {
-      return equalsIgnoringWhitespace(_formatAst(item)).matches(_source, {});
+      if (_canParse) {
+        return equals(_formatAst(item)).matches(_source, {});
+      } else {
+        return equalsIgnoringWhitespace(_formatAst(item)).matches(_source, {});
+      }
     }
     return false;
   }
 
   String _formatAst(AstBuilder builder) {
     var astNode = builder.buildAst(_scope);
-    return prettyToSource(astNode);
+    if (_canParse) {
+      return dartfmt(astNode.toSource());
+    }
+    return astNode.toSource();
   }
 }

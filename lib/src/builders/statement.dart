@@ -3,18 +3,13 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:analyzer/analyzer.dart';
+import 'package:code_builder/src/builders/method.dart';
 import 'package:code_builder/src/builders/shared.dart';
 import 'package:code_builder/src/builders/statement/if.dart';
 import 'package:code_builder/src/tokens.dart';
 
 export 'package:code_builder/src/builders/statement/if.dart'
-   show IfStatementBuilder, elseIf, elseThen, ifThen;
-
-/// Lazily builds an [Statement] AST when [buildStatement] is invoked.
-abstract class StatementBuilder implements AstBuilder, ValidIfStatementMember {
-  /// Returns an [Statement] AST representing the builder.
-  Statement buildStatement([Scope scope]);
-}
+    show IfStatementBuilder, elseIf, elseThen, ifThen;
 
 /// An [AstBuilder] that can add [StatementBuilder].
 abstract class HasStatements implements AstBuilder {
@@ -39,11 +34,6 @@ abstract class HasStatementsMixin extends HasStatements {
     _statements.addAll(statements);
   }
 
-  /// Clones all expressions to [clone].
-  void cloneStatementsTo(HasStatements clone) {
-    clone.addStatements(_statements);
-  }
-
   /// Returns a [Block] statement.
   Block buildBlock([Scope scope]) {
     return new Block(
@@ -59,4 +49,23 @@ abstract class HasStatementsMixin extends HasStatements {
         .map/*<Statement>*/((e) => e.buildStatement(scope))
         .toList();
   }
+
+  /// Clones all expressions to [clone].
+  void cloneStatementsTo(HasStatements clone) {
+    clone.addStatements(_statements);
+  }
+
+  /// Whether at least one statement was added.
+  bool get hasStatements => _statements.isNotEmpty;
+}
+
+/// Lazily builds an [Statement] AST when [buildStatement] is invoked.
+abstract class StatementBuilder
+    implements
+        AstBuilder,
+        ValidIfStatementMember,
+        ValidConstructorMember,
+        ValidMethodMember {
+  /// Returns an [Statement] AST representing the builder.
+  Statement buildStatement([Scope scope]);
 }

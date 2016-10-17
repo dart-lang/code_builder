@@ -5,6 +5,16 @@ import 'package:code_builder/src/builders/statement.dart';
 import 'package:code_builder/src/builders/statement/block.dart';
 import 'package:code_builder/src/tokens.dart';
 
+/// Denotes an [ifStmt] that should be added as an `else if` in [ifThen].
+_IfStatementBuilderWrapper elseIf(IfStatementBuilder ifStmt) {
+  return new _IfStatementBuilderWrapper(ifStmt, null);
+}
+
+/// Denotes a series of [statements] added to a final `else` in [ifThen].
+_IfStatementBuilderWrapper elseThen(Iterable<StatementBuilder> statements) {
+  return new _IfStatementBuilderWrapper(null, statements);
+}
+
 /// Short-hand syntax for `new IfStatementBuilder(...)`.
 IfStatementBuilder ifThen(
   ExpressionBuilder condition, [
@@ -18,7 +28,8 @@ IfStatementBuilder ifThen(
         current.setElse(member._ifStmt);
         current = member._ifStmt;
       } else {
-        current.setElse(new BlockStatementBuilder()..addStatements(member._elseStmts));
+        current.setElse(
+            new BlockStatementBuilder()..addStatements(member._elseStmts));
         current = null;
       }
     } else if (member is StatementBuilder) {
@@ -29,29 +40,6 @@ IfStatementBuilder ifThen(
   }
   return ifStmt;
 }
-
-/// Denotes an [ifStmt] that should be added as an `else if` in [ifThen].
-_IfStatementBuilderWrapper elseIf(IfStatementBuilder ifStmt) {
-  return new _IfStatementBuilderWrapper(ifStmt, null);
-}
-
-/// Denotes a series of [statements] added to a final `else` in [ifThen].
-_IfStatementBuilderWrapper elseThen(Iterable<StatementBuilder> statements) {
-  return new _IfStatementBuilderWrapper(null, statements);
-}
-
-class _IfStatementBuilderWrapper implements ValidIfStatementMember {
-  final IfStatementBuilder _ifStmt;
-  final Iterable<StatementBuilder> _elseStmts;
-
-  _IfStatementBuilderWrapper(this._ifStmt, this._elseStmts);
-
-  @override
-  AstNode buildAst([_]) => throw new UnsupportedError('Use within ifThen.');
-}
-
-/// Marker interface for builders valid for use with [ifThen].
-abstract class ValidIfStatementMember implements AstBuilder {}
 
 /// Builds an [IfStatement] AST.
 abstract class IfStatementBuilder implements HasStatements, StatementBuilder {
@@ -64,17 +52,15 @@ abstract class IfStatementBuilder implements HasStatements, StatementBuilder {
   void setElse(StatementBuilder statements);
 }
 
+/// Marker interface for builders valid for use with [ifThen].
+abstract class ValidIfStatementMember implements AstBuilder {}
+
 class _BlockIfStatementBuilder extends HasStatementsMixin
     implements IfStatementBuilder {
   final ExpressionBuilder _condition;
   StatementBuilder _elseBlock;
 
   _BlockIfStatementBuilder(this._condition);
-
-  @override
-  void setElse(StatementBuilder statements) {
-    _elseBlock = statements;
-  }
 
   @override
   AstNode buildAst([Scope scope]) => buildStatement(scope);
@@ -91,4 +77,19 @@ class _BlockIfStatementBuilder extends HasStatementsMixin
       _elseBlock?.buildStatement(scope),
     );
   }
+
+  @override
+  void setElse(StatementBuilder statements) {
+    _elseBlock = statements;
+  }
+}
+
+class _IfStatementBuilderWrapper implements ValidIfStatementMember {
+  final IfStatementBuilder _ifStmt;
+  final Iterable<StatementBuilder> _elseStmts;
+
+  _IfStatementBuilderWrapper(this._ifStmt, this._elseStmts);
+
+  @override
+  AstNode buildAst([_]) => throw new UnsupportedError('Use within ifThen.');
 }

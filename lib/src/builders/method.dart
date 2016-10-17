@@ -3,14 +3,59 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:analyzer/analyzer.dart';
+import 'package:analyzer/dart/ast/token.dart';
+import 'package:analyzer/src/dart/ast/token.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:code_builder/dart/core.dart';
 import 'package:code_builder/src/builders/annotation.dart';
 import 'package:code_builder/src/builders/class.dart';
 import 'package:code_builder/src/builders/parameter.dart';
 import 'package:code_builder/src/builders/shared.dart';
+import 'package:code_builder/src/builders/statement.dart';
 import 'package:code_builder/src/builders/type.dart';
 import 'package:code_builder/src/tokens.dart';
+
+/// Short-hand for `new ConstructorBuilder(...)`.
+ConstructorBuilder constructor(
+    [Iterable<ValidConstructorMember> members = const []]) {
+  return _constructorImpl(members: members);
+}
+
+/// Short-hand for `new ConstructorBuilder(name)`.
+ConstructorBuilder constructorNamed(String name,
+    [Iterable<ValidConstructorMember> members = const []]) {
+  return _constructorImpl(name: name, members: members);
+}
+
+/// Short-hand for `new MethodBuilder.getter(...)`.
+MethodBuilder getter(
+  String name, {
+  Iterable<StatementBuilder> statements,
+  ExpressionBuilder returns,
+  TypeBuilder returnType,
+}) {
+  if (returns != null) {
+    return new MethodBuilder.getter(
+      name,
+      returnType: returnType,
+      returns: returns,
+    );
+  } else {
+    return new MethodBuilder.getter(
+      name,
+      returnType: returnType,
+    )..addStatements(statements);
+  }
+}
+
+/// A more short-hand way of constructing a Lambda [MethodBuilder].
+MethodBuilder lambda(
+  String name,
+  ExpressionBuilder value, {
+  TypeBuilder returnType,
+}) {
+  return new MethodBuilder(name, returns: value, returnType: returnType);
+}
 
 /// A more short-hand way of constructing a [MethodBuilder].
 MethodBuilder method(
@@ -19,6 +64,7 @@ MethodBuilder method(
 ]) {
   final List<ParameterBuilder> positional = <ParameterBuilder>[];
   final List<_NamedParameterWrapper> named = <_NamedParameterWrapper>[];
+  final List<StatementBuilder> statements = <StatementBuilder>[];
   TypeBuilder returnType;
   for (final member in members) {
     if (member is TypeBuilder) {
@@ -27,6 +73,8 @@ MethodBuilder method(
       positional.add(member);
     } else if (member is _NamedParameterWrapper) {
       named.add(member);
+    } else if (member is StatementBuilder) {
+      statements.add(member);
     } else {
       throw new StateError('Invalid AST type: ${member.runtimeType}');
     }
@@ -37,6 +85,7 @@ MethodBuilder method(
   );
   positional.forEach(method.addPositional);
   named.forEach((p) => method.addNamed(p._parameter));
+  statements.forEach(method.addStatement);
   return method;
 }
 
@@ -45,114 +94,28 @@ _NamedParameterWrapper named(ParameterBuilder parameter) {
   return new _NamedParameterWrapper(parameter);
 }
 
-class _NamedParameterWrapper implements ValidConstructorMember, ValidMethodMember {
-  final ParameterBuilder _parameter;
-
-  _NamedParameterWrapper(this._parameter);
-
-  @override
-  AstNode buildAst([_]) => throw new UnsupportedError('Use within method');
-}
-
-/// Lazily builds a method/function AST when the builder is invoked.
-abstract class MethodBuilder implements HasAnnotations, HasParameters {
-  /// Creates a new [MethodBuilder].
-  factory MethodBuilder(String name) = _MethodBuilderImpl;
-
-  /// Creates a new [MethodBuilder] that returns `void`.
-  factory MethodBuilder.returnVoid(String name) {
-    return new _MethodBuilderImpl(name, returns: core.$void);
-  }
-
-  /// Returns a [FunctionDeclaration] AST representing the builder.
-  FunctionDeclaration buildFunction([Scope scope]);
-
-  /// Returns an [MethodDeclaration] AST representing the builder.
-  MethodDeclaration buildMethod([Scope scope]);
-}
-
-/// A marker interface for an AST that could be added to [MethodBuilder].
-abstract class ValidMethodMember implements AstBuilder {}
-
-class _MethodBuilderImpl extends Object
-    with HasAnnotationsMixin, HasParametersMixin
-    implements MethodBuilder {
-  final String _name;
-  final TypeBuilder _returnType;
-
-  _MethodBuilderImpl(this._name, {TypeBuilder returns}) : _returnType = returns;
-
-  @override
-  AstNode buildAst([Scope scope]) => buildFunction(scope);
-
-  @override
-  FunctionDeclaration buildFunction([Scope scope]) {
-    return new FunctionDeclaration(
-      null,
-      buildAnnotations(scope),
-      null,
-      _returnType?.buildType(scope),
-      null,
-      getIdentifier(scope, _name),
-      new FunctionExpression(
-        null,
-        buildParameterList(scope),
-        new EmptyFunctionBody($semicolon),
-      ),
-    );
-  }
-
-  @override
-  MethodDeclaration buildMethod([Scope scope]) {
-    return new MethodDeclaration(
-      null,
-      buildAnnotations(scope),
-      null,
-      null,
-      _returnType?.buildType(scope),
-      null,
-      null,
-      getIdentifier(scope, _name),
-      null,
-      buildParameterList(scope),
-      new EmptyFunctionBody($semicolon),
-    );
-  }
+/// Short-hand for `new MethodBuilder.setter(...)`.
+MethodBuilder setter(
+  String name,
+  ParameterBuilder value,
+  Iterable<StatementBuilder> statements,
+) {
+  return new MethodBuilder.setter(name)
+    ..addPositional(value)
+    ..addStatements(statements);
 }
 
 /// Returns a wrapper around [parameter] for use with [constructor].
-_FieldParameterWrapper fieldFormal(Object parameter) {
+_FieldParameterWrapper thisField(Object parameter) {
   assert(parameter is ParameterBuilder || parameter is _NamedParameterWrapper);
   return new _FieldParameterWrapper(parameter);
 }
-
-class _FieldParameterWrapper implements ValidConstructorMember, ValidMethodMember {
-  final Object /*ParameterBuilder|_NamedParameterWrapper*/ _parameter;
-
-  _FieldParameterWrapper(this._parameter);
-
-  @override
-  AstNode buildAst([_]) => throw new UnsupportedError('Use within method');
-}
-
-/// Short-hand for `new ConstructorBuilder(...)`.
-ConstructorBuilder constructor([Iterable<ValidConstructorMember> members = const []]) {
-  return _constructorImpl(members: members);
-}
-
-/// Short-hand for `new ConstructorBuilder(name)`.
-ConstructorBuilder constructorNamed(String name, [Iterable<ValidConstructorMember> members = const []]) {
-  return _constructorImpl(name: name, members: members);
-}
-
-typedef void _AddParameter(ConstructorBuilder constructor);
 
 ConstructorBuilder _constructorImpl({
   Iterable<ValidConstructorMember> members,
   String name,
 }) {
-
-  final List<_AddParameter> _addFunctions = <_AddParameter> [];
+  final List<_AddParameter> _addFunctions = <_AddParameter>[];
   for (final member in members) {
     if (member is ParameterBuilder) {
       _addFunctions.add((c) => c.addPositional(member));
@@ -163,8 +126,11 @@ ConstructorBuilder _constructorImpl({
         _NamedParameterWrapper p = member._parameter;
         _addFunctions.add((c) => c.addNamed(p._parameter, asField: true));
       } else if (member._parameter is ParameterBuilder) {
-        _addFunctions.add((c) => c.addPositional(member._parameter, asField: true));
+        _addFunctions
+            .add((c) => c.addPositional(member._parameter, asField: true));
       }
+    } else if (member is StatementBuilder) {
+      _addFunctions.add((c) => c.addStatement(member));
     } else {
       throw new StateError('Invalid AST type: ${member.runtimeType}');
     }
@@ -174,14 +140,14 @@ ConstructorBuilder _constructorImpl({
   return constructor;
 }
 
-/// A marker interface for an AST that could be added to [ConstructorBuilder].
-abstract class ValidConstructorMember implements ValidMethodMember {}
+typedef void _AddParameter(ConstructorBuilder constructor);
 
 /// Lazily builds an [ConstructorBuilder] AST when built.
 abstract class ConstructorBuilder
     implements
         AstBuilder<ConstructorDeclaration>,
         HasParameters,
+        HasStatements,
         ValidClassMember {
   /// Create a new [ConstructorBuilder], optionally with a [name].
   factory ConstructorBuilder([String name]) = _NormalConstructorBuilder;
@@ -193,12 +159,255 @@ abstract class ConstructorBuilder
   void addPositional(ParameterBuilder parameter, {bool asField: false});
 
   /// Returns an [ConstructorDeclaration] AST representing the builder.
-  ConstructorDeclaration buildConstructor(TypeBuilder returnType, [Scope scope]);
+  ConstructorDeclaration buildConstructor(TypeBuilder returnType,
+      [Scope scope]);
 }
 
-class _NormalConstructorBuilder
-    extends Object
+/// Lazily builds a method/function AST when the builder is invoked.
+abstract class MethodBuilder
+    implements HasAnnotations, HasParameters, HasStatements, ValidClassMember {
+  /// Creates a new [MethodBuilder].
+  factory MethodBuilder(String name,
+      {ExpressionBuilder returns, TypeBuilder returnType}) {
+    if (returns != null) {
+      return new _LambdaMethodBuilder(
+        name,
+        returns,
+        returnType,
+        null,
+      );
+    } else {
+      return new _MethodBuilderImpl(
+        name,
+        returns: returnType,
+      );
+    }
+  }
+
+  /// Creates a getter.
+  factory MethodBuilder.getter(
+    String name, {
+    TypeBuilder returnType,
+    ExpressionBuilder returns,
+  }) {
+    if (returns == null) {
+      return new _MethodBuilderImpl(
+        name,
+        returns: returnType,
+        property: Keyword.GET,
+      );
+    } else {
+      return new _LambdaMethodBuilder(
+        name,
+        returns,
+        returnType,
+        Keyword.GET,
+      );
+    }
+  }
+
+  /// Creates a new [MethodBuilder] that returns `void`.
+  factory MethodBuilder.returnVoid(String name, {ExpressionBuilder returns}) {
+    if (returns == null) {
+      return new _MethodBuilderImpl(name, returns: core.$void);
+    }
+    return new _LambdaMethodBuilder(
+      name,
+      returns,
+      core.$void,
+      null,
+    );
+  }
+
+  /// Creates a setter.
+  factory MethodBuilder.setter(
+    String name, {
+    ExpressionBuilder returns,
+  }) {
+    if (returns == null) {
+      return new _MethodBuilderImpl(
+        name,
+        property: Keyword.SET,
+      );
+    } else {
+      return new _LambdaMethodBuilder(
+        name,
+        returns,
+        null,
+        Keyword.SET,
+      );
+    }
+  }
+
+  /// Returns a [FunctionDeclaration] AST representing the builder.
+  FunctionDeclaration buildFunction([Scope scope]);
+
+  /// Returns an [MethodDeclaration] AST representing the builder.
+  MethodDeclaration buildMethod(bool static, [Scope scope]);
+}
+
+/// A marker interface for an AST that could be added to [ConstructorBuilder].
+abstract class ValidConstructorMember implements ValidMethodMember {}
+
+/// A marker interface for an AST that could be added to [MethodBuilder].
+abstract class ValidMethodMember implements AstBuilder {}
+
+class _FieldParameterWrapper
+    implements ValidConstructorMember, ValidMethodMember {
+  final Object /*ParameterBuilder|_NamedParameterWrapper*/ _parameter;
+
+  _FieldParameterWrapper(this._parameter);
+
+  @override
+  AstNode buildAst([_]) => throw new UnsupportedError('Use within method');
+}
+
+class _LambdaMethodBuilder extends Object
     with HasAnnotationsMixin, HasParametersMixin
+    implements MethodBuilder {
+  final ExpressionBuilder _expression;
+  final String _name;
+  final TypeBuilder _returnType;
+  final Keyword _property;
+
+  _LambdaMethodBuilder(
+      this._name, this._expression, this._returnType, this._property);
+
+  @override
+  void addStatement(StatementBuilder statement) {
+    throw new UnsupportedError('Cannot add statement on a Lambda method');
+  }
+
+  @override
+  void addStatements(Iterable<StatementBuilder> statements) {
+    throw new UnsupportedError('Cannot add statement on a Lambda method');
+  }
+
+  @override
+  AstNode buildAst([Scope scope]) => buildFunction(scope);
+
+  @override
+  FunctionDeclaration buildFunction([Scope scope]) {
+    return new FunctionDeclaration(
+      null,
+      buildAnnotations(scope),
+      null,
+      _returnType?.buildType(scope),
+      _property != null ? new KeywordToken(_property, 0) : null,
+      getIdentifier(scope, _name),
+      new FunctionExpression(
+        null,
+        _property != Keyword.GET ? buildParameterList(scope) : null,
+        new ExpressionFunctionBody(
+          null,
+          null,
+          _expression.buildExpression(scope),
+          $semicolon,
+        ),
+      ),
+    );
+  }
+
+  @override
+  MethodDeclaration buildMethod(bool static, [Scope scope]) {
+    return new MethodDeclaration(
+      null,
+      buildAnnotations(scope),
+      null,
+      static ? $static : null,
+      _returnType?.buildType(scope),
+      _property != null ? new KeywordToken(_property, 0) : null,
+      null,
+      getIdentifier(scope, _name),
+      null,
+      _property != Keyword.GET ? buildParameterList(scope) : null,
+      new ExpressionFunctionBody(
+        null,
+        null,
+        _expression.buildExpression(scope),
+        $semicolon,
+      ),
+    );
+  }
+}
+
+class _MethodBuilderImpl extends Object
+    with HasAnnotationsMixin, HasParametersMixin, HasStatementsMixin
+    implements MethodBuilder {
+  final String _name;
+  final TypeBuilder _returnType;
+  final Keyword _property;
+
+  _MethodBuilderImpl(
+    this._name, {
+    TypeBuilder returns,
+    Keyword property,
+  })
+      : _returnType = returns,
+        _property = property;
+
+  @override
+  AstNode buildAst([Scope scope]) => buildFunction(scope);
+
+  @override
+  FunctionDeclaration buildFunction([Scope scope]) {
+    return new FunctionDeclaration(
+      null,
+      buildAnnotations(scope),
+      null,
+      _returnType?.buildType(scope),
+      _property != null ? new KeywordToken(_property, 0) : null,
+      getIdentifier(scope, _name),
+      new FunctionExpression(
+        null,
+        _property != Keyword.GET ? buildParameterList(scope) : null,
+        !hasStatements
+            ? new EmptyFunctionBody($semicolon)
+            : new BlockFunctionBody(
+                null,
+                null,
+                buildBlock(scope),
+              ),
+      ),
+    );
+  }
+
+  @override
+  MethodDeclaration buildMethod(bool static, [Scope scope]) {
+    return new MethodDeclaration(
+      null,
+      buildAnnotations(scope),
+      null,
+      static ? $static : null,
+      _returnType?.buildType(scope),
+      _property != null ? new KeywordToken(_property, 0) : null,
+      null,
+      getIdentifier(scope, _name),
+      null,
+      _property != Keyword.GET ? buildParameterList(scope) : null,
+      !hasStatements
+          ? new EmptyFunctionBody($semicolon)
+          : new BlockFunctionBody(
+              null,
+              null,
+              buildBlock(scope),
+            ),
+    );
+  }
+}
+
+class _NamedParameterWrapper
+    implements ValidConstructorMember, ValidMethodMember {
+  final ParameterBuilder _parameter;
+
+  _NamedParameterWrapper(this._parameter);
+
+  @override
+  AstNode buildAst([_]) => throw new UnsupportedError('Use within method');
+}
+
+class _NormalConstructorBuilder extends Object
+    with HasAnnotationsMixin, HasParametersMixin, HasStatementsMixin
     implements ConstructorBuilder {
   final String _name;
 
@@ -210,7 +419,8 @@ class _NormalConstructorBuilder
   }
 
   @override
-  ConstructorDeclaration buildConstructor(TypeBuilder returnType, [Scope scope]) {
+  ConstructorDeclaration buildConstructor(TypeBuilder returnType,
+      [Scope scope]) {
     return new ConstructorDeclaration(
       null,
       buildAnnotations(scope),
@@ -224,7 +434,13 @@ class _NormalConstructorBuilder
       null,
       null,
       null,
-      new EmptyFunctionBody($semicolon),
+      !hasStatements
+          ? new EmptyFunctionBody($semicolon)
+          : new BlockFunctionBody(
+              null,
+              null,
+              buildBlock(scope),
+            ),
     );
   }
 }

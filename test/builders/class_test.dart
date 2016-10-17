@@ -4,6 +4,7 @@
 
 import 'package:code_builder/code_builder.dart';
 import 'package:code_builder/dart/core.dart';
+import 'package:code_builder/src/builders/method.dart';
 import 'package:code_builder/testing.dart';
 import 'package:test/test.dart';
 
@@ -85,7 +86,7 @@ void main() {
       clazz('Animal', [
         constructor([
           parameter('name', [core.String]),
-          fieldFormal(
+          thisField(
             named(
               parameter('age').asOptional(literal(0)),
             ),
@@ -95,6 +96,66 @@ void main() {
       equalsSource(r'''
         class Animal {
           Animal(String name, {this.age: 0});
+        }
+      '''),
+    );
+  });
+
+  test('should emit a class with fields', () {
+    expect(
+      clazz('Animal', [
+        asStatic(
+          varField('static1', type: core.String, value: literal('Hello')),
+        ),
+        asStatic(
+          varFinal('static2', type: core.List, value: literal([])),
+        ),
+        asStatic(
+          varConst('static3', type: core.bool, value: literal(true)),
+        ),
+        varField('var1', type: core.String, value: literal('Hello')),
+        varFinal('var2', type: core.List, value: literal([])),
+        varConst('var3', type: core.bool, value: literal(true)),
+      ]),
+      equalsSource(r'''
+        class Animal {
+          static String static1 = 'Hello';
+          static final List static2 = [];
+          static const bool static3 = true;
+          String var1 = 'Hello';
+          final List var2 = [];
+          const bool var3 = true;
+        }
+      '''),
+    );
+  });
+
+  test('should emit a class with methods', () {
+    expect(
+      clazz('Animal', [
+        asStatic(method('staticMethod', <ValidMethodMember>[
+          core.$void,
+          core.print.call([literal('Called staticMethod')]),
+        ])),
+        method('instanceMethod', <ValidMethodMember>[
+          core.$void,
+          core.print.call([literal('Called instanceMethod')]),
+        ]),
+        constructor([
+          core.print.call([literal('Called constructor')]),
+        ]),
+      ]),
+      equalsSource(r'''
+        class Animal {
+          Animal() {
+            print('Called constructor');
+          }
+          static void staticMethod() {
+            print('Called staticMethod');
+          }
+          void instanceMethod() {
+            print('Called instanceMethod');
+          }
         }
       '''),
     );

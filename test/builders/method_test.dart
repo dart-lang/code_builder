@@ -21,8 +21,8 @@ void main() {
     expect(
       method('main', [
         core.$void,
-      ]),
-      equalsSource(r'''
+      ]).buildMethod(false).toSource(),
+      equalsIgnoringWhitespace(r'''
         void main();
       '''),
     );
@@ -32,8 +32,8 @@ void main() {
     expect(
       method('main', [
         parameter('args', [core.List]),
-      ]),
-      equalsSource(r'''
+      ]).buildMethod(false).toSource(),
+      equalsIgnoringWhitespace(r'''
         main(List args);
       '''),
     );
@@ -70,8 +70,8 @@ void main() {
       method('main', [
         named(parameter('a')),
         named(parameter('b').asOptional(literal(true))),
-      ]),
-      equalsSource(r'''
+      ]).buildMethod(false).toSource(),
+      equalsIgnoringWhitespace(r'''
         main({a, b : true});
       '''),
     );
@@ -120,5 +120,53 @@ void main() {
         '''),
       );
     });
+
+    test('should a method with a lambda value', () {
+      expect(
+        lambda('supported', literal(true), returnType: core.bool),
+        equalsSource(r'''
+          bool supported() => true;
+        '''),
+      );
+    });
+  });
+
+  test('should emit a getter with a lambda value', () {
+    expect(
+      getter('unsupported', returns: literal(true)),
+      equalsSource(r'''
+        get unsupported => true;
+      '''),
+    );
+  });
+
+  test('should emit a getter with statements', () {
+    expect(
+      getter(
+        'values',
+        returnType: core.Iterable,
+        statements: [
+          literal([]).asReturn(),
+        ],
+      ),
+      equalsSource(r'''
+        Iterable get values {
+          return [];
+        }
+      '''),
+    );
+  });
+
+  test('should emit a setter', () {
+    expect(
+      setter('name', parameter('name', [core.String]), [
+        (reference('name') + literal('!')).asAssign('_name'),
+      ]),
+      equalsSource(r'''
+        set name(String name) {
+          _name = name + '!';
+        }
+      '''),
+    );
   });
 }

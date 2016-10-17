@@ -37,13 +37,13 @@ abstract class HasAnnotationsMixin extends HasAnnotations {
     _annotations.addAll(annotations);
   }
 
-  /// Clones all annotations to [clone].
-  void cloneAnnotationsTo(HasAnnotations clone) {
-    clone.addAnnotations(_annotations);
-  }
-
   /// Returns a [List] of all built [Annotation]s.
   List<Annotation> buildAnnotations([Scope scope]) => _annotations
       .map/*<Annotation>*/((a) => a.buildAnnotation(scope))
       .toList();
+
+  /// Clones all annotations to [clone].
+  void cloneAnnotationsTo(HasAnnotations clone) {
+    clone.addAnnotations(_annotations);
+  }
 }

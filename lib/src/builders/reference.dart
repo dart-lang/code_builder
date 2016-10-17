@@ -19,7 +19,7 @@ ReferenceBuilder reference(String name, [String importUri]) {
 
 /// An abstract way of representing other types of [AstBuilder].
 class ReferenceBuilder extends Object
-    with AbstractExpressionMixin
+    with AbstractExpressionMixin, AbstractTypeBuilderMixin
     implements AnnotationBuilder, ExpressionBuilder, TypeBuilder {
   final String _importFrom;
   final String _name;

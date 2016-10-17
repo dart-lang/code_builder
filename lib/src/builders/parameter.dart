@@ -41,28 +41,6 @@ ParameterBuilder parameter(
   return builder;
 }
 
-/// A marker interface for an AST that could be added to [ParameterBuilder].
-abstract class ValidParameterMember implements AstBuilder {}
-
-/// Lazily builds an [FormalParameter] AST the builder is invoked.
-abstract class ParameterBuilder
-    implements AstBuilder<FormalParameter>, HasAnnotations, ValidConstructorMember, ValidMethodMember {
-  /// Create a new builder for parameter [name].
-  factory ParameterBuilder(
-    String name, {
-    TypeBuilder type,
-  }) = _SimpleParameterBuilder;
-
-  /// Returns as an optional [ParameterBuilder] set to [defaultTo].
-  ParameterBuilder asOptional([ExpressionBuilder defaultTo]);
-
-  /// Returns a positional [FormalParameter] AST representing the builder.
-  FormalParameter buildPositional(bool field, [Scope scope]);
-
-  /// Returns a positional [FormalParameter] AST representing the builder.
-  FormalParameter buildNamed(bool field, [Scope scope]);
-}
-
 /// An [AstBuilder] that can be built up using [ParameterBuilder].
 abstract class HasParameters implements AstBuilder {
   /// Adds [parameter] to the builder.
@@ -72,29 +50,9 @@ abstract class HasParameters implements AstBuilder {
   void addPositional(ParameterBuilder parameter);
 }
 
-class _ParameterPair {
-  final bool _isField;
-  final bool _isNamed;
-  final ParameterBuilder _parameter;
-
-  _ParameterPair(this._parameter, {bool field: false})
-      : _isNamed = false,
-        _isField = field;
-
-  _ParameterPair.named(this._parameter, {bool field: false})
-      : _isNamed = true,
-        _isField = field;
-
-  FormalParameter buildParameter([Scope scope]) {
-    return _isNamed
-        ? _parameter.buildNamed(_isField, scope)
-        : _parameter.buildPositional(_isField, scope);
-  }
-}
-
 /// Implements [HasParameters].
 abstract class HasParametersMixin implements HasParameters {
-  final List<_ParameterPair> _parameters = <_ParameterPair> [];
+  final List<_ParameterPair> _parameters = <_ParameterPair>[];
 
   @override
   void addNamed(ParameterBuilder parameter, {bool asField: false}) {
@@ -110,13 +68,41 @@ abstract class HasParametersMixin implements HasParameters {
   FormalParameterList buildParameterList([Scope scope]) {
     return new FormalParameterList(
       $openParen,
-      _parameters.map/*<FormalParameter>*/((p) => p.buildParameter(scope)).toList(),
+      _parameters
+          .map/*<FormalParameter>*/((p) => p.buildParameter(scope))
+          .toList(),
       null,
       null,
       $closeParen,
     );
   }
 }
+
+/// Lazily builds an [FormalParameter] AST the builder is invoked.
+abstract class ParameterBuilder
+    implements
+        AstBuilder<FormalParameter>,
+        HasAnnotations,
+        ValidConstructorMember,
+        ValidMethodMember {
+  /// Create a new builder for parameter [name].
+  factory ParameterBuilder(
+    String name, {
+    TypeBuilder type,
+  }) = _SimpleParameterBuilder;
+
+  /// Returns as an optional [ParameterBuilder] set to [defaultTo].
+  ParameterBuilder asOptional([ExpressionBuilder defaultTo]);
+
+  /// Returns a positional [FormalParameter] AST representing the builder.
+  FormalParameter buildNamed(bool field, [Scope scope]);
+
+  /// Returns a positional [FormalParameter] AST representing the builder.
+  FormalParameter buildPositional(bool field, [Scope scope]);
+}
+
+/// A marker interface for an AST that could be added to [ParameterBuilder].
+abstract class ValidParameterMember implements AstBuilder {}
 
 class _OptionalParameterBuilder extends Object
     with HasAnnotationsMixin
@@ -155,6 +141,26 @@ class _OptionalParameterBuilder extends Object
   }
 }
 
+class _ParameterPair {
+  final bool _isField;
+  final bool _isNamed;
+  final ParameterBuilder _parameter;
+
+  _ParameterPair(this._parameter, {bool field: false})
+      : _isNamed = false,
+        _isField = field;
+
+  _ParameterPair.named(this._parameter, {bool field: false})
+      : _isNamed = true,
+        _isField = field;
+
+  FormalParameter buildParameter([Scope scope]) {
+    return _isNamed
+        ? _parameter.buildNamed(_isField, scope)
+        : _parameter.buildPositional(_isField, scope);
+  }
+}
+
 class _SimpleParameterBuilder extends Object
     with HasAnnotationsMixin
     implements ParameterBuilder {
@@ -175,6 +181,11 @@ class _SimpleParameterBuilder extends Object
 
   @override
   FormalParameter buildAst([Scope scope]) => buildPositional(false, scope);
+
+  @override
+  FormalParameter buildNamed(bool field, [Scope scope]) {
+    return asOptional().buildNamed(field, scope);
+  }
 
   @override
   FormalParameter buildPositional(bool field, [Scope scope]) {
@@ -198,10 +209,5 @@ class _SimpleParameterBuilder extends Object
       _type?.buildType(scope),
       stringIdentifier(_name),
     );
-  }
-
-  @override
-  FormalParameter buildNamed(bool field, [Scope scope]) {
-    return asOptional().buildNamed(field, scope);
   }
 }
