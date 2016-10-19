@@ -21,7 +21,7 @@ abstract class HasStatements implements AstBuilder {
 }
 
 /// Implements [HasStatements].
-abstract class HasStatementsMixin extends HasStatements {
+abstract class HasStatementsMixin implements HasStatements {
   final List<StatementBuilder> _statements = <StatementBuilder>[];
 
   @override

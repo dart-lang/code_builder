@@ -10,7 +10,8 @@ abstract class BlockStatementBuilder
   factory BlockStatementBuilder() = _BlockStatementBuilder;
 }
 
-class _BlockStatementBuilder extends Object
+class _BlockStatementBuilder 
+    extends Object
     with HasStatementsMixin
     implements BlockStatementBuilder {
   @override

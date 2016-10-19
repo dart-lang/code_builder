@@ -27,10 +27,8 @@ String prettyToSource(AstNode astNode) {
   }
 }
 
-// TODO(matanl): Remove copied-pasted methods when API becomes available.
-// https://github.com/dart-lang/sdk/issues/27169
+// https://github.com/dart-lang/code_builder/issues/16
 class _PrettyToSourceVisitor extends ToSourceVisitor {
-  // https://github.com/dart-lang/sdk/issues/27301
   final StringBuffer _buffer;
 
   _PrettyToSourceVisitor(PrintBuffer buffer)

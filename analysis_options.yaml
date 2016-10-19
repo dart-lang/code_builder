@@ -15,7 +15,6 @@ linter:
     - valid_regexps
     - always_declare_return_types
     - annotate_overrides
-    # - avoid_as
     - avoid_init_to_null
     - avoid_return_types_on_setters
     - await_only_futures
@@ -25,7 +24,6 @@ linter:
     - empty_constructor_bodies
     - library_names
     - library_prefixes
-    # - non_constant_identifier_names
     - only_throw_errors
     - overridden_fields
     - package_api_docs
@@ -33,8 +31,6 @@ linter:
     - prefer_is_not_empty
     - public_member_api_docs
     - slash_for_doc_comments
-    - sort_constructors_first
-    - sort_unnamed_constructors_first
     - type_init_formals
     - unnecessary_brace_in_string_interp
     - unnecessary_getters_setters

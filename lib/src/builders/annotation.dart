@@ -24,7 +24,7 @@ abstract class HasAnnotations implements AstBuilder {
 }
 
 /// Implements [HasAnnotations].
-abstract class HasAnnotationsMixin extends HasAnnotations {
+abstract class HasAnnotationsMixin implements HasAnnotations {
   final List<AnnotationBuilder> _annotations = <AnnotationBuilder>[];
 
   @override

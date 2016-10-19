@@ -26,6 +26,7 @@ export 'src/builders/method.dart'
         MethodBuilder,
         ValidMethodMember;
 export 'src/builders/parameter.dart' show parameter, ParameterBuilder;
+export 'src/pretty_printer.dart' show prettyToSource;
 export 'src/builders/reference.dart'
     show explicitThis, reference, ReferenceBuilder;
 export 'src/builders/shared.dart' show AstBuilder, Scope;

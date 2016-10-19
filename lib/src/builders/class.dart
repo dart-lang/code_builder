@@ -31,16 +31,16 @@ ClassBuilder clazz(
     } else if (member is ConstructorBuilder) {
       clazz.addConstructor(member);
     } else if (member is _StaticFieldWrapper) {
-      var wrapped = (member as _StaticFieldWrapper)._member;
+      var wrapped = member._member;
       if (wrapped is MethodBuilder) {
-        clazz.addMethod(wrapped as MethodBuilder, asStatic: true);
+        clazz.addMethod(wrapped, asStatic: true);
       } else {
         clazz.addField(wrapped as FieldBuilder, asStatic: true);
       }
     } else if (member is FieldBuilder) {
       clazz.addField(member);
     } else if (member is MethodBuilder) {
-      clazz.addMethod(member as MethodBuilder);
+      clazz.addMethod(member);
     } else {
       throw new StateError('Invalid AST type: ${member.runtimeType}');
     }
