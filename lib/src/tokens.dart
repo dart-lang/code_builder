@@ -8,6 +8,9 @@ import 'package:analyzer/src/dart/ast/token.dart';
 /// The `abstract` token.
 final Token $abstract = new KeywordToken(Keyword.ABSTRACT, 0);
 
+/// The `as` token.
+final Token $as = new KeywordToken(Keyword.AS, 0);
+
 /// The `assert` token.
 final Token $assert = new KeywordToken(Keyword.ASSERT, 0);
 

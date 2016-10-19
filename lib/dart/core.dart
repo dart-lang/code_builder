@@ -54,7 +54,8 @@ class DartCore {
   final ReferenceBuilder int = _ref('int');
 
   /// References [dart_core.AbstractClassInstantiationError].
-  final ReferenceBuilder AbstractClassInstantiationError = _ref('AbstractClassInstantiationError');
+  final ReferenceBuilder AbstractClassInstantiationError =
+      _ref('AbstractClassInstantiationError');
 
   /// References [dart_core.ArgumentError].
   final ReferenceBuilder ArgumentError = _ref('ArgumentError');
@@ -75,10 +76,12 @@ class DartCore {
   final ReferenceBuilder Comparator = _ref('Comparator');
 
   /// References [dart_core.ConcurrentModificationError].
-  final ReferenceBuilder ConcurrentModificationError = _ref('ConcurrentModificationError');
+  final ReferenceBuilder ConcurrentModificationError =
+      _ref('ConcurrentModificationError');
 
   /// References [dart_core.CyclicInitializationError].
-  final ReferenceBuilder CyclicInitializationError = _ref('CyclicInitializationError');
+  final ReferenceBuilder CyclicInitializationError =
+      _ref('CyclicInitializationError');
 
   /// References [dart_core.DateTime].
   final ReferenceBuilder DateTime = _ref('DateTime');
@@ -111,7 +114,8 @@ class DartCore {
   final ReferenceBuilder IndexError = _ref('IndexError');
 
   /// References [dart_core.IntegerDivisionByZeroException].
-  final ReferenceBuilder IntegerDivisionByZeroException = _ref('IntegerDivisionByZeroException');
+  final ReferenceBuilder IntegerDivisionByZeroException =
+      _ref('IntegerDivisionByZeroException');
 
   /// References [dart_core.Invocation].
   final ReferenceBuilder Invocation = _ref('Invocation');
