@@ -12,6 +12,7 @@ export 'src/builders/expression.dart'
     show literal, ExpressionBuilder, InvocationBuilder;
 export 'src/builders/field.dart'
     show varConst, varField, varFinal, FieldBuilder;
+export 'src/builders/file.dart' show ImportBuilder, LibraryBuilder, PartBuilder;
 export 'src/builders/method.dart'
     show
         constructor,

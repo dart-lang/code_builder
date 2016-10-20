@@ -50,7 +50,11 @@ FieldBuilder varConst(
 
 /// Lazily builds an field AST when builder is invoked.
 abstract class FieldBuilder
-    implements AstBuilder, HasAnnotations, StatementBuilder, ValidClassMember {
+    implements
+        AstBuilder<TopLevelVariableDeclaration>,
+        HasAnnotations,
+        StatementBuilder,
+        ValidClassMember {
   /// Creates a new [FieldBuilder] defining a new `var`.
   factory FieldBuilder(
     String name, {
@@ -117,7 +121,7 @@ class _FieldBuilderImpl extends Object
         _value = value;
 
   @override
-  AstNode buildAst([Scope scope]) => buildStatement(scope);
+  TopLevelVariableDeclaration buildAst([Scope scope]) => buildTopLevel(scope);
 
   @override
   FieldDeclaration buildField(bool static, [Scope scope]) {

@@ -11,9 +11,11 @@ import 'package:matcher/matcher.dart';
 /// On failure, uses the default string matcher to show a detailed diff between
 /// the expected and actual source code results.
 ///
-/// **NOTE*:: [source] needs to have `dartfmt` run on it, exact match only.
+/// If [pretty] is set, uses another `toSource` method that adds additional
+/// line breaks to make the output more readable and idiomatic.
 Matcher equalsSource(
   String source, {
+  bool pretty: false,
   Scope scope: Scope.identity,
 }) {
   var canParse = false;
@@ -25,6 +27,7 @@ Matcher equalsSource(
     scope,
     source,
     canParse,
+    pretty,
   );
 }
 
@@ -32,8 +35,9 @@ class _EqualsSource extends Matcher {
   final Scope _scope;
   final String _source;
   final bool _canParse;
+  final bool _pretty;
 
-  _EqualsSource(this._scope, this._source, this._canParse);
+  _EqualsSource(this._scope, this._source, this._canParse, this._pretty);
 
   @override
   Description describe(Description description) {
@@ -88,7 +92,7 @@ class _EqualsSource extends Matcher {
   String _formatAst(AstBuilder builder) {
     var astNode = builder.buildAst(_scope);
     if (_canParse) {
-      return dartfmt(astNode.toSource());
+      return dartfmt(_pretty ? prettyToSource(astNode) : astNode.toSource());
     }
     return astNode.toSource();
   }

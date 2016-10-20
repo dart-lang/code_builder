@@ -3,19 +3,14 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:analyzer/analyzer.dart';
+import 'package:code_builder/src/scope.dart';
 import 'package:code_builder/src/tokens.dart';
 
-/// Returns an [Identifier] for [name] via [scope].
-///
-/// If [scope] is `null`, automatically uses [Scope.identity].
-Identifier getIdentifier(Scope scope, String name, [Uri importFrom]) {
-  return (scope ?? Scope.identity).getIdentifier(name, importFrom);
-}
+export 'package:code_builder/src/scope.dart';
 
 /// Returns a string [Literal] from [value].
-Identifier stringIdentifier(String value) => new SimpleIdentifier(
-      stringToken(value),
-    );
+Identifier stringIdentifier(String value) =>
+    new SimpleIdentifier(stringToken(value));
 
 /// Lazily builds an analyzer [AstNode] when [buildAst] is invoked.
 ///
@@ -29,22 +24,4 @@ abstract class AstBuilder<T extends AstNode> {
   /// imports are collected in order to emit a final File AST that does not
   /// have conflicting or missing imports.
   T buildAst([Scope scope]);
-}
-
-/// Maintains a scope to prevent conflicting or missing imports in a file.
-abstract class Scope {
-  /// A [Scope] that does not apply any prefixing.
-  static const Scope identity = const _IdentityScope();
-
-  /// Returns an [Identifier] for [name].
-  ///
-  /// Optionally, specify the [importFrom] URI.
-  Identifier getIdentifier(String name, [Uri importFrom]);
-}
-
-class _IdentityScope implements Scope {
-  const _IdentityScope();
-
-  @override
-  Identifier getIdentifier(String name, [_]) => stringIdentifier(name);
 }

@@ -294,7 +294,7 @@ class _LambdaMethodBuilder extends Object
       null,
       _returnType?.buildType(scope),
       _property != null ? new KeywordToken(_property, 0) : null,
-      getIdentifier(scope, _name),
+      identifier(scope, _name),
       new FunctionExpression(
         null,
         _property != Keyword.GET ? buildParameterList(scope) : null,
@@ -318,7 +318,7 @@ class _LambdaMethodBuilder extends Object
       _returnType?.buildType(scope),
       _property != null ? new KeywordToken(_property, 0) : null,
       null,
-      getIdentifier(scope, _name),
+      stringIdentifier(_name),
       null,
       _property != Keyword.GET ? buildParameterList(scope) : null,
       new ExpressionFunctionBody(
@@ -357,7 +357,7 @@ class _MethodBuilderImpl extends Object
       null,
       _returnType?.buildType(scope),
       _property != null ? new KeywordToken(_property, 0) : null,
-      getIdentifier(scope, _name),
+      identifier(scope, _name),
       new FunctionExpression(
         null,
         _property != Keyword.GET ? buildParameterList(scope) : null,
@@ -382,7 +382,7 @@ class _MethodBuilderImpl extends Object
       _returnType?.buildType(scope),
       _property != null ? new KeywordToken(_property, 0) : null,
       null,
-      getIdentifier(scope, _name),
+      identifier(scope, _name),
       null,
       _property != Keyword.GET ? buildParameterList(scope) : null,
       !hasStatements

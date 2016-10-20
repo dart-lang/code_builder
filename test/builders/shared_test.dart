@@ -14,8 +14,4 @@ void main() {
   test('stringToken should return a string token', () {
     expect(stringToken('Coffee').value().toString(), 'Coffee');
   });
-
-  test('Scope.identity should return an unprefixed identifier', () {
-    expect(Scope.identity.getIdentifier('Coffee').toSource(), 'Coffee');
-  });
 }

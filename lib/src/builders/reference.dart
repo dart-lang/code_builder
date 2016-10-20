@@ -42,10 +42,10 @@ class ReferenceBuilder extends Object
 
   @override
   Expression buildExpression([Scope scope]) {
-    return getIdentifier(
+    return identifier(
       scope,
       _name,
-      _importFrom != null ? Uri.parse(_importFrom) : null,
+      _importFrom,
     );
   }
 

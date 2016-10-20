@@ -88,10 +88,10 @@ class TypeBuilder extends Object
   /// Returns an [TypeName] AST representing the builder.
   TypeName buildType([Scope scope]) {
     return new TypeName(
-      getIdentifier(
+      identifier(
         scope,
         _name,
-        _importFrom != null ? Uri.parse(_importFrom) : null,
+        _importFrom,
       ),
       null,
     );
