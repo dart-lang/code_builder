@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.0-alpha
+
+- Large refactor that makes the library more feature complete.
+
 ## 0.1.1
 
 - Add concept of `Scope` and change `toAst` to support it

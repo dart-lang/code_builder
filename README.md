@@ -35,10 +35,14 @@ Code builder has a narrow and user-friendly API.
 For example creating a class with a method:
 
 ```dart
-new ClassBuilder('Animal', extends: 'Organism')
-  ..addMethod(new MethodBuilder.returnVoid('eat')
-    ..setExpression(new ExpressionBuilder.invoke('print',
-      positional: [new LiteralString('Yum!')])));
+var base = reference('Organism');
+var clazz = new ClassBuilder('Animal', asExtends: base);
+clazz.addMethod(
+  new MethodBuilder.returnVoid(
+    'eat',
+    returns: reference('print).call([literal('Yum')]),
+  ),
+);
 ```
 
 Outputs:
@@ -54,26 +58,16 @@ use prefixes to avoid symbol conflicts:
 
 ```dart
 var lib = new LibraryBuilder.scope()
-      ..addDeclaration(new MethodBuilder(
-        name: 'doThing',
-        returns: new TypeBuilder(
-          'Thing',
-          importFrom: 'package:thing/thing.dart',
-        ),
-      ))
-      ..addDeclaration(new MethodBuilder(
-          name: 'doOtherThing',
-          returns: new TypeBuilder(
-            'Thing',
-            importFrom: 'package:thing/alternative.dart',
-          ))
-        ..addParameter(new ParameterBuilder(
-          'thing',
-          type: new TypeBuilder(
-            'Thing',
-            importFrom: 'package:thing/thing.dart',
-          ),
-        )));
+  ..addMembers([
+    new MethodBuilder(
+      'doThing',
+      returnType: reference('Thing', 'package:thing/thing.dart'),
+    ),
+    new MethodBuilder(
+      'doOtherThing',
+      returnType: reference('Thing', 'package:thing/alternative.dart'),
+    ),
+  ]);
 ```
 
 Outputs:
@@ -82,5 +76,5 @@ import 'package:thing/thing.dart' as _i1;
 import 'package:thing/alternative.dart' as _i2;
 
 _i1.Thing doThing() {}
-_i2.Thing doOtherThing(_i1.Thing thing) {}
+_i2.Thing doOtherThing() {}
 ```
