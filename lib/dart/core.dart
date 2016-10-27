@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-/// Contains reference to the `dart:core` SDK for use in code generation.
+/// Contains references to the `dart:core` SDK for use in code generation.
 ///
 /// This library is currently *experimental*, and is subject to change; it is
 /// currently manually maintained but there might be a strong use case for this
@@ -14,7 +14,7 @@
 ///     import 'package:code_builder/code_builder.dart';
 ///     import 'package:code_builder/dart/core.dart';
 ///
-/// All references are _namespaced_ under [core]. Try it:
+/// All references are _namespaced_ under [lib$core]. Try it:
 ///     // Outputs: print('Hello World')
 ///     core.print.call([literal('Hello World')]);
 ///
@@ -28,9 +28,9 @@ import 'dart:core' as dart_core;
 import 'package:code_builder/code_builder.dart';
 
 /// A namespace for references in `dart:core`.
-final DartCore core = new DartCore._();
+final DartCore lib$core = new DartCore._();
 
-/// References to the `dart:core` library for code generation. See [core].
+/// References to the `dart:core` library for code generation. See [lib$core].
 class DartCore {
   /// References [dart_core.bool].
   final ReferenceBuilder bool = _ref('bool');

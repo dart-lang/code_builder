@@ -7,7 +7,7 @@ void main() {
   group('new instance', () {
     test('emits a new List', () {
       expect(
-        core.List.newInstance([]),
+        lib$core.List.newInstance([]),
         equalsSource(r'''
           new List()
         '''),
@@ -16,7 +16,7 @@ void main() {
 
     test('emits a new List.from', () {
       expect(
-        core.List.newInstanceWith('from', [
+        lib$core.List.namedNewInstance('from', [
           literal([1, 2, 3]),
         ]),
         equalsSource(r'''
@@ -40,7 +40,8 @@ void main() {
     test('emits a const constructor as an annotation', () {
       expect(
         clazz('Animal', [
-          core.Deprecated.constInstance([literal('Animals are out of style')]),
+          lib$core.Deprecated
+              .constInstance([literal('Animals are out of style')]),
         ]),
         equalsSource(r'''
           @Deprecated('Animals are out of style')
@@ -52,7 +53,7 @@ void main() {
     test('emits a named const constructor as an annotation', () {
       expect(
         clazz('Animal', [
-          reference('Component').constInstanceWith(
+          reference('Component').namedConstInstance(
             'stateful',
             [],
             {

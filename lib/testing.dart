@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:code_builder/code_builder.dart';
+import 'package:code_builder/src/pretty_printer.dart';
 import 'package:dart_style/dart_style.dart';
 import 'package:matcher/matcher.dart';
 

@@ -40,7 +40,7 @@ var clazz = new ClassBuilder('Animal', asExtends: base);
 clazz.addMethod(
   new MethodBuilder.returnVoid(
     'eat',
-    returns: reference('print).call([literal('Yum')]),
+    returns: reference('print').call([literal('Yum')]),
   ),
 );
 ```

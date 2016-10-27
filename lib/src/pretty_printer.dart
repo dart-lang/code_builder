@@ -4,10 +4,20 @@
 
 import 'package:analyzer/analyzer.dart';
 import 'package:analyzer/dart/ast/token.dart';
-import 'package:code_builder/code_builder.dart';
 import 'package:dart_style/dart_style.dart';
 
 import 'analyzer_patch.dart';
+
+final _dartFmt = new DartFormatter();
+
+/// Returns [source] formatted by `dartfmt`.
+String dartfmt(String source) {
+  try {
+    return _dartFmt.format(source);
+  } on FormatterException catch (_) {
+    return _dartFmt.formatStatement(source);
+  }
+}
 
 /// Augments [AstNode.toSource] by adding some whitespace/line breaks.
 ///

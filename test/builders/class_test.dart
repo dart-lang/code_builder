@@ -85,7 +85,7 @@ void main() {
     expect(
       clazz('Animal', [
         constructor([
-          parameter('name', [core.String]),
+          parameter('name', [lib$core.String]),
           thisField(
             named(
               parameter('age').asOptional(literal(0)),
@@ -105,17 +105,17 @@ void main() {
     expect(
       clazz('Animal', [
         asStatic(
-          varField('static1', type: core.String, value: literal('Hello')),
+          varField('static1', type: lib$core.String, value: literal('Hello')),
         ),
         asStatic(
-          varFinal('static2', type: core.List, value: literal([])),
+          varFinal('static2', type: lib$core.List, value: literal([])),
         ),
         asStatic(
-          varConst('static3', type: core.bool, value: literal(true)),
+          varConst('static3', type: lib$core.bool, value: literal(true)),
         ),
-        varField('var1', type: core.String, value: literal('Hello')),
-        varFinal('var2', type: core.List, value: literal([])),
-        varConst('var3', type: core.bool, value: literal(true)),
+        varField('var1', type: lib$core.String, value: literal('Hello')),
+        varFinal('var2', type: lib$core.List, value: literal([])),
+        varConst('var3', type: lib$core.bool, value: literal(true)),
       ]),
       equalsSource(r'''
         class Animal {
@@ -134,15 +134,15 @@ void main() {
     expect(
       clazz('Animal', [
         asStatic(method('staticMethod', <ValidMethodMember>[
-          core.$void,
-          core.print.call([literal('Called staticMethod')]),
+          lib$core.$void,
+          lib$core.print.call([literal('Called staticMethod')]),
         ])),
         method('instanceMethod', <ValidMethodMember>[
-          core.$void,
-          core.print.call([literal('Called instanceMethod')]),
+          lib$core.$void,
+          lib$core.print.call([literal('Called instanceMethod')]),
         ]),
         constructor([
-          core.print.call([literal('Called constructor')]),
+          lib$core.print.call([literal('Called constructor')]),
         ]),
       ]),
       equalsSource(r'''

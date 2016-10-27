@@ -10,7 +10,7 @@ import 'package:code_builder/src/builders/shared.dart';
 import 'package:code_builder/src/builders/type.dart';
 import 'package:code_builder/src/tokens.dart';
 
-/// A more short-hand way of constructing a [ParameterBuilder].
+/// A short-hand way of constructing a [ParameterBuilder].
 ParameterBuilder parameter(
   String name, [
   Iterable<ValidParameterMember> members = const [],

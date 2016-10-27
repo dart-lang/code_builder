@@ -29,7 +29,7 @@ abstract class AbstractTypeBuilderMixin {
   }
 
   /// Invokes `const` on this type with a [name]d constructor.
-  NewInstanceBuilder constInstanceWith(
+  NewInstanceBuilder namedConstInstance(
     String name,
     Iterable<ExpressionBuilder> positional, [
     Map<String, ExpressionBuilder> named = const {},
@@ -50,7 +50,7 @@ abstract class AbstractTypeBuilderMixin {
   }
 
   /// Invokes `new` on this type with a [name]d constructor.
-  NewInstanceBuilder newInstanceWith(
+  NewInstanceBuilder namedNewInstance(
     String name,
     Iterable<ExpressionBuilder> positional, [
     Map<String, ExpressionBuilder> named = const {},

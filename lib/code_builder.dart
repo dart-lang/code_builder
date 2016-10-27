@@ -2,9 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:dart_style/dart_style.dart';
-import 'package:meta/meta.dart';
-
 export 'src/builders/annotation.dart' show AnnotationBuilder;
 export 'src/builders/class.dart'
     show asStatic, clazz, extend, implement, mixin, ClassBuilder;
@@ -34,15 +31,3 @@ export 'src/builders/shared.dart' show AstBuilder, Scope;
 export 'src/builders/statement.dart'
     show ifThen, elseIf, elseThen, IfStatementBuilder, StatementBuilder;
 export 'src/builders/type.dart' show NewInstanceBuilder, TypeBuilder;
-
-final _dartFmt = new DartFormatter();
-
-/// Returns [source] formatted by `dartfmt`.
-@visibleForTesting
-String dartfmt(String source) {
-  try {
-    return _dartFmt.format(source);
-  } on FormatterException catch (_) {
-    return _dartFmt.formatStatement(source);
-  }
-}

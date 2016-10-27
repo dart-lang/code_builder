@@ -22,7 +22,7 @@ FieldBuilder varField(
   );
 }
 
-/// Short-hand for [FieldBuilder].
+/// Short-hand for [FieldBuilder.asFinal].
 FieldBuilder varFinal(
   String name, {
   TypeBuilder type,
@@ -35,7 +35,7 @@ FieldBuilder varFinal(
   );
 }
 
-/// Short-hand for [FieldBuilder].
+/// Short-hand for [FieldBuilder.asConst].
 FieldBuilder varConst(
   String name, {
   TypeBuilder type,

@@ -109,7 +109,11 @@ abstract class AbstractExpressionMixin implements ExpressionBuilder {
   StatementBuilder asAssert() => new _AsAssert(this);
 
   @override
-  StatementBuilder asAssign(String variable) => new _AsAssign(this, variable);
+  StatementBuilder asAssign(
+    String variable, {
+    bool nullAware: false,
+  }) =>
+      new _AsAssign(this, variable, nullAware);
 
   @override
   StatementBuilder asConst(String variable, [TypeBuilder type]) {
@@ -162,7 +166,7 @@ abstract class AbstractExpressionMixin implements ExpressionBuilder {
 
   @override
   ExpressionBuilder identical(ExpressionBuilder other) {
-    return core.identical.call([
+    return lib$core.identical.call([
       this,
       other,
     ]);
@@ -184,6 +188,9 @@ abstract class AbstractExpressionMixin implements ExpressionBuilder {
   ExpressionBuilder negate() => new _NegateExpression(this);
 
   @override
+  ExpressionBuilder negative() => new _NegativeExpression(this);
+
+  @override
   ExpressionBuilder notEquals(ExpressionBuilder other) {
     return new _AsBinaryExpression(
       this,
@@ -196,7 +203,7 @@ abstract class AbstractExpressionMixin implements ExpressionBuilder {
   ExpressionBuilder parentheses() => new _ParenthesesExpression(this);
 }
 
-/// Lazily builds an [Expression] AST when [buildExpression] is invoked.
+/// Builds an [Expression] AST when [buildExpression] is invoked.
 abstract class ExpressionBuilder
     implements AstBuilder, StatementBuilder, ValidParameterMember {
   /// Returns as an [ExpressionBuilder] multiplying by [other].
@@ -265,6 +272,9 @@ abstract class ExpressionBuilder
 
   /// Returns as an [ExpressionBuilder] negating using the `!` operator.
   ExpressionBuilder negate();
+
+  /// Returns as an [ExpressionBuilder] negating the value,
+  ExpressionBuilder negative();
 
   /// Returns as an [ExpressionBuilder] comparing using `!=` against [other].
   ExpressionBuilder notEquals(ExpressionBuilder other);

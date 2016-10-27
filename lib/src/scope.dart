@@ -30,10 +30,10 @@ Identifier identifier(Scope scope, String name, [String importFrom]) {
 ///       print(scope.identifier('Foo', 'package:foo/foo.dart'));
 ///
 ///       // May print 'i1.Bar'.
-///       print(scope.identifier('Bar'), 'package:foo/foo.dart');
+///       print(scope.identifier('Bar', 'package:foo/foo.dart'));
 ///
 ///       // May print 'i2.Bar'.
-///       print(scope.getIdentifier('Baz'), 'package:bar/bar.dart');
+///       print(scope.getIdentifier('Baz', 'package:bar/bar.dart'));
 ///     }
 abstract class Scope {
   /// A no-op [Scope]. Ideal for use for tests or example cases.
@@ -45,8 +45,8 @@ abstract class Scope {
 
   /// Create a new scoping context.
   ///
-  /// Actual implementation of is _not_ guaranteed, only that all import
-  /// prefixes will be unique in a given scope.
+  /// Actual implementation of [Scope] is _not_ guaranteed, only that all
+  /// import prefixes will be unique in a given scope.
   factory Scope() = _IncrementingScope;
 
   /// Create a context that just collects and de-duplicates imports.

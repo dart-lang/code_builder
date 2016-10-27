@@ -20,7 +20,7 @@ void main() {
   test('should emit a top-level void main() function', () {
     expect(
       method('main', [
-        core.$void,
+        lib$core.$void,
       ]).buildMethod(false).toSource(),
       equalsIgnoringWhitespace(r'''
         void main();
@@ -31,7 +31,7 @@ void main() {
   test('should emit a function with a parameter', () {
     expect(
       method('main', [
-        parameter('args', [core.List]),
+        parameter('args', [lib$core.List]),
       ]).buildMethod(false).toSource(),
       equalsIgnoringWhitespace(r'''
         main(List args);
@@ -123,7 +123,7 @@ void main() {
 
     test('should a method with a lambda value', () {
       expect(
-        lambda('supported', literal(true), returnType: core.bool),
+        lambda('supported', literal(true), returnType: lib$core.bool),
         equalsSource(r'''
           bool supported() => true;
         '''),
@@ -144,7 +144,7 @@ void main() {
     expect(
       getter(
         'values',
-        returnType: core.Iterable,
+        returnType: lib$core.Iterable,
         statements: [
           literal([]).asReturn(),
         ],
@@ -159,7 +159,7 @@ void main() {
 
   test('should emit a setter', () {
     expect(
-      setter('name', parameter('name', [core.String]), [
+      setter('name', parameter('name', [lib$core.String]), [
         (reference('name') + literal('!')).asAssign('_name'),
       ]),
       equalsSource(r'''

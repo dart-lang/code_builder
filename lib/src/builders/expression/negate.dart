@@ -16,3 +16,20 @@ class _NegateExpression extends AbstractExpressionMixin {
     );
   }
 }
+
+class _NegativeExpression extends AbstractExpressionMixin {
+  final ExpressionBuilder _expression;
+
+  _NegativeExpression(this._expression);
+
+  @override
+  AstNode buildAst([Scope scope]) => buildExpression(scope);
+
+  @override
+  Expression buildExpression([Scope scope]) {
+    return new PrefixExpression(
+      $minus,
+      _expression.parentheses().buildExpression(scope),
+    );
+  }
+}

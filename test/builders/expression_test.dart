@@ -89,7 +89,7 @@ void main() {
 
   test('should emit a typed assignemnt statement', () {
     expect(
-      literal(true).asVar('flag', core.bool),
+      literal(true).asVar('flag', lib$core.bool),
       equalsSource(r'''
         bool flag = true;
       '''),
@@ -116,7 +116,7 @@ void main() {
 
   test('should call an expression as a function', () {
     expect(
-      core.identical.call([literal(true), literal(true)]),
+      lib$core.identical.call([literal(true), literal(true)]),
       equalsSource(r'''
         identical(true, true)
       '''),

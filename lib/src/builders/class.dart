@@ -49,7 +49,7 @@ ClassBuilder clazz(
 }
 
 /// Wrap [member] to be emitted as a `static` method or field.
-_StaticFieldWrapper asStatic(ValidClassMember member) {
+ValidClassMember asStatic(ValidClassMember member) {
   return new _StaticFieldWrapper(member);
 }
 
@@ -198,7 +198,7 @@ class _ClassBuilderImpl extends Object
   ClassDeclaration buildClass([Scope scope]) {
     var extend = _extends;
     if (extend == null && _with.isNotEmpty) {
-      extend = core.Object;
+      extend = lib$core.Object;
     }
     final clazz = new ClassDeclaration(
       null,

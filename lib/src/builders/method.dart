@@ -209,12 +209,12 @@ abstract class MethodBuilder
   /// Creates a new [MethodBuilder] that returns `void`.
   factory MethodBuilder.returnVoid(String name, {ExpressionBuilder returns}) {
     if (returns == null) {
-      return new _MethodBuilderImpl(name, returns: core.$void);
+      return new _MethodBuilderImpl(name, returns: lib$core.$void);
     }
     return new _LambdaMethodBuilder(
       name,
       returns,
-      core.$void,
+      lib$core.$void,
       null,
     );
   }

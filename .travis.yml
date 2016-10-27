@@ -4,4 +4,4 @@ dart:
   - dev
   - stable
 
-script: ./tool/travis.sh
+script: ./tool/presubmit.sh

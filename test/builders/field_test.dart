@@ -6,7 +6,7 @@ import 'package:test/test.dart';
 void main() {
   test('emit a var', () {
     expect(
-      varField('a', type: core.String, value: literal('Hello')),
+      varField('a', type: lib$core.String, value: literal('Hello')),
       equalsSource(r'''
         String a = 'Hello';
       '''),
@@ -15,7 +15,7 @@ void main() {
 
   test('emit a final', () {
     expect(
-      varFinal('a', type: core.String, value: literal('Hello')),
+      varFinal('a', type: lib$core.String, value: literal('Hello')),
       equalsSource(r'''
         final String a = 'Hello';
       '''),
@@ -24,7 +24,7 @@ void main() {
 
   test('emit a const', () {
     expect(
-      varConst('a', type: core.String, value: literal('Hello')),
+      varConst('a', type: lib$core.String, value: literal('Hello')),
       equalsSource(r'''
         const String a = 'Hello';
       '''),

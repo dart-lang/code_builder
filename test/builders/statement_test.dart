@@ -8,7 +8,7 @@ void main() {
     test('should emit a simple if statement', () {
       expect(
         ifThen(literal(true), [
-          core.print.call([literal('Hello World')]),
+          lib$core.print.call([literal('Hello World')]),
         ]),
         equalsSource(r'''
         if (true) {
@@ -21,9 +21,9 @@ void main() {
     test('should emit an if then else statement', () {
       expect(
         ifThen(literal(true), [
-          core.print.call([literal('TRUE')]),
+          lib$core.print.call([literal('TRUE')]),
           elseThen([
-            core.print.call([literal('FALSE')]),
+            lib$core.print.call([literal('FALSE')]),
           ]),
         ]),
         equalsSource(r'''
@@ -40,9 +40,9 @@ void main() {
       final a = reference('a');
       expect(
         ifThen(a.equals(literal(1)), [
-          core.print.call([literal('Was 1')]),
+          lib$core.print.call([literal('Was 1')]),
           elseIf(ifThen(a.equals(literal(2)), [
-            core.print.call([literal('Was 2')]),
+            lib$core.print.call([literal('Was 2')]),
           ])),
         ]),
         equalsSource(r'''
@@ -61,11 +61,11 @@ void main() {
         ifThen(
           a.equals(literal(1)),
           [
-            core.print.call([literal('Was 1')]),
+            lib$core.print.call([literal('Was 1')]),
             elseIf(ifThen(a.equals(literal(2)), [
-              core.print.call([literal('Was 2')]),
+              lib$core.print.call([literal('Was 2')]),
               elseThen([
-                core.print.call([literal('Was ') + a]),
+                lib$core.print.call([literal('Was ') + a]),
               ]),
             ])),
           ],

@@ -4,9 +4,9 @@ part of code_builder.src.builders.type;
 ///
 /// See [TypeBuilder]:
 /// - [TypeBuilder.constInstance]
-/// - [TypeBuilder.constInstanceWith]
+/// - [TypeBuilder.namedConstInstance]
 /// - [TypeBuilder.newInstance]
-/// - [TypeBuilder.newInstanceWith]
+/// - [TypeBuilder.namedNewInstance]
 abstract class NewInstanceBuilder
     implements AnnotationBuilder, InvocationBuilder {
   factory NewInstanceBuilder._const(TypeBuilder type, [String name]) {

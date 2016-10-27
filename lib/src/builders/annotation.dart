@@ -7,7 +7,7 @@ import 'package:code_builder/src/builders/class.dart';
 import 'package:code_builder/src/builders/parameter.dart';
 import 'package:code_builder/src/builders/shared.dart';
 
-/// Lazily builds an [Annotation] AST when [buildAnnotation] is invoked.
+/// Builds an [Annotation] AST when [buildAnnotation] is invoked.
 abstract class AnnotationBuilder
     implements ValidClassMember, ValidParameterMember {
   /// Returns an [Annotation] AST representing the builder.
@@ -43,7 +43,7 @@ abstract class HasAnnotationsMixin implements HasAnnotations {
       .toList();
 
   /// Clones all annotations to [clone].
-  void cloneAnnotationsTo(HasAnnotations clone) {
+  void copyAnnotationsTo(HasAnnotations clone) {
     clone.addAnnotations(_annotations);
   }
 }

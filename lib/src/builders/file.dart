@@ -6,7 +6,7 @@ import 'package:analyzer/analyzer.dart';
 import 'package:code_builder/src/builders/shared.dart';
 import 'package:code_builder/src/tokens.dart';
 
-/// Lazily builds a file of Dart source code.
+/// Builds a file of Dart source code.
 ///
 /// See [LibraryBuilder] and [PartBuilder] for concrete implementations.
 abstract class FileBuilder implements AstBuilder<CompilationUnit> {
@@ -26,7 +26,7 @@ abstract class FileBuilder implements AstBuilder<CompilationUnit> {
   }
 }
 
-/// Lazily builds a standalone file (library) of Dart source code.
+/// Builds a standalone file (library) of Dart source code.
 class LibraryBuilder extends FileBuilder {
   final List<AstBuilder<Directive>> _directives = <AstBuilder<Directive>>[];
   final Scope _scope;

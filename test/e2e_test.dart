@@ -32,7 +32,7 @@ void main() {
           reference('_module').invoke('getDep2', []),
         ]),
         returnType: thingRef,
-      )..addAnnotation(core.override));
+      )..addAnnotation(lib$core.override));
     var lib = new LibraryBuilder()
       ..addDirective(
         new ImportBuilder('app.dart'),
@@ -84,7 +84,7 @@ void main() {
             reference('_module').invoke('getDep1', []),
             reference('_module').invoke('getDep2', []),
           ]),
-        )..addAnnotation(core.override)));
+        )..addAnnotation(lib$core.override)));
     expect(
       lib,
       equalsSource(

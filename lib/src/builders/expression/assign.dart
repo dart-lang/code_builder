@@ -1,10 +1,11 @@
 part of code_builder.src.builders.expression;
 
 class _AsAssign extends AbstractExpressionMixin {
-  final ExpressionBuilder _value;
   final String _name;
+  final bool _nullAware;
+  final ExpressionBuilder _value;
 
-  _AsAssign(this._value, this._name);
+  _AsAssign(this._value, this._name, this._nullAware);
 
   @override
   AstNode buildAst([Scope scope]) => buildExpression(scope);
@@ -13,7 +14,7 @@ class _AsAssign extends AbstractExpressionMixin {
   Expression buildExpression([Scope scope]) {
     return new AssignmentExpression(
       stringIdentifier(_name),
-      $equals,
+      _nullAware ? $nullAwareEquals : $equals,
       _value.buildExpression(scope),
     );
   }
