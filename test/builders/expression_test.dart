@@ -62,7 +62,7 @@ void main() {
 
   test('should emit an assign expression with a null aware', () {
     expect(
-      literal(true).asAssign('flag', nullAware: true), 
+      literal(true).asAssign('flag', nullAware: true),
       equalsSource(r'''
         flag ??= true
       '''),
