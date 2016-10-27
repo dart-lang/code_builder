@@ -2,81 +2,115 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of code_builder;
+import 'package:analyzer/analyzer.dart';
 
-/// Determines an [Identifier] deppending on where it appears.
+import 'builders/file.dart';
+import 'tokens.dart';
+
+/// Returns an identifier for [name], using [scope] to enforce prefixing.
 ///
-/// __Example use__:
-///     void useContext(Scope scope) {
-///       // Prints Identifier "i1.Foo"
-///       print(scope.getIdentifier('Foo', 'package:foo/foo.dart');
+/// It is _required_ within `code_builder` to use this API instead of creating
+/// identifeirs manually in places where an obvious API collision could occur
+/// (i.e. imported references).
 ///
-///       // Prints Identifier "i1.Bar"
-///       print(scope.getIdentifier('Bar', 'package:foo/foo.dart');
+/// If [scope] is null, no prefixing is applied.
 ///
-///       // Prints Identifier "i2.Baz"
-///       print(scope.getIdentifier('Baz', 'package:bar/bar.dart');
-///     }
-abstract class Scope {
-  /// Create a default scope context.
-  ///
-  /// Actual implementation is _not_ guaranteed, only that all import prefixes
-  /// will be unique in a given scope (actual implementation may be naive).
-  factory Scope() = _IncrementingScope;
-
-  /// Create a context that just de-duplicates imports (no scoping).
-  factory Scope.dedupe() = _DeduplicatingScope;
-
-  /// Create a context that does nothing.
-  const factory Scope.identity() = _IdentityScope;
-
-  /// Given a [symbol] and its known [importUri], return an [Identifier].
-  Identifier getIdentifier(String symbol, String importUri);
-
-  /// Returns a list of all imports needed to resolve identifiers.
-  Iterable<ImportBuilder> getImports();
+/// ## Example
+///     // May output `hello.Hello`.
+///     identifier(scope, 'Hello', 'pacakge:hello/hello.dart')
+Identifier identifier(Scope scope, String name, [String importFrom]) {
+  return (scope ?? Scope.identity).identifier(name, importFrom);
 }
 
-class _DeduplicatingScope implements Scope {
+/// Maintains an imported reference scope to avoid conflicts in generated code.
+///
+/// ## Example
+///     void useContext(Scope scope) {
+///       // May print 'i1.Foo'.
+///       print(scope.identifier('Foo', 'package:foo/foo.dart'));
+///
+///       // May print 'i1.Bar'.
+///       print(scope.identifier('Bar', 'package:foo/foo.dart'));
+///
+///       // May print 'i2.Bar'.
+///       print(scope.getIdentifier('Baz', 'package:bar/bar.dart'));
+///     }
+abstract class Scope {
+  /// A no-op [Scope]. Ideal for use for tests or example cases.
+  ///
+  /// **WARNING**: Does not collect import statements. This is only really
+  /// advisable for use in tests but not production code. To use import
+  /// collection but not prefixing, see [Scope.dedupe].
+  static const Scope identity = const _IdentityScope();
+
+  /// Create a new scoping context.
+  ///
+  /// Actual implementation of [Scope] is _not_ guaranteed, only that all
+  /// import prefixes will be unique in a given scope.
+  factory Scope() = _IncrementingScope;
+
+  /// Create a context that just collects and de-duplicates imports.
+  ///
+  /// Prefixing is _not_ applied.
+  factory Scope.dedupe() => new _DeduplicatingScope();
+
+  /// Given a [name] and and import path, returns an [Identifier].
+  Identifier identifier(String name, String importFrom);
+
+  /// Return a list of import statements.
+  List<ImportBuilder> toImports();
+}
+
+class _DeduplicatingScope extends _IdentityScope {
   final Set<String> _imports = new Set<String>();
 
   @override
-  Identifier getIdentifier(String symbol, String import) {
-    _imports.add(import);
-    return _stringIdentifier(symbol);
+  Identifier identifier(String name, [String importFrom]) {
+    if (importFrom != null) {
+      _imports.add(importFrom);
+    }
+    return super.identifier(name);
   }
 
   @override
-  Iterable<ImportBuilder> getImports() {
-    return _imports.map/*<ImportBuilder*/((i) => new ImportBuilder(i));
-  }
+  List<ImportBuilder> toImports() =>
+      _imports.map((uri) => new ImportBuilder(uri)).toList();
 }
 
 class _IdentityScope implements Scope {
   const _IdentityScope();
 
   @override
-  Identifier getIdentifier(String symbol, _) => _stringIdentifier(symbol);
-
-  @override
-  Iterable<ImportBuilder> getImports() => const [];
-}
-
-class _IncrementingScope implements Scope {
-  final Map<String, int> _imports = <String, int>{};
-
-  int _counter = 0;
-
-  @override
-  Identifier getIdentifier(String symbol, String import) {
-    var newId = _imports.putIfAbsent(import, () => ++_counter);
-    return new PrefixedIdentifier(
-        _stringIdentifier('_i$newId'), $period, _stringIdentifier(symbol));
+  Identifier identifier(String name, [_]) {
+    return new SimpleIdentifier(stringToken(name));
   }
 
   @override
-  Iterable<ImportBuilder> getImports() {
-    return _imports.keys.map/*<ImportBuilder*/(
-        (i) => new ImportBuilder(i, prefix: '_i${_imports[i]}'));
+  List<ImportBuilder> toImports() => const [];
+}
+
+class _IncrementingScope extends _IdentityScope {
+  final Map<String, int> _imports = <String, int>{};
+
+  int _counter = 1;
+
+  @override
+  Identifier identifier(String name, [String importFrom]) {
+    if (importFrom == null) {
+      return super.identifier(name);
+    }
+    var newId = _imports.putIfAbsent(importFrom, () => _counter++);
+    return new PrefixedIdentifier(
+      super.identifier('_i$newId'),
+      $period,
+      super.identifier(name),
+    );
+  }
+
+  @override
+  List<ImportBuilder> toImports() {
+    return _imports.keys.map((uri) {
+      return new ImportBuilder(uri, prefix: '_i${_imports[uri]}');
+    }).toList();
   }
 }

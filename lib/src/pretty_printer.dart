@@ -2,7 +2,22 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of code_builder;
+import 'package:analyzer/analyzer.dart';
+import 'package:analyzer/dart/ast/token.dart';
+import 'package:dart_style/dart_style.dart';
+
+import 'analyzer_patch.dart';
+
+final _dartFmt = new DartFormatter();
+
+/// Returns [source] formatted by `dartfmt`.
+String dartfmt(String source) {
+  try {
+    return _dartFmt.format(source);
+  } on FormatterException catch (_) {
+    return _dartFmt.formatStatement(source);
+  }
+}
 
 /// Augments [AstNode.toSource] by adding some whitespace/line breaks.
 ///
@@ -14,13 +29,16 @@ String prettyToSource(AstNode astNode) {
   var buffer = new PrintBuffer();
   var visitor = new _PrettyToSourceVisitor(buffer);
   astNode.accept(visitor);
-  return dartfmt(buffer.toString());
+  var source = buffer.toString();
+  try {
+    return dartfmt(source);
+  } on FormatterException catch (_) {
+    return source;
+  }
 }
 
-// TODO(matanl): Remove copied-pasted methods when API becomes available.
-// https://github.com/dart-lang/sdk/issues/27169
+// https://github.com/dart-lang/code_builder/issues/16
 class _PrettyToSourceVisitor extends ToSourceVisitor {
-  // https://github.com/dart-lang/sdk/issues/27301
   final StringBuffer _buffer;
 
   _PrettyToSourceVisitor(PrintBuffer buffer)
