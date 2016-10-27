@@ -60,6 +60,15 @@ void main() {
     );
   });
 
+  test('should emit an assign expression with a null aware', () {
+    expect(
+      literal(true).asAssign('flag', nullAware: true), 
+      equalsSource(r'''
+        flag ??= true
+      '''),
+    );
+  });
+
   test('should emit a const variable assignment statement', () {
     expect(
       literal(true).asConst('flag'),
@@ -223,6 +232,15 @@ void main() {
       literal(true).parentheses(),
       equalsSource(r'''
         (true)
+      '''),
+    );
+  });
+
+  test('should return as a negative expression', () {
+    expect(
+      literal(1).negative(),
+      equalsSource(r'''
+        -(1)
       '''),
     );
   });

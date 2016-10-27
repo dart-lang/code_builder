@@ -222,7 +222,7 @@ abstract class ExpressionBuilder
   StatementBuilder asAssert();
 
   /// Returns as a [StatementBuilder] that assigns to an existing [variable].
-  StatementBuilder asAssign(String variable);
+  StatementBuilder asAssign(String variable, {bool nullAware});
 
   /// Returns as a [StatementBuilder] that assigns to a new `const` [variable].
   StatementBuilder asConst(String variable, [TypeBuilder type]);
@@ -231,7 +231,7 @@ abstract class ExpressionBuilder
   StatementBuilder asFinal(String variable, [TypeBuilder type]);
 
   /// Returns as a [StatementBuilder] that builds an `if` statement.
-  /*If*/ StatementBuilder asIf();
+  IfStatementBuilder asIf();
 
   /// Returns as a [StatementBuilder] that `return`s this expression.
   StatementBuilder asReturn();
