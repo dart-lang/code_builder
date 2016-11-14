@@ -35,6 +35,12 @@ class DartAsync {
   /// References [dart_async.Future].
   final ReferenceBuilder Future = _ref('Future');
 
+  /// References [dart_async.Stream].
+  final ReferenceBuilder Stream = _ref('Stream');
+
+  /// References [dart_async.StreamSubscription].
+  final ReferenceBuilder StreamSubscription = _ref('StreamSubscription');
+
   DartAsync._();
 
   static ReferenceBuilder _ref(String name) => reference(name, 'dart:async');

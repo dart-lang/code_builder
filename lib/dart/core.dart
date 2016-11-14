@@ -213,6 +213,11 @@ class DartCore {
   /// References [dart_core.UriData].
   final ReferenceBuilder UriData = _ref('UriData');
 
+  /// References `dynamic` type for returning any in a method.
+  ///
+  /// **NOTE**: As a language limitation, this cannot be named `dynamic`.
+  final TypeBuilder $dynamic = new TypeBuilder('dynamic');
+
   /// References `void` type for returning nothing in a method.
   ///
   /// **NOTE**: As a language limitation, this cannot be named `void`.

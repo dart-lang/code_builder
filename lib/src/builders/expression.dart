@@ -1,8 +1,7 @@
-library code_builder.src.builders.expression;
-
 // Copyright (c) 2016, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
+library code_builder.src.builders.expression;
 
 import 'package:analyzer/analyzer.dart';
 import 'package:analyzer/dart/ast/token.dart';
@@ -32,7 +31,37 @@ final _true = new BooleanLiteral(new KeywordToken(Keyword.TRUE, 0), true);
 /// Returns a pre-defined literal expression of [value].
 ///
 /// Only primitive values are allowed.
-ExpressionBuilder literal(value) => new _LiteralExpression(_literal(value));
+ExpressionBuilder literal(value) {
+  if (value is List) {
+    return list(value);
+  }
+  if (value is Map) {
+    return map(value);
+  }
+  return new _LiteralExpression(_literal(value));
+}
+
+/// Returns a literal `List` expression from [values].
+///
+/// Optionally specify [asConst] or with a generic [type].
+ExpressionBuilder list(
+  Iterable values, {
+  bool asConst: false,
+  TypeBuilder type,
+}) =>
+    new _TypedListExpression(values, asConst: asConst, type: type);
+
+/// Returns a literal `Map` expression from [values].
+///
+/// Optionally specify [asConst] or with a generic [keyType] or [valueType].
+ExpressionBuilder map(
+  Map values, {
+  bool asConst: false,
+  TypeBuilder keyType,
+  TypeBuilder valueType,
+}) =>
+    new _TypedMapExpression(values,
+        asConst: asConst, keyType: keyType, valueType: valueType);
 
 Literal _literal(value) {
   if (value == null) {
@@ -45,24 +74,6 @@ Literal _literal(value) {
     return new IntegerLiteral(stringToken('$value'), value);
   } else if (value is double) {
     return new DoubleLiteral(stringToken('$value'), value);
-  } else if (value is List) {
-    return new ListLiteral(
-      null,
-      null,
-      $openBracket,
-      value.map/*<Literal>*/(_literal).toList(),
-      $closeBracket,
-    );
-  } else if (value is Map) {
-    return new MapLiteral(
-      null,
-      null,
-      $openBracket,
-      value.keys.map/*<MapLiteralEntry>*/((k) {
-        return new MapLiteralEntry(_literal(k), $colon, _literal(value[k]));
-      }).toList(),
-      $closeBracket,
-    );
   }
   throw new ArgumentError.value(value, 'Unsupported');
 }
@@ -354,6 +365,106 @@ class _ParenthesesExpression extends Object with AbstractExpressionMixin {
       $openParen,
       _expression.buildExpression(scope),
       $closeParen,
+    );
+  }
+}
+
+ExpressionBuilder _expressionify(v) {
+  if (v == null || v is bool || v is String || v is int || v is double) {
+    return new _LiteralExpression(_literal(v));
+  }
+  if (v is ExpressionBuilder) {
+    return v;
+  }
+  throw new ArgumentError('Could not expressionify $v');
+}
+
+class _TypedListExpression extends Object with AbstractExpressionMixin {
+  static List<ExpressionBuilder> _toExpression(Iterable values) {
+    return values.map(_expressionify).toList();
+  }
+
+  final bool _asConst;
+  final TypeBuilder _type;
+  final List<ExpressionBuilder> _values;
+
+  _TypedListExpression(Iterable values, {bool asConst, TypeBuilder type})
+      : _values = _toExpression(values),
+        _asConst = asConst,
+        _type = type;
+
+  @override
+  AstNode buildAst([Scope scope]) => buildExpression(scope);
+
+  @override
+  Expression buildExpression([Scope scope]) {
+    return new ListLiteral(
+      _asConst ? $const : null,
+      _type != null
+          ? new TypeArgumentList(
+              $openBracket,
+              [_type.buildType(scope)],
+              $closeBracket,
+            )
+          : null,
+      $openBracket,
+      _values.map((v) => v.buildExpression(scope)).toList(),
+      $closeBracket,
+    );
+  }
+}
+
+class _TypedMapExpression extends Object with AbstractExpressionMixin {
+  static Map<ExpressionBuilder, ExpressionBuilder> _toExpression(Map values) {
+    return new Map<ExpressionBuilder, ExpressionBuilder>.fromIterable(
+      values.keys,
+      key: (k) => _expressionify(k),
+      value: (k) => _expressionify(values[k]),
+    );
+  }
+
+  final bool _asConst;
+  final TypeBuilder _keyType;
+  final TypeBuilder _valueType;
+  final Map<ExpressionBuilder, ExpressionBuilder> _values;
+
+  _TypedMapExpression(Map values,
+      {bool asConst, TypeBuilder keyType, TypeBuilder valueType})
+      : _values = _toExpression(values),
+        _asConst = asConst,
+        _keyType = keyType != null
+            ? keyType
+            : valueType != null ? lib$core.$dynamic : null,
+        _valueType = valueType != null
+            ? valueType
+            : keyType != null ? lib$core.$dynamic : null;
+
+  @override
+  AstNode buildAst([Scope scope]) => buildExpression(scope);
+
+  @override
+  Expression buildExpression([Scope scope]) {
+    return new MapLiteral(
+      _asConst ? $const : null,
+      _keyType != null
+          ? new TypeArgumentList(
+              $openBracket,
+              [
+                _keyType.buildType(scope),
+                _valueType.buildType(scope),
+              ],
+              $closeBracket,
+            )
+          : null,
+      $openBracket,
+      _values.keys.map((k) {
+        return new MapLiteralEntry(
+          k.buildExpression(scope),
+          $colon,
+          _values[k].buildExpression(scope),
+        );
+      }).toList(),
+      $closeBracket,
     );
   }
 }
