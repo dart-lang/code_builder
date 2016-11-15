@@ -35,6 +35,9 @@ final Token $colon = new Token(TokenType.COLON, 0);
 /// The `const` token.
 final Token $const = new KeywordToken(Keyword.CONST, 0);
 
+/// The `deferred` token.
+final Token $deferred = new KeywordToken(Keyword.DEFERRED, 0);
+
 /// The `/` token.
 final Token $divide = new Token(TokenType.SLASH, 0);
 
@@ -63,6 +66,9 @@ final Token $gt = new Token(TokenType.GT, 0);
 final Token $if = new KeywordToken(Keyword.IF, 0);
 
 // Simple tokens
+
+/// The `hide` token.
+final Token $hide = new StringToken(TokenType.KEYWORD, 'hide', 0);
 
 /// The `implements` token.
 final Token $implements = new KeywordToken(Keyword.IMPLEMENTS, 0);
@@ -120,6 +126,9 @@ final Token $return = new KeywordToken(Keyword.RETURN, 0);
 
 /// The ';' token.
 final Token $semicolon = new Token(TokenType.SEMICOLON, 0);
+
+/// The `show` token.
+final Token $show = new StringToken(TokenType.KEYWORD, 'show', 0);
 
 /// The `static` token.
 final Token $static = new KeywordToken(Keyword.STATIC, 0);

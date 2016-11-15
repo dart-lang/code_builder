@@ -6,10 +6,11 @@ export 'src/builders/annotation.dart' show AnnotationBuilder;
 export 'src/builders/class.dart'
     show asStatic, clazz, extend, implement, mixin, ClassBuilder;
 export 'src/builders/expression.dart'
-    show literal, ExpressionBuilder, InvocationBuilder;
+    show literal, list, map, ExpressionBuilder, InvocationBuilder;
 export 'src/builders/field.dart'
     show varConst, varField, varFinal, FieldBuilder;
-export 'src/builders/file.dart' show ImportBuilder, LibraryBuilder, PartBuilder;
+export 'src/builders/file.dart'
+    show ExportBuilder, ImportBuilder, LibraryBuilder, PartBuilder;
 export 'src/builders/method.dart'
     show
         constructor,

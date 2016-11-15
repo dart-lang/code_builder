@@ -131,25 +131,120 @@ class _LibraryDirectiveBuilder implements AstBuilder<LibraryDirective> {
 class ImportBuilder implements AstBuilder<ImportDirective> {
   final String _prefix;
   final String _uri;
+  final bool _deferred;
 
-  factory ImportBuilder(String path, {String prefix}) {
-    return new ImportBuilder._(path, prefix);
+  final Set<String> _show = new Set<String>();
+  final Set<String> _hide = new Set<String>();
+
+  factory ImportBuilder(String path, {bool deferred: false, String prefix}) {
+    return new ImportBuilder._(path, prefix, deferred);
   }
 
-  ImportBuilder._(this._uri, this._prefix);
+  ImportBuilder._(this._uri, this._prefix, this._deferred);
+
+  void hide(String identifier) {
+    _hide.add(identifier);
+  }
+
+  void hideAll(Iterable<String> identifiers) {
+    _hide.addAll(identifiers);
+  }
+
+  void show(String identifier) {
+    _show.add(identifier);
+  }
+
+  void showAll(Iterable<String> identifier) {
+    _show.addAll(identifier);
+  }
 
   @override
   ImportDirective buildAst([_]) {
+    var combinators = <Combinator>[];
+    if (_show.isNotEmpty) {
+      combinators.add(
+        new ShowCombinator(
+          $show,
+          _show.map(stringIdentifier).toList(),
+        ),
+      );
+    }
+    if (_hide.isNotEmpty) {
+      combinators.add(
+        new HideCombinator(
+          $hide,
+          _hide.map(stringIdentifier).toList(),
+        ),
+      );
+    }
     return new ImportDirective(
       null,
       null,
       null,
       new SimpleStringLiteral(stringToken("'$_uri'"), _uri),
       null,
-      null,
+      _deferred ? $deferred : null,
       _prefix != null ? $as : null,
       _prefix != null ? stringIdentifier(_prefix) : null,
+      combinators,
+      $semicolon,
+    );
+  }
+}
+
+/// Lazily builds an [ExportDirective] AST when built.
+class ExportBuilder implements AstBuilder<ExportDirective> {
+  final String _uri;
+
+  final Set<String> _show = new Set<String>();
+  final Set<String> _hide = new Set<String>();
+
+  factory ExportBuilder(String path) = ExportBuilder._;
+
+  ExportBuilder._(this._uri);
+
+  void hide(String identifier) {
+    _hide.add(identifier);
+  }
+
+  void hideAll(Iterable<String> identifiers) {
+    _hide.addAll(identifiers);
+  }
+
+  void show(String identifier) {
+    _show.add(identifier);
+  }
+
+  void showAll(Iterable<String> identifier) {
+    _show.addAll(identifier);
+  }
+
+  @override
+  ExportDirective buildAst([_]) {
+    var combinators = <Combinator>[];
+    if (_show.isNotEmpty) {
+      combinators.add(
+        new ShowCombinator(
+          $show,
+          _show.map(stringIdentifier).toList(),
+        ),
+      );
+    }
+    if (_hide.isNotEmpty) {
+      combinators.add(
+        new HideCombinator(
+          $hide,
+          _hide.map(stringIdentifier).toList(),
+        ),
+      );
+    }
+    return new ExportDirective(
       null,
+      null,
+      null,
+      new SimpleStringLiteral(stringToken("'$_uri'"), _uri),
+      null,
+      combinators,
       $semicolon,
     );
   }

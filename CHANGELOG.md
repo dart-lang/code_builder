@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.0.0-alpha+1
+
+- Slight updates to confusing documentation.
+- Added support for null-aware assignments.
+- Added `show` and `hide` support to `ImportBuilder`
+- Added `deferred` support to `ImportBuilder`
+- Added `ExportBuilder`
+- Added `list` and `map` literals that support generic types
+
 ## 1.0.0-alpha
 
 - Large refactor that makes the library more feature complete.

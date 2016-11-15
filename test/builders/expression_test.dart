@@ -37,8 +37,31 @@ void main() {
       expect(literal([1, 2, 3]), equalsSource(r'[1, 2, 3]'));
     });
 
+    test('should emit a typed list', () {
+      expect(
+        list([1, 2, 3], type: lib$core.int),
+        equalsSource(r'<int> [1, 2, 3]'),
+      );
+    });
+
     test('should emit a map', () {
       expect(literal({1: 2, 2: 3}), equalsSource(r'{1 : 2, 2 : 3}'));
+    });
+
+    test('should emit a typed map', () {
+      expect(
+        map(
+          {
+            1: '2',
+            2: '3',
+          },
+          keyType: lib$core.int,
+          valueType: lib$core.String,
+        ),
+        equalsSource(r'''
+          <int, String> {1 : '2', 2 : '3'}
+        '''),
+      );
     });
   });
 
