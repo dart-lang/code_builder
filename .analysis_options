@@ -21,7 +21,8 @@ linter:
     - empty_constructor_bodies
     - hash_and_equals
     - library_prefixes
-    - non_constant_identifier_names
+    # This convention is broken on purpose in parts of the code.
+    # - non_constant_identifier_names
     - prefer_is_not_empty
     - slash_for_doc_comments
     - type_init_formals

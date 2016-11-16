@@ -63,9 +63,40 @@ abstract class HasStatementsMixin implements HasStatements {
 abstract class StatementBuilder
     implements
         AstBuilder,
+        TopLevelMixin,
         ValidIfStatementMember,
         ValidConstructorMember,
         ValidMethodMember {
   /// Returns an [Statement] AST representing the builder.
   Statement buildStatement([Scope scope]);
+}
+
+/// Implements [buildTopLevelAst].
+abstract class TopLevelMixin {
+  /// Returns a [Statement] suitable for a top-level expression.
+  ///
+  /// May throw [UnsupportedError].
+  CompilationUnitMember buildTopLevelAst([Scope scope]) {
+    throw new UnsupportedError('$runtimeType does not work in the top-level');
+  }
+}
+
+/// Just the `return;` statement, for `void` methods.
+const StatementBuilder returnVoid = const _ReturnStatementBuilder();
+
+class _ReturnStatementBuilder extends Object implements StatementBuilder {
+  const _ReturnStatementBuilder();
+
+  @override
+  Statement buildAst([_]) => buildStatement();
+
+  @override
+  Statement buildStatement([_]) {
+    return new ReturnStatement($return, null, $semicolon);
+  }
+
+  @override
+  CompilationUnitMember buildTopLevelAst([Scope scope]) {
+    throw new UnsupportedError('$runtimeType does not work in the top-level');
+  }
 }

@@ -4,7 +4,7 @@
 
 part of code_builder.src.builders.expression;
 
-class _AsReturn implements StatementBuilder {
+class _AsReturn extends TopLevelMixin implements StatementBuilder {
   final ExpressionBuilder _value;
 
   _AsReturn(this._value);

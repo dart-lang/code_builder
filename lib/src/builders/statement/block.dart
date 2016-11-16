@@ -15,7 +15,7 @@ abstract class BlockStatementBuilder
 }
 
 class _BlockStatementBuilder extends Object
-    with HasStatementsMixin
+    with HasStatementsMixin, TopLevelMixin
     implements BlockStatementBuilder {
   @override
   AstNode buildAst([Scope scope]) => buildStatement(scope);
