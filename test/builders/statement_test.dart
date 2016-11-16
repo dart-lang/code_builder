@@ -85,5 +85,14 @@ void main() {
         '''),
       );
     });
+
+    test('should emit a return statement', () {
+      expect(
+        returnVoid,
+        equalsSource(r'''
+          return;
+        '''),
+      );
+    });
   });
 }

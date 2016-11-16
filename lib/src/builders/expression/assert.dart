@@ -4,13 +4,13 @@
 
 part of code_builder.src.builders.expression;
 
-class _AsAssert implements StatementBuilder {
+class _AsAssert extends TopLevelMixin implements StatementBuilder {
   final ExpressionBuilder _expression;
 
   _AsAssert(this._expression);
 
   @override
-  AstNode buildAst([Scope scope]) => buildStatement(scope);
+  Statement buildAst([Scope scope]) => buildStatement(scope);
 
   @override
   Statement buildStatement([Scope scope]) {
