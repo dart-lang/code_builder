@@ -9,6 +9,7 @@ import 'package:analyzer/src/dart/ast/token.dart';
 import 'package:code_builder/dart/core.dart';
 import 'package:code_builder/src/builders/method.dart';
 import 'package:code_builder/src/builders/parameter.dart';
+import 'package:code_builder/src/builders/reference.dart';
 import 'package:code_builder/src/builders/shared.dart';
 import 'package:code_builder/src/builders/statement.dart';
 import 'package:code_builder/src/builders/statement/if.dart';
@@ -17,6 +18,7 @@ import 'package:code_builder/src/tokens.dart';
 
 part 'expression/assert.dart';
 part 'expression/assign.dart';
+part 'expression/cascade.dart';
 part 'expression/invocation.dart';
 part 'expression/negate.dart';
 part 'expression/operators.dart';
@@ -79,7 +81,7 @@ Literal _literal(value) {
 }
 
 /// Implements much of [ExpressionBuilder].
-abstract class AbstractExpressionMixin implements ExpressionBuilder {
+abstract class AbstractExpressionMixin extends TopLevelMixin implements ExpressionBuilder {
   @override
   ExpressionBuilder operator *(ExpressionBuilder other) {
     return new _AsBinaryExpression(
@@ -122,9 +124,10 @@ abstract class AbstractExpressionMixin implements ExpressionBuilder {
   @override
   StatementBuilder asAssign(
     String variable, {
+    ExpressionBuilder target,
     bool nullAware: false,
   }) =>
-      new _AsAssign(this, variable, nullAware);
+      new _AsAssign(this, variable, nullAware, target);
 
   @override
   StatementBuilder asConst(String variable, [TypeBuilder type]) {
@@ -164,6 +167,14 @@ abstract class AbstractExpressionMixin implements ExpressionBuilder {
     positionalArguments.forEach(invocation.addPositionalArgument);
     namedArguments.forEach(invocation.addNamedArgument);
     return invocation;
+  }
+
+  @override
+  ExpressionBuilder cascade(
+    Iterable<ExpressionBuilder> create(ExpressionBuilder self),
+  ) {
+    // Sorry for the huge hack. Need to think more clearly about this in future.
+    return new _CascadeExpression(this, create(reference('.')));
   }
 
   @override
@@ -212,6 +223,9 @@ abstract class AbstractExpressionMixin implements ExpressionBuilder {
 
   @override
   ExpressionBuilder parentheses() => new _ParenthesesExpression(this);
+
+  @override
+  ExpressionBuilder property(String name) => new _MemberExpression(this, name);
 }
 
 /// Builds an [Expression] AST when [buildExpression] is invoked.
@@ -233,7 +247,9 @@ abstract class ExpressionBuilder
   StatementBuilder asAssert();
 
   /// Returns as a [StatementBuilder] that assigns to an existing [variable].
-  StatementBuilder asAssign(String variable, {bool nullAware});
+  ///
+  /// If [target] is specified, determined to be `{target}.{variable}`.
+  StatementBuilder asAssign(String variable, {ExpressionBuilder target, bool nullAware});
 
   /// Returns as a [StatementBuilder] that assigns to a new `const` [variable].
   StatementBuilder asConst(String variable, [TypeBuilder type]);
@@ -268,6 +284,11 @@ abstract class ExpressionBuilder
     Map<String, ExpressionBuilder> namedArguments,
   ]);
 
+  /// Return as an [ExpressionBuilder] with `..` appended.
+  ExpressionBuilder cascade(
+    Iterable<ExpressionBuilder> create(ExpressionBuilder self),
+  );
+
   /// Returns as an [ExpressionBuilder] comparing using `==` against [other].
   ExpressionBuilder equals(ExpressionBuilder other);
 
@@ -292,6 +313,9 @@ abstract class ExpressionBuilder
 
   /// Returns as an [ExpressionBuilder] wrapped in parentheses.
   ExpressionBuilder parentheses();
+
+  /// Returns {{this}}.{{name}}.
+  ExpressionBuilder property(String name);
 }
 
 /// An [AstBuilder] that can add [ExpressionBuilder].
@@ -322,13 +346,13 @@ abstract class HasExpressionsMixin extends HasExpressions {
   }
 }
 
-class _AsStatement implements StatementBuilder {
+class _AsStatement extends TopLevelMixin implements StatementBuilder {
   final ExpressionBuilder _expression;
 
   _AsStatement(this._expression);
 
   @override
-  AstNode buildAst([Scope scope]) => buildStatement(scope);
+  Statement buildAst([Scope scope]) => buildStatement(scope);
 
   @override
   Statement buildStatement([Scope scope]) {
@@ -339,7 +363,26 @@ class _AsStatement implements StatementBuilder {
   }
 }
 
-class _LiteralExpression extends Object with AbstractExpressionMixin {
+class _MemberExpression extends Object with AbstractExpressionMixin, TopLevelMixin {
+  final String _name;
+  final ExpressionBuilder _target;
+
+  _MemberExpression(this._target, this._name);
+
+  @override
+  AstNode buildAst([Scope scope]) => buildExpression(scope);
+
+  @override
+  Expression buildExpression([Scope scope]) {
+    return new PropertyAccess(
+      _target.buildExpression(scope),
+      $period,
+      stringIdentifier(_name),
+    );
+  }
+}
+
+class _LiteralExpression extends Object with AbstractExpressionMixin, TopLevelMixin {
   final Literal _literal;
 
   _LiteralExpression(this._literal);
@@ -351,7 +394,7 @@ class _LiteralExpression extends Object with AbstractExpressionMixin {
   Expression buildExpression([_]) => _literal;
 }
 
-class _ParenthesesExpression extends Object with AbstractExpressionMixin {
+class _ParenthesesExpression extends Object with AbstractExpressionMixin, TopLevelMixin {
   final ExpressionBuilder _expression;
 
   _ParenthesesExpression(this._expression);
@@ -379,7 +422,7 @@ ExpressionBuilder _expressionify(v) {
   throw new ArgumentError('Could not expressionify $v');
 }
 
-class _TypedListExpression extends Object with AbstractExpressionMixin {
+class _TypedListExpression extends Object with AbstractExpressionMixin, TopLevelMixin {
   static List<ExpressionBuilder> _toExpression(Iterable values) {
     return values.map(_expressionify).toList();
   }
@@ -414,7 +457,7 @@ class _TypedListExpression extends Object with AbstractExpressionMixin {
   }
 }
 
-class _TypedMapExpression extends Object with AbstractExpressionMixin {
+class _TypedMapExpression extends Object with AbstractExpressionMixin, TopLevelMixin {
   static Map<ExpressionBuilder, ExpressionBuilder> _toExpression(Map values) {
     return new Map<ExpressionBuilder, ExpressionBuilder>.fromIterable(
       values.keys,

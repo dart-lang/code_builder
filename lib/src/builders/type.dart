@@ -12,6 +12,7 @@ import 'package:code_builder/src/builders/expression.dart';
 import 'package:code_builder/src/builders/method.dart';
 import 'package:code_builder/src/builders/parameter.dart';
 import 'package:code_builder/src/builders/shared.dart';
+import 'package:code_builder/src/builders/statement.dart';
 import 'package:code_builder/src/tokens.dart';
 
 part 'type/new_instance.dart';

@@ -4,22 +4,20 @@
 
 part of code_builder.src.builders.expression;
 
-class _AsBinaryExpression extends Object with AbstractExpressionMixin, TopLevelMixin {
-  final ExpressionBuilder _left;
-  final ExpressionBuilder _right;
-  final Token _operator;
+class _CascadeExpression extends TopLevelMixin with AbstractExpressionMixin {
+  final List<ExpressionBuilder> _cascades;
+  final ExpressionBuilder _target;
 
-  _AsBinaryExpression(this._left, this._right, this._operator);
+  _CascadeExpression(this._target, this._cascades);
 
   @override
   AstNode buildAst([Scope scope]) => buildExpression(scope);
 
   @override
   Expression buildExpression([Scope scope]) {
-    return new BinaryExpression(
-      _left.buildExpression(scope),
-      _operator,
-      _right.buildExpression(scope),
+    return new CascadeExpression(
+      _target.buildExpression(scope),
+      _cascades.map((e) => e.buildExpression(scope)).toList(),
     );
   }
 }

@@ -4,24 +4,24 @@
 
 import 'package:analyzer/analyzer.dart';
 import 'package:code_builder/src/builders/shared.dart';
+import 'package:code_builder/src/builders/statement.dart';
 import 'package:code_builder/src/tokens.dart';
 
 /// Builds a file of Dart source code.
 ///
 /// See [LibraryBuilder] and [PartBuilder] for concrete implementations.
 abstract class FileBuilder implements AstBuilder<CompilationUnit> {
-  final List<AstBuilder<CompilationUnitMember>> _members =
-      <AstBuilder<CompilationUnitMember>>[];
+  final List<AstBuilder> _members = <AstBuilder>[];
 
   FileBuilder._();
 
   /// Adds a top-level field or class [member].
-  void addMember(AstBuilder<CompilationUnitMember> member) {
+  void addMember(AstBuilder member) {
     _members.add(member);
   }
 
   /// Adds top-level field or class [members].
-  void addMembers(Iterable<AstBuilder<CompilationUnitMember>> members) {
+  void addMembers(Iterable<AstBuilder> members) {
     _members.addAll(members);
   }
 }
@@ -60,7 +60,14 @@ class LibraryBuilder extends FileBuilder {
 
   @override
   CompilationUnit buildAst([_]) {
-    var members = _members.map((m) => m.buildAst(_scope)).toList();
+    var members = _members
+        .map((m) {
+          if (m is TopLevelMixin) {
+            return (m as TopLevelMixin).buildTopLevelAst(_scope);
+          }
+          return m.buildAst(_scope);
+        })
+        .toList();
     var directives = <Directive>[]
       ..addAll(_scope.toImports().map((d) => d.buildAst()))
       ..addAll(_directives.map((d) => d.buildAst()));
@@ -100,7 +107,12 @@ class PartBuilder extends FileBuilder {
           $semicolon,
         )
       ],
-      _members.map((m) => m.buildAst()).toList(),
+      _members.map((m) {
+        if (m is TopLevelMixin) {
+          return (m as TopLevelMixin).buildTopLevelAst();
+        }
+        return m.buildAst();
+      }).toList(),
       null,
     );
   }

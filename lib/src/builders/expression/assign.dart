@@ -8,8 +8,9 @@ class _AsAssign extends AbstractExpressionMixin {
   final String _name;
   final bool _nullAware;
   final ExpressionBuilder _value;
+  final ExpressionBuilder _target;
 
-  _AsAssign(this._value, this._name, this._nullAware);
+  _AsAssign(this._value, this._name, this._nullAware, this._target);
 
   @override
   AstNode buildAst([Scope scope]) => buildExpression(scope);
@@ -17,14 +18,14 @@ class _AsAssign extends AbstractExpressionMixin {
   @override
   Expression buildExpression([Scope scope]) {
     return new AssignmentExpression(
-      stringIdentifier(_name),
+      _target != null ? _target.property(_name).buildExpression(scope) : stringIdentifier(_name),
       _nullAware ? $nullAwareEquals : $equals,
       _value.buildExpression(scope),
     );
   }
 }
 
-class _AsAssignNew implements StatementBuilder {
+class _AsAssignNew extends TopLevelMixin implements StatementBuilder {
   final ExpressionBuilder _value;
   final String _name;
   final TypeBuilder _type;
@@ -33,11 +34,33 @@ class _AsAssignNew implements StatementBuilder {
   _AsAssignNew(this._value, this._name, this._type, this._modifier);
 
   @override
-  AstNode buildAst([Scope scope]) => buildStatement(scope);
+  Statement buildAst([Scope scope]) => buildStatement(scope);
 
   @override
   Statement buildStatement([Scope scope]) {
     return new VariableDeclarationStatement(
+      new VariableDeclarationList(
+        null,
+        null,
+        _type == null || _modifier != $var ? _modifier : null,
+        _type?.buildType(scope),
+        [
+          new VariableDeclaration(
+            stringIdentifier(_name),
+            $equals,
+            _value.buildExpression(scope),
+          ),
+        ],
+      ),
+      $semicolon,
+    );
+  }
+
+  @override
+  CompilationUnitMember buildTopLevelAst([Scope scope]) {
+    return new TopLevelVariableDeclaration(
+      null,
+      null,
       new VariableDeclarationList(
         null,
         null,

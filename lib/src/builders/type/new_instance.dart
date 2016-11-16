@@ -23,7 +23,7 @@ abstract class NewInstanceBuilder
 }
 
 class _NewInvocationBuilderImpl extends Object
-    with AbstractExpressionMixin, AbstractInvocationBuilderMixin
+    with AbstractExpressionMixin, AbstractInvocationBuilderMixin, TopLevelMixin
     implements NewInstanceBuilder {
   final String _name;
   final Keyword _keyword;

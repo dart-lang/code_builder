@@ -267,4 +267,29 @@ void main() {
       '''),
     );
   });
+
+  test('should emit a top-level field declaration', () {
+    expect(
+      new LibraryBuilder()..addMember(literal(false).asConst('foo')),
+      equalsSource(r'''
+        const foo = false;
+      '''),
+    );
+  });
+
+  test('should emit cascaded expressions', () {
+    expect(
+      reference('foo').cascade((c) => <ExpressionBuilder> [
+        c.invoke('doThis', []),
+        c.invoke('doThat', []),
+        reference('Bar').newInstance([]).asAssign('bar', target: c),
+      ]).asStatement(),
+      equalsSource(r'''
+        foo
+          ..doThis()
+          ..doThat()
+          ..bar = new Bar();
+      '''),
+    );
+  });
 }

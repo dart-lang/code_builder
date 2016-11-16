@@ -63,7 +63,7 @@ abstract class InvocationBuilder
 }
 
 class _FunctionInvocationBuilder extends Object
-    with AbstractInvocationBuilderMixin, AbstractExpressionMixin
+    with AbstractInvocationBuilderMixin, AbstractExpressionMixin, TopLevelMixin
     implements InvocationBuilder {
   final ExpressionBuilder _target;
 
@@ -80,7 +80,7 @@ class _FunctionInvocationBuilder extends Object
 }
 
 class _MethodInvocationBuilder extends Object
-    with AbstractInvocationBuilderMixin, AbstractExpressionMixin
+    with AbstractInvocationBuilderMixin, AbstractExpressionMixin, TopLevelMixin
     implements InvocationBuilder {
   final String _method;
   final ExpressionBuilder _target;

@@ -6,6 +6,7 @@ import 'package:analyzer/analyzer.dart';
 import 'package:code_builder/src/builders/annotation.dart';
 import 'package:code_builder/src/builders/expression.dart';
 import 'package:code_builder/src/builders/shared.dart';
+import 'package:code_builder/src/builders/statement.dart';
 import 'package:code_builder/src/builders/type.dart';
 import 'package:code_builder/src/tokens.dart';
 
@@ -19,7 +20,7 @@ ReferenceBuilder reference(String name, [String importUri]) {
 
 /// An abstract way of representing other types of [AstBuilder].
 class ReferenceBuilder extends Object
-    with AbstractExpressionMixin, AbstractTypeBuilderMixin
+    with AbstractExpressionMixin, AbstractTypeBuilderMixin, TopLevelMixin
     implements AnnotationBuilder, ExpressionBuilder, TypeBuilder {
   final String _importFrom;
   final String _name;
