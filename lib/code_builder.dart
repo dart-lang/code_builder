@@ -30,5 +30,11 @@ export 'src/builders/reference.dart'
     show explicitThis, reference, ReferenceBuilder;
 export 'src/builders/shared.dart' show AstBuilder, Scope;
 export 'src/builders/statement.dart'
-    show ifThen, elseIf, elseThen, returnVoid, IfStatementBuilder, StatementBuilder;
+    show
+        ifThen,
+        elseIf,
+        elseThen,
+        returnVoid,
+        IfStatementBuilder,
+        StatementBuilder;
 export 'src/builders/type.dart' show NewInstanceBuilder, TypeBuilder;

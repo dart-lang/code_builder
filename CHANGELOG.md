@@ -1,5 +1,45 @@
 # Changelog
 
+## 1.0.0-alpha+3
+
+- BREAKING CHANGE: Added generics support to `TypeBuilder`:
+
+`importFrom` becomes a _named_, not positional argument, and the named
+argument `genericTypes` is added (`Iterable<TypeBuilder>`).
+
+```dart
+// List<String>
+new TypeBuilder('List', genericTypes: [reference('String')])
+```
+
+- Added generic support to `ReferenceBuilder`:
+
+```dart
+// List<String>
+reference('List').toTyped([reference('String')])
+```
+
+- Fixed a bug where `ReferenceBuilder.buildAst` was not implemented
+- Added `and` and `or` methods to `ExpressionBuilder`:
+
+```dart
+// true || false
+literal(true).or(literal(false));
+
+// true && false
+literal(true).and(literal(false));
+```
+
+- Added support for creating closures - `MethodBuilder.closure`:
+
+```dart
+// () => true
+new MethodBuilder.closure(
+  returns: literal(true),
+  returnType: lib$core.bool,
+)
+```
+
 ## 1.0.0-alpha+2
 
 - Added `returnVoid` to well, `return;`

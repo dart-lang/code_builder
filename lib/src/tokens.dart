@@ -67,6 +67,9 @@ final Token $if = new KeywordToken(Keyword.IF, 0);
 
 // Simple tokens
 
+/// The `&&` token.
+final Token $and = new Token(TokenType.AMPERSAND_AMPERSAND, 0);
+
 /// The `hide` token.
 final Token $hide = new StringToken(TokenType.KEYWORD, 'hide', 0);
 
@@ -102,6 +105,9 @@ final Token $nullAwareEquals = new Token(TokenType.QUESTION_QUESTION_EQ, 0);
 
 /// The `of` token.
 final Token $of = new StringToken(TokenType.KEYWORD, 'of', 0);
+
+/// The `||` token.
+final Token $or = new Token(TokenType.BAR_BAR, 0);
 
 /// The '[` token.
 final Token $openBracket = new Token(TokenType.OPEN_SQUARE_BRACKET, 0);

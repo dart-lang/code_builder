@@ -4,7 +4,7 @@
 
 part of code_builder.src.builders.expression;
 
-class _NegateExpression extends AbstractExpressionMixin {
+class _NegateExpression extends AbstractExpressionMixin with TopLevelMixin {
   final ExpressionBuilder _expression;
 
   _NegateExpression(this._expression);
@@ -21,7 +21,7 @@ class _NegateExpression extends AbstractExpressionMixin {
   }
 }
 
-class _NegativeExpression extends AbstractExpressionMixin {
+class _NegativeExpression extends AbstractExpressionMixin with TopLevelMixin {
   final ExpressionBuilder _expression;
 
   _NegativeExpression(this._expression);

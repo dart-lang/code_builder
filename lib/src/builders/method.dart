@@ -9,6 +9,7 @@ import 'package:code_builder/code_builder.dart';
 import 'package:code_builder/dart/core.dart';
 import 'package:code_builder/src/builders/annotation.dart';
 import 'package:code_builder/src/builders/class.dart';
+import 'package:code_builder/src/builders/expression.dart';
 import 'package:code_builder/src/builders/parameter.dart';
 import 'package:code_builder/src/builders/shared.dart';
 import 'package:code_builder/src/builders/statement.dart';
@@ -165,10 +166,18 @@ abstract class ConstructorBuilder
 
 /// Lazily builds a method/function AST when the builder is invoked.
 abstract class MethodBuilder
-    implements HasAnnotations, HasParameters, HasStatements, ValidClassMember {
+    implements
+        ExpressionBuilder,
+        HasAnnotations,
+        HasParameters,
+        HasStatements,
+        ValidClassMember {
   /// Creates a new [MethodBuilder].
-  factory MethodBuilder(String name,
-      {ExpressionBuilder returns, TypeBuilder returnType}) {
+  factory MethodBuilder(
+    String name, {
+    ExpressionBuilder returns,
+    TypeBuilder returnType,
+  }) {
     if (returns != null) {
       return new _LambdaMethodBuilder(
         name,
@@ -179,6 +188,26 @@ abstract class MethodBuilder
     } else {
       return new _MethodBuilderImpl(
         name,
+        returns: returnType,
+      );
+    }
+  }
+
+  /// Creates a new [MethodBuilder] that returns an anonymous closure.
+  factory MethodBuilder.closure({
+    ExpressionBuilder returns,
+    TypeBuilder returnType,
+  }) {
+    if (returns != null) {
+      return new _LambdaMethodBuilder(
+        null,
+        returns,
+        returnType,
+        null,
+      );
+    } else {
+      return new _MethodBuilderImpl(
+        null,
         returns: returnType,
       );
     }
@@ -263,7 +292,11 @@ class _FieldParameterWrapper
 }
 
 class _LambdaMethodBuilder extends Object
-    with HasAnnotationsMixin, HasParametersMixin
+    with
+        AbstractExpressionMixin,
+        HasAnnotationsMixin,
+        HasParametersMixin,
+        TopLevelMixin
     implements MethodBuilder {
   final ExpressionBuilder _expression;
   final String _name;
@@ -284,7 +317,26 @@ class _LambdaMethodBuilder extends Object
   }
 
   @override
-  AstNode buildAst([Scope scope]) => buildFunction(scope);
+  AstNode buildAst([Scope scope]) {
+    if (_name != null) {
+      return buildFunction(scope);
+    }
+    return buildExpression(scope);
+  }
+
+  @override
+  Expression buildExpression([Scope scope]) {
+    return new FunctionExpression(
+      null,
+      _property != Keyword.GET ? buildParameterList(scope) : null,
+      new ExpressionFunctionBody(
+        null,
+        null,
+        _expression.buildExpression(scope),
+        $semicolon,
+      ),
+    );
+  }
 
   @override
   FunctionDeclaration buildFunction([Scope scope]) {
@@ -294,17 +346,8 @@ class _LambdaMethodBuilder extends Object
       null,
       _returnType?.buildType(scope),
       _property != null ? new KeywordToken(_property, 0) : null,
-      identifier(scope, _name),
-      new FunctionExpression(
-        null,
-        _property != Keyword.GET ? buildParameterList(scope) : null,
-        new ExpressionFunctionBody(
-          null,
-          null,
-          _expression.buildExpression(scope),
-          $semicolon,
-        ),
-      ),
+      stringIdentifier(_name),
+      buildExpression(scope),
     );
   }
 
@@ -332,7 +375,12 @@ class _LambdaMethodBuilder extends Object
 }
 
 class _MethodBuilderImpl extends Object
-    with HasAnnotationsMixin, HasParametersMixin, HasStatementsMixin
+    with
+        AbstractExpressionMixin,
+        HasAnnotationsMixin,
+        HasParametersMixin,
+        HasStatementsMixin,
+        TopLevelMixin
     implements MethodBuilder {
   final String _name;
   final TypeBuilder _returnType;
@@ -347,7 +395,27 @@ class _MethodBuilderImpl extends Object
         _property = property;
 
   @override
-  AstNode buildAst([Scope scope]) => buildFunction(scope);
+  AstNode buildAst([Scope scope]) {
+    if (_name != null) {
+      return buildFunction(scope);
+    }
+    return buildExpression(scope);
+  }
+
+  @override
+  Expression buildExpression([Scope scope]) {
+    return new FunctionExpression(
+      null,
+      _property != Keyword.GET ? buildParameterList(scope) : null,
+      !hasStatements
+          ? new EmptyFunctionBody($semicolon)
+          : new BlockFunctionBody(
+              null,
+              null,
+              buildBlock(scope),
+            ),
+    );
+  }
 
   @override
   FunctionDeclaration buildFunction([Scope scope]) {
@@ -357,18 +425,8 @@ class _MethodBuilderImpl extends Object
       null,
       _returnType?.buildType(scope),
       _property != null ? new KeywordToken(_property, 0) : null,
-      identifier(scope, _name),
-      new FunctionExpression(
-        null,
-        _property != Keyword.GET ? buildParameterList(scope) : null,
-        !hasStatements
-            ? new EmptyFunctionBody($semicolon)
-            : new BlockFunctionBody(
-                null,
-                null,
-                buildBlock(scope),
-              ),
-      ),
+      stringIdentifier(_name),
+      buildExpression(scope),
     );
   }
 
