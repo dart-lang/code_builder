@@ -81,7 +81,7 @@ Literal _literal(value) {
 }
 
 /// Implements much of [ExpressionBuilder].
-abstract class AbstractExpressionMixin extends TopLevelMixin implements ExpressionBuilder {
+abstract class AbstractExpressionMixin implements ExpressionBuilder {
   @override
   ExpressionBuilder operator *(ExpressionBuilder other) {
     return new _AsBinaryExpression(
@@ -115,6 +115,15 @@ abstract class AbstractExpressionMixin extends TopLevelMixin implements Expressi
       this,
       other,
       $divide,
+    );
+  }
+
+  @override
+  ExpressionBuilder and(ExpressionBuilder other) {
+    return new _AsBinaryExpression(
+      this,
+      other,
+      $and,
     );
   }
 
@@ -222,6 +231,15 @@ abstract class AbstractExpressionMixin extends TopLevelMixin implements Expressi
   }
 
   @override
+  ExpressionBuilder or(ExpressionBuilder other) {
+    return new _AsBinaryExpression(
+      this,
+      other,
+      $or,
+    );
+  }
+
+  @override
   ExpressionBuilder parentheses() => new _ParenthesesExpression(this);
 
   @override
@@ -243,13 +261,17 @@ abstract class ExpressionBuilder
   /// Returns as an [ExpressionBuilder] dividing by [other].
   ExpressionBuilder operator /(ExpressionBuilder other);
 
+  /// Returns as an [ExpressionBuilder] `&&` [other].
+  ExpressionBuilder and(ExpressionBuilder other);
+
   /// Return as a [StatementBuilder] that `assert`s this expression.
   StatementBuilder asAssert();
 
   /// Returns as a [StatementBuilder] that assigns to an existing [variable].
   ///
   /// If [target] is specified, determined to be `{target}.{variable}`.
-  StatementBuilder asAssign(String variable, {ExpressionBuilder target, bool nullAware});
+  StatementBuilder asAssign(String variable,
+      {ExpressionBuilder target, bool nullAware});
 
   /// Returns as a [StatementBuilder] that assigns to a new `const` [variable].
   StatementBuilder asConst(String variable, [TypeBuilder type]);
@@ -311,6 +333,9 @@ abstract class ExpressionBuilder
   /// Returns as an [ExpressionBuilder] comparing using `!=` against [other].
   ExpressionBuilder notEquals(ExpressionBuilder other);
 
+  /// Returns as an [ExpressionBuilder] `||` [other].
+  ExpressionBuilder or(ExpressionBuilder other);
+
   /// Returns as an [ExpressionBuilder] wrapped in parentheses.
   ExpressionBuilder parentheses();
 
@@ -363,7 +388,8 @@ class _AsStatement extends TopLevelMixin implements StatementBuilder {
   }
 }
 
-class _MemberExpression extends Object with AbstractExpressionMixin, TopLevelMixin {
+class _MemberExpression extends Object
+    with AbstractExpressionMixin, TopLevelMixin {
   final String _name;
   final ExpressionBuilder _target;
 
@@ -382,7 +408,8 @@ class _MemberExpression extends Object with AbstractExpressionMixin, TopLevelMix
   }
 }
 
-class _LiteralExpression extends Object with AbstractExpressionMixin, TopLevelMixin {
+class _LiteralExpression extends Object
+    with AbstractExpressionMixin, TopLevelMixin {
   final Literal _literal;
 
   _LiteralExpression(this._literal);
@@ -394,7 +421,8 @@ class _LiteralExpression extends Object with AbstractExpressionMixin, TopLevelMi
   Expression buildExpression([_]) => _literal;
 }
 
-class _ParenthesesExpression extends Object with AbstractExpressionMixin, TopLevelMixin {
+class _ParenthesesExpression extends Object
+    with AbstractExpressionMixin, TopLevelMixin {
   final ExpressionBuilder _expression;
 
   _ParenthesesExpression(this._expression);
@@ -422,7 +450,8 @@ ExpressionBuilder _expressionify(v) {
   throw new ArgumentError('Could not expressionify $v');
 }
 
-class _TypedListExpression extends Object with AbstractExpressionMixin, TopLevelMixin {
+class _TypedListExpression extends Object
+    with AbstractExpressionMixin, TopLevelMixin {
   static List<ExpressionBuilder> _toExpression(Iterable values) {
     return values.map(_expressionify).toList();
   }
@@ -457,7 +486,8 @@ class _TypedListExpression extends Object with AbstractExpressionMixin, TopLevel
   }
 }
 
-class _TypedMapExpression extends Object with AbstractExpressionMixin, TopLevelMixin {
+class _TypedMapExpression extends Object
+    with AbstractExpressionMixin, TopLevelMixin {
   static Map<ExpressionBuilder, ExpressionBuilder> _toExpression(Map values) {
     return new Map<ExpressionBuilder, ExpressionBuilder>.fromIterable(
       values.keys,

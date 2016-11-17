@@ -60,14 +60,12 @@ class LibraryBuilder extends FileBuilder {
 
   @override
   CompilationUnit buildAst([_]) {
-    var members = _members
-        .map((m) {
-          if (m is TopLevelMixin) {
-            return (m as TopLevelMixin).buildTopLevelAst(_scope);
-          }
-          return m.buildAst(_scope);
-        })
-        .toList();
+    var members = _members.map((m) {
+      if (m is TopLevelMixin) {
+        return (m as TopLevelMixin).buildTopLevelAst(_scope);
+      }
+      return m.buildAst(_scope);
+    }).toList();
     var directives = <Directive>[]
       ..addAll(_scope.toImports().map((d) => d.buildAst()))
       ..addAll(_directives.map((d) => d.buildAst()));

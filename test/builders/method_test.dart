@@ -169,4 +169,19 @@ void main() {
       '''),
     );
   });
+
+  test('should emit a closure', () {
+    final closure = new MethodBuilder.closure(
+      returns: literal(false).or(reference('defaultTo')),
+      returnType: lib$core.bool,
+    )..addPositional(parameter('defaultTo', [lib$core.bool]));
+    // Should be usable as an expression/parameter itself.
+    expect(closure, const isInstanceOf<ExpressionBuilder>());
+    expect(
+      closure,
+      equalsSource(r'''
+        (bool defaultTo) => false || defaultTo;
+      '''),
+    );
+  });
 }

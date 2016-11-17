@@ -4,7 +4,8 @@
 
 part of code_builder.src.builders.expression;
 
-class _AsBinaryExpression extends Object with AbstractExpressionMixin, TopLevelMixin {
+class _AsBinaryExpression extends Object
+    with AbstractExpressionMixin, TopLevelMixin {
   final ExpressionBuilder _left;
   final ExpressionBuilder _right;
   final Token _operator;
