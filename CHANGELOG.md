@@ -1,4 +1,6 @@
-# Changelog
+## 1.0.0-alpha+4
+
+- Add support for latest `pkg/analyzer`.
 
 ## 1.0.0-alpha+3
 
