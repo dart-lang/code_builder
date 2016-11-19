@@ -8,6 +8,29 @@ import 'package:code_builder/testing.dart';
 import 'package:test/test.dart';
 
 void main() {
+  test('TypeBuilder emits a generic type reference', () {
+    expect(
+      new TypeBuilder('List', genericTypes: [reference('String')]),
+      equalsSource(r'''
+        List<String>
+      '''),
+    );
+  });
+
+  test('ReferenceBuilder.toTyped emits a generic type reference', () {
+    expect(
+      lib$core.Map.toTyped([
+        lib$core.String,
+        lib$core.List.toTyped([
+          lib$core.int,
+        ]),
+      ]),
+      equalsSource(r'''
+        Map<String, List<int>>
+      '''),
+    );
+  });
+
   group('new instance', () {
     test('emits a new List', () {
       expect(

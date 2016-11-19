@@ -75,13 +75,32 @@ abstract class AbstractTypeBuilderMixin {
 class TypeBuilder extends Object
     with AbstractTypeBuilderMixin
     implements AstBuilder, ValidMethodMember, ValidParameterMember {
+  final List<TypeBuilder> _generics;
   final String _importFrom;
   final String _name;
 
   /// Creates a new [TypeBuilder].
-  factory TypeBuilder(String name, [String importFrom]) = TypeBuilder._;
+  ///
+  /// Can be made generic by passing one or more [genericTypes].
+  ///
+  /// Optionally specify the source to [importFrom] to resolve this type.
+  factory TypeBuilder(
+    String name, {
+    Iterable<TypeBuilder> genericTypes: const [],
+    String importFrom,
+  }) {
+    return new TypeBuilder._(
+      name,
+      importFrom,
+      genericTypes.toList(growable: false),
+    );
+  }
 
-  TypeBuilder._(this._name, [this._importFrom]);
+  TypeBuilder._(
+    this._name,
+    this._importFrom,
+    this._generics,
+  );
 
   @override
   AstNode buildAst([Scope scope]) => buildType(scope);
@@ -94,7 +113,13 @@ class TypeBuilder extends Object
         _name,
         _importFrom,
       ),
-      null,
+      _generics.isEmpty
+          ? null
+          : new TypeArgumentList(
+              $openBracket,
+              _generics.map((t) => t.buildType(scope)).toList(),
+              $closeBracket,
+            ),
     );
   }
 }

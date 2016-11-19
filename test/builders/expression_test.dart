@@ -279,11 +279,13 @@ void main() {
 
   test('should emit cascaded expressions', () {
     expect(
-      reference('foo').cascade((c) => <ExpressionBuilder> [
-        c.invoke('doThis', []),
-        c.invoke('doThat', []),
-        reference('Bar').newInstance([]).asAssign('bar', target: c),
-      ]).asStatement(),
+      reference('foo')
+          .cascade((c) => <ExpressionBuilder>[
+                c.invoke('doThis', []),
+                c.invoke('doThat', []),
+                reference('Bar').newInstance([]).asAssign('bar', target: c),
+              ])
+          .asStatement(),
       equalsSource(r'''
         foo
           ..doThis()

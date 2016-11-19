@@ -14,6 +14,13 @@ import 'package:code_builder/src/tokens.dart';
 final ReferenceBuilder explicitThis = reference('this');
 
 /// Creates a reference called [name].
+///
+/// **NOTE**: To refer to a _generic_ type, use [TypeBuilder] instead:
+///     // Refer to `List<String>`
+///     new TypeBuilder(
+///       'List',
+///       genericTypes: [reference('String')],
+///     )
 ReferenceBuilder reference(String name, [String importUri]) {
   return new ReferenceBuilder._(name, importUri);
 }
@@ -39,7 +46,7 @@ class ReferenceBuilder extends Object
   }
 
   @override
-  AstNode buildAst([Scope scope]) => throw new UnimplementedError();
+  AstNode buildAst([Scope scope]) => buildType(scope);
 
   @override
   Expression buildExpression([Scope scope]) {
@@ -52,6 +59,36 @@ class ReferenceBuilder extends Object
 
   @override
   TypeName buildType([Scope scope]) {
-    return new TypeBuilder(_name, _importFrom).buildType(scope);
+    return new TypeBuilder(_name, importFrom: _importFrom).buildType(scope);
+  }
+
+  /// Returns a new [ReferenceBuilder] with [genericTypes].
+  ///
+  /// Example use:
+  ///     // List<String>
+  ///     reference('List').toTyped([reference('String')])
+  ReferenceBuilder toTyped(Iterable<TypeBuilder> genericTypes) {
+    return new _TypedReferenceBuilder(genericTypes, _name, _importFrom);
+  }
+}
+
+class _TypedReferenceBuilder extends ReferenceBuilder {
+  final List<TypeBuilder> _genericTypes;
+
+  _TypedReferenceBuilder(
+    this._genericTypes,
+    String name,
+    String importFrom,
+  )
+      : super._(name, importFrom);
+
+  @override
+  TypeName buildType([Scope scope]) {
+    return new TypeBuilder(
+      _name,
+      importFrom: _importFrom,
+      genericTypes: _genericTypes,
+    )
+        .buildType(scope);
   }
 }

@@ -4,7 +4,7 @@
 
 part of code_builder.src.builders.expression;
 
-class _AsAssign extends AbstractExpressionMixin {
+class _AsAssign extends AbstractExpressionMixin with TopLevelMixin {
   final String _name;
   final bool _nullAware;
   final ExpressionBuilder _value;
@@ -18,7 +18,9 @@ class _AsAssign extends AbstractExpressionMixin {
   @override
   Expression buildExpression([Scope scope]) {
     return new AssignmentExpression(
-      _target != null ? _target.property(_name).buildExpression(scope) : stringIdentifier(_name),
+      _target != null
+          ? _target.property(_name).buildExpression(scope)
+          : stringIdentifier(_name),
       _nullAware ? $nullAwareEquals : $equals,
       _value.buildExpression(scope),
     );

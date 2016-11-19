@@ -59,7 +59,8 @@ abstract class IfStatementBuilder implements HasStatements, StatementBuilder {
 /// Marker interface for builders valid for use with [ifThen].
 abstract class ValidIfStatementMember implements AstBuilder {}
 
-class _BlockIfStatementBuilder extends Object with HasStatementsMixin, TopLevelMixin
+class _BlockIfStatementBuilder extends Object
+    with HasStatementsMixin, TopLevelMixin
     implements IfStatementBuilder {
   final ExpressionBuilder _condition;
   StatementBuilder _elseBlock;
