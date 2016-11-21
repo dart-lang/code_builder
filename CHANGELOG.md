@@ -1,3 +1,17 @@
+## 1.0.0-alpha+5
+
+- MethodBuilder with no statements will create an empty block instead of a semicolon.
+```dart
+// main() {}
+method('main')
+```
+
+- Fix lambdas and closures to not include a trailing semicolon when used as an expression.
+ ```dart
+ // () => false
+ new MethodBuilder.closure(returns: literal(false));
+ ```
+
 ## 1.0.0-alpha+4
 
 - Add support for latest `pkg/analyzer`.
