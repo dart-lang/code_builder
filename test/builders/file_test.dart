@@ -58,5 +58,14 @@ void main() {
         '''),
       );
     });
+
+    group('$LibraryBuilder', () {
+      test('should handle empty methods', () {
+        expect(
+            new LibraryBuilder()
+              ..addMember(new MethodBuilder.returnVoid('main')),
+            equalsSource('void main() {}'));
+      });
+    });
   });
 }
