@@ -326,6 +326,10 @@ class _LambdaMethodBuilder extends Object
 
   @override
   Expression buildExpression([Scope scope]) {
+    return _buildExpression(scope, isStatement: false);
+  }
+
+  FunctionExpression _buildExpression(Scope scope, {bool isStatement}) {
     return new FunctionExpression(
       null,
       _property != Keyword.GET ? buildParameterList(scope) : null,
@@ -333,7 +337,7 @@ class _LambdaMethodBuilder extends Object
         null,
         null,
         _expression.buildExpression(scope),
-        $semicolon,
+        isStatement ? $semicolon : null,
       ),
     );
   }
@@ -347,7 +351,7 @@ class _LambdaMethodBuilder extends Object
       _returnType?.buildType(scope),
       _property != null ? new KeywordToken(_property, 0) : null,
       stringIdentifier(_name),
-      buildExpression(scope),
+      _buildExpression(scope, isStatement: true),
     );
   }
 
@@ -407,9 +411,7 @@ class _MethodBuilderImpl extends Object
     return new FunctionExpression(
       null,
       _property != Keyword.GET ? buildParameterList(scope) : null,
-      !hasStatements
-          ? new EmptyFunctionBody($semicolon)
-          : new BlockFunctionBody(
+      new BlockFunctionBody(
               null,
               null,
               buildBlock(scope),
@@ -443,15 +445,16 @@ class _MethodBuilderImpl extends Object
       identifier(scope, _name),
       null,
       _property != Keyword.GET ? buildParameterList(scope) : null,
-      !hasStatements
-          ? new EmptyFunctionBody($semicolon)
-          : new BlockFunctionBody(
-              null,
-              null,
-              buildBlock(scope),
-            ),
+      new BlockFunctionBody(
+        null,
+        null,
+        buildBlock(scope),
+      ),
     );
   }
+
+  @override
+  CompilationUnitMember buildTopLevelAst([Scope scope]) => buildFunction(scope);
 }
 
 class _NamedParameterWrapper
