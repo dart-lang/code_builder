@@ -412,10 +412,10 @@ class _MethodBuilderImpl extends Object
       null,
       _property != Keyword.GET ? buildParameterList(scope) : null,
       new BlockFunctionBody(
-              null,
-              null,
-              buildBlock(scope),
-            ),
+        null,
+        null,
+        buildBlock(scope),
+      ),
     );
   }
 
