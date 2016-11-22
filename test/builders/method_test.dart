@@ -12,7 +12,7 @@ void main() {
     expect(
       method('main'),
       equalsSource(r'''
-        main();
+        main() {}
       '''),
     );
   });
@@ -23,7 +23,7 @@ void main() {
         lib$core.$void,
       ]).buildMethod(false).toSource(),
       equalsIgnoringWhitespace(r'''
-        void main();
+        void main() {}
       '''),
     );
   });
@@ -34,7 +34,7 @@ void main() {
         parameter('args', [lib$core.List]),
       ]).buildMethod(false).toSource(),
       equalsIgnoringWhitespace(r'''
-        main(List args);
+        main(List args) {}
       '''),
     );
   });
@@ -47,7 +47,7 @@ void main() {
         parameter('c').asOptional(),
       ]),
       equalsSource(r'''
-        main(a, b, [c]);
+        main(a, b, [c]) {}
       '''),
     );
   });
@@ -60,7 +60,7 @@ void main() {
         parameter('c').asOptional(literal(true)),
       ]),
       equalsSource(r'''
-        main(a, b, [c = true]);
+        main(a, b, [c = true]) {}
       '''),
     );
   });
@@ -72,7 +72,7 @@ void main() {
         named(parameter('b').asOptional(literal(true))),
       ]).buildMethod(false).toSource(),
       equalsIgnoringWhitespace(r'''
-        main({a, b : true});
+        main({a, b : true}) {}
       '''),
     );
   });
@@ -170,18 +170,38 @@ void main() {
     );
   });
 
-  test('should emit a closure', () {
-    final closure = new MethodBuilder.closure(
-      returns: literal(false).or(reference('defaultTo')),
-      returnType: lib$core.bool,
-    )..addPositional(parameter('defaultTo', [lib$core.bool]));
-    // Should be usable as an expression/parameter itself.
-    expect(closure, const isInstanceOf<ExpressionBuilder>());
-    expect(
-      closure,
-      equalsSource(r'''
-        (bool defaultTo) => false || defaultTo;
+  group('closure', () {
+    MethodBuilder closure;
+    setUp(() {
+      closure = new MethodBuilder.closure(
+        returns: literal(false).or(reference('defaultTo')),
+        returnType: lib$core.bool,
+      )..addPositional(parameter('defaultTo', [lib$core.bool]));
+    });
+
+    test('should emit a closure', () {
+      // Should be usable as an expression/parameter itself.
+      expect(closure, const isInstanceOf<ExpressionBuilder>());
+      expect(
+        closure,
+        equalsSource(r'''
+        (bool defaultTo) => false || defaultTo
       '''),
-    );
+      );
+
+      test('should treat closure as expression', () {
+        expect(
+            list([true, false]).invoke('where', [closure]),
+            equalsSource(
+                '[true, false].where((bool defaultTo) => false || defaultTo)'));
+      });
+
+      test('should emit a closure as a function in a library', () {
+        final library = new LibraryBuilder();
+        library.addMember(closure);
+        expect(
+            library, equalsSource('(bool defaultTo) => false || defaultTo;'));
+      });
+    });
   });
 }
