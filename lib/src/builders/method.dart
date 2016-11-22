@@ -376,6 +376,9 @@ class _LambdaMethodBuilder extends Object
       ),
     );
   }
+
+  @override
+  CompilationUnitMember buildTopLevelAst([Scope scope]) => buildFunction(scope);
 }
 
 class _MethodBuilderImpl extends Object
@@ -412,10 +415,10 @@ class _MethodBuilderImpl extends Object
       null,
       _property != Keyword.GET ? buildParameterList(scope) : null,
       new BlockFunctionBody(
-              null,
-              null,
-              buildBlock(scope),
-            ),
+        null,
+        null,
+        buildBlock(scope),
+      ),
     );
   }
 
