@@ -376,6 +376,9 @@ class _LambdaMethodBuilder extends Object
       ),
     );
   }
+
+  @override
+  CompilationUnitMember buildTopLevelAst([Scope scope]) => buildFunction(scope);
 }
 
 class _MethodBuilderImpl extends Object

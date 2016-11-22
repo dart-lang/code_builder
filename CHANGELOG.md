@@ -1,15 +1,19 @@
+## 1.0.0-alpha+6
+
+- `MethodBuilder.closure` emits properly as a top-level function
+
 ## 1.0.0-alpha+5
 
-- MethodBuilder with no statements will create an empty block instead of a
-semicolon.
+- MethodBuilder with no statements will create an empty block instead of
+  a semicolon.
 
 ```dart
 // main() {}
 method('main')
 ```
 
-- Fix lambdas and closures to not include a trailing semicolon when used as an
-expression.
+- Fix lambdas and closures to not include a trailing semicolon when used
+  as an expression.
 
 ```dart
  // () => false
