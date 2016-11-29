@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:analyzer/analyzer.dart';
+import 'package:analyzer/dart/ast/standard_ast_factory.dart';
 import 'package:code_builder/src/builders/shared.dart';
 import 'package:code_builder/src/builders/statement.dart';
 import 'package:code_builder/src/tokens.dart';
@@ -69,7 +70,7 @@ class LibraryBuilder extends FileBuilder {
     var directives = <Directive>[]
       ..addAll(_scope.toImports().map((d) => d.buildAst()))
       ..addAll(_directives.map((d) => d.buildAst()));
-    return new CompilationUnit(
+    return astFactory.compilationUnit(
       null,
       null,
       directives,
@@ -90,17 +91,17 @@ class PartBuilder extends FileBuilder {
 
   @override
   CompilationUnit buildAst([_]) {
-    return new CompilationUnit(
+    return astFactory.compilationUnit(
       null,
       null,
       [
-        new PartOfDirective(
+        astFactory.partOfDirective(
           null,
           null,
           $part,
           $of,
-          new LibraryIdentifier([
-            new SimpleIdentifier(stringToken(_name)),
+          astFactory.libraryIdentifier([
+            astFactory.simpleIdentifier(stringToken(_name)),
           ]),
           $semicolon,
         )
@@ -123,12 +124,12 @@ class _LibraryDirectiveBuilder implements AstBuilder<LibraryDirective> {
 
   @override
   LibraryDirective buildAst([_]) {
-    return new LibraryDirective(
+    return astFactory.libraryDirective(
       null,
       null,
       $library,
-      new LibraryIdentifier([
-        new SimpleIdentifier(
+      astFactory.libraryIdentifier([
+        astFactory.simpleIdentifier(
           stringToken(_name),
         ),
       ]),
@@ -173,7 +174,7 @@ class ImportBuilder implements AstBuilder<ImportDirective> {
     var combinators = <Combinator>[];
     if (_show.isNotEmpty) {
       combinators.add(
-        new ShowCombinator(
+        astFactory.showCombinator(
           $show,
           _show.map(stringIdentifier).toList(),
         ),
@@ -181,17 +182,17 @@ class ImportBuilder implements AstBuilder<ImportDirective> {
     }
     if (_hide.isNotEmpty) {
       combinators.add(
-        new HideCombinator(
+        astFactory.hideCombinator(
           $hide,
           _hide.map(stringIdentifier).toList(),
         ),
       );
     }
-    return new ImportDirective(
+    return astFactory.importDirective(
       null,
       null,
       null,
-      new SimpleStringLiteral(stringToken("'$_uri'"), _uri),
+      astFactory.simpleStringLiteral(stringToken("'$_uri'"), _uri),
       null,
       _deferred ? $deferred : null,
       _prefix != null ? $as : null,
@@ -234,7 +235,7 @@ class ExportBuilder implements AstBuilder<ExportDirective> {
     var combinators = <Combinator>[];
     if (_show.isNotEmpty) {
       combinators.add(
-        new ShowCombinator(
+        astFactory.showCombinator(
           $show,
           _show.map(stringIdentifier).toList(),
         ),
@@ -242,17 +243,17 @@ class ExportBuilder implements AstBuilder<ExportDirective> {
     }
     if (_hide.isNotEmpty) {
       combinators.add(
-        new HideCombinator(
+        astFactory.hideCombinator(
           $hide,
           _hide.map(stringIdentifier).toList(),
         ),
       );
     }
-    return new ExportDirective(
+    return astFactory.exportDirective(
       null,
       null,
       null,
-      new SimpleStringLiteral(stringToken("'$_uri'"), _uri),
+      astFactory.simpleStringLiteral(stringToken("'$_uri'"), _uri),
       null,
       combinators,
       $semicolon,

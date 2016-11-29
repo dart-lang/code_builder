@@ -5,6 +5,7 @@ library code_builder.src.builders.expression;
 
 import 'package:analyzer/analyzer.dart';
 import 'package:analyzer/dart/ast/token.dart';
+import 'package:analyzer/dart/ast/standard_ast_factory.dart';
 import 'package:analyzer/src/dart/ast/token.dart';
 import 'package:code_builder/dart/core.dart';
 import 'package:code_builder/src/builders/method.dart';
@@ -24,11 +25,11 @@ part 'expression/negate.dart';
 part 'expression/operators.dart';
 part 'expression/return.dart';
 
-final _false = new BooleanLiteral(new KeywordToken(Keyword.FALSE, 0), true);
+final _false = astFactory.booleanLiteral(new KeywordToken(Keyword.FALSE, 0), true);
 
-final _null = new NullLiteral(new KeywordToken(Keyword.NULL, 0));
+final _null = astFactory.nullLiteral(new KeywordToken(Keyword.NULL, 0));
 
-final _true = new BooleanLiteral(new KeywordToken(Keyword.TRUE, 0), true);
+final _true = astFactory.booleanLiteral(new KeywordToken(Keyword.TRUE, 0), true);
 
 /// Returns a pre-defined literal expression of [value].
 ///
@@ -71,11 +72,11 @@ Literal _literal(value) {
   } else if (value is bool) {
     return value ? _true : _false;
   } else if (value is String) {
-    return new SimpleStringLiteral(stringToken("'$value'"), value);
+    return astFactory.simpleStringLiteral(stringToken("'$value'"), value);
   } else if (value is int) {
-    return new IntegerLiteral(stringToken('$value'), value);
+    return astFactory.integerLiteral(stringToken('$value'), value);
   } else if (value is double) {
-    return new DoubleLiteral(stringToken('$value'), value);
+    return astFactory.doubleLiteral(stringToken('$value'), value);
   }
   throw new ArgumentError.value(value, 'Unsupported');
 }
@@ -381,7 +382,7 @@ class _AsStatement extends TopLevelMixin implements StatementBuilder {
 
   @override
   Statement buildStatement([Scope scope]) {
-    return new ExpressionStatement(
+    return astFactory.expressionStatement(
       _expression.buildExpression(scope),
       $semicolon,
     );
@@ -400,7 +401,7 @@ class _MemberExpression extends Object
 
   @override
   Expression buildExpression([Scope scope]) {
-    return new PropertyAccess(
+    return astFactory.propertyAccess(
       _target.buildExpression(scope),
       $period,
       stringIdentifier(_name),
@@ -432,7 +433,7 @@ class _ParenthesesExpression extends Object
 
   @override
   Expression buildExpression([Scope scope]) {
-    return new ParenthesizedExpression(
+    return astFactory.parenthesizedExpression(
       $openParen,
       _expression.buildExpression(scope),
       $closeParen,
@@ -470,10 +471,10 @@ class _TypedListExpression extends Object
 
   @override
   Expression buildExpression([Scope scope]) {
-    return new ListLiteral(
+    return astFactory.listLiteral(
       _asConst ? $const : null,
       _type != null
-          ? new TypeArgumentList(
+          ? astFactory.typeArgumentList(
               $openBracket,
               [_type.buildType(scope)],
               $closeBracket,
@@ -517,10 +518,10 @@ class _TypedMapExpression extends Object
 
   @override
   Expression buildExpression([Scope scope]) {
-    return new MapLiteral(
+    return astFactory.mapLiteral(
       _asConst ? $const : null,
       _keyType != null
-          ? new TypeArgumentList(
+          ? astFactory.typeArgumentList(
               $openBracket,
               [
                 _keyType.buildType(scope),
@@ -531,7 +532,7 @@ class _TypedMapExpression extends Object
           : null,
       $openBracket,
       _values.keys.map((k) {
-        return new MapLiteralEntry(
+        return astFactory.mapLiteralEntry(
           k.buildExpression(scope),
           $colon,
           _values[k].buildExpression(scope),

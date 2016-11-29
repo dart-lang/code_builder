@@ -14,7 +14,7 @@ class _AsAssert extends TopLevelMixin implements StatementBuilder {
 
   @override
   Statement buildStatement([Scope scope]) {
-    return new AssertStatement(
+    return astFactory.assertStatement(
       $assert,
       $openParen,
       _expression.buildExpression(scope),

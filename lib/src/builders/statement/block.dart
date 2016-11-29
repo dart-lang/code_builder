@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:analyzer/analyzer.dart';
+import 'package:analyzer/dart/ast/standard_ast_factory.dart';
 import 'package:code_builder/src/builders/shared.dart';
 import 'package:code_builder/src/builders/statement.dart';
 import 'package:code_builder/src/tokens.dart';
@@ -22,7 +23,7 @@ class _BlockStatementBuilder extends Object
 
   @override
   Statement buildStatement([Scope scope]) {
-    return new Block(
+    return astFactory.block(
       $openCurly,
       buildStatements(scope),
       $closeCurly,

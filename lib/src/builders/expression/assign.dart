@@ -17,7 +17,7 @@ class _AsAssign extends AbstractExpressionMixin with TopLevelMixin {
 
   @override
   Expression buildExpression([Scope scope]) {
-    return new AssignmentExpression(
+    return astFactory.assignmentExpression(
       _target != null
           ? _target.property(_name).buildExpression(scope)
           : stringIdentifier(_name),
@@ -40,14 +40,14 @@ class _AsAssignNew extends TopLevelMixin implements StatementBuilder {
 
   @override
   Statement buildStatement([Scope scope]) {
-    return new VariableDeclarationStatement(
-      new VariableDeclarationList(
+    return astFactory.variableDeclarationStatement(
+      astFactory.variableDeclarationList(
         null,
         null,
         _type == null || _modifier != $var ? _modifier : null,
         _type?.buildType(scope),
         [
-          new VariableDeclaration(
+          astFactory.variableDeclaration(
             stringIdentifier(_name),
             $equals,
             _value.buildExpression(scope),
@@ -60,16 +60,16 @@ class _AsAssignNew extends TopLevelMixin implements StatementBuilder {
 
   @override
   CompilationUnitMember buildTopLevelAst([Scope scope]) {
-    return new TopLevelVariableDeclaration(
+    return astFactory.topLevelVariableDeclaration(
       null,
       null,
-      new VariableDeclarationList(
+      astFactory.variableDeclarationList(
         null,
         null,
         _type == null || _modifier != $var ? _modifier : null,
         _type?.buildType(scope),
         [
-          new VariableDeclaration(
+          astFactory.variableDeclaration(
             stringIdentifier(_name),
             $equals,
             _value.buildExpression(scope),

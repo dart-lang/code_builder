@@ -14,7 +14,7 @@ class _AsReturn extends TopLevelMixin implements StatementBuilder {
 
   @override
   Statement buildStatement([Scope scope]) {
-    return new ReturnStatement(
+    return astFactory.returnStatement(
       $return,
       _value.buildExpression(),
       $semicolon,

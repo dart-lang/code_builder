@@ -14,7 +14,7 @@ class _NegateExpression extends AbstractExpressionMixin with TopLevelMixin {
 
   @override
   Expression buildExpression([Scope scope]) {
-    return new PrefixExpression(
+    return astFactory.prefixExpression(
       $not,
       _expression.parentheses().buildExpression(scope),
     );
@@ -31,7 +31,7 @@ class _NegativeExpression extends AbstractExpressionMixin with TopLevelMixin {
 
   @override
   Expression buildExpression([Scope scope]) {
-    return new PrefixExpression(
+    return astFactory.prefixExpression(
       $minus,
       _expression.parentheses().buildExpression(scope),
     );

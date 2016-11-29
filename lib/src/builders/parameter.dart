@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:analyzer/analyzer.dart';
+import 'package:analyzer/dart/ast/standard_ast_factory.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:code_builder/src/builders/annotation.dart';
 import 'package:code_builder/src/builders/method.dart';
@@ -66,7 +67,7 @@ abstract class HasParametersMixin implements HasParameters {
 
   /// Builds a [FormalParameterList].
   FormalParameterList buildParameterList([Scope scope]) {
-    return new FormalParameterList(
+    return astFactory.formalParameterList(
       $openParen,
       _parameters
           .map/*<FormalParameter>*/((p) => p.buildParameter(scope))
@@ -122,7 +123,7 @@ class _OptionalParameterBuilder extends Object
 
   @override
   FormalParameter buildNamed(bool field, [Scope scope]) {
-    return new DefaultFormalParameter(
+    return astFactory.defaultFormalParameter(
       _parameter.buildPositional(field, scope),
       ParameterKind.NAMED,
       _expression != null ? $colon : null,
@@ -132,7 +133,7 @@ class _OptionalParameterBuilder extends Object
 
   @override
   FormalParameter buildPositional(bool field, [Scope scope]) {
-    return new DefaultFormalParameter(
+    return astFactory.defaultFormalParameter(
       _parameter.buildPositional(field, scope),
       ParameterKind.POSITIONAL,
       _expression != null ? $equals : null,
@@ -190,7 +191,7 @@ class _SimpleParameterBuilder extends Object
   @override
   FormalParameter buildPositional(bool field, [Scope scope]) {
     if (field) {
-      return new FieldFormalParameter(
+      return astFactory.fieldFormalParameter(
         null,
         buildAnnotations(scope),
         null,
@@ -202,7 +203,7 @@ class _SimpleParameterBuilder extends Object
         null,
       );
     }
-    return new SimpleFormalParameter(
+    return astFactory.simpleFormalParameter(
       null,
       buildAnnotations(scope),
       null,

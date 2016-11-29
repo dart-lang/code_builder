@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:analyzer/analyzer.dart';
+import 'package:analyzer/dart/ast/standard_ast_factory.dart';
 import 'package:code_builder/src/builders/annotation.dart';
 import 'package:code_builder/src/builders/expression.dart';
 import 'package:code_builder/src/builders/shared.dart';
@@ -36,7 +37,7 @@ class ReferenceBuilder extends Object
 
   @override
   Annotation buildAnnotation([Scope scope]) {
-    return new Annotation(
+    return astFactory.annotation(
       $at,
       stringIdentifier(_name),
       null,
