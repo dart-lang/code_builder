@@ -100,6 +100,7 @@ class PartBuilder extends FileBuilder {
           null,
           $part,
           $of,
+          null,
           astFactory.libraryIdentifier([
             astFactory.simpleIdentifier(stringToken(_name)),
           ]),
