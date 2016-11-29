@@ -25,11 +25,13 @@ part 'expression/negate.dart';
 part 'expression/operators.dart';
 part 'expression/return.dart';
 
-final _false = astFactory.booleanLiteral(new KeywordToken(Keyword.FALSE, 0), true);
+final _false =
+    astFactory.booleanLiteral(new KeywordToken(Keyword.FALSE, 0), true);
 
 final _null = astFactory.nullLiteral(new KeywordToken(Keyword.NULL, 0));
 
-final _true = astFactory.booleanLiteral(new KeywordToken(Keyword.TRUE, 0), true);
+final _true =
+    astFactory.booleanLiteral(new KeywordToken(Keyword.TRUE, 0), true);
 
 /// Returns a pre-defined literal expression of [value].
 ///
