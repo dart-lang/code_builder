@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:analyzer/analyzer.dart';
+import 'package:analyzer/dart/ast/standard_ast_factory.dart';
 import 'package:code_builder/src/builders/method.dart';
 import 'package:code_builder/src/builders/shared.dart';
 import 'package:code_builder/src/builders/statement/if.dart';
@@ -36,7 +37,7 @@ abstract class HasStatementsMixin implements HasStatements {
 
   /// Returns a [Block] statement.
   Block buildBlock([Scope scope]) {
-    return new Block(
+    return astFactory.block(
       $openCurly,
       buildStatements(scope),
       $closeCurly,
@@ -92,7 +93,7 @@ class _ReturnStatementBuilder extends Object implements StatementBuilder {
 
   @override
   Statement buildStatement([_]) {
-    return new ReturnStatement($return, null, $semicolon);
+    return astFactory.returnStatement($return, null, $semicolon);
   }
 
   @override

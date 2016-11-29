@@ -4,6 +4,7 @@
 
 import 'package:analyzer/analyzer.dart';
 import 'package:analyzer/dart/ast/token.dart';
+import 'package:analyzer/dart/ast/standard_ast_factory.dart';
 import 'package:analyzer/src/dart/ast/token.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:code_builder/dart/core.dart';
@@ -330,10 +331,10 @@ class _LambdaMethodBuilder extends Object
   }
 
   FunctionExpression _buildExpression(Scope scope, {bool isStatement}) {
-    return new FunctionExpression(
+    return astFactory.functionExpression(
       null,
       _property != Keyword.GET ? buildParameterList(scope) : null,
-      new ExpressionFunctionBody(
+      astFactory.expressionFunctionBody(
         null,
         null,
         _expression.buildExpression(scope),
@@ -344,7 +345,7 @@ class _LambdaMethodBuilder extends Object
 
   @override
   FunctionDeclaration buildFunction([Scope scope]) {
-    return new FunctionDeclaration(
+    return astFactory.functionDeclaration(
       null,
       buildAnnotations(scope),
       null,
@@ -357,7 +358,7 @@ class _LambdaMethodBuilder extends Object
 
   @override
   MethodDeclaration buildMethod(bool static, [Scope scope]) {
-    return new MethodDeclaration(
+    return astFactory.methodDeclaration(
       null,
       buildAnnotations(scope),
       null,
@@ -368,7 +369,7 @@ class _LambdaMethodBuilder extends Object
       stringIdentifier(_name),
       null,
       _property != Keyword.GET ? buildParameterList(scope) : null,
-      new ExpressionFunctionBody(
+      astFactory.expressionFunctionBody(
         null,
         null,
         _expression.buildExpression(scope),
@@ -411,10 +412,10 @@ class _MethodBuilderImpl extends Object
 
   @override
   Expression buildExpression([Scope scope]) {
-    return new FunctionExpression(
+    return astFactory.functionExpression(
       null,
       _property != Keyword.GET ? buildParameterList(scope) : null,
-      new BlockFunctionBody(
+      astFactory.blockFunctionBody(
         null,
         null,
         buildBlock(scope),
@@ -424,7 +425,7 @@ class _MethodBuilderImpl extends Object
 
   @override
   FunctionDeclaration buildFunction([Scope scope]) {
-    return new FunctionDeclaration(
+    return astFactory.functionDeclaration(
       null,
       buildAnnotations(scope),
       null,
@@ -437,7 +438,7 @@ class _MethodBuilderImpl extends Object
 
   @override
   MethodDeclaration buildMethod(bool static, [Scope scope]) {
-    return new MethodDeclaration(
+    return astFactory.methodDeclaration(
       null,
       buildAnnotations(scope),
       null,
@@ -448,7 +449,7 @@ class _MethodBuilderImpl extends Object
       identifier(scope, _name),
       null,
       _property != Keyword.GET ? buildParameterList(scope) : null,
-      new BlockFunctionBody(
+      astFactory.blockFunctionBody(
         null,
         null,
         buildBlock(scope),
@@ -485,7 +486,7 @@ class _NormalConstructorBuilder extends Object
   @override
   ConstructorDeclaration buildConstructor(TypeBuilder returnType,
       [Scope scope]) {
-    return new ConstructorDeclaration(
+    return astFactory.constructorDeclaration(
       null,
       buildAnnotations(scope),
       null,
@@ -499,8 +500,8 @@ class _NormalConstructorBuilder extends Object
       null,
       null,
       !hasStatements
-          ? new EmptyFunctionBody($semicolon)
-          : new BlockFunctionBody(
+          ? astFactory.emptyFunctionBody($semicolon)
+          : astFactory.blockFunctionBody(
               null,
               null,
               buildBlock(scope),

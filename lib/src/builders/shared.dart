@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:analyzer/analyzer.dart';
+import 'package:analyzer/dart/ast/standard_ast_factory.dart';
 import 'package:code_builder/src/scope.dart';
 import 'package:code_builder/src/tokens.dart';
 
@@ -10,7 +11,7 @@ export 'package:code_builder/src/scope.dart';
 
 /// Returns a string [Literal] from [value].
 Identifier stringIdentifier(String value) =>
-    new SimpleIdentifier(stringToken(value));
+    astFactory.simpleIdentifier(stringToken(value));
 
 /// Lazily builds an analyzer [AstNode] when [buildAst] is invoked.
 ///

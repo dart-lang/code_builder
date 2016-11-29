@@ -15,7 +15,7 @@ class _CascadeExpression extends TopLevelMixin with AbstractExpressionMixin {
 
   @override
   Expression buildExpression([Scope scope]) {
-    return new CascadeExpression(
+    return astFactory.cascadeExpression(
       _target.buildExpression(scope),
       _cascades.map((e) => e.buildExpression(scope)).toList(),
     );

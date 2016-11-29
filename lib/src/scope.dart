@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:analyzer/analyzer.dart';
+import 'package:analyzer/dart/ast/standard_ast_factory.dart';
 
 import 'builders/file.dart';
 import 'tokens.dart';
@@ -82,7 +83,7 @@ class _IdentityScope implements Scope {
 
   @override
   Identifier identifier(String name, [_]) {
-    return new SimpleIdentifier(stringToken(name));
+    return astFactory.simpleIdentifier(stringToken(name));
   }
 
   @override
@@ -100,7 +101,7 @@ class _IncrementingScope extends _IdentityScope {
       return super.identifier(name);
     }
     var newId = _imports.putIfAbsent(importFrom, () => _counter++);
-    return new PrefixedIdentifier(
+    return astFactory.prefixedIdentifier(
       super.identifier('_i$newId'),
       $period,
       super.identifier(name),
