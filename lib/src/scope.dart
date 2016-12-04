@@ -56,7 +56,7 @@ abstract class Scope {
   factory Scope.dedupe() => new _DeduplicatingScope();
 
   /// Given a [name] and and import path, returns an [Identifier].
-  Identifier identifier(String name, String importFrom);
+  Identifier identifier(String name, [String importFrom]);
 
   /// Return a list of import statements.
   List<ImportBuilder> toImports();
