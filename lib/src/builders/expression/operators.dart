@@ -17,7 +17,7 @@ class _AsBinaryExpression extends Object
 
   @override
   Expression buildExpression([Scope scope]) {
-    return new BinaryExpression(
+    return astFactory.binaryExpression(
       _left.buildExpression(scope),
       _operator,
       _right.buildExpression(scope),

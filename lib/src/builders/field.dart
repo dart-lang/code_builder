@@ -4,6 +4,7 @@
 
 import 'package:analyzer/analyzer.dart';
 import 'package:analyzer/dart/ast/token.dart';
+import 'package:analyzer/dart/ast/standard_ast_factory.dart';
 import 'package:analyzer/src/dart/ast/token.dart';
 import 'package:code_builder/src/builders/annotation.dart';
 import 'package:code_builder/src/builders/class.dart';
@@ -129,7 +130,7 @@ class _FieldBuilderImpl extends TopLevelMixin
 
   @override
   FieldDeclaration buildField(bool static, [Scope scope]) {
-    return new FieldDeclaration(
+    return astFactory.fieldDeclaration(
       null,
       buildAnnotations(scope),
       static ? $static : null,
@@ -140,7 +141,7 @@ class _FieldBuilderImpl extends TopLevelMixin
 
   @override
   Statement buildStatement([Scope scope]) {
-    return new VariableDeclarationStatement(
+    return astFactory.variableDeclarationStatement(
       _buildVariableList(scope),
       $semicolon,
     );
@@ -148,7 +149,7 @@ class _FieldBuilderImpl extends TopLevelMixin
 
   @override
   TopLevelVariableDeclaration buildTopLevel([Scope scope]) {
-    return new TopLevelVariableDeclaration(
+    return astFactory.topLevelVariableDeclaration(
       null,
       null,
       _buildVariableList(scope),
@@ -157,13 +158,13 @@ class _FieldBuilderImpl extends TopLevelMixin
   }
 
   VariableDeclarationList _buildVariableList([Scope scope]) {
-    return new VariableDeclarationList(
+    return astFactory.variableDeclarationList(
       null,
       null,
       _keyword != null ? new KeywordToken(_keyword, 0) : null,
       _type?.buildType(scope),
       [
-        new VariableDeclaration(
+        astFactory.variableDeclaration(
           stringIdentifier(_name),
           _value != null ? $equals : null,
           _value?.buildExpression(scope),

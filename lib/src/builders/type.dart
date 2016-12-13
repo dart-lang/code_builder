@@ -6,6 +6,7 @@ library code_builder.src.builders.type;
 
 import 'package:analyzer/analyzer.dart';
 import 'package:analyzer/dart/ast/token.dart';
+import 'package:analyzer/dart/ast/standard_ast_factory.dart';
 import 'package:analyzer/src/dart/ast/token.dart';
 import 'package:code_builder/src/builders/annotation.dart';
 import 'package:code_builder/src/builders/expression.dart';
@@ -107,7 +108,7 @@ class TypeBuilder extends Object
 
   /// Returns an [TypeName] AST representing the builder.
   TypeName buildType([Scope scope]) {
-    return new TypeName(
+    return astFactory.typeName(
       identifier(
         scope,
         _name,
@@ -115,7 +116,7 @@ class TypeBuilder extends Object
       ),
       _generics.isEmpty
           ? null
-          : new TypeArgumentList(
+          : astFactory.typeArgumentList(
               $openBracket,
               _generics.map((t) => t.buildType(scope)).toList(),
               $closeBracket,

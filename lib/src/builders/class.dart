@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:analyzer/analyzer.dart';
+import 'package:analyzer/dart/ast/standard_ast_factory.dart';
 import 'package:code_builder/dart/core.dart';
 import 'package:code_builder/src/builders/annotation.dart';
 import 'package:code_builder/src/builders/field.dart';
@@ -200,7 +201,7 @@ class _ClassBuilderImpl extends Object
     if (extend == null && _with.isNotEmpty) {
       extend = lib$core.Object;
     }
-    final clazz = new ClassDeclaration(
+    final clazz = astFactory.classDeclaration(
       null,
       buildAnnotations(scope),
       _asAbstract ? $abstract : null,
@@ -208,19 +209,19 @@ class _ClassBuilderImpl extends Object
       stringIdentifier(_name),
       null,
       extend != null
-          ? new ExtendsClause(
+          ? astFactory.extendsClause(
               $extends,
               extend.buildType(scope),
             )
           : null,
       _with.isNotEmpty
-          ? new WithClause(
+          ? astFactory.withClause(
               $with,
               _with.map/*<TypeName>*/((w) => w.buildType(scope)).toList(),
             )
           : null,
       _implements.isNotEmpty
-          ? new ImplementsClause(
+          ? astFactory.implementsClause(
               $implements,
               _implements.map/*<TypeName>*/((i) => i.buildType(scope)).toList(),
             )

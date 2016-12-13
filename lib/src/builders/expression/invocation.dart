@@ -25,15 +25,15 @@ abstract class AbstractInvocationBuilderMixin implements InvocationBuilder {
     allArguments.addAll(
         _positional.map/*<Expression>*/((e) => e.buildExpression(scope)));
     _named.forEach((name, e) {
-      allArguments.add(new NamedExpression(
-        new Label(
+      allArguments.add(astFactory.namedExpression(
+        astFactory.label(
           stringIdentifier(name),
           $colon,
         ),
         e.buildExpression(scope),
       ));
     });
-    return new ArgumentList(
+    return astFactory.argumentList(
       $openParen,
       allArguments,
       $closeParen,
@@ -71,7 +71,7 @@ class _FunctionInvocationBuilder extends Object
 
   @override
   Expression buildExpression([Scope scope]) {
-    return new FunctionExpressionInvocation(
+    return astFactory.functionExpressionInvocation(
       _target.buildExpression(scope),
       null,
       buildArgumentList(scope),
@@ -89,7 +89,7 @@ class _MethodInvocationBuilder extends Object
 
   @override
   Expression buildExpression([Scope scope]) {
-    return new MethodInvocation(
+    return astFactory.methodInvocation(
       _target.buildExpression(scope),
       $period,
       stringIdentifier(_method),

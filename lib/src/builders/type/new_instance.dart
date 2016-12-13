@@ -33,7 +33,7 @@ class _NewInvocationBuilderImpl extends Object
 
   @override
   Annotation buildAnnotation([Scope scope]) {
-    return new Annotation(
+    return astFactory.annotation(
       $at,
       _type.buildType(scope).name,
       $period,
@@ -44,9 +44,9 @@ class _NewInvocationBuilderImpl extends Object
 
   @override
   Expression buildExpression([Scope scope]) {
-    return new InstanceCreationExpression(
+    return astFactory.instanceCreationExpression(
       new KeywordToken(_keyword, 0),
-      new ConstructorName(
+      astFactory.constructorName(
         _type.buildType(scope),
         _name != null ? $period : null,
         _name != null ? stringIdentifier(_name) : null,
