@@ -1,3 +1,8 @@
+## 1.0.0-alpha+8
+
+- Add support for `async`, `sync`, `sync*` functions
+- Add support for ann expression to `asAwait`, `asYield`, `asYieldStar`
+
 ## 1.0.0-alpha+7
 
 - Make use of new analyzer API in preparation for analyzer version 0.30.
