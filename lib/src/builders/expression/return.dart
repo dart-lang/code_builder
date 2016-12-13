@@ -16,7 +16,7 @@ class _AsReturn extends TopLevelMixin implements StatementBuilder {
   Statement buildStatement([Scope scope]) {
     return astFactory.returnStatement(
       $return,
-      _value.buildExpression(),
+      _value.buildExpression(scope),
       $semicolon,
     );
   }

@@ -1,3 +1,7 @@
+## 1.0.0-alpha+8
+
+- Fix an import scoping bug in `return` statements and named constructor invocations.
+
 ## 1.0.0-alpha+7
 
 - Make use of new analyzer API in preparation for analyzer version 0.30.

@@ -1,5 +1,5 @@
 name: code_builder
-version: 1.0.0-alpha+7
+version: 1.0.0-alpha+8
 description: A fluent API for generating Dart code
 author: Dart Team <misc@dartlang.org>
 homepage: https://github.com/dart-lang/code_builder

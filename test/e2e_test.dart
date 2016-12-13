@@ -84,7 +84,11 @@ void main() {
             reference('_module').invoke('getDep1', []),
             reference('_module').invoke('getDep2', []),
           ]),
-        )..addAnnotation(lib$core.override)));
+        )..addAnnotation(lib$core.override))
+        ..addMethod(new MethodBuilder(
+          'instantiateAndReturnNamedThing',
+          returnType: thingRef,
+        )..addStatement(thingRef.namedNewInstance('named', []).asReturn())));
     expect(
       lib,
       equalsSource(
@@ -99,6 +103,10 @@ void main() {
 
             @override
             _i2.Thing getThing() => new _i2.Thing(_module.getDep1(), _module.getDep2());
+
+            _i2.Thing instantiateAndReturnNamedThing() {
+              return new _i2.Thing.named();
+            }
           }
         ''',
         pretty: true,
