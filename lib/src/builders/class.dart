@@ -7,6 +7,7 @@ import 'package:analyzer/dart/ast/standard_ast_factory.dart';
 import 'package:code_builder/dart/core.dart';
 import 'package:code_builder/src/builders/annotation.dart';
 import 'package:code_builder/src/builders/field.dart';
+import 'package:code_builder/src/builders/file.dart';
 import 'package:code_builder/src/builders/method.dart';
 import 'package:code_builder/src/builders/shared.dart';
 import 'package:code_builder/src/builders/type.dart';
@@ -253,6 +254,16 @@ class _ClassBuilderImpl extends Object
   @override
   void setExtends(TypeBuilder extend) {
     _extends = extend;
+  }
+
+  @override
+  ExportBuilder toExportBuilder() {
+    throw new UnsupportedError('Not supported for ClassBuilder');
+  }
+
+  @override
+  ImportBuilder toImportBuilder({bool deferred: false, String prefix}) {
+    throw new UnsupportedError('Not supported for ClassBuilder');
   }
 }
 

@@ -6,6 +6,7 @@ import 'package:analyzer/analyzer.dart';
 import 'package:analyzer/dart/ast/standard_ast_factory.dart';
 import 'package:code_builder/src/builders/annotation.dart';
 import 'package:code_builder/src/builders/expression.dart';
+import 'package:code_builder/src/builders/file.dart';
 import 'package:code_builder/src/builders/shared.dart';
 import 'package:code_builder/src/builders/statement.dart';
 import 'package:code_builder/src/builders/type.dart';
@@ -61,6 +62,26 @@ class ReferenceBuilder extends Object
   @override
   TypeName buildType([Scope scope]) {
     return new TypeBuilder(_name, importFrom: _importFrom).buildType(scope);
+  }
+
+  @override
+  ExportBuilder toExportBuilder() {
+    if (_importFrom == null) {
+      throw new StateError('Cannot create an import - no URI provided');
+    }
+    return new ExportBuilder(_importFrom)..show(_name);
+  }
+
+  @override
+  ImportBuilder toImportBuilder({bool deferred: false, String prefix}) {
+    if (_importFrom == null) {
+      throw new StateError('Cannot create an import - no URI provided');
+    }
+    return new ImportBuilder(
+      _importFrom,
+      deferred: deferred,
+      prefix: prefix,
+    )..show(_name);
   }
 
   /// Returns a new [ReferenceBuilder] with [genericTypes].

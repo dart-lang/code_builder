@@ -84,7 +84,10 @@ class _PrettyToSourceVisitor extends ToSourceVisitor {
   // Write a list of [nodes], separated by the given [separator], followed by
   // the given [suffix] if the list is not empty.
   void _visitNodeListWithSeparatorAndSuffix(
-      NodeList<AstNode> nodes, String separator, String suffix) {
+    NodeList<AstNode> nodes,
+    String separator,
+    String suffix,
+  ) {
     if (nodes != null) {
       int size = nodes.length;
       if (size > 0) {
