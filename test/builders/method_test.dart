@@ -170,6 +170,33 @@ void main() {
     );
   });
 
+  test('should emit an async method', () {
+    expect(
+      method('fetch', [MethodModifier.async]),
+      equalsSource(r'''
+        fetch() async {}
+      '''),
+    );
+  });
+
+  test('should emit an async* method', () {
+    expect(
+      method('fetch', [MethodModifier.asyncStar]),
+      equalsSource(r'''
+        fetch() async* {}
+      '''),
+    );
+  });
+
+  test('should emit an sync* method', () {
+    expect(
+      method('fetch', [MethodModifier.syncStar]),
+      equalsSource(r'''
+        fetch() sync* {}
+      '''),
+    );
+  });
+
   group('closure', () {
     MethodBuilder closure;
     setUp(() {
@@ -185,22 +212,26 @@ void main() {
       expect(
         closure,
         equalsSource(r'''
-        (bool defaultTo) => false || defaultTo
-      '''),
+          (bool defaultTo) => false || defaultTo
+        '''),
       );
 
       test('should treat closure as expression', () {
         expect(
-            list([true, false]).invoke('where', [closure]),
-            equalsSource(
-                '[true, false].where((bool defaultTo) => false || defaultTo)'));
+          list([true, false]).invoke('where', [closure]),
+          equalsSource(
+            '[true, false].where((bool defaultTo) => false || defaultTo)',
+          ),
+        );
       });
 
       test('should emit a closure as a function in a library', () {
         final library = new LibraryBuilder();
         library.addMember(closure);
         expect(
-            library, equalsSource('(bool defaultTo) => false || defaultTo;'));
+          library,
+          equalsSource('(bool defaultTo) => false || defaultTo;'),
+        );
       });
     });
   });

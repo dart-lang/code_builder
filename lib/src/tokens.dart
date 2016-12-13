@@ -14,8 +14,14 @@ final Token $as = new KeywordToken(Keyword.AS, 0);
 /// The `assert` token.
 final Token $assert = new KeywordToken(Keyword.ASSERT, 0);
 
+/// The `async` token.
+final Token $async = new StringToken(TokenType.KEYWORD, 'async', 0);
+
 /// The `@` token.
 final Token $at = new Token(TokenType.AT, 0);
+
+/// The `await` token.
+final Token $await = new StringToken(TokenType.KEYWORD, 'await', 0);
 
 /// The `class` token.
 final Token $class = new KeywordToken(Keyword.CLASS, 0);
@@ -65,10 +71,16 @@ final Token $gt = new Token(TokenType.GT, 0);
 /// The `if` token.
 final Token $if = new KeywordToken(Keyword.IF, 0);
 
+/// The `yield` token.
+final Token $yield = new StringToken(TokenType.KEYWORD, 'yield', 0);
+
 // Simple tokens
 
 /// The `&&` token.
 final Token $and = new Token(TokenType.AMPERSAND_AMPERSAND, 0);
+
+/// The `*` token.
+final Token $star = $multiply;
 
 /// The `hide` token.
 final Token $hide = new StringToken(TokenType.KEYWORD, 'hide', 0);

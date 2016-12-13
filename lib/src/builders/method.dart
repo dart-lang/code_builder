@@ -17,20 +17,42 @@ import 'package:code_builder/src/builders/type.dart';
 import 'package:code_builder/src/tokens.dart';
 
 /// Short-hand for `new ConstructorBuilder(...)`.
-ConstructorBuilder constructor(
-    [Iterable<ValidConstructorMember> members = const []]) {
+ConstructorBuilder constructor([
+  Iterable<ValidConstructorMember> members = const [],
+]) {
   return _constructorImpl(members: members);
 }
 
 /// Short-hand for `new ConstructorBuilder(name)`.
-ConstructorBuilder constructorNamed(String name,
-    [Iterable<ValidConstructorMember> members = const []]) {
+ConstructorBuilder constructorNamed(
+  String name, [
+  Iterable<ValidConstructorMember> members = const [],
+]) {
   return _constructorImpl(name: name, members: members);
+}
+
+/// Various types of modifiers for methods.
+class MethodModifier implements ValidMethodMember {
+  static const MethodModifier async = const MethodModifier._('async', false);
+  static const MethodModifier asyncStar = const MethodModifier._('async', true);
+  static const MethodModifier syncStar = const MethodModifier._('sync', true);
+
+  final String _keyword;
+
+  const MethodModifier._(this._keyword, this.isStar);
+
+  @override
+  buildAst([_]) => throw new UnsupportedError('Not an AST');
+
+  final bool isStar;
+
+  Token keyword() => new StringToken(TokenType.KEYWORD, _keyword, 0);
 }
 
 /// Short-hand for `new MethodBuilder.getter(...)`.
 MethodBuilder getter(
   String name, {
+  MethodModifier modifier,
   Iterable<StatementBuilder> statements,
   ExpressionBuilder returns,
   TypeBuilder returnType,
@@ -38,12 +60,14 @@ MethodBuilder getter(
   if (returns != null) {
     return new MethodBuilder.getter(
       name,
+      modifier: modifier,
       returnType: returnType,
       returns: returns,
     );
   } else {
     return new MethodBuilder.getter(
       name,
+      modifier: modifier,
       returnType: returnType,
     )..addStatements(statements);
   }
@@ -53,9 +77,15 @@ MethodBuilder getter(
 MethodBuilder lambda(
   String name,
   ExpressionBuilder value, {
+  MethodModifier modifier,
   TypeBuilder returnType,
 }) {
-  return new MethodBuilder(name, returns: value, returnType: returnType);
+  return new MethodBuilder(
+    name,
+    modifier: modifier,
+    returns: value,
+    returnType: returnType,
+  );
 }
 
 /// A more short-hand way of constructing a [MethodBuilder].
@@ -66,6 +96,7 @@ MethodBuilder method(
   final List<ParameterBuilder> positional = <ParameterBuilder>[];
   final List<_NamedParameterWrapper> named = <_NamedParameterWrapper>[];
   final List<StatementBuilder> statements = <StatementBuilder>[];
+  MethodModifier modifier;
   TypeBuilder returnType;
   for (final member in members) {
     if (member is TypeBuilder) {
@@ -76,12 +107,15 @@ MethodBuilder method(
       named.add(member);
     } else if (member is StatementBuilder) {
       statements.add(member);
+    } else if (member is MethodModifier) {
+      modifier = member;
     } else {
       throw new StateError('Invalid AST type: ${member.runtimeType}');
     }
   }
   final method = new _MethodBuilderImpl(
     name,
+    modifier: modifier,
     returns: returnType,
   );
   positional.forEach(method.addPositional);
@@ -160,8 +194,10 @@ abstract class ConstructorBuilder
   void addPositional(ParameterBuilder parameter, {bool asField: false});
 
   /// Returns an [ConstructorDeclaration] AST representing the builder.
-  ConstructorDeclaration buildConstructor(TypeBuilder returnType,
-      [Scope scope]);
+  ConstructorDeclaration buildConstructor(
+    TypeBuilder returnType, [
+    Scope scope,
+  ]);
 }
 
 /// Lazily builds a method/function AST when the builder is invoked.
@@ -175,6 +211,7 @@ abstract class MethodBuilder
   /// Creates a new [MethodBuilder].
   factory MethodBuilder(
     String name, {
+    MethodModifier modifier,
     ExpressionBuilder returns,
     TypeBuilder returnType,
   }) {
@@ -184,10 +221,12 @@ abstract class MethodBuilder
         returns,
         returnType,
         null,
+        modifier,
       );
     } else {
       return new _MethodBuilderImpl(
         name,
+        modifier: modifier,
         returns: returnType,
       );
     }
@@ -195,6 +234,7 @@ abstract class MethodBuilder
 
   /// Creates a new [MethodBuilder] that returns an anonymous closure.
   factory MethodBuilder.closure({
+    MethodModifier modifier,
     ExpressionBuilder returns,
     TypeBuilder returnType,
   }) {
@@ -204,10 +244,12 @@ abstract class MethodBuilder
         returns,
         returnType,
         null,
+        modifier,
       );
     } else {
       return new _MethodBuilderImpl(
         null,
+        modifier: modifier,
         returns: returnType,
       );
     }
@@ -216,12 +258,14 @@ abstract class MethodBuilder
   /// Creates a getter.
   factory MethodBuilder.getter(
     String name, {
+    MethodModifier modifier,
     TypeBuilder returnType,
     ExpressionBuilder returns,
   }) {
     if (returns == null) {
       return new _MethodBuilderImpl(
         name,
+        modifier: modifier,
         returns: returnType,
         property: Keyword.GET,
       );
@@ -231,6 +275,7 @@ abstract class MethodBuilder
         returns,
         returnType,
         Keyword.GET,
+        modifier,
       );
     }
   }
@@ -244,6 +289,7 @@ abstract class MethodBuilder
       name,
       returns,
       lib$core.$void,
+      null,
       null,
     );
   }
@@ -264,6 +310,7 @@ abstract class MethodBuilder
         returns,
         null,
         Keyword.SET,
+        null,
       );
     }
   }
@@ -299,12 +346,18 @@ class _LambdaMethodBuilder extends Object
         TopLevelMixin
     implements MethodBuilder {
   final ExpressionBuilder _expression;
+  final MethodModifier _modifier;
   final String _name;
   final TypeBuilder _returnType;
   final Keyword _property;
 
   _LambdaMethodBuilder(
-      this._name, this._expression, this._returnType, this._property);
+    this._name,
+    this._expression,
+    this._returnType,
+    this._property,
+    this._modifier,
+  );
 
   @override
   void addStatement(StatementBuilder statement) {
@@ -334,7 +387,7 @@ class _LambdaMethodBuilder extends Object
       null,
       _property != Keyword.GET ? buildParameterList(scope) : null,
       new ExpressionFunctionBody(
-        null,
+        _modifier?.keyword(),
         null,
         _expression.buildExpression(scope),
         isStatement ? $semicolon : null,
@@ -369,7 +422,7 @@ class _LambdaMethodBuilder extends Object
       null,
       _property != Keyword.GET ? buildParameterList(scope) : null,
       new ExpressionFunctionBody(
-        null,
+        _modifier?.keyword(),
         null,
         _expression.buildExpression(scope),
         $semicolon,
@@ -389,16 +442,19 @@ class _MethodBuilderImpl extends Object
         HasStatementsMixin,
         TopLevelMixin
     implements MethodBuilder {
+  final MethodModifier _modifier;
   final String _name;
   final TypeBuilder _returnType;
   final Keyword _property;
 
   _MethodBuilderImpl(
     this._name, {
+    MethodModifier modifier,
     TypeBuilder returns,
     Keyword property,
   })
-      : _returnType = returns,
+      : _modifier = modifier,
+        _returnType = returns,
         _property = property;
 
   @override
@@ -415,8 +471,8 @@ class _MethodBuilderImpl extends Object
       null,
       _property != Keyword.GET ? buildParameterList(scope) : null,
       new BlockFunctionBody(
-        null,
-        null,
+        _modifier?.keyword(),
+        _modifier?.isStar == true ? $star : null,
         buildBlock(scope),
       ),
     );
@@ -449,8 +505,8 @@ class _MethodBuilderImpl extends Object
       null,
       _property != Keyword.GET ? buildParameterList(scope) : null,
       new BlockFunctionBody(
-        null,
-        null,
+        _modifier?.keyword(),
+        _modifier?.isStar == true ? $star : null,
         buildBlock(scope),
       ),
     );
