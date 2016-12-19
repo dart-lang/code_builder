@@ -548,7 +548,7 @@ class _NormalConstructorBuilder extends Object
       null,
       null,
       null,
-      returnType.buildType().name,
+      returnType.buildType(scope).name,
       _name != null ? $period : null,
       _name != null ? stringIdentifier(_name) : null,
       buildParameterList(scope),
