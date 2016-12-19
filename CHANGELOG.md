@@ -1,7 +1,7 @@
 ## 1.0.0-alpha+9
 
 - Add support for `async`, `sync`, `sync*` functions
-- Add support for ann expression to `asAwait`, `asYield`, `asYieldStar`
+- Add support for expression `asAwait`, `asYield`, `asYieldStar`
 - Add `toExportBuilder` and `toImportBuilder` to types and references
 
 ## 1.0.0-alpha+8
