@@ -294,4 +294,31 @@ void main() {
       '''),
     );
   });
+
+  test('should emit await', () {
+    expect(
+      reference('foo').asAwait(),
+      equalsSource(r'''
+        await foo
+      '''),
+    );
+  });
+
+  test('should emit yield', () {
+    expect(
+      reference('foo').asYield(),
+      equalsSource(r'''
+        yield foo;
+      '''),
+    );
+  });
+
+  test('should emit yield*', () {
+    expect(
+      reference('foo').asYieldStar(),
+      equalsSource(r'''
+        yield* foo;
+      '''),
+    );
+  });
 }

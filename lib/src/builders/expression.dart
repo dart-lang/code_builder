@@ -19,11 +19,13 @@ import 'package:code_builder/src/tokens.dart';
 
 part 'expression/assert.dart';
 part 'expression/assign.dart';
+part 'expression/await.dart';
 part 'expression/cascade.dart';
 part 'expression/invocation.dart';
 part 'expression/negate.dart';
 part 'expression/operators.dart';
 part 'expression/return.dart';
+part 'expression/yield.dart';
 
 final _false =
     astFactory.booleanLiteral(new KeywordToken(Keyword.FALSE, 0), true);
@@ -142,6 +144,9 @@ abstract class AbstractExpressionMixin implements ExpressionBuilder {
       new _AsAssign(this, variable, nullAware, target);
 
   @override
+  ExpressionBuilder asAwait() => new _AsAwait(this);
+
+  @override
   StatementBuilder asConst(String variable, [TypeBuilder type]) {
     return new _AsAssignNew(this, variable, type, $const);
   }
@@ -164,6 +169,12 @@ abstract class AbstractExpressionMixin implements ExpressionBuilder {
   StatementBuilder asVar(String variable, [TypeBuilder type]) {
     return new _AsAssignNew(this, variable, type, $var);
   }
+
+  @override
+  StatementBuilder asYield() => new _AsYield(this, false);
+
+  @override
+  StatementBuilder asYieldStar() => new _AsYield(this, true);
 
   @override
   Statement buildStatement([Scope scope]) {
@@ -273,8 +284,14 @@ abstract class ExpressionBuilder
   /// Returns as a [StatementBuilder] that assigns to an existing [variable].
   ///
   /// If [target] is specified, determined to be `{target}.{variable}`.
-  StatementBuilder asAssign(String variable,
-      {ExpressionBuilder target, bool nullAware});
+  StatementBuilder asAssign(
+    String variable, {
+    ExpressionBuilder target,
+    bool nullAware,
+  });
+
+  /// Returns as an expression `await`-ing this one.
+  ExpressionBuilder asAwait() => new _AsAwait(this);
 
   /// Returns as a [StatementBuilder] that assigns to a new `const` [variable].
   StatementBuilder asConst(String variable, [TypeBuilder type]);
@@ -299,6 +316,12 @@ abstract class ExpressionBuilder
   ///
   /// If [type] is supplied, the resulting statement is `{type} {variable} =`.
   StatementBuilder asVar(String variable, [TypeBuilder type]);
+
+  /// Returns as a [StatementBuilder] yielding this one.
+  StatementBuilder asYield();
+
+  /// Returns as a [StatementBuilder] yielding this one.
+  StatementBuilder asYieldStar();
 
   /// Returns an [Expression] AST representing the builder.
   Expression buildExpression([Scope scope]);

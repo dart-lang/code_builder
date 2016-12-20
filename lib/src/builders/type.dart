@@ -8,6 +8,7 @@ import 'package:analyzer/analyzer.dart';
 import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/standard_ast_factory.dart';
 import 'package:analyzer/src/dart/ast/token.dart';
+import 'package:code_builder/code_builder.dart';
 import 'package:code_builder/src/builders/annotation.dart';
 import 'package:code_builder/src/builders/expression.dart';
 import 'package:code_builder/src/builders/method.dart';
@@ -61,6 +62,12 @@ abstract class AbstractTypeBuilderMixin {
     _addArguments(builder, positional, named);
     return builder;
   }
+
+  /// Returns as an import to this reference.
+  ImportBuilder toImportBuilder({bool deferred: false, String prefix});
+
+  /// Returns as an export to the reference.
+  ExportBuilder toExportBuilder();
 
   static void _addArguments(
     NewInstanceBuilder builder,
@@ -122,5 +129,25 @@ class TypeBuilder extends Object
               $closeBracket,
             ),
     );
+  }
+
+  @override
+  ExportBuilder toExportBuilder() {
+    if (_importFrom == null) {
+      throw new StateError('Cannot create an import - no URI provided');
+    }
+    return new ExportBuilder(_importFrom)..show(_name);
+  }
+
+  @override
+  ImportBuilder toImportBuilder({bool deferred: false, String prefix}) {
+    if (_importFrom == null) {
+      throw new StateError('Cannot create an import - no URI provided');
+    }
+    return new ImportBuilder(
+      _importFrom,
+      deferred: deferred,
+      prefix: prefix,
+    )..show(_name);
   }
 }

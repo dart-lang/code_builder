@@ -94,5 +94,23 @@ void main() {
         '''),
       );
     });
+
+    test('emits an export builder', () {
+      expect(
+        reference('Foo', 'package:foo/foo.dart').toExportBuilder(),
+        equalsSource(r'''
+          export 'package:foo/foo.dart' show Foo;
+        '''),
+      );
+    });
+
+    test('emits an export builder', () {
+      expect(
+        reference('Foo', 'package:foo/foo.dart').toImportBuilder(),
+        equalsSource(r'''
+          import 'package:foo/foo.dart' show Foo;
+        '''),
+      );
+    });
   });
 }

@@ -23,6 +23,7 @@ export 'src/builders/method.dart'
         named,
         ConstructorBuilder,
         MethodBuilder,
+        MethodModifier,
         ValidMethodMember;
 export 'src/builders/parameter.dart' show parameter, ParameterBuilder;
 export 'src/pretty_printer.dart' show prettyToSource;
