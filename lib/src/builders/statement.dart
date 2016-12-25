@@ -9,6 +9,8 @@ import 'package:code_builder/src/builders/shared.dart';
 import 'package:code_builder/src/builders/statement/if.dart';
 import 'package:code_builder/src/tokens.dart';
 
+export 'package:code_builder/src/builders/statement/for.dart'
+    show ForStatementBuilder;
 export 'package:code_builder/src/builders/statement/if.dart'
     show IfStatementBuilder, elseIf, elseThen, ifThen;
 

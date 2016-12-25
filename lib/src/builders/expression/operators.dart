@@ -24,3 +24,46 @@ class _AsBinaryExpression extends Object
     );
   }
 }
+
+class _DecrementExpression extends Object
+    with AbstractExpressionMixin, TopLevelMixin {
+  final ExpressionBuilder _expression;
+
+  _DecrementExpression(this._expression);
+
+  @override
+  AstNode buildAst([Scope scope]) => buildExpression(scope);
+
+  @override
+  Expression buildExpression([Scope scope]) {
+    return astFactory.postfixExpression(
+      _expression.buildExpression(scope),
+      $minusMinus,
+    );
+  }
+}
+
+class _IncrementExpression extends Object
+    with AbstractExpressionMixin, TopLevelMixin {
+  final ExpressionBuilder _expression;
+  final bool _prefix;
+
+  _IncrementExpression(this._expression, this._prefix);
+
+  @override
+  AstNode buildAst([Scope scope]) => buildExpression(scope);
+
+  @override
+  Expression buildExpression([Scope scope]) {
+    if (_prefix) {
+      return astFactory.prefixExpression(
+        $plusPlus,
+        _expression.buildExpression(scope),
+      );
+    }
+    return astFactory.postfixExpression(
+      _expression.buildExpression(scope),
+      $plusPlus,
+    );
+  }
+}

@@ -124,6 +124,24 @@ abstract class AbstractExpressionMixin implements ExpressionBuilder {
   }
 
   @override
+  ExpressionBuilder operator >(ExpressionBuilder other) {
+    return new _AsBinaryExpression(
+      this,
+      other,
+      $gt,
+    );
+  }
+
+  @override
+  ExpressionBuilder operator <(ExpressionBuilder other) {
+    return new _AsBinaryExpression(
+      this,
+      other,
+      $lt,
+    );
+  }
+
+  @override
   ExpressionBuilder and(ExpressionBuilder other) {
     return new _AsBinaryExpression(
       this,
@@ -201,6 +219,9 @@ abstract class AbstractExpressionMixin implements ExpressionBuilder {
   }
 
   @override
+  ExpressionBuilder decrement() => new _DecrementExpression(this);
+
+  @override
   ExpressionBuilder equals(ExpressionBuilder other) {
     return new _AsBinaryExpression(
       this,
@@ -210,8 +231,13 @@ abstract class AbstractExpressionMixin implements ExpressionBuilder {
   }
 
   @override
+  ExpressionBuilder increment([bool prefix = false]) {
+    return new _IncrementExpression(this, prefix);
+  }
+
+  @override
   ExpressionBuilder identical(ExpressionBuilder other) {
-    return lib$core.identical.call([
+    return lib$core.identical.call(<ExpressionBuilder> [
       this,
       other,
     ]);
@@ -275,6 +301,12 @@ abstract class ExpressionBuilder
   /// Returns as an [ExpressionBuilder] dividing by [other].
   ExpressionBuilder operator /(ExpressionBuilder other);
 
+  /// Returns as an [ExpressionBuilder] `<` by [other].
+  ExpressionBuilder operator <(ExpressionBuilder other);
+
+  /// Returns as an [ExpressionBuilder] `>` by [other].
+  ExpressionBuilder operator >(ExpressionBuilder other);
+
   /// Returns as an [ExpressionBuilder] `&&` [other].
   ExpressionBuilder and(ExpressionBuilder other);
 
@@ -337,11 +369,17 @@ abstract class ExpressionBuilder
     Iterable<ExpressionBuilder> create(ExpressionBuilder self),
   );
 
+  /// Returns as an [ExpressionBuilder] decrementing this expression.
+  ExpressionBuilder decrement();
+
   /// Returns as an [ExpressionBuilder] comparing using `==` against [other].
   ExpressionBuilder equals(ExpressionBuilder other);
 
   /// Returns as an [ExpressionBuilder] comparing using `identical`.
   ExpressionBuilder identical(ExpressionBuilder other);
+
+  /// Returns as an [ExpressionBuilder] incrementing this expression.
+  ExpressionBuilder increment([bool prefix = false]);
 
   /// Returns as an [InvocationBuilder] on [method] of this expression.
   InvocationBuilder invoke(

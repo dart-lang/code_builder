@@ -65,6 +65,9 @@ final Token $false = new KeywordToken(Keyword.FALSE, 0);
 /// The `final` token.
 final Token $final = new KeywordToken(Keyword.FINAL, 0);
 
+/// The `for` keyword.
+final Token $for = new KeywordToken(Keyword.FOR, 0);
+
 /// The `>` token.
 final Token $gt = new Token(TokenType.GT, 0);
 
@@ -88,6 +91,9 @@ final Token $hide = new StringToken(TokenType.KEYWORD, 'hide', 0);
 /// The `implements` token.
 final Token $implements = new KeywordToken(Keyword.IMPLEMENTS, 0);
 
+/// The `in` token.
+final Token $in = new KeywordToken(Keyword.IN, 0);
+
 /// The `library` token.
 final Token $library = new KeywordToken(Keyword.LIBRARY, 0);
 
@@ -96,6 +102,9 @@ final Token $lt = new Token(TokenType.LT, 0);
 
 /// The `-` token.
 final Token $minus = new Token(TokenType.MINUS, 0);
+
+/// The `--` token.
+final Token $minusMinus = new Token(TokenType.MINUS_MINUS, 0);
 
 /// The `*` token.
 final Token $multiply = new Token(TokenType.STAR, 0);
@@ -138,6 +147,9 @@ final Token $period = new Token(TokenType.PERIOD, 0);
 
 /// The `+` token.
 final Token $plus = new Token(TokenType.PLUS, 0);
+
+/// The `++` token.
+final Token $plusPlus = new Token(TokenType.PLUS_PLUS, 0);
 
 /// The `return` token.
 final Token $return = new KeywordToken(Keyword.RETURN, 0);
