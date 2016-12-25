@@ -47,6 +47,9 @@ final Token $deferred = new KeywordToken(Keyword.DEFERRED, 0);
 /// The `/` token.
 final Token $divide = new Token(TokenType.SLASH, 0);
 
+/// The `do` keyword.
+final Token $do = new KeywordToken(Keyword.DO, 0);
+
 /// The `else` token.
 final Token $else = new KeywordToken(Keyword.ELSE, 0);
 
@@ -76,6 +79,9 @@ final Token $if = new KeywordToken(Keyword.IF, 0);
 
 /// The `yield` token.
 final Token $yield = new StringToken(TokenType.KEYWORD, 'yield', 0);
+
+/// The `while` keyword.
+final Token $while = new KeywordToken(Keyword.WHILE, 0);
 
 // Simple tokens
 

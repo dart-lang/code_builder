@@ -125,4 +125,24 @@ void main() {
       );
     });
   });
+
+  group('while loop', () {
+    test('should emit a simple while loop', () {
+      expect(
+        literal(true).asWhile(),
+        equalsSource(r'''
+          while(true) {}
+        ''')
+      );
+    });
+
+    test('should emit a simple do-while loop', () {
+      expect(
+        literal(true).asWhile(asDo: true),
+        equalsSource(r'''
+          do {} while (true);
+        ''')
+      );
+    });
+  });
 }

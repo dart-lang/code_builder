@@ -38,5 +38,6 @@ export 'src/builders/statement.dart'
         returnVoid,
         ForStatementBuilder,
         IfStatementBuilder,
-        StatementBuilder;
+        StatementBuilder,
+        WhileStatementBuilder;
 export 'src/builders/type.dart' show NewInstanceBuilder, TypeBuilder;

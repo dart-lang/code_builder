@@ -13,6 +13,8 @@ export 'package:code_builder/src/builders/statement/for.dart'
     show ForStatementBuilder;
 export 'package:code_builder/src/builders/statement/if.dart'
     show IfStatementBuilder, elseIf, elseThen, ifThen;
+export 'package:code_builder/src/builders/statement/while.dart'
+    show WhileStatementBuilder;
 
 /// An [AstBuilder] that can add [StatementBuilder].
 abstract class HasStatements implements AstBuilder {

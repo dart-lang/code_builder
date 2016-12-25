@@ -14,6 +14,7 @@ import 'package:code_builder/src/builders/reference.dart';
 import 'package:code_builder/src/builders/shared.dart';
 import 'package:code_builder/src/builders/statement.dart';
 import 'package:code_builder/src/builders/statement/if.dart';
+import 'package:code_builder/src/builders/statement/while.dart';
 import 'package:code_builder/src/builders/type.dart';
 import 'package:code_builder/src/tokens.dart';
 
@@ -195,6 +196,11 @@ abstract class AbstractExpressionMixin implements ExpressionBuilder {
   StatementBuilder asYieldStar() => new _AsYield(this, true);
 
   @override
+  WhileStatementBuilder asWhile({bool asDo: false}) {
+    return new WhileStatementBuilder(asDo, this);
+  }
+
+  @override
   Statement buildStatement([Scope scope]) {
     return asStatement().buildStatement(scope);
   }
@@ -354,6 +360,9 @@ abstract class ExpressionBuilder
 
   /// Returns as a [StatementBuilder] yielding this one.
   StatementBuilder asYieldStar();
+
+  /// Returns as a [WhileStatementBuilder] with this as the condition.
+  WhileStatementBuilder asWhile({bool asDo: false});
 
   /// Returns an [Expression] AST representing the builder.
   Expression buildExpression([Scope scope]);
