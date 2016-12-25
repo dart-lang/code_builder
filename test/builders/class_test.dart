@@ -101,6 +101,21 @@ void main() {
     );
   });
 
+  test('should emit a class with a constructor with initializers', () {
+    expect(
+      clazz('Animal', [
+        new ConstructorBuilder(
+          invokeSuper: const [],
+        )..addInitializer('name', toParameter: 'other'),
+      ]),
+      equalsSource(r'''
+        class Animal {
+          Animal() : name = other, super();
+        }
+      '''),
+    );
+  });
+
   test('should emit a class with fields', () {
     expect(
       clazz('Animal', [

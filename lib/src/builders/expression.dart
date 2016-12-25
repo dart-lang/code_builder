@@ -36,6 +36,9 @@ final _null = astFactory.nullLiteral(new KeywordToken(Keyword.NULL, 0));
 final _true =
     astFactory.booleanLiteral(new KeywordToken(Keyword.TRUE, 0), true);
 
+/// A reference to `super`.
+ExpressionBuilder get superRef => new _SuperExpression();
+
 /// Returns a pre-defined literal expression of [value].
 ///
 /// Only primitive values are allowed.
@@ -243,7 +246,7 @@ abstract class AbstractExpressionMixin implements ExpressionBuilder {
 
   @override
   ExpressionBuilder identical(ExpressionBuilder other) {
-    return lib$core.identical.call(<ExpressionBuilder> [
+    return lib$core.identical.call(<ExpressionBuilder>[
       this,
       other,
     ]);
@@ -521,6 +524,15 @@ ExpressionBuilder _expressionify(v) {
     return v;
   }
   throw new ArgumentError('Could not expressionify $v');
+}
+
+class _SuperExpression extends Object
+    with AbstractExpressionMixin, TopLevelMixin {
+  @override
+  AstNode buildAst([Scope scope]) => buildExpression(scope);
+
+  @override
+  Expression buildExpression([_]) => astFactory.superExpression($super);
 }
 
 class _TypedListExpression extends Object
