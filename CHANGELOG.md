@@ -7,7 +7,7 @@
 - Added constructor initializer support
 - Add `while` and `do {} while` loop support
 - Add `for` and `for-in` support
-
+- Added a `name` getter for `ParameterBuilder`
 
 ## 1.0.0-alpha+7
 
