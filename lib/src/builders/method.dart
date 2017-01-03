@@ -186,13 +186,15 @@ abstract class ConstructorBuilder
         HasStatements,
         ValidClassMember {
   /// Create a new [ConstructorBuilder], optionally with a [name].
+  ///
+  /// Can invoke `super` if [invokeSuper] is set, using super.[superName].
   factory ConstructorBuilder({
     String name,
     String superName,
     List<ExpressionBuilder> invokeSuper,
   }) = _NormalConstructorBuilder;
 
-  /// Adds a constructor initializer.
+  /// Adds a field initializer to this constructor.
   void addInitializer(
     String fieldName, {
     ExpressionBuilder toExpression,

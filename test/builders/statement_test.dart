@@ -96,7 +96,7 @@ void main() {
     });
   });
 
-  group('for statemnets', () {
+  group('for statements', () {
     test('should emit a simple for-loop', () {
       expect(
         new ForStatementBuilder(
