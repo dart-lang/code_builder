@@ -228,7 +228,6 @@ void main() {
     test('should emit a closure as a function in a library', () {
       final library = new LibraryBuilder();
       library.addMember(closure);
-      print(library.buildAst().toSource());
       expect(
         library,
         equalsSource('(bool defaultTo) => false || defaultTo;'),
@@ -238,13 +237,13 @@ void main() {
     test('should emit a closure with a statement body', () {
       expect(
         (new MethodBuilder.closure()
-          ..addPositional(new ParameterBuilder('value'))
-          ..addStatement(reference('value').invoke(
-            'join',
-            [literal(' - ')],
-          ).asAssign('title'))).asStatement(),
-        equalsSource(
-          r'''
+              ..addPositional(new ParameterBuilder('value'))
+              ..addStatement(reference('value').invoke(
+                'join',
+                [literal(' - ')],
+              ).asAssign('title')))
+            .asStatement(),
+        equalsSource(r'''
             (value) {
               title = value.join(' - ');
             };

@@ -298,9 +298,11 @@ void main() {
   test('should scope on newInstance', () {
     expect(
       reference('Foo', 'package:foo/foo.dart').newInstance([]).asReturn(),
-      equalsSource(r'''
+      equalsSource(
+          r'''
         return new _i1.Foo();
-      ''', scope: new Scope()),
+      ''',
+          scope: new Scope()),
     );
   });
 
