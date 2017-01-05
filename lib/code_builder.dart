@@ -36,6 +36,8 @@ export 'src/builders/statement.dart'
         elseIf,
         elseThen,
         returnVoid,
+        ForStatementBuilder,
         IfStatementBuilder,
-        StatementBuilder;
+        StatementBuilder,
+        WhileStatementBuilder;
 export 'src/builders/type.dart' show NewInstanceBuilder, TypeBuilder;

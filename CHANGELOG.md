@@ -1,12 +1,13 @@
-## 1.0.0-alpha+9
+## 1.0.0-beta
 
 - Add support for `async`, `sync`, `sync*` functions
 - Add support for expression `asAwait`, `asYield`, `asYieldStar`
 - Add `toExportBuilder` and `toImportBuilder` to types and references
-
-## 1.0.0-alpha+8
-
 - Fix an import scoping bug in `return` statements and named constructor invocations.
+- Added constructor initializer support
+- Add `while` and `do {} while` loop support
+- Add `for` and `for-in` support
+- Added a `name` getter for `ParameterBuilder`
 
 ## 1.0.0-alpha+7
 

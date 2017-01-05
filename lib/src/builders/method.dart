@@ -171,7 +171,7 @@ ConstructorBuilder _constructorImpl({
       throw new StateError('Invalid AST type: ${member.runtimeType}');
     }
   }
-  final constructor = new ConstructorBuilder(name);
+  final constructor = new ConstructorBuilder(name: name);
   _addFunctions.forEach((a) => a(constructor));
   return constructor;
 }
@@ -186,7 +186,20 @@ abstract class ConstructorBuilder
         HasStatements,
         ValidClassMember {
   /// Create a new [ConstructorBuilder], optionally with a [name].
-  factory ConstructorBuilder([String name]) = _NormalConstructorBuilder;
+  ///
+  /// Can invoke `super` if [invokeSuper] is set, using super.[superName].
+  factory ConstructorBuilder({
+    String name,
+    String superName,
+    List<ExpressionBuilder> invokeSuper,
+  }) = _NormalConstructorBuilder;
+
+  /// Adds a field initializer to this constructor.
+  void addInitializer(
+    String fieldName, {
+    ExpressionBuilder toExpression,
+    String toParameter,
+  });
 
   @override
   void addNamed(ParameterBuilder parameter, {bool asField: false});
@@ -530,9 +543,28 @@ class _NamedParameterWrapper
 class _NormalConstructorBuilder extends Object
     with HasAnnotationsMixin, HasParametersMixin, HasStatementsMixin
     implements ConstructorBuilder {
+  final _initializers = <String, ExpressionBuilder>{};
   final String _name;
+  final String _superName;
+  final List<ExpressionBuilder> _superInvocation;
 
-  _NormalConstructorBuilder([this._name]);
+  _NormalConstructorBuilder({
+    List<ExpressionBuilder> invokeSuper,
+    String name,
+    String superName,
+  })
+      : _name = name,
+        _superInvocation = invokeSuper,
+        _superName = superName;
+
+  @override
+  void addInitializer(
+    String fieldName, {
+    ExpressionBuilder toExpression,
+    String toParameter,
+  }) {
+    _initializers[fieldName] = toExpression ?? reference(toParameter);
+  }
 
   @override
   ConstructorDeclaration buildAst([Scope scope]) {
@@ -540,8 +572,40 @@ class _NormalConstructorBuilder extends Object
   }
 
   @override
-  ConstructorDeclaration buildConstructor(TypeBuilder returnType,
-      [Scope scope]) {
+  ConstructorDeclaration buildConstructor(
+    TypeBuilder returnType, [
+    Scope scope,
+  ]) {
+    List<ConstructorInitializer> initializers;
+    if (_initializers.isNotEmpty) {
+      initializers ??= [];
+      initializers.addAll(
+        _initializers.keys.map((fieldName) {
+          return astFactory.constructorFieldInitializer(
+            null,
+            null,
+            astFactory.simpleIdentifier(stringToken(fieldName)),
+            $equals,
+            _initializers[fieldName].buildExpression(scope),
+          );
+        }),
+      );
+    }
+    if (_superInvocation != null) {
+      initializers ??= [];
+      initializers.add(astFactory.superConstructorInvocation(
+        $super,
+        _superName != null ? $period : null,
+        _superName != null
+            ? astFactory.simpleIdentifier(stringToken(_superName))
+            : null,
+        astFactory.argumentList(
+          $openParen,
+          _superInvocation.map((e) => e.buildExpression(scope)).toList(),
+          $closeParen,
+        ),
+      ));
+    }
     return astFactory.constructorDeclaration(
       null,
       buildAnnotations(scope),
@@ -552,8 +616,8 @@ class _NormalConstructorBuilder extends Object
       _name != null ? $period : null,
       _name != null ? stringIdentifier(_name) : null,
       buildParameterList(scope),
-      null,
-      null,
+      initializers != null && initializers.isNotEmpty ? $semicolon : null,
+      initializers,
       null,
       !hasStatements
           ? astFactory.emptyFunctionBody($semicolon)

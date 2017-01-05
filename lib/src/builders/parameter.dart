@@ -100,6 +100,9 @@ abstract class ParameterBuilder
 
   /// Returns a positional [FormalParameter] AST representing the builder.
   FormalParameter buildPositional(bool field, [Scope scope]);
+
+  /// Name of the parameter.
+  String get name;
 }
 
 /// A marker interface for an AST that could be added to [ParameterBuilder].
@@ -140,6 +143,9 @@ class _OptionalParameterBuilder extends Object
       _expression?.buildExpression(scope),
     );
   }
+
+  @override
+  String get name => _parameter.name;
 }
 
 class _ParameterPair {
@@ -165,15 +171,15 @@ class _ParameterPair {
 class _SimpleParameterBuilder extends Object
     with HasAnnotationsMixin
     implements ParameterBuilder {
-  final String _name;
+  @override
+  final String name;
   final TypeBuilder _type;
 
   _SimpleParameterBuilder(
-    String name, {
+    this.name, {
     TypeBuilder type,
   })
-      : _name = name,
-        _type = type;
+      : _type = type;
 
   @override
   ParameterBuilder asOptional([ExpressionBuilder defaultTo]) {
@@ -198,7 +204,7 @@ class _SimpleParameterBuilder extends Object
         _type?.buildType(scope),
         $this,
         $period,
-        stringIdentifier(_name),
+        stringIdentifier(name),
         null,
         null,
       );
@@ -208,7 +214,7 @@ class _SimpleParameterBuilder extends Object
       buildAnnotations(scope),
       null,
       _type?.buildType(scope),
-      stringIdentifier(_name),
+      stringIdentifier(name),
     );
   }
 }

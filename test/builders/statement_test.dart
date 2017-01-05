@@ -95,4 +95,48 @@ void main() {
       );
     });
   });
+
+  group('for statements', () {
+    test('should emit a simple for-loop', () {
+      expect(
+        new ForStatementBuilder(
+          'i',
+          literal(0),
+          reference('i') < reference('items').property('length'),
+          [
+            reference('i').increment(),
+          ],
+        ),
+        equalsSource(r'''
+          for (var i = 0; i < items.length; i++) {}
+        '''),
+      );
+    });
+
+    test('should emit a simple for-each loop', () {
+      expect(
+        new ForStatementBuilder.forEach(
+          'item',
+          reference('items'),
+        ),
+        equalsSource(r'''
+          for (var item in items) {}
+        '''),
+      );
+    });
+  });
+
+  group('while loop', () {
+    test('should emit a simple while loop', () {
+      expect(literal(true).asWhile(), equalsSource(r'''
+          while(true) {}
+        '''));
+    });
+
+    test('should emit a simple do-while loop', () {
+      expect(literal(true).asWhile(asDo: true), equalsSource(r'''
+          do {} while (true);
+        '''));
+    });
+  });
 }

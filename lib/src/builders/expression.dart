@@ -14,6 +14,7 @@ import 'package:code_builder/src/builders/reference.dart';
 import 'package:code_builder/src/builders/shared.dart';
 import 'package:code_builder/src/builders/statement.dart';
 import 'package:code_builder/src/builders/statement/if.dart';
+import 'package:code_builder/src/builders/statement/while.dart';
 import 'package:code_builder/src/builders/type.dart';
 import 'package:code_builder/src/tokens.dart';
 
@@ -34,6 +35,9 @@ final _null = astFactory.nullLiteral(new KeywordToken(Keyword.NULL, 0));
 
 final _true =
     astFactory.booleanLiteral(new KeywordToken(Keyword.TRUE, 0), true);
+
+/// A reference to `super`.
+ExpressionBuilder get superRef => new _SuperExpression();
 
 /// Returns a pre-defined literal expression of [value].
 ///
@@ -124,6 +128,24 @@ abstract class AbstractExpressionMixin implements ExpressionBuilder {
   }
 
   @override
+  ExpressionBuilder operator >(ExpressionBuilder other) {
+    return new _AsBinaryExpression(
+      this,
+      other,
+      $gt,
+    );
+  }
+
+  @override
+  ExpressionBuilder operator <(ExpressionBuilder other) {
+    return new _AsBinaryExpression(
+      this,
+      other,
+      $lt,
+    );
+  }
+
+  @override
   ExpressionBuilder and(ExpressionBuilder other) {
     return new _AsBinaryExpression(
       this,
@@ -177,6 +199,11 @@ abstract class AbstractExpressionMixin implements ExpressionBuilder {
   StatementBuilder asYieldStar() => new _AsYield(this, true);
 
   @override
+  WhileStatementBuilder asWhile({bool asDo: false}) {
+    return new WhileStatementBuilder(asDo, this);
+  }
+
+  @override
   Statement buildStatement([Scope scope]) {
     return asStatement().buildStatement(scope);
   }
@@ -201,6 +228,9 @@ abstract class AbstractExpressionMixin implements ExpressionBuilder {
   }
 
   @override
+  ExpressionBuilder decrement() => new _DecrementExpression(this);
+
+  @override
   ExpressionBuilder equals(ExpressionBuilder other) {
     return new _AsBinaryExpression(
       this,
@@ -210,8 +240,13 @@ abstract class AbstractExpressionMixin implements ExpressionBuilder {
   }
 
   @override
+  ExpressionBuilder increment([bool prefix = false]) {
+    return new _IncrementExpression(this, prefix);
+  }
+
+  @override
   ExpressionBuilder identical(ExpressionBuilder other) {
-    return lib$core.identical.call([
+    return lib$core.identical.call(<ExpressionBuilder>[
       this,
       other,
     ]);
@@ -275,6 +310,12 @@ abstract class ExpressionBuilder
   /// Returns as an [ExpressionBuilder] dividing by [other].
   ExpressionBuilder operator /(ExpressionBuilder other);
 
+  /// Returns as an [ExpressionBuilder] `<` by [other].
+  ExpressionBuilder operator <(ExpressionBuilder other);
+
+  /// Returns as an [ExpressionBuilder] `>` by [other].
+  ExpressionBuilder operator >(ExpressionBuilder other);
+
   /// Returns as an [ExpressionBuilder] `&&` [other].
   ExpressionBuilder and(ExpressionBuilder other);
 
@@ -323,6 +364,9 @@ abstract class ExpressionBuilder
   /// Returns as a [StatementBuilder] yielding this one.
   StatementBuilder asYieldStar();
 
+  /// Returns as a [WhileStatementBuilder] with this as the condition.
+  WhileStatementBuilder asWhile({bool asDo: false});
+
   /// Returns an [Expression] AST representing the builder.
   Expression buildExpression([Scope scope]);
 
@@ -337,11 +381,17 @@ abstract class ExpressionBuilder
     Iterable<ExpressionBuilder> create(ExpressionBuilder self),
   );
 
+  /// Returns as an [ExpressionBuilder] decrementing this expression.
+  ExpressionBuilder decrement();
+
   /// Returns as an [ExpressionBuilder] comparing using `==` against [other].
   ExpressionBuilder equals(ExpressionBuilder other);
 
   /// Returns as an [ExpressionBuilder] comparing using `identical`.
   ExpressionBuilder identical(ExpressionBuilder other);
+
+  /// Returns as an [ExpressionBuilder] incrementing this expression.
+  ExpressionBuilder increment([bool prefix = false]);
 
   /// Returns as an [InvocationBuilder] on [method] of this expression.
   InvocationBuilder invoke(
@@ -474,6 +524,15 @@ ExpressionBuilder _expressionify(v) {
     return v;
   }
   throw new ArgumentError('Could not expressionify $v');
+}
+
+class _SuperExpression extends Object
+    with AbstractExpressionMixin, TopLevelMixin {
+  @override
+  AstNode buildAst([Scope scope]) => buildExpression(scope);
+
+  @override
+  Expression buildExpression([_]) => astFactory.superExpression($super);
 }
 
 class _TypedListExpression extends Object
