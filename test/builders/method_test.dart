@@ -202,7 +202,6 @@ void main() {
     setUp(() {
       closure = new MethodBuilder.closure(
         returns: literal(false).or(reference('defaultTo')),
-        returnType: lib$core.bool,
       )..addPositional(parameter('defaultTo', [lib$core.bool]));
     });
 
@@ -215,24 +214,41 @@ void main() {
           (bool defaultTo) => false || defaultTo
         '''),
       );
+    });
 
-      test('should treat closure as expression', () {
-        expect(
-          list([true, false]).invoke('where', [closure]),
-          equalsSource(
-            '[true, false].where((bool defaultTo) => false || defaultTo)',
-          ),
-        );
-      });
+    test('should treat closure as expression', () {
+      expect(
+        list([true, false]).invoke('where', [closure]),
+        equalsSource(
+          '[true, false].where((bool defaultTo) => false || defaultTo)',
+        ),
+      );
+    });
 
-      test('should emit a closure as a function in a library', () {
-        final library = new LibraryBuilder();
-        library.addMember(closure);
-        expect(
-          library,
-          equalsSource('(bool defaultTo) => false || defaultTo;'),
-        );
-      });
+    test('should emit a closure as a function in a library', () {
+      final library = new LibraryBuilder();
+      library.addMember(closure);
+      expect(
+        library,
+        equalsSource('(bool defaultTo) => false || defaultTo;'),
+      );
+    });
+
+    test('should emit a closure with a statement body', () {
+      expect(
+        (new MethodBuilder.closure()
+              ..addPositional(new ParameterBuilder('value'))
+              ..addStatement(reference('value').invoke(
+                'join',
+                [literal(' - ')],
+              ).asAssign('title')))
+            .asStatement(),
+        equalsSource(r'''
+            (value) {
+              title = value.join(' - ');
+            };
+          '''),
+      );
     });
   });
 }
