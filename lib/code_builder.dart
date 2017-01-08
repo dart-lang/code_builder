@@ -36,8 +36,15 @@ export 'src/builders/statement.dart'
         elseIf,
         elseThen,
         returnVoid,
+        switchCase,
+        switchDefault,
+        switchStatement,
+        BreakStatementBuilder,
         ForStatementBuilder,
         IfStatementBuilder,
         StatementBuilder,
+        SwitchCaseBuilder,
+        SwitchDefaultCaseBuilder,
+        SwitchStatementBuilder,
         WhileStatementBuilder;
 export 'src/builders/type.dart' show NewInstanceBuilder, TypeBuilder;
