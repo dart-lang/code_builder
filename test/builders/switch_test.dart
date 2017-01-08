@@ -37,13 +37,17 @@ void main() {
     expect(
         switchStatement(reference('foo'),
             cases: [
-              switchCase(literal('bar'), [literal('baz').asReturn()])
+              switchCase(literal('bar'), [
+                reference('print').call([literal('baz')]),
+                new BreakStatementBuilder()
+              ])
             ],
             defaultCase: switchDefault([literal(null).asReturn()])),
         equalsSource('''
     switch(foo) {
       case 'bar':
-        return 'baz';
+        print('baz');
+        break;
       default:
         return null;
     }
