@@ -32,12 +32,19 @@ export 'src/builders/reference.dart'
 export 'src/builders/shared.dart' show AstBuilder, Scope;
 export 'src/builders/statement.dart'
     show
+        breakStatement,
         ifThen,
         elseIf,
         elseThen,
         returnVoid,
+        switchCase,
+        switchDefault,
+        switchStatement,
         ForStatementBuilder,
         IfStatementBuilder,
         StatementBuilder,
+        SwitchCaseBuilder,
+        SwitchDefaultCaseBuilder,
+        SwitchStatementBuilder,
         WhileStatementBuilder;
 export 'src/builders/type.dart' show NewInstanceBuilder, TypeBuilder;

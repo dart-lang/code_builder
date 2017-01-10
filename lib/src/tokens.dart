@@ -23,6 +23,12 @@ final Token $at = new Token(TokenType.AT, 0);
 /// The `await` token.
 final Token $await = new StringToken(TokenType.KEYWORD, 'await', 0);
 
+/// The `break` token.
+final Token $break = new KeywordToken(Keyword.BREAK, 0);
+
+/// The `case` token.
+final Token $case = new KeywordToken(Keyword.CASE, 0);
+
 /// The `class` token.
 final Token $class = new KeywordToken(Keyword.CLASS, 0);
 
@@ -40,6 +46,9 @@ final Token $colon = new Token(TokenType.COLON, 0);
 
 /// The `const` token.
 final Token $const = new KeywordToken(Keyword.CONST, 0);
+
+/// The `default` token.
+final Token $default = new KeywordToken(Keyword.DEFAULT, 0);
 
 /// The `deferred` token.
 final Token $deferred = new KeywordToken(Keyword.DEFERRED, 0);
@@ -76,6 +85,9 @@ final Token $gt = new Token(TokenType.GT, 0);
 
 /// The `if` token.
 final Token $if = new KeywordToken(Keyword.IF, 0);
+
+/// The `switch` keyword.
+final Token $switch = new KeywordToken(Keyword.SWITCH, 0);
 
 /// The `super` keyword.
 final Token $super = new KeywordToken(Keyword.SUPER, 0);
