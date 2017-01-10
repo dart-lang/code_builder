@@ -12,6 +12,7 @@ import 'package:code_builder/src/builders/method.dart';
 import 'package:code_builder/src/builders/parameter.dart';
 import 'package:code_builder/src/builders/reference.dart';
 import 'package:code_builder/src/builders/shared.dart';
+import 'package:code_builder/src/builders/expression/raw.dart';
 import 'package:code_builder/src/builders/statement.dart';
 import 'package:code_builder/src/builders/statement/if.dart';
 import 'package:code_builder/src/builders/statement/while.dart';
@@ -298,6 +299,9 @@ abstract class AbstractExpressionMixin implements ExpressionBuilder {
 /// Builds an [Expression] AST when [buildExpression] is invoked.
 abstract class ExpressionBuilder
     implements AstBuilder, StatementBuilder, ValidParameterMember {
+  /// Create an expression builder that parses and emits a [raw] expression.
+  factory ExpressionBuilder.raw(String raw(Scope scope)) = RawExpressionBuilder;
+
   /// Returns as an [ExpressionBuilder] multiplying by [other].
   ExpressionBuilder operator *(ExpressionBuilder other);
 

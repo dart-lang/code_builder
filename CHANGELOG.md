@@ -1,3 +1,12 @@
+## 1.0.0-beta+1
+
+- Add support for `switch` statements
+- Add support for a raw expression and statement
+  - `new ExpressionBuilder.raw(...)`
+  - `new StatemnetBuilder.raw(...)`
+
+This should help cover any cases not covered with builders today.
+
 ## 1.0.0-beta
 
 - Add support for `async`, `sync`, `sync*` functions

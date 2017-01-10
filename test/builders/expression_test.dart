@@ -332,4 +332,18 @@ void main() {
       '''),
     );
   });
+
+  test('raw expression', () {
+    expect(
+      lambda(
+        'main',
+        new ExpressionBuilder.raw(
+          (scope) => '5 + 3 + ${scope.identifier('q')}',
+        ),
+      ),
+      equalsSource(r'''
+        main() => 5 + 3 + q;
+      '''),
+    );
+  });
 }

@@ -7,6 +7,7 @@ import 'package:analyzer/dart/ast/standard_ast_factory.dart';
 import 'package:code_builder/src/builders/method.dart';
 import 'package:code_builder/src/builders/shared.dart';
 import 'package:code_builder/src/builders/statement/if.dart';
+import 'package:code_builder/src/builders/statement/raw.dart';
 import 'package:code_builder/src/tokens.dart';
 
 export 'package:code_builder/src/builders/statement/break.dart'
@@ -82,6 +83,8 @@ abstract class StatementBuilder
         ValidIfStatementMember,
         ValidConstructorMember,
         ValidMethodMember {
+  factory StatementBuilder.raw(String raw(Scope scope)) = RawStatementBuilder;
+
   /// Returns an [Statement] AST representing the builder.
   Statement buildStatement([Scope scope]);
 }

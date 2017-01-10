@@ -139,4 +139,17 @@ void main() {
         '''));
     });
   });
+
+  test('raw statement', () {
+    expect(
+      method('main', [
+        new StatementBuilder.raw((scope) => 'print(${scope.identifier('q')});'),
+      ]),
+      equalsSource(r'''
+        main() {
+          print(q);
+        }
+      '''),
+    );
+  });
 }
