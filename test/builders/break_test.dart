@@ -8,6 +8,6 @@ import 'package:test/test.dart';
 
 void main() {
   test('should emit a break statement', () {
-    expect(new BreakStatementBuilder(), equalsSource('break;'));
+    expect(breakStatement, equalsSource('break;'));
   });
 }

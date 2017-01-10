@@ -39,7 +39,7 @@ void main() {
             cases: [
               switchCase(literal('bar'), [
                 reference('print').call([literal('baz')]),
-                new BreakStatementBuilder()
+                breakStatement
               ])
             ],
             defaultCase: switchDefault([literal(null).asReturn()])),

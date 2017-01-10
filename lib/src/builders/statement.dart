@@ -10,7 +10,7 @@ import 'package:code_builder/src/builders/statement/if.dart';
 import 'package:code_builder/src/tokens.dart';
 
 export 'package:code_builder/src/builders/statement/break.dart'
-    show BreakStatementBuilder;
+    show breakStatement;
 export 'package:code_builder/src/builders/statement/for.dart'
     show ForStatementBuilder;
 export 'package:code_builder/src/builders/statement/if.dart'

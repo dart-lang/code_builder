@@ -32,6 +32,7 @@ export 'src/builders/reference.dart'
 export 'src/builders/shared.dart' show AstBuilder, Scope;
 export 'src/builders/statement.dart'
     show
+        breakStatement,
         ifThen,
         elseIf,
         elseThen,
@@ -39,7 +40,6 @@ export 'src/builders/statement.dart'
         switchCase,
         switchDefault,
         switchStatement,
-        BreakStatementBuilder,
         ForStatementBuilder,
         IfStatementBuilder,
         StatementBuilder,

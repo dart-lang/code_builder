@@ -94,6 +94,7 @@ class _SwitchStatementBuilder extends Object
   void addCases(Iterable<SwitchCaseBuilder> switchCases) =>
       _cases.addAll(switchCases);
 
+  @override
   void setDefaultCase(SwitchDefaultCaseBuilder defaultCase) {
     _defaultCase = defaultCase;
   }
