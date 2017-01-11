@@ -12,7 +12,6 @@ import 'package:code_builder/src/builders/file.dart';
 import 'package:code_builder/src/builders/method.dart';
 import 'package:code_builder/src/builders/reference.dart';
 import 'package:code_builder/src/builders/shared.dart';
-import 'package:code_builder/src/builders/statement.dart';
 import 'package:code_builder/src/builders/type.dart';
 import 'package:code_builder/src/tokens.dart';
 
