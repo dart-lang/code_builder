@@ -7,6 +7,8 @@
 
 This should help cover any cases not covered with builders today.
 
+- Allow refering to a `ClassBuilder` and `TypeBuilder` as an expression
+
 ## 1.0.0-beta
 
 - Add support for `async`, `sync`, `sync*` functions

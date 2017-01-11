@@ -76,7 +76,7 @@ void main() {
 
   test('should emit an assign expression', () {
     expect(
-      literal(true).asAssign('flag'),
+      literal(true).asAssign(reference('flag')),
       equalsSource(r'''
         flag = true
       '''),
@@ -85,7 +85,7 @@ void main() {
 
   test('should emit an assign expression with a null aware', () {
     expect(
-      literal(true).asAssign('flag', nullAware: true),
+      literal(true).asAssign(reference('flag'), nullAware: true),
       equalsSource(r'''
         flag ??= true
       '''),
@@ -268,6 +268,24 @@ void main() {
     );
   });
 
+  test('should return as an index expression', () {
+    expect(
+      literal([literal(1), literal(2), literal(3)])[literal(0)],
+      equalsSource(r'''
+        [1, 2, 3][0]
+      '''),
+    );
+  });
+
+  test('should return as an index expression assignment', () {
+    expect(
+      reference('value').asAssign(reference('list')[reference('index')]),
+      equalsSource(r'''
+        list[index] = value
+      '''),
+    );
+  });
+
   test('should emit a top-level field declaration', () {
     expect(
       new LibraryBuilder()..addMember(literal(false).asConst('foo')),
@@ -283,7 +301,7 @@ void main() {
           .cascade((c) => <ExpressionBuilder>[
                 c.invoke('doThis', []),
                 c.invoke('doThat', []),
-                reference('Bar').newInstance([]).asAssign('bar', target: c),
+                reference('Bar').newInstance([]).asAssign(c.property('bar')),
               ])
           .asStatement(),
       equalsSource(r'''

@@ -4,19 +4,22 @@
 
 part of code_builder.src.builders.expression;
 
-class _AsAwait extends AbstractExpressionMixin with TopLevelMixin {
-  final ExpressionBuilder _expression;
+class _IndexExpression extends AbstractExpressionMixin with TopLevelMixin {
+  final ExpressionBuilder _target;
+  final ExpressionBuilder _index;
 
-  _AsAwait(this._expression);
+  _IndexExpression(this._target, this._index);
 
   @override
   AstNode buildAst([Scope scope]) => buildExpression(scope);
 
   @override
   Expression buildExpression([Scope scope]) {
-    return astFactory.awaitExpression(
-      $await,
-      _expression.buildExpression(scope),
+    return astFactory.indexExpressionForTarget(
+      _target.buildExpression(scope),
+      $openBracket,
+      _index.buildExpression(scope),
+      $closeBracket,
     );
   }
 }

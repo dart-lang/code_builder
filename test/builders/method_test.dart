@@ -160,7 +160,7 @@ void main() {
   test('should emit a setter', () {
     expect(
       setter('name', parameter('name', [lib$core.String]), [
-        (reference('name') + literal('!')).asAssign('_name'),
+        (reference('name') + literal('!')).asAssign(reference('_name')),
       ]),
       equalsSource(r'''
         set name(String name) {
@@ -241,7 +241,7 @@ void main() {
               ..addStatement(reference('value').invoke(
                 'join',
                 [literal(' - ')],
-              ).asAssign('title')))
+              ).asAssign(reference('title'))))
             .asStatement(),
         equalsSource(r'''
             (value) {

@@ -15,7 +15,7 @@ class _AsYield extends TopLevelMixin implements StatementBuilder {
 
   @override
   Statement buildStatement([Scope scope]) {
-    return new YieldStatement(
+    return astFactory.yieldStatement(
       $yield,
       _isStar ? $star : null,
       _expression.buildExpression(scope),

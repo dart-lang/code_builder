@@ -23,6 +23,7 @@ part 'expression/assert.dart';
 part 'expression/assign.dart';
 part 'expression/await.dart';
 part 'expression/cascade.dart';
+part 'expression/index.dart';
 part 'expression/invocation.dart';
 part 'expression/negate.dart';
 part 'expression/operators.dart';
@@ -147,6 +148,11 @@ abstract class AbstractExpressionMixin implements ExpressionBuilder {
   }
 
   @override
+  ExpressionBuilder operator [](ExpressionBuilder index) {
+    return new _IndexExpression(this, index);
+  }
+
+  @override
   ExpressionBuilder and(ExpressionBuilder other) {
     return new _AsBinaryExpression(
       this,
@@ -160,11 +166,10 @@ abstract class AbstractExpressionMixin implements ExpressionBuilder {
 
   @override
   StatementBuilder asAssign(
-    String variable, {
-    ExpressionBuilder target,
+    ExpressionBuilder target, {
     bool nullAware: false,
   }) =>
-      new _AsAssign(this, variable, nullAware, target);
+      new _AsAssign(this, nullAware, target);
 
   @override
   ExpressionBuilder asAwait() => new _AsAwait(this);
@@ -320,18 +325,18 @@ abstract class ExpressionBuilder
   /// Returns as an [ExpressionBuilder] `>` by [other].
   ExpressionBuilder operator >(ExpressionBuilder other);
 
+  /// Returns as an [ExpressionBuilder] reading the `[]` property with [index].
+  ExpressionBuilder operator [](ExpressionBuilder index);
+
   /// Returns as an [ExpressionBuilder] `&&` [other].
   ExpressionBuilder and(ExpressionBuilder other);
 
   /// Return as a [StatementBuilder] that `assert`s this expression.
   StatementBuilder asAssert();
 
-  /// Returns as a [StatementBuilder] that assigns to an existing [variable].
-  ///
-  /// If [target] is specified, determined to be `{target}.{variable}`.
+  /// Returns as a [StatementBuilder] that assigns to [target].
   StatementBuilder asAssign(
-    String variable, {
-    ExpressionBuilder target,
+    ExpressionBuilder target, {
     bool nullAware,
   });
 
