@@ -7,7 +7,20 @@
 
 This should help cover any cases not covered with builders today.
 
-- Allow refering to a `ClassBuilder` and `TypeBuilder` as an expression
+- Allow referring to a `ClassBuilder` and `TypeBuilder` as an expression
+- Add support for accessing the index `[]` operator on an expression
+
+### BREAKING CHANGES
+
+- Changed `ExpressionBuilder.asAssign` to always take an `ExpressionBuilder` as
+  target and removed the `value` property. Most changes are pretty simple, and
+  involve just using `reference(...)`. For example:
+
+```dart
+literal(true).asAssign(reference('flag'))
+```
+
+... emits `flag = true`.
 
 ## 1.0.0-beta
 
