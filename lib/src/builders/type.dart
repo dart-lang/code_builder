@@ -81,8 +81,12 @@ abstract class AbstractTypeBuilderMixin {
 
 /// Lazily builds an [TypeName] AST when [buildType] is invoked.
 class TypeBuilder extends Object
-    with AbstractTypeBuilderMixin
-    implements AstBuilder, ValidMethodMember, ValidParameterMember {
+    with AbstractExpressionMixin, AbstractTypeBuilderMixin, TopLevelMixin
+    implements
+        AstBuilder,
+        ExpressionBuilder,
+        ValidMethodMember,
+        ValidParameterMember {
   final List<TypeBuilder> _generics;
   final String _importFrom;
   final String _name;
@@ -149,5 +153,13 @@ class TypeBuilder extends Object
       deferred: deferred,
       prefix: prefix,
     )..show(_name);
+  }
+
+  @override
+  Expression buildExpression([Scope scope]) {
+    if (_generics.isNotEmpty) {
+      throw new StateError('Cannot refer to a type with generic parameters');
+    }
+    return reference(_name, _importFrom).buildExpression(scope);
   }
 }

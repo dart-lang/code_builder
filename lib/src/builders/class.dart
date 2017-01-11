@@ -6,10 +6,13 @@ import 'package:analyzer/analyzer.dart';
 import 'package:analyzer/dart/ast/standard_ast_factory.dart';
 import 'package:code_builder/dart/core.dart';
 import 'package:code_builder/src/builders/annotation.dart';
+import 'package:code_builder/src/builders/expression.dart';
 import 'package:code_builder/src/builders/field.dart';
 import 'package:code_builder/src/builders/file.dart';
 import 'package:code_builder/src/builders/method.dart';
+import 'package:code_builder/src/builders/reference.dart';
 import 'package:code_builder/src/builders/shared.dart';
+import 'package:code_builder/src/builders/statement.dart';
 import 'package:code_builder/src/builders/type.dart';
 import 'package:code_builder/src/tokens.dart';
 
@@ -133,7 +136,7 @@ abstract class ClassBuilder
 abstract class ValidClassMember implements AstBuilder {}
 
 class _ClassBuilderImpl extends Object
-    with AbstractTypeBuilderMixin, HasAnnotationsMixin
+    with AbstractExpressionMixin, AbstractTypeBuilderMixin, HasAnnotationsMixin
     implements ClassBuilder {
   final _constructors = <ConstructorBuilder>[];
   final _fields = <FieldBuilder, bool>{};
@@ -265,6 +268,14 @@ class _ClassBuilderImpl extends Object
   ImportBuilder toImportBuilder({bool deferred: false, String prefix}) {
     throw new UnsupportedError('Not supported for ClassBuilder');
   }
+
+  @override
+  Expression buildExpression([Scope scope]) {
+    return reference(_name).buildExpression(scope);
+  }
+
+  @override
+  CompilationUnitMember buildTopLevelAst([Scope scope]) => buildClass(scope);
 }
 
 class _TypeNameWrapper implements ValidClassMember {

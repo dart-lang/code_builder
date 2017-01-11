@@ -5,12 +5,11 @@
 part of code_builder.src.builders.expression;
 
 class _AsAssign extends AbstractExpressionMixin with TopLevelMixin {
-  final String _name;
   final bool _nullAware;
   final ExpressionBuilder _value;
   final ExpressionBuilder _target;
 
-  _AsAssign(this._value, this._name, this._nullAware, this._target);
+  _AsAssign(this._value, this._nullAware, this._target);
 
   @override
   AstNode buildAst([Scope scope]) => buildExpression(scope);
@@ -18,9 +17,7 @@ class _AsAssign extends AbstractExpressionMixin with TopLevelMixin {
   @override
   Expression buildExpression([Scope scope]) {
     return astFactory.assignmentExpression(
-      _target != null
-          ? _target.property(_name).buildExpression(scope)
-          : stringIdentifier(_name),
+      _target.buildExpression(scope),
       _nullAware ? $nullAwareEquals : $equals,
       _value.buildExpression(scope),
     );

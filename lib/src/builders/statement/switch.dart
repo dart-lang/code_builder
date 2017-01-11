@@ -10,28 +10,35 @@ import 'package:code_builder/src/builders/statement.dart';
 import 'package:code_builder/src/tokens.dart';
 
 /// Short-hand syntax for `new SwitchCaseBuilder(...)`.
-SwitchCaseBuilder switchCase(ExpressionBuilder condition,
-        [Iterable<StatementBuilder> statements = const []]) =>
+SwitchCaseBuilder switchCase(
+  ExpressionBuilder condition, [
+  Iterable<StatementBuilder> statements = const [],
+]) =>
     new SwitchCaseBuilder(condition)..addStatements(statements ?? []);
 
 /// Short-hand syntax for `new SwitchDefaultCaseBuilder(...)`.
-SwitchDefaultCaseBuilder switchDefault(
-        [Iterable<StatementBuilder> statements = const []]) =>
+SwitchDefaultCaseBuilder switchDefault([
+  Iterable<StatementBuilder> statements = const [],
+]) =>
     new SwitchDefaultCaseBuilder()..addStatements(statements ?? []);
 
 /// Short-hand syntax for `new SwitchStatementBuilder(...)`.
-SwitchStatementBuilder switchStatement(ExpressionBuilder expression,
-        {Iterable<SwitchCaseBuilder> cases: const [],
-        SwitchDefaultCaseBuilder defaultCase}) =>
+SwitchStatementBuilder switchStatement(
+  ExpressionBuilder expression, {
+  Iterable<SwitchCaseBuilder> cases: const [],
+  SwitchDefaultCaseBuilder defaultCase,
+}) =>
     new SwitchStatementBuilder(expression)
       ..setDefaultCase(defaultCase)
       ..addCases(cases ?? []);
 
-/// Represents an [ExpressionBuilder] and a series of [SwitchCaseBuilder]s as a switch statement AST.
+/// Represents an [ExpressionBuilder] switches as an AST.
 abstract class SwitchStatementBuilder implements StatementBuilder {
   /// Creates a new [SwitchStatementBuilder].
-  factory SwitchStatementBuilder(ExpressionBuilder expression,
-          [Iterable<ValidSwitchMember> members = const []]) =>
+  factory SwitchStatementBuilder(
+    ExpressionBuilder expression, [
+    Iterable<ValidSwitchMember> members = const [],
+  ]) =>
       new _SwitchStatementBuilder(expression, members);
 
   /// Adds a [switchCase] to the builder.
@@ -47,16 +54,15 @@ abstract class SwitchStatementBuilder implements StatementBuilder {
   void setDefaultCase(SwitchDefaultCaseBuilder defaultCase);
 }
 
-/// A marker interface for an AST that could be added to [SwitchStatementBuilder].
+/// A marker interface for an AST usable within a [SwitchStatementBuilder].
 ///
 /// This can be either a [SwitchCaseBuilder] or a [SwitchDefaultCaseBuilder].
 abstract class ValidSwitchMember {}
 
-/// Represents an [ExpressionBuilder] and a series of [Statement]s as a switch case AST.
+/// Represents an [ExpressionBuilder] and statements as a switch case AST.
 abstract class SwitchCaseBuilder implements HasStatements, ValidSwitchMember {
   /// Creates a new [SwitchCaseBuilder].
-  factory SwitchCaseBuilder(ExpressionBuilder condition) =>
-      new _SwitchCaseBuilder(condition);
+  factory SwitchCaseBuilder(ExpressionBuilder condition) = _SwitchCaseBuilder;
 
   /// Returns an [SwitchMember] AST representing the builder.
   SwitchMember buildSwitchMember([Scope scope]);
@@ -65,7 +71,7 @@ abstract class SwitchCaseBuilder implements HasStatements, ValidSwitchMember {
 /// Represents a series of [Statement]s as a default switch case AST.
 abstract class SwitchDefaultCaseBuilder
     implements HasStatements, ValidSwitchMember {
-  factory SwitchDefaultCaseBuilder() => new _SwitchDefaultCaseBuilder();
+  factory SwitchDefaultCaseBuilder() = _SwitchDefaultCaseBuilder;
 
   /// Returns an [SwitchMember] AST representing the builder.
   SwitchMember buildSwitchMember([Scope scope]);
@@ -78,12 +84,16 @@ class _SwitchStatementBuilder extends Object
   final List<SwitchCaseBuilder> _cases = [];
   SwitchDefaultCaseBuilder _defaultCase;
 
-  _SwitchStatementBuilder(this._expression,
-      [Iterable<ValidSwitchMember> members = const []]) {
+  _SwitchStatementBuilder(
+    this._expression, [
+    Iterable<ValidSwitchMember> members = const [],
+  ]) {
     for (final member in members) {
-      if (member is SwitchDefaultCaseBuilder)
+      if (member is SwitchDefaultCaseBuilder) {
         _defaultCase = member;
-      else if (member is SwitchCaseBuilder) _cases.add(member);
+      } else if (member is SwitchCaseBuilder) {
+        _cases.add(member);
+      }
     }
   }
 
@@ -105,18 +115,18 @@ class _SwitchStatementBuilder extends Object
   @override
   SwitchStatement buildSwitchStatement([Scope scope]) {
     var members = _cases.map((c) => c.buildSwitchMember(scope)).toList();
-
-    if (_defaultCase != null)
+    if (_defaultCase != null) {
       members.add(_defaultCase.buildSwitchMember(scope));
-
+    }
     return astFactory.switchStatement(
-        $switch,
-        $openBracket,
-        _expression.buildExpression(),
-        $closeParen,
-        $openBracket,
-        members,
-        $closeBracket);
+      $switch,
+      $openBracket,
+      _expression.buildExpression(),
+      $closeParen,
+      $openBracket,
+      members,
+      $closeBracket,
+    );
   }
 
   @override
@@ -134,8 +144,13 @@ class _SwitchCaseBuilder extends Object
   AstNode buildAst([Scope scope]) => buildSwitchMember(scope);
 
   @override
-  SwitchMember buildSwitchMember([Scope scope]) => astFactory.switchCase(null,
-      $case, _condition.buildExpression(), $colon, buildStatements(scope));
+  SwitchMember buildSwitchMember([Scope scope]) => astFactory.switchCase(
+        null,
+        $case,
+        _condition.buildExpression(),
+        $colon,
+        buildStatements(scope),
+      );
 }
 
 class _SwitchDefaultCaseBuilder extends Object
@@ -145,6 +160,10 @@ class _SwitchDefaultCaseBuilder extends Object
   AstNode buildAst([Scope scope]) => buildSwitchMember(scope);
 
   @override
-  SwitchMember buildSwitchMember([Scope scope]) =>
-      astFactory.switchDefault(null, $default, $colon, buildStatements());
+  SwitchMember buildSwitchMember([Scope scope]) => astFactory.switchDefault(
+        null,
+        $default,
+        $colon,
+        buildStatements(),
+      );
 }

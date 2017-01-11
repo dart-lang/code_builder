@@ -113,4 +113,22 @@ void main() {
       );
     });
   });
+
+  test('emits as a Type to be used as an expression', () {
+    expect(
+      lambda('foo', new TypeBuilder('Foo')),
+      equalsSource(r'''
+        foo() => Foo;
+      '''),
+    );
+  });
+
+  test('throws when a Type references generics for an expression', () {
+    expect(
+      () => new TypeBuilder('Foo', genericTypes: [
+            new TypeBuilder('Bar'),
+          ]).buildExpression(),
+      throwsStateError,
+    );
+  });
 }
