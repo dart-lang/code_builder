@@ -1,7 +1,8 @@
 language: dart
 
 dart:
-  - dev
+  # pkg/test is currently failing @ dev
+  # - dev
   - stable
 
 script: ./tool/presubmit.sh
