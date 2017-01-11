@@ -90,7 +90,8 @@ class ReferenceBuilder extends Object
   ///     // List<String>
   ///     reference('List').toTyped([reference('String')])
   ReferenceBuilder toTyped(Iterable<TypeBuilder> genericTypes) {
-    return new _TypedReferenceBuilder(genericTypes, _name, _importFrom);
+    return new _TypedReferenceBuilder(
+        genericTypes.toList(), _name, _importFrom);
   }
 }
 
