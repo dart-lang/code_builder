@@ -34,9 +34,10 @@ ConstructorBuilder constructorNamed(
 
 /// Various types of modifiers for methods.
 class MethodModifier implements ValidMethodMember {
-  static const MethodModifier async = const MethodModifier._('async', false);
-  static const MethodModifier asyncStar = const MethodModifier._('async', true);
-  static const MethodModifier syncStar = const MethodModifier._('sync', true);
+  static const MethodModifier asAsync = const MethodModifier._('async', false);
+  static const MethodModifier asAsyncStar =
+      const MethodModifier._('async', true);
+  static const MethodModifier asSyncStar = const MethodModifier._('sync', true);
 
   final String _keyword;
 

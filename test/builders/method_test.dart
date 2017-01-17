@@ -172,7 +172,7 @@ void main() {
 
   test('should emit an async method', () {
     expect(
-      method('fetch', [MethodModifier.async]),
+      method('fetch', [MethodModifier.asAsync]),
       equalsSource(r'''
         fetch() async {}
       '''),
@@ -181,7 +181,7 @@ void main() {
 
   test('should emit an async* method', () {
     expect(
-      method('fetch', [MethodModifier.asyncStar]),
+      method('fetch', [MethodModifier.asAsyncStar]),
       equalsSource(r'''
         fetch() async* {}
       '''),
@@ -190,7 +190,7 @@ void main() {
 
   test('should emit an sync* method', () {
     expect(
-      method('fetch', [MethodModifier.syncStar]),
+      method('fetch', [MethodModifier.asSyncStar]),
       equalsSource(r'''
         fetch() sync* {}
       '''),
