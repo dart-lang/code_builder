@@ -1,3 +1,9 @@
+## 1.0.0-beta+2
+
+- BREAKING CHANGE: `MethodModifier.async`, `MethodModifier.asyncStar` and
+  `MethodModifier.syncStar` are now `MethodModifier.asAsync`,
+  `MethodModifier.asAsyncStar` and `MethodModifier.asSyncStar`
+
 ## 1.0.0-beta+1
 
 - Add support for `switch` statements
