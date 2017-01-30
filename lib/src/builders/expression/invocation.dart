@@ -101,11 +101,13 @@ class _MethodInvocationBuilder extends Object
       _target.buildExpression(scope),
       $period,
       stringIdentifier(_method),
-      _generics.isNotEmpty ? new TypeArgumentList(
-        $openBracket,
-        _generics.map((t) => t.buildType(scope)).toList(),
-        $closeBracket,
-      ) : null,
+      _generics.isNotEmpty
+          ? new TypeArgumentList(
+              $openBracket,
+              _generics.map((t) => t.buildType(scope)).toList(),
+              $closeBracket,
+            )
+          : null,
       buildArgumentList(scope: scope),
     );
   }

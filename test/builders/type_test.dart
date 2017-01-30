@@ -43,7 +43,7 @@ void main() {
 
     test('emits a new List.from', () {
       expect(
-        lib$core.List.newInstance( [
+        lib$core.List.newInstance([
           literal([1, 2, 3]),
         ], name: 'from'),
         equalsSource(r'''

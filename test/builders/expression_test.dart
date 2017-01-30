@@ -159,7 +159,7 @@ void main() {
     expect(
       reference('doThing').call(
         [literal(true)],
-        {
+        namedArguments: {
           'otherFlag': literal(false),
         },
       ),
@@ -180,7 +180,9 @@ void main() {
 
   test('should call a method on an expression with generic parameters', () {
     expect(
-      explicitThis.invoke('doThing', [literal(true)], genericTypes: [
+      explicitThis.invoke('doThing', [
+        literal(true)
+      ], genericTypes: [
         lib$core.bool,
       ]),
       equalsSource(r'''
@@ -320,6 +322,24 @@ void main() {
           ..doThis()
           ..doThat()
           ..bar = new Bar();
+      '''),
+    );
+  });
+
+  test('should emit a newInstance with a named constructor', () {
+    expect(
+      reference('Foo').newInstance([], name: 'other'),
+      equalsSource(r'''
+        new Foo.other()
+      '''),
+    );
+  });
+
+  test('should emit a constInstance with a named constructor', () {
+    expect(
+      reference('Foo').constInstance([], name: 'other'),
+      equalsSource(r'''
+        const Foo.other()
       '''),
     );
   });

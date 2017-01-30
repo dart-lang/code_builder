@@ -1,8 +1,67 @@
+## 1.0.0-beta+3
+
+- Added support for `genericTypes` parameter for `ExpressionBuilder#invoke`:
+
+```dart
+expect(
+  explicitThis.invoke('doThing', [literal(true)], genericTypes: [
+    lib$core.bool,
+  ]),
+  equalsSource(r'''
+    this.doThing<bool>(true)
+  '''),
+);
+```
+
+- Added a `castAs` method to `ExpressionBuilder`:
+
+```dart
+expect(
+  literal(1.0).castAs(lib$core.num),
+  equalsSource(r'''
+    1.0 as num
+  '''),
+);
+```
+
+### BREAKING CHANGES
+
+- Removed `namedNewInstance` and `namedConstInstance`, replaced with `name: `:
+
+```dart
+expect(
+  reference('Foo').newInstance([], name: 'other'),
+  equalsSource(r'''
+    new Foo.other()
+  '''),
+);
+```
+
+- Renamed `named` parameter to `namedArguments`:
+
+```dart
+expect(
+  reference('doThing').call(
+    [literal(true)],
+    namedArguments: {
+      'otherFlag': literal(false),
+    },
+  ),
+  equalsSource(r'''
+    doThing(true, otherFlag: false)
+  '''),
+);
+```
+
 ## 1.0.0-beta+2
 
-- BREAKING CHANGE: `MethodModifier.async`, `MethodModifier.asyncStar` and
-  `MethodModifier.syncStar` are now `MethodModifier.asAsync`,
-  `MethodModifier.asAsyncStar` and `MethodModifier.asSyncStar`
+### BREAKING CHANGES
+
+Avoid creating symbols that can collide with the Dart language:
+
+- `MethodModifier.async` -> `MethodModifier.asAsync`
+- `MethodModifier.asyncStar` -> `MethodModifier.asAsyncStar`
+- `MethodModifier.syncStar` -> `MethodModifier.asSyncStar`
 
 ## 1.0.0-beta+1
 

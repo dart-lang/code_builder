@@ -217,9 +217,9 @@ abstract class AbstractExpressionMixin implements ExpressionBuilder {
 
   @override
   InvocationBuilder call(
-    Iterable<ExpressionBuilder> positionalArguments, [
-    Map<String, ExpressionBuilder> namedArguments = const {},
-  ]) {
+    Iterable<ExpressionBuilder> positionalArguments, {
+    Map<String, ExpressionBuilder> namedArguments: const {},
+  }) {
     final invocation = new InvocationBuilder._(this);
     positionalArguments.forEach(invocation.addPositionalArgument);
     namedArguments.forEach(invocation.addNamedArgument);
@@ -390,9 +390,9 @@ abstract class ExpressionBuilder
 
   /// Returns as an [InvocationBuilder] with arguments added.
   InvocationBuilder call(
-    Iterable<ExpressionBuilder> positionalArguments, [
+    Iterable<ExpressionBuilder> positionalArguments, {
     Map<String, ExpressionBuilder> namedArguments,
-  ]);
+  });
 
   /// Returns the expression casted as [type].
   ExpressionBuilder castAs(TypeBuilder type);
