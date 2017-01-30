@@ -20,10 +20,13 @@ abstract class AbstractInvocationBuilderMixin implements InvocationBuilder {
   }
 
   /// Returns an [ArgumentList] AST.
-  ArgumentList buildArgumentList([Scope scope]) {
+  ArgumentList buildArgumentList({
+    Scope scope,
+  }) {
     final allArguments = <Expression>[];
     allArguments.addAll(
-        _positional.map/*<Expression>*/((e) => e.buildExpression(scope)));
+      _positional.map/*<Expression>*/((e) => e.buildExpression(scope)),
+    );
     _named.forEach((name, e) {
       allArguments.add(astFactory.namedExpression(
         astFactory.label(
@@ -51,8 +54,12 @@ abstract class InvocationBuilder
     return new _FunctionInvocationBuilder(target);
   }
 
-  factory InvocationBuilder._on(ExpressionBuilder target, String method) {
-    return new _MethodInvocationBuilder(target, method);
+  factory InvocationBuilder._on(
+    ExpressionBuilder target,
+    String method,
+    List<TypeBuilder> generics,
+  ) {
+    return new _MethodInvocationBuilder(target, method, generics);
   }
 
   /// Adds [argument] as a [name]d argument to this method call.
@@ -74,7 +81,7 @@ class _FunctionInvocationBuilder extends Object
     return astFactory.functionExpressionInvocation(
       _target.buildExpression(scope),
       null,
-      buildArgumentList(scope),
+      buildArgumentList(scope: scope),
     );
   }
 }
@@ -82,10 +89,11 @@ class _FunctionInvocationBuilder extends Object
 class _MethodInvocationBuilder extends Object
     with AbstractInvocationBuilderMixin, AbstractExpressionMixin, TopLevelMixin
     implements InvocationBuilder {
+  final List<TypeBuilder> _generics;
   final String _method;
   final ExpressionBuilder _target;
 
-  _MethodInvocationBuilder(this._target, this._method);
+  _MethodInvocationBuilder(this._target, this._method, this._generics);
 
   @override
   Expression buildExpression([Scope scope]) {
@@ -93,8 +101,12 @@ class _MethodInvocationBuilder extends Object
       _target.buildExpression(scope),
       $period,
       stringIdentifier(_method),
-      null,
-      buildArgumentList(scope),
+      _generics.isNotEmpty ? new TypeArgumentList(
+        $openBracket,
+        _generics.map((t) => t.buildType(scope)).toList(),
+        $closeBracket,
+      ) : null,
+      buildArgumentList(scope: scope),
     );
   }
 }

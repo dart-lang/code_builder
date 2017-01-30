@@ -178,6 +178,17 @@ void main() {
     );
   });
 
+  test('should call a method on an expression with generic parameters', () {
+    expect(
+      explicitThis.invoke('doThing', [literal(true)], genericTypes: [
+        lib$core.bool,
+      ]),
+      equalsSource(r'''
+        this.doThing<bool>(true)
+      '''),
+    );
+  });
+
   test('should emit an identical() expression', () {
     expect(
       literal(true).identical(literal(false)),
@@ -361,6 +372,15 @@ void main() {
       ),
       equalsSource(r'''
         main() => 5 + 3 + q;
+      '''),
+    );
+  });
+
+  test('should emit casted as another type', () {
+    expect(
+      literal(1.0).castAs(lib$core.num),
+      equalsSource(r'''
+        1.0 as num
       '''),
     );
   });

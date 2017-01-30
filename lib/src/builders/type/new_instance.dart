@@ -8,17 +8,29 @@ part of code_builder.src.builders.type;
 ///
 /// See [TypeBuilder]:
 /// - [TypeBuilder.constInstance]
-/// - [TypeBuilder.namedConstInstance]
 /// - [TypeBuilder.newInstance]
-/// - [TypeBuilder.namedNewInstance]
 abstract class NewInstanceBuilder
     implements AnnotationBuilder, InvocationBuilder {
-  factory NewInstanceBuilder._const(TypeBuilder type, [String name]) {
-    return new _NewInvocationBuilderImpl(Keyword.CONST, type, name);
+  factory NewInstanceBuilder._const(
+    TypeBuilder type, {
+    String name,
+  }) {
+    return new _NewInvocationBuilderImpl(
+      Keyword.CONST,
+      type,
+      name,
+    );
   }
 
-  factory NewInstanceBuilder._new(TypeBuilder type, [String name]) {
-    return new _NewInvocationBuilderImpl(Keyword.NEW, type, name);
+  factory NewInstanceBuilder._new(
+    TypeBuilder type, {
+    String name,
+  }) {
+    return new _NewInvocationBuilderImpl(
+      Keyword.NEW,
+      type,
+      name,
+    );
   }
 }
 
@@ -29,7 +41,11 @@ class _NewInvocationBuilderImpl extends Object
   final Keyword _keyword;
   final TypeBuilder _type;
 
-  _NewInvocationBuilderImpl(this._keyword, this._type, [this._name]);
+  _NewInvocationBuilderImpl(
+    this._keyword,
+    this._type,
+    this._name,
+  );
 
   @override
   Annotation buildAnnotation([Scope scope]) {
@@ -38,7 +54,7 @@ class _NewInvocationBuilderImpl extends Object
       _type.buildType(scope).name,
       $period,
       _name != null ? stringIdentifier(_name) : null,
-      buildArgumentList(scope),
+      buildArgumentList(scope: scope),
     );
   }
 
@@ -51,7 +67,7 @@ class _NewInvocationBuilderImpl extends Object
         _name != null ? $period : null,
         _name != null ? stringIdentifier(_name) : null,
       ),
-      buildArgumentList(scope),
+      buildArgumentList(scope: scope),
     );
   }
 }

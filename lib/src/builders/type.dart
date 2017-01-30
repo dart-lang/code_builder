@@ -23,42 +23,28 @@ part 'type/new_instance.dart';
 abstract class AbstractTypeBuilderMixin {
   /// Invokes `const` on this type.
   NewInstanceBuilder constInstance(
-    Iterable<ExpressionBuilder> positional, [
-    Map<String, ExpressionBuilder> named = const {},
-  ]) {
-    final builder = new NewInstanceBuilder._const(this);
-    _addArguments(builder, positional, named);
-    return builder;
-  }
-
-  /// Invokes `const` on this type with a [name]d constructor.
-  NewInstanceBuilder namedConstInstance(
+    Iterable<ExpressionBuilder> positionalArguments, {
     String name,
-    Iterable<ExpressionBuilder> positional, [
-    Map<String, ExpressionBuilder> named = const {},
-  ]) {
-    final builder = new NewInstanceBuilder._const(this, name);
-    _addArguments(builder, positional, named);
+    Map<String, ExpressionBuilder> namedArguments: const {},
+  }) {
+    final builder = new NewInstanceBuilder._const(
+      this,
+      name: name,
+    );
+    _addArguments(builder, positionalArguments, namedArguments);
     return builder;
   }
 
   /// Invokes `new` on this type.
   NewInstanceBuilder newInstance(
-    Iterable<ExpressionBuilder> positional, [
-    Map<String, ExpressionBuilder> named = const {},
-  ]) {
-    final builder = new NewInstanceBuilder._new(this);
-    _addArguments(builder, positional, named);
-    return builder;
-  }
-
-  /// Invokes `new` on this type with a [name]d constructor.
-  NewInstanceBuilder namedNewInstance(
+    Iterable<ExpressionBuilder> positional, {
     String name,
-    Iterable<ExpressionBuilder> positional, [
-    Map<String, ExpressionBuilder> named = const {},
-  ]) {
-    final builder = new NewInstanceBuilder._new(this, name);
+    Map<String, ExpressionBuilder> named: const {},
+  }) {
+    final builder = new NewInstanceBuilder._new(
+      this,
+      name: name,
+    );
     _addArguments(builder, positional, named);
     return builder;
   }
