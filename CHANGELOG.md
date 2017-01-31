@@ -26,11 +26,11 @@ expect(
 
 ### BREAKING CHANGES
 
-- Removed `namedNewInstance` and `namedConstInstance`, replaced with `name: `:
+- Removed `namedNewInstance` and `namedConstInstance`, replaced with `constructor: `:
 
 ```dart
 expect(
-  reference('Foo').newInstance([], name: 'other'),
+  reference('Foo').newInstance([], constructor: 'other'),
   equalsSource(r'''
     new Foo.other()
   '''),

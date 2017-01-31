@@ -45,7 +45,7 @@ void main() {
       expect(
         lib$core.List.newInstance([
           literal([1, 2, 3]),
-        ], name: 'from'),
+        ], constructor: 'from'),
         equalsSource(r'''
           new List.from([1, 2, 3])
         '''),
@@ -82,7 +82,7 @@ void main() {
         clazz('Animal', [
           reference('Component').constInstance(
             [],
-            name: 'stateful',
+            constructor: 'stateful',
             namedArguments: {
               'selector': literal('animal'),
             },

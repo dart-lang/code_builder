@@ -328,7 +328,7 @@ void main() {
 
   test('should emit a newInstance with a named constructor', () {
     expect(
-      reference('Foo').newInstance([], name: 'other'),
+      reference('Foo').newInstance([], constructor: 'other'),
       equalsSource(r'''
         new Foo.other()
       '''),
@@ -337,7 +337,7 @@ void main() {
 
   test('should emit a constInstance with a named constructor', () {
     expect(
-      reference('Foo').constInstance([], name: 'other'),
+      reference('Foo').constInstance([], constructor: 'other'),
       equalsSource(r'''
         const Foo.other()
       '''),

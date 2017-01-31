@@ -88,7 +88,9 @@ void main() {
         ..addMethod(new MethodBuilder(
           'instantiateAndReturnNamedThing',
           returnType: thingRef,
-        )..addStatement(thingRef.newInstance([], name: 'named').asReturn())));
+        )
+          ..addStatement(
+              thingRef.newInstance([], constructor: 'named').asReturn())));
     expect(
       lib,
       equalsSource(

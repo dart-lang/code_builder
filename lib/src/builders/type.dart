@@ -24,12 +24,12 @@ abstract class AbstractTypeBuilderMixin {
   /// Invokes `const` on this type.
   NewInstanceBuilder constInstance(
     Iterable<ExpressionBuilder> positionalArguments, {
-    String name,
+    String constructor,
     Map<String, ExpressionBuilder> namedArguments: const {},
   }) {
     final builder = new NewInstanceBuilder._const(
       this,
-      name: name,
+      constructor: constructor,
     );
     _addArguments(builder, positionalArguments, namedArguments);
     return builder;
@@ -38,12 +38,12 @@ abstract class AbstractTypeBuilderMixin {
   /// Invokes `new` on this type.
   NewInstanceBuilder newInstance(
     Iterable<ExpressionBuilder> positional, {
-    String name,
+    String constructor,
     Map<String, ExpressionBuilder> named: const {},
   }) {
     final builder = new NewInstanceBuilder._new(
       this,
-      name: name,
+      constructor: constructor,
     );
     _addArguments(builder, positional, named);
     return builder;

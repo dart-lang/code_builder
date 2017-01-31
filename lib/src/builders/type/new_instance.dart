@@ -13,23 +13,23 @@ abstract class NewInstanceBuilder
     implements AnnotationBuilder, InvocationBuilder {
   factory NewInstanceBuilder._const(
     TypeBuilder type, {
-    String name,
+    String constructor,
   }) {
     return new _NewInvocationBuilderImpl(
       Keyword.CONST,
       type,
-      name,
+      constructor,
     );
   }
 
   factory NewInstanceBuilder._new(
     TypeBuilder type, {
-    String name,
+    String constructor,
   }) {
     return new _NewInvocationBuilderImpl(
       Keyword.NEW,
       type,
-      name,
+      constructor,
     );
   }
 }
@@ -37,14 +37,14 @@ abstract class NewInstanceBuilder
 class _NewInvocationBuilderImpl extends Object
     with AbstractExpressionMixin, AbstractInvocationBuilderMixin, TopLevelMixin
     implements NewInstanceBuilder {
-  final String _name;
+  final String _constructor;
   final Keyword _keyword;
   final TypeBuilder _type;
 
   _NewInvocationBuilderImpl(
     this._keyword,
     this._type,
-    this._name,
+    this._constructor,
   );
 
   @override
@@ -53,7 +53,7 @@ class _NewInvocationBuilderImpl extends Object
       $at,
       _type.buildType(scope).name,
       $period,
-      _name != null ? stringIdentifier(_name) : null,
+      _constructor != null ? stringIdentifier(_constructor) : null,
       buildArgumentList(scope: scope),
     );
   }
@@ -64,8 +64,8 @@ class _NewInvocationBuilderImpl extends Object
       new KeywordToken(_keyword, 0),
       astFactory.constructorName(
         _type.buildType(scope),
-        _name != null ? $period : null,
-        _name != null ? stringIdentifier(_name) : null,
+        _constructor != null ? $period : null,
+        _constructor != null ? stringIdentifier(_constructor) : null,
       ),
       buildArgumentList(scope: scope),
     );
