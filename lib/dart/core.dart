@@ -53,6 +53,9 @@ class DartCore {
   /// References [dart_core.int].
   final ReferenceBuilder int = _ref('int');
 
+  /// References [dart_core.num].
+  final ReferenceBuilder num = _ref('num');
+
   /// References [dart_core.AbstractClassInstantiationError].
   final ReferenceBuilder AbstractClassInstantiationError =
       _ref('AbstractClassInstantiationError');

@@ -43,9 +43,9 @@ void main() {
 
     test('emits a new List.from', () {
       expect(
-        lib$core.List.namedNewInstance('from', [
+        lib$core.List.newInstance([
           literal([1, 2, 3]),
-        ]),
+        ], constructor: 'from'),
         equalsSource(r'''
           new List.from([1, 2, 3])
         '''),
@@ -80,10 +80,10 @@ void main() {
     test('emits a named const constructor as an annotation', () {
       expect(
         clazz('Animal', [
-          reference('Component').namedConstInstance(
-            'stateful',
+          reference('Component').constInstance(
             [],
-            {
+            constructor: 'stateful',
+            namedArguments: {
               'selector': literal('animal'),
             },
           ),

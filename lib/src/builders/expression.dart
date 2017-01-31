@@ -23,6 +23,7 @@ part 'expression/assert.dart';
 part 'expression/assign.dart';
 part 'expression/await.dart';
 part 'expression/cascade.dart';
+part 'expression/cast.dart';
 part 'expression/index.dart';
 part 'expression/invocation.dart';
 part 'expression/negate.dart';
@@ -216,14 +217,17 @@ abstract class AbstractExpressionMixin implements ExpressionBuilder {
 
   @override
   InvocationBuilder call(
-    Iterable<ExpressionBuilder> positionalArguments, [
-    Map<String, ExpressionBuilder> namedArguments = const {},
-  ]) {
+    Iterable<ExpressionBuilder> positionalArguments, {
+    Map<String, ExpressionBuilder> namedArguments: const {},
+  }) {
     final invocation = new InvocationBuilder._(this);
     positionalArguments.forEach(invocation.addPositionalArgument);
     namedArguments.forEach(invocation.addNamedArgument);
     return invocation;
   }
+
+  @override
+  ExpressionBuilder castAs(TypeBuilder type) => new _AsCast(this, type);
 
   @override
   ExpressionBuilder cascade(
@@ -261,10 +265,15 @@ abstract class AbstractExpressionMixin implements ExpressionBuilder {
   @override
   InvocationBuilder invoke(
     String method,
-    Iterable<ExpressionBuilder> positionalArguments, [
-    Map<String, ExpressionBuilder> namedArguments = const {},
-  ]) {
-    final invocation = new InvocationBuilder._on(this, method);
+    Iterable<ExpressionBuilder> positionalArguments, {
+    Iterable<TypeBuilder> genericTypes: const [],
+    Map<String, ExpressionBuilder> namedArguments: const {},
+  }) {
+    final invocation = new InvocationBuilder._on(
+      this,
+      method,
+      genericTypes.toList(),
+    );
     positionalArguments.forEach(invocation.addPositionalArgument);
     namedArguments.forEach(invocation.addNamedArgument);
     return invocation;
@@ -381,9 +390,12 @@ abstract class ExpressionBuilder
 
   /// Returns as an [InvocationBuilder] with arguments added.
   InvocationBuilder call(
-    Iterable<ExpressionBuilder> positionalArguments, [
+    Iterable<ExpressionBuilder> positionalArguments, {
     Map<String, ExpressionBuilder> namedArguments,
-  ]);
+  });
+
+  /// Returns the expression casted as [type].
+  ExpressionBuilder castAs(TypeBuilder type);
 
   /// Return as an [ExpressionBuilder] with `..` appended.
   ExpressionBuilder cascade(
@@ -405,9 +417,10 @@ abstract class ExpressionBuilder
   /// Returns as an [InvocationBuilder] on [method] of this expression.
   InvocationBuilder invoke(
     String method,
-    Iterable<ExpressionBuilder> positionalArguments, [
+    Iterable<ExpressionBuilder> positionalArguments, {
+    Iterable<TypeBuilder> genericTypes,
     Map<String, ExpressionBuilder> namedArguments,
-  ]);
+  });
 
   /// Returns as an [ExpressionBuilder] negating using the `!` operator.
   ExpressionBuilder negate();

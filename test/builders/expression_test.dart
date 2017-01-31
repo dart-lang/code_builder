@@ -159,7 +159,7 @@ void main() {
     expect(
       reference('doThing').call(
         [literal(true)],
-        {
+        namedArguments: {
           'otherFlag': literal(false),
         },
       ),
@@ -174,6 +174,19 @@ void main() {
       explicitThis.invoke('doThing', [literal(true)]),
       equalsSource(r'''
         this.doThing(true)
+      '''),
+    );
+  });
+
+  test('should call a method on an expression with generic parameters', () {
+    expect(
+      explicitThis.invoke('doThing', [
+        literal(true)
+      ], genericTypes: [
+        lib$core.bool,
+      ]),
+      equalsSource(r'''
+        this.doThing<bool>(true)
       '''),
     );
   });
@@ -313,6 +326,24 @@ void main() {
     );
   });
 
+  test('should emit a newInstance with a named constructor', () {
+    expect(
+      reference('Foo').newInstance([], constructor: 'other'),
+      equalsSource(r'''
+        new Foo.other()
+      '''),
+    );
+  });
+
+  test('should emit a constInstance with a named constructor', () {
+    expect(
+      reference('Foo').constInstance([], constructor: 'other'),
+      equalsSource(r'''
+        const Foo.other()
+      '''),
+    );
+  });
+
   test('should scope on newInstance', () {
     expect(
       reference('Foo', 'package:foo/foo.dart').newInstance([]).asReturn(),
@@ -361,6 +392,15 @@ void main() {
       ),
       equalsSource(r'''
         main() => 5 + 3 + q;
+      '''),
+    );
+  });
+
+  test('should emit casted as another type', () {
+    expect(
+      literal(1.0).castAs(lib$core.num),
+      equalsSource(r'''
+        1.0 as num
       '''),
     );
   });
