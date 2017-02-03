@@ -102,7 +102,7 @@ class _MethodInvocationBuilder extends Object
       $period,
       stringIdentifier(_method),
       _generics.isNotEmpty
-          ? new TypeArgumentList(
+          ? astFactory.typeArgumentList(
               $openBracket,
               _generics.map((t) => t.buildType(scope)).toList(),
               $closeBracket,
