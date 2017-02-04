@@ -106,8 +106,7 @@ abstract class FieldBuilder
   TopLevelVariableDeclaration buildTopLevel([Scope scope]);
 }
 
-class _FieldBuilderImpl extends TopLevelMixin
-    with HasAnnotationsMixin
+class _FieldBuilderImpl extends HasAnnotationsMixin
     implements FieldBuilder {
   final Keyword _keyword;
   final String _name;
@@ -155,6 +154,11 @@ class _FieldBuilderImpl extends TopLevelMixin
       _buildVariableList(scope),
       $semicolon,
     );
+  }
+
+  @override
+  CompilationUnitMember buildTopLevelAst([Scope scope]) {
+    return buildTopLevel(scope);
   }
 
   VariableDeclarationList _buildVariableList([Scope scope]) {
