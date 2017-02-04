@@ -106,8 +106,7 @@ abstract class FieldBuilder
   TopLevelVariableDeclaration buildTopLevel([Scope scope]);
 }
 
-class _FieldBuilderImpl extends HasAnnotationsMixin
-    implements FieldBuilder {
+class _FieldBuilderImpl extends HasAnnotationsMixin implements FieldBuilder {
   final Keyword _keyword;
   final String _name;
   final TypeBuilder _type;
