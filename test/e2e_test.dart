@@ -96,18 +96,19 @@ void main() {
       equalsSource(
         r'''
           import 'package:app/app.dart' as _i1;
-          import 'package:app/thing.dart' as _i2;
+          import 'dart:core' as _i2;
+          import 'package:app/thing.dart' as _i3;
 
           class Injector implements _i1.App {
             final _i1.Module _module;
 
             Injector(this._module);
 
-            @override
-            _i2.Thing getThing() => new _i2.Thing(_module.getDep1(), _module.getDep2());
+            @_i2.override
+            _i3.Thing getThing() => new _i3.Thing(_module.getDep1(), _module.getDep2());
 
-            _i2.Thing instantiateAndReturnNamedThing() {
-              return new _i2.Thing.named();
+            _i3.Thing instantiateAndReturnNamedThing() {
+              return new _i3.Thing.named();
             }
           }
         ''',
