@@ -40,7 +40,7 @@ class ReferenceBuilder extends Object
   Annotation buildAnnotation([Scope scope]) {
     return astFactory.annotation(
       $at,
-      stringIdentifier(_name),
+      identifier(scope, _name, _importFrom),
       null,
       null,
       null,
