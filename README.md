@@ -17,17 +17,6 @@ the analyzer's own understood format.
 
 [analyzer]: https://pub.dartlang.org/packages/analyzer
 
-## Experimental
-
-While `code_builder` is considered *stable*, the APIs are subject to
-frequent breaking change - a number of Dart language features are not
-yet implemented that make it unsuitable for all forms of code
-generation. 
-
-**Contributions are [welcome][welcome]!**
-
-[welcome]: CONTRIBUTING.md
-
 ## Usage
 
 Code builder has a narrow and user-friendly API.
