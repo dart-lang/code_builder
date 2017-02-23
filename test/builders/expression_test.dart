@@ -404,15 +404,4 @@ void main() {
       '''),
     );
   });
-
-  test('should throw an exception', () {
-    expect(
-        new TypeBuilder('StateError')
-            .newInstance([literal('Hey! No!')])
-            .asThrow()
-            .asStatement(),
-        equalsSource('''
-    throw new StateError('Hey! No!');
-    '''));
-  });
 }

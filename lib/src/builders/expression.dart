@@ -29,7 +29,6 @@ part 'expression/invocation.dart';
 part 'expression/negate.dart';
 part 'expression/operators.dart';
 part 'expression/return.dart';
-part 'expression/throw.dart';
 part 'expression/yield.dart';
 
 final _false =
@@ -207,9 +206,6 @@ abstract class AbstractExpressionMixin implements ExpressionBuilder {
   StatementBuilder asYieldStar() => new _AsYield(this, true);
 
   @override
-  ExpressionBuilder asThrow() => new _ThrowExpression(this);
-
-  @override
   WhileStatementBuilder asWhile({bool asDo: false}) {
     return new WhileStatementBuilder(asDo, this);
   }
@@ -374,9 +370,6 @@ abstract class ExpressionBuilder
   /// directly; this API exists in order force [buildAst] to return a
   /// [Statement] AST instead of an expression.
   StatementBuilder asStatement();
-
-  /// Returns as an [ExpressionBuilder] that throws this expression as an error.
-  ExpressionBuilder asThrow();
 
   /// Returns as a [StatementBuilder] that assigns to a new `var` [variable].
   ///
