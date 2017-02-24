@@ -187,6 +187,9 @@ final Token $static = new KeywordToken(Keyword.STATIC, 0);
 /// The `this` token.
 final Token $this = new KeywordToken(Keyword.THIS, 0);
 
+/// The `throw` token.
+final Token $throw = new KeywordToken(Keyword.THROW, 0);
+
 /// The `true` token.
 final Token $true = new KeywordToken(Keyword.TRUE, 0);
 
