@@ -139,8 +139,9 @@ void main() {
         (new ConstructorBuilder(asFactory: true)
               ..addStatement(literal(null).asReturn()))
             .buildConstructor(
-          reference('Animal'),
-        ).toSource(),
+              reference('Animal'),
+            )
+            .toSource(),
         equalsIgnoringWhitespace(r'''
           factory Animal() {return null;}
         '''),
@@ -153,7 +154,9 @@ void main() {
           'noopAnimal',
           reference('NoopAnimalImpl'),
           asConst: true,
-        ).buildConstructor(reference('Animal')).toSource(),
+        )
+            .buildConstructor(reference('Animal'))
+            .toSource(),
         equalsIgnoringWhitespace(r'''
           const factory Animal.noopAnimal() = NoopAnimalImpl;
         '''),
