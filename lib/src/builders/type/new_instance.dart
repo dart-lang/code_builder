@@ -53,7 +53,9 @@ class _NewInvocationBuilderImpl extends Object
       $at,
       _type.buildType(scope).name,
       $period,
-      _constructor != null ? stringIdentifier(_constructor) : null,
+      _constructor != null && _constructor.isNotEmpty
+          ? stringIdentifier(_constructor)
+          : null,
       buildArgumentList(scope: scope),
     );
   }
@@ -64,8 +66,10 @@ class _NewInvocationBuilderImpl extends Object
       new KeywordToken(_keyword, 0),
       astFactory.constructorName(
         _type.buildType(scope),
-        _constructor != null ? $period : null,
-        _constructor != null ? stringIdentifier(_constructor) : null,
+        _constructor != null && _constructor.isNotEmpty ? $period : null,
+        _constructor != null && _constructor.isNotEmpty
+            ? stringIdentifier(_constructor)
+            : null,
       ),
       buildArgumentList(scope: scope),
     );

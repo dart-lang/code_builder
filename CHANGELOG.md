@@ -6,6 +6,7 @@
 - Added `asFactory` and `asConst` to `ConstructorBuilder`.
 - Added `ConstructorBuilder.redirectTo` for a redirecting factory constructor.
 - Added a `name` getter to `ReferenceBuilder`.
+- Supplying an empty constructor name (`''`) is equivalent to `null` (default).
 
 ## 1.0.0-beta+3
 
