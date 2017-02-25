@@ -1,3 +1,9 @@
+## 1.0.0-beta+4
+
+- Renamed `PartBuilder` to `PartOfBuilder`
+- Added a new class, `PartBuilder`, to represent `part '...dart'` directives.
+- Added the `HasAnnotations` interface to all library/part/directive builders.
+
 ## 1.0.0-beta+3
 
 - Added support for `genericTypes` parameter for `ExpressionBuilder#invoke`:
