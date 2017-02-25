@@ -71,6 +71,9 @@ final Token $equalsEquals = new Token(TokenType.EQ_EQ, 0);
 /// The `extends` token.
 final Token $extends = new KeywordToken(Keyword.EXTENDS, 0);
 
+/// The `factory` token.
+final Token $factory = new KeywordToken(Keyword.FACTORY, 0);
+
 /// The `false` token.
 final Token $false = new KeywordToken(Keyword.FALSE, 0);
 

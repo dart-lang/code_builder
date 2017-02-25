@@ -84,13 +84,13 @@ class LibraryBuilder extends FileBuilder with HasAnnotationsMixin {
 
 /// Lazily builds a partial file (part of) Dart source code.
 class PartOfBuilder extends FileBuilder with HasAnnotationsMixin {
-  final String _name;
+  final String _uri;
   final Scope _scope;
 
   /// Creates a partial Dart file.
-  factory PartOfBuilder(String name, [Scope scope]) = PartOfBuilder._;
+  factory PartOfBuilder(String uri, [Scope scope]) = PartOfBuilder._;
 
-  PartOfBuilder._(this._name, [this._scope]) : super._();
+  PartOfBuilder._(this._uri, [this._scope]) : super._();
 
   @override
   CompilationUnit buildAst([Scope scope]) {
@@ -106,7 +106,7 @@ class PartOfBuilder extends FileBuilder with HasAnnotationsMixin {
           $of,
           null,
           astFactory.libraryIdentifier([
-            astFactory.simpleIdentifier(stringToken(_name)),
+            astFactory.simpleIdentifier(stringToken("'$_uri'")),
           ]),
           $semicolon,
         )

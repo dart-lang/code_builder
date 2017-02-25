@@ -1,8 +1,11 @@
 ## 1.0.0-beta+4
 
-- Renamed `PartBuilder` to `PartOfBuilder`
+- Renamed `PartBuilder` to `PartOfBuilder`.
 - Added a new class, `PartBuilder`, to represent `part '...dart'` directives.
 - Added the `HasAnnotations` interface to all library/part/directive builders.
+- Added `asFactory` and `asConst` to `ConstructorBuilder`.
+- Added `ConstructorBuilder.redirectTo` for a redirecting factory constructor.
+- Added a `name` getter to `ReferenceBuilder`.
 
 ## 1.0.0-beta+3
 

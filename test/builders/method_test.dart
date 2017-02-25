@@ -121,6 +121,45 @@ void main() {
       );
     });
 
+    test('should emit a const constructor', () {
+      expect(
+        new ConstructorBuilder(asConst: true)
+            .buildConstructor(
+              reference('Animal'),
+            )
+            .toSource(),
+        equalsIgnoringWhitespace(r'''
+          const Animal();
+        '''),
+      );
+    });
+
+    test('should emit a factory constructor', () {
+      expect(
+        (new ConstructorBuilder(asFactory: true)
+              ..addStatement(literal(null).asReturn()))
+            .buildConstructor(
+          reference('Animal'),
+        ).toSource(),
+        equalsIgnoringWhitespace(r'''
+          factory Animal() {return null;}
+        '''),
+      );
+    });
+
+    test('should emit a redirecting constructor', () {
+      expect(
+        new ConstructorBuilder.redirectTo(
+          'noopAnimal',
+          reference('NoopAnimalImpl'),
+          asConst: true,
+        ).buildConstructor(reference('Animal')).toSource(),
+        equalsIgnoringWhitespace(r'''
+          const factory Animal.noopAnimal() = NoopAnimalImpl;
+        '''),
+      );
+    });
+
     test('should a method with a lambda value', () {
       expect(
         lambda('supported', literal(true), returnType: lib$core.bool),

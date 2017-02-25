@@ -36,6 +36,9 @@ class ReferenceBuilder extends Object
 
   ReferenceBuilder._(this._name, [this._importFrom]);
 
+  /// Name of the reference.
+  String get name => _name;
+
   @override
   Annotation buildAnnotation([Scope scope]) {
     return astFactory.annotation(
@@ -91,7 +94,7 @@ class ReferenceBuilder extends Object
   ///     reference('List').toTyped([reference('String')])
   ReferenceBuilder toTyped(Iterable<TypeBuilder> genericTypes) {
     return new _TypedReferenceBuilder(
-        genericTypes.toList(), _name, _importFrom);
+        genericTypes.toList(), _name, _importFrom,);
   }
 }
 
