@@ -4,13 +4,14 @@
 
 import 'package:analyzer/analyzer.dart';
 import 'package:analyzer/dart/ast/standard_ast_factory.dart';
+import 'package:code_builder/src/builders/annotation.dart';
 import 'package:code_builder/src/builders/shared.dart';
 import 'package:code_builder/src/builders/statement.dart';
 import 'package:code_builder/src/tokens.dart';
 
 /// Builds a file of Dart source code.
 ///
-/// See [LibraryBuilder] and [PartBuilder] for concrete implementations.
+/// See [LibraryBuilder] and [PartOfBuilder] for concrete implementations.
 abstract class FileBuilder implements AstBuilder<CompilationUnit> {
   final List<AstBuilder> _members = <AstBuilder>[];
 
@@ -28,8 +29,9 @@ abstract class FileBuilder implements AstBuilder<CompilationUnit> {
 }
 
 /// Builds a standalone file (library) of Dart source code.
-class LibraryBuilder extends FileBuilder {
+class LibraryBuilder extends FileBuilder with HasAnnotationsMixin {
   final List<AstBuilder<Directive>> _directives = <AstBuilder<Directive>>[];
+  final String _name;
   final Scope _scope;
 
   /// Creates a new standalone Dart library, optionally with [name].
@@ -43,11 +45,7 @@ class LibraryBuilder extends FileBuilder {
     return new LibraryBuilder._(name, scope ?? new Scope());
   }
 
-  LibraryBuilder._(String name, this._scope) : super._() {
-    if (name != null) {
-      _directives.add(new _LibraryDirectiveBuilder(name));
-    }
-  }
+  LibraryBuilder._(this._name, this._scope) : super._();
 
   /// Adds a file [directive].
   void addDirective(AstBuilder<Directive> directive) {
@@ -60,14 +58,18 @@ class LibraryBuilder extends FileBuilder {
   }
 
   @override
-  CompilationUnit buildAst([_]) {
+  CompilationUnit buildAst([Scope scope]) {
     var members = _members.map((m) {
       if (m is TopLevelMixin) {
         return (m as TopLevelMixin).buildTopLevelAst(_scope);
       }
       return m.buildAst(_scope);
     }).toList();
-    var directives = <Directive>[]
+    var directives = <Directive>[];
+    if (_name != null) {
+      directives.add(new _LibraryDirectiveBuilder(_name, this).buildAst(scope));
+    }
+    directives
       ..addAll(_scope.toImports().map((d) => d.buildAst()))
       ..addAll(_directives.map((d) => d.buildAst()));
     return astFactory.compilationUnit(
@@ -81,28 +83,30 @@ class LibraryBuilder extends FileBuilder {
 }
 
 /// Lazily builds a partial file (part of) Dart source code.
-class PartBuilder extends FileBuilder {
-  final String _name;
+class PartOfBuilder extends FileBuilder with HasAnnotationsMixin {
+  final String _uri;
+  final Scope _scope;
 
   /// Creates a partial Dart file.
-  factory PartBuilder(String name) = PartBuilder._;
+  factory PartOfBuilder(String uri, [Scope scope]) = PartOfBuilder._;
 
-  PartBuilder._(this._name) : super._();
+  PartOfBuilder._(this._uri, [this._scope]) : super._();
 
   @override
-  CompilationUnit buildAst([_]) {
+  CompilationUnit buildAst([Scope scope]) {
+    scope ??= _scope;
     return astFactory.compilationUnit(
       null,
       null,
       [
         astFactory.partOfDirective(
           null,
-          null,
+          buildAnnotations(scope),
           $part,
           $of,
           null,
           astFactory.libraryIdentifier([
-            astFactory.simpleIdentifier(stringToken(_name)),
+            astFactory.simpleIdentifier(stringToken("'$_uri'")),
           ]),
           $semicolon,
         )
@@ -119,15 +123,16 @@ class PartBuilder extends FileBuilder {
 }
 
 class _LibraryDirectiveBuilder implements AstBuilder<LibraryDirective> {
+  final LibraryBuilder _library;
   final String _name;
 
-  _LibraryDirectiveBuilder(this._name);
+  _LibraryDirectiveBuilder(this._name, this._library);
 
   @override
-  LibraryDirective buildAst([_]) {
+  LibraryDirective buildAst([Scope scope]) {
     return astFactory.libraryDirective(
       null,
-      null,
+      _library.buildAnnotations(scope),
       $library,
       astFactory.libraryIdentifier([
         astFactory.simpleIdentifier(
@@ -139,8 +144,31 @@ class _LibraryDirectiveBuilder implements AstBuilder<LibraryDirective> {
   }
 }
 
+/// Lazily builds a [PartDirective] AST when built.
+class PartBuilder extends Object
+    with HasAnnotationsMixin
+    implements AstBuilder<PartDirective> {
+  final String _uri;
+
+  factory PartBuilder(String uri) = PartBuilder._;
+  PartBuilder._(this._uri);
+
+  @override
+  PartDirective buildAst([Scope scope]) {
+    return astFactory.partDirective(
+      null,
+      buildAnnotations(scope),
+      $part,
+      astFactory.simpleStringLiteral(stringToken("'$_uri'"), _uri),
+      $semicolon,
+    );
+  }
+}
+
 /// Lazily builds an [ImportDirective] AST when built.
-class ImportBuilder implements AstBuilder<ImportDirective> {
+class ImportBuilder extends Object
+    with HasAnnotationsMixin
+    implements AstBuilder<ImportDirective> {
   final String _prefix;
   final String _uri;
   final bool _deferred;
@@ -171,7 +199,7 @@ class ImportBuilder implements AstBuilder<ImportDirective> {
   }
 
   @override
-  ImportDirective buildAst([_]) {
+  ImportDirective buildAst([Scope scope]) {
     var combinators = <Combinator>[];
     if (_show.isNotEmpty) {
       combinators.add(
@@ -191,7 +219,7 @@ class ImportBuilder implements AstBuilder<ImportDirective> {
     }
     return astFactory.importDirective(
       null,
-      null,
+      buildAnnotations(scope),
       null,
       astFactory.simpleStringLiteral(stringToken("'$_uri'"), _uri),
       null,
@@ -205,7 +233,9 @@ class ImportBuilder implements AstBuilder<ImportDirective> {
 }
 
 /// Lazily builds an [ExportDirective] AST when built.
-class ExportBuilder implements AstBuilder<ExportDirective> {
+class ExportBuilder extends Object
+    with HasAnnotationsMixin
+    implements AstBuilder<ExportDirective> {
   final String _uri;
 
   final Set<String> _show = new Set<String>();
@@ -232,7 +262,7 @@ class ExportBuilder implements AstBuilder<ExportDirective> {
   }
 
   @override
-  ExportDirective buildAst([_]) {
+  ExportDirective buildAst([Scope scope]) {
     var combinators = <Combinator>[];
     if (_show.isNotEmpty) {
       combinators.add(
@@ -252,7 +282,7 @@ class ExportBuilder implements AstBuilder<ExportDirective> {
     }
     return astFactory.exportDirective(
       null,
-      null,
+      buildAnnotations(scope),
       null,
       astFactory.simpleStringLiteral(stringToken("'$_uri'"), _uri),
       null,

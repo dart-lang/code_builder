@@ -183,6 +183,7 @@ typedef void _AddParameter(ConstructorBuilder constructor);
 abstract class ConstructorBuilder
     implements
         AstBuilder<ConstructorDeclaration>,
+        HasAnnotations,
         HasParameters,
         HasStatements,
         ValidClassMember {
@@ -193,7 +194,17 @@ abstract class ConstructorBuilder
     String name,
     String superName,
     List<ExpressionBuilder> invokeSuper,
+    bool asConst,
+    bool asFactory,
   }) = _NormalConstructorBuilder;
+
+  /// Create a new [ConstructorBuilder] that redirects to another constructor.
+  factory ConstructorBuilder.redirectTo(
+    String name,
+    TypeBuilder redirectToClass, {
+    String constructor,
+    bool asConst,
+  }) = _RedirectingConstructorBuilder;
 
   /// Adds a field initializer to this constructor.
   void addInitializer(
@@ -541,10 +552,78 @@ class _NamedParameterWrapper
   AstNode buildAst([_]) => throw new UnsupportedError('Use within method');
 }
 
+class _RedirectingConstructorBuilder extends Object
+    with HasAnnotationsMixin, HasParametersMixin
+    implements ConstructorBuilder {
+  final String name;
+  final TypeBuilder redirectToClass;
+  final bool asConst;
+  final String constructor;
+
+  _RedirectingConstructorBuilder(
+    this.name,
+    this.redirectToClass, {
+    this.asConst: false,
+    this.constructor,
+  });
+
+  @override
+  void addInitializer(
+    String fieldName, {
+    ExpressionBuilder toExpression,
+    String toParameter,
+  }) {
+    throw new UnsupportedError('Not valid for redirect constructors');
+  }
+
+  @override
+  void addStatement(StatementBuilder statement) {
+    throw new UnsupportedError('Not valid for redirect constructors');
+  }
+
+  @override
+  void addStatements(Iterable<StatementBuilder> statements) {
+    throw new UnsupportedError('Not valid for redirect constructors');
+  }
+
+  @override
+  ConstructorDeclaration buildAst([_]) {
+    throw new UnsupportedError('Can only be built as part of a class.');
+  }
+
+  @override
+  ConstructorDeclaration buildConstructor(
+    TypeBuilder returnType, [
+    Scope scope,
+  ]) {
+    return astFactory.constructorDeclaration(
+      null,
+      buildAnnotations(scope),
+      null,
+      asConst ? $const : null,
+      $factory,
+      returnType.buildType(scope).name,
+      name != null ? $period : null,
+      name != null ? stringIdentifier(name) : null,
+      buildParameterList(scope),
+      null,
+      null,
+      astFactory.constructorName(
+        redirectToClass.buildType(scope),
+        constructor != null ? $period : null,
+        constructor != null ? stringIdentifier(constructor) : null,
+      ),
+      astFactory.emptyFunctionBody($semicolon),
+    );
+  }
+}
+
 class _NormalConstructorBuilder extends Object
     with HasAnnotationsMixin, HasParametersMixin, HasStatementsMixin
     implements ConstructorBuilder {
   final _initializers = <String, ExpressionBuilder>{};
+  final bool _asFactory;
+  final bool _asConst;
   final String _name;
   final String _superName;
   final List<ExpressionBuilder> _superInvocation;
@@ -553,10 +632,14 @@ class _NormalConstructorBuilder extends Object
     List<ExpressionBuilder> invokeSuper,
     String name,
     String superName,
+    bool asConst: false,
+    bool asFactory: false,
   })
       : _name = name,
         _superInvocation = invokeSuper,
-        _superName = superName;
+        _superName = superName,
+        _asConst = asConst,
+        _asFactory = asFactory;
 
   @override
   void addInitializer(
@@ -611,8 +694,8 @@ class _NormalConstructorBuilder extends Object
       null,
       buildAnnotations(scope),
       null,
-      null,
-      null,
+      _asConst ? $const : null,
+      _asFactory ? $factory : null,
       returnType.buildType(scope).name,
       _name != null ? $period : null,
       _name != null ? stringIdentifier(_name) : null,
