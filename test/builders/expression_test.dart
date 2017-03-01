@@ -29,8 +29,30 @@ void main() {
       expect(literal(5.5), equalsSource(r'5.5'));
     });
 
-    test('should emit a string', () {
-      expect(literal('Hello'), equalsSource(r"'Hello'"));
+    group('should emit a string', () {
+      test('simple', () {
+        expect(literal('Hello'), equalsSource(r"'Hello'"));
+      });
+
+      test("with a '", () {
+        expect(literal("Hello'"), equalsSource(r"'Hello\''"));
+      });
+
+      test(r"with a \'", () {
+        expect(literal(r"Hello\'"), equalsSource(r"'Hello\\\''"));
+      });
+
+      test(r"with a \\'", () {
+        expect(literal(r"Hello\\'"), equalsSource(r"'Hello\\\\\''"));
+      });
+
+      test(r"with a newline", () {
+        expect(literal("Hello\nworld"), equalsSource("'''Hello\nworld'''"));
+      });
+
+      test(r"with a newline and ending with a '", () {
+        expect(literal("Hello\nworld'"), equalsSource("'''Hello\nworld\\''''"));
+      });
     });
 
     test('should emit a list', () {
