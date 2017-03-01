@@ -563,7 +563,7 @@ class _RedirectingConstructorBuilder extends Object
   _RedirectingConstructorBuilder(
     this.name,
     this.redirectToClass, {
-    this.asConst,
+    this.asConst: false,
     this.constructor,
   });
 
