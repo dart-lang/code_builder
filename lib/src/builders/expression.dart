@@ -84,13 +84,23 @@ Literal _literal(value) {
   } else if (value is bool) {
     return value ? _true : _false;
   } else if (value is String) {
-    return astFactory.simpleStringLiteral(stringToken("'$value'"), value);
+    return astFactory.simpleStringLiteral(stringToken(_quote(value)), value);
   } else if (value is int) {
     return astFactory.integerLiteral(stringToken('$value'), value);
   } else if (value is double) {
     return astFactory.doubleLiteral(stringToken('$value'), value);
   }
   throw new ArgumentError.value(value, 'Unsupported');
+}
+
+/// Quotes the string literal. It is assumed that the [value] is meant to be
+/// the raw string, so all `\` are escaped.
+String _quote(String value) {
+  value = value.replaceAll(r'\', r'\\').replaceAll(r"'", r"\'");
+  if (value.contains('\n')) {
+    return "'''$value'''";
+  }
+  return "'$value'";
 }
 
 /// Implements much of [ExpressionBuilder].
