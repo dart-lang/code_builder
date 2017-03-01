@@ -7,6 +7,7 @@
 - Added `ConstructorBuilder.redirectTo` for a redirecting factory constructor.
 - Added a `name` getter to `ReferenceBuilder`.
 - Supplying an empty constructor name (`''`) is equivalent to `null` (default).
+- Automatically encodes string literals with multiple lines as `'''`. 
 
 ## 1.0.0-beta+3
 

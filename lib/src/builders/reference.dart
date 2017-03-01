@@ -32,18 +32,17 @@ class ReferenceBuilder extends Object
     with AbstractExpressionMixin, AbstractTypeBuilderMixin, TopLevelMixin
     implements AnnotationBuilder, ExpressionBuilder, TypeBuilder {
   final String _importFrom;
-  final String _name;
-
-  ReferenceBuilder._(this._name, [this._importFrom]);
 
   /// Name of the reference.
-  String get name => _name;
+  final String name;
+
+  ReferenceBuilder._(this.name, [this._importFrom]);
 
   @override
   Annotation buildAnnotation([Scope scope]) {
     return astFactory.annotation(
       $at,
-      identifier(scope, _name, _importFrom),
+      identifier(scope, name, _importFrom),
       null,
       null,
       null,
@@ -57,14 +56,14 @@ class ReferenceBuilder extends Object
   Expression buildExpression([Scope scope]) {
     return identifier(
       scope,
-      _name,
+      name,
       _importFrom,
     );
   }
 
   @override
   TypeName buildType([Scope scope]) {
-    return new TypeBuilder(_name, importFrom: _importFrom).buildType(scope);
+    return new TypeBuilder(name, importFrom: _importFrom).buildType(scope);
   }
 
   @override
@@ -72,7 +71,7 @@ class ReferenceBuilder extends Object
     if (_importFrom == null) {
       throw new StateError('Cannot create an import - no URI provided');
     }
-    return new ExportBuilder(_importFrom)..show(_name);
+    return new ExportBuilder(_importFrom)..show(name);
   }
 
   @override
@@ -84,7 +83,7 @@ class ReferenceBuilder extends Object
       _importFrom,
       deferred: deferred,
       prefix: prefix,
-    )..show(_name);
+    )..show(name);
   }
 
   /// Returns a new [ReferenceBuilder] with [genericTypes].
@@ -95,7 +94,7 @@ class ReferenceBuilder extends Object
   ReferenceBuilder toTyped(Iterable<TypeBuilder> genericTypes) {
     return new _TypedReferenceBuilder(
       genericTypes.toList(),
-      _name,
+      name,
       _importFrom,
     );
   }
@@ -114,7 +113,7 @@ class _TypedReferenceBuilder extends ReferenceBuilder {
   @override
   TypeName buildType([Scope scope]) {
     return new TypeBuilder(
-      _name,
+      name,
       importFrom: _importFrom,
       genericTypes: _genericTypes,
     )
