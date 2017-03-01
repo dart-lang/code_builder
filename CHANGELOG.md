@@ -8,6 +8,8 @@
 - Added a `name` getter to `ReferenceBuilder`.
 - Supplying an empty constructor name (`''`) is equivalent to `null` (default).
 - Automatically encodes string literals with multiple lines as `'''`. 
+- Added `asThrow` to `ExpressionBuilder`.
+- Fixed a bug that prevented `FieldBuilder` from being used at the top-level.
 
 ## 1.0.0-beta+3
 
