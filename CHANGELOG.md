@@ -1,3 +1,7 @@
+## 1.0.0-beta+5
+
+- Re-published the package without merge conflicts.
+
 ## 1.0.0-beta+4
 
 - Renamed `PartBuilder` to `PartOfBuilder`.
