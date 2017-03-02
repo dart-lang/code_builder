@@ -514,7 +514,7 @@ class _MethodBuilderImpl extends Object
     MethodModifier modifier,
     TypeBuilder returns,
     Keyword property,
-    this.asAbstract,
+    this.asAbstract: false,
   })
       : _modifier = modifier,
         _returnType = returns,
