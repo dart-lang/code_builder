@@ -25,8 +25,6 @@ TypeParameterList typeParameters(Scope scope, Map<String, TypeBuilder> types) {
 }
 
 /// Lazily build a `typedef`, or [FunctionTypeAlias] AST.
-///
-///
 class TypeDefBuilder extends AstBuilder<FunctionTypeAlias>
     with HasAnnotationsMixin, HasParametersMixin, TopLevelMixin {
   /// Optional generic type parameters.
