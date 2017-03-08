@@ -1,3 +1,9 @@
+## 1.0.0-beta+6
+
+- Added `TypeDefBuilder`.
+- Added `FunctionParameterBuilder`.
+- Added `asAbstract` to various `MethodBuilder` constructors.
+
 ## 1.0.0-beta+5
 
 - Re-published the package without merge conflicts.

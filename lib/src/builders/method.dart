@@ -34,10 +34,18 @@ ConstructorBuilder constructorNamed(
 
 /// Various types of modifiers for methods.
 class MethodModifier implements ValidMethodMember {
-  static const MethodModifier asAsync = const MethodModifier._('async', false);
-  static const MethodModifier asAsyncStar =
-      const MethodModifier._('async', true);
-  static const MethodModifier asSyncStar = const MethodModifier._('sync', true);
+  static const MethodModifier asAsync = const MethodModifier._(
+    'async',
+    false,
+  );
+  static const MethodModifier asAsyncStar = const MethodModifier._(
+    'async',
+    true,
+  );
+  static const MethodModifier asSyncStar = const MethodModifier._(
+    'sync',
+    true,
+  );
 
   final String _keyword;
 
@@ -237,6 +245,7 @@ abstract class MethodBuilder
   /// Creates a new [MethodBuilder].
   factory MethodBuilder(
     String name, {
+    bool asAbstract: false,
     MethodModifier modifier,
     ExpressionBuilder returns,
     TypeBuilder returnType,
@@ -248,12 +257,14 @@ abstract class MethodBuilder
         returnType,
         null,
         modifier,
+        asAbstract,
       );
     } else {
       return new _MethodBuilderImpl(
         name,
         modifier: modifier,
         returns: returnType,
+        asAbstract: asAbstract,
       );
     }
   }
@@ -263,6 +274,7 @@ abstract class MethodBuilder
     MethodModifier modifier,
     ExpressionBuilder returns,
     TypeBuilder returnType,
+    bool asAbstract: false,
   }) {
     if (returns != null) {
       return new _LambdaMethodBuilder(
@@ -271,12 +283,14 @@ abstract class MethodBuilder
         returnType,
         null,
         modifier,
+        asAbstract,
       );
     } else {
       return new _MethodBuilderImpl(
         null,
         modifier: modifier,
         returns: returnType,
+        asAbstract: asAbstract,
       );
     }
   }
@@ -287,6 +301,7 @@ abstract class MethodBuilder
     MethodModifier modifier,
     TypeBuilder returnType,
     ExpressionBuilder returns,
+    bool asAbstract: false,
   }) {
     if (returns == null) {
       return new _MethodBuilderImpl(
@@ -294,6 +309,7 @@ abstract class MethodBuilder
         modifier: modifier,
         returns: returnType,
         property: Keyword.GET,
+        asAbstract: asAbstract,
       );
     } else {
       return new _LambdaMethodBuilder(
@@ -302,14 +318,23 @@ abstract class MethodBuilder
         returnType,
         Keyword.GET,
         modifier,
+        asAbstract,
       );
     }
   }
 
   /// Creates a new [MethodBuilder] that returns `void`.
-  factory MethodBuilder.returnVoid(String name, {ExpressionBuilder returns}) {
+  factory MethodBuilder.returnVoid(
+    String name, {
+    ExpressionBuilder returns,
+    bool asAbstract: false,
+  }) {
     if (returns == null) {
-      return new _MethodBuilderImpl(name, returns: lib$core.$void);
+      return new _MethodBuilderImpl(
+        name,
+        returns: lib$core.$void,
+        asAbstract: asAbstract,
+      );
     }
     return new _LambdaMethodBuilder(
       name,
@@ -317,6 +342,7 @@ abstract class MethodBuilder
       lib$core.$void,
       null,
       null,
+      asAbstract,
     );
   }
 
@@ -324,11 +350,13 @@ abstract class MethodBuilder
   factory MethodBuilder.setter(
     String name, {
     ExpressionBuilder returns,
+    bool asAbstract: false,
   }) {
     if (returns == null) {
       return new _MethodBuilderImpl(
         name,
         property: Keyword.SET,
+        asAbstract: asAbstract,
       );
     } else {
       return new _LambdaMethodBuilder(
@@ -337,6 +365,7 @@ abstract class MethodBuilder
         null,
         Keyword.SET,
         null,
+        asAbstract,
       );
     }
   }
@@ -376,6 +405,7 @@ class _LambdaMethodBuilder extends Object
   final String _name;
   final TypeBuilder _returnType;
   final Keyword _property;
+  final bool _asAbstract;
 
   _LambdaMethodBuilder(
     this._name,
@@ -383,6 +413,7 @@ class _LambdaMethodBuilder extends Object
     this._returnType,
     this._property,
     this._modifier,
+    this._asAbstract,
   );
 
   @override
@@ -430,7 +461,9 @@ class _LambdaMethodBuilder extends Object
       _returnType?.buildType(scope),
       _property != null ? new KeywordToken(_property, 0) : null,
       _name != null ? stringIdentifier(_name) : null,
-      _buildExpression(scope, isStatement: true),
+      _asAbstract
+          ? astFactory.emptyFunctionBody($semicolon)
+          : _buildExpression(scope, isStatement: true),
     );
   }
 
@@ -447,12 +480,14 @@ class _LambdaMethodBuilder extends Object
       stringIdentifier(_name),
       null,
       _property != Keyword.GET ? buildParameterList(scope) : null,
-      astFactory.expressionFunctionBody(
-        _modifier?.keyword(),
-        null,
-        _expression.buildExpression(scope),
-        $semicolon,
-      ),
+      _asAbstract
+          ? astFactory.emptyFunctionBody($semicolon)
+          : astFactory.expressionFunctionBody(
+              _modifier?.keyword(),
+              null,
+              _expression.buildExpression(scope),
+              $semicolon,
+            ),
     );
   }
 
@@ -472,12 +507,14 @@ class _MethodBuilderImpl extends Object
   final String _name;
   final TypeBuilder _returnType;
   final Keyword _property;
+  final bool asAbstract;
 
   _MethodBuilderImpl(
     this._name, {
     MethodModifier modifier,
     TypeBuilder returns,
     Keyword property,
+    this.asAbstract: false,
   })
       : _modifier = modifier,
         _returnType = returns,
@@ -496,11 +533,13 @@ class _MethodBuilderImpl extends Object
     return astFactory.functionExpression(
       null,
       _property != Keyword.GET ? buildParameterList(scope) : null,
-      astFactory.blockFunctionBody(
-        _modifier?.keyword(),
-        _modifier?.isStar == true ? $star : null,
-        buildBlock(scope),
-      ),
+      asAbstract
+          ? astFactory.emptyFunctionBody($semicolon)
+          : astFactory.blockFunctionBody(
+              _modifier?.keyword(),
+              _modifier?.isStar == true ? $star : null,
+              buildBlock(scope),
+            ),
     );
   }
 
@@ -530,11 +569,13 @@ class _MethodBuilderImpl extends Object
       identifier(scope, _name),
       null,
       _property != Keyword.GET ? buildParameterList(scope) : null,
-      astFactory.blockFunctionBody(
-        _modifier?.keyword(),
-        _modifier?.isStar == true ? $star : null,
-        buildBlock(scope),
-      ),
+      asAbstract
+          ? astFactory.emptyFunctionBody($semicolon)
+          : astFactory.blockFunctionBody(
+              _modifier?.keyword(),
+              _modifier?.isStar == true ? $star : null,
+              buildBlock(scope),
+            ),
     );
   }
 

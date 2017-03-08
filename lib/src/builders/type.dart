@@ -18,6 +18,7 @@ import 'package:code_builder/src/builders/statement.dart';
 import 'package:code_builder/src/tokens.dart';
 
 part 'type/new_instance.dart';
+part 'type/type_def.dart';
 
 /// Implements the `new` and `const` constructor calls.
 abstract class AbstractTypeBuilderMixin {

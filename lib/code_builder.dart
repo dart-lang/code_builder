@@ -30,7 +30,8 @@ export 'src/builders/method.dart'
         MethodBuilder,
         MethodModifier,
         ValidMethodMember;
-export 'src/builders/parameter.dart' show parameter, ParameterBuilder;
+export 'src/builders/parameter.dart'
+    show parameter, FunctionParameterBuilder, ParameterBuilder;
 export 'src/pretty_printer.dart' show prettyToSource;
 export 'src/builders/reference.dart'
     show explicitThis, reference, ReferenceBuilder;
@@ -52,4 +53,5 @@ export 'src/builders/statement.dart'
         SwitchDefaultCaseBuilder,
         SwitchStatementBuilder,
         WhileStatementBuilder;
-export 'src/builders/type.dart' show NewInstanceBuilder, TypeBuilder;
+export 'src/builders/type.dart'
+    show NewInstanceBuilder, TypeBuilder, TypeDefBuilder;
