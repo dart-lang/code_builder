@@ -29,6 +29,7 @@ part 'expression/invocation.dart';
 part 'expression/negate.dart';
 part 'expression/operators.dart';
 part 'expression/return.dart';
+part 'expression/ternary.dart';
 part 'expression/throw.dart';
 part 'expression/yield.dart';
 
@@ -322,6 +323,13 @@ abstract class AbstractExpressionMixin implements ExpressionBuilder {
 
   @override
   ExpressionBuilder property(String name) => new _MemberExpression(this, name);
+
+  @override
+  ExpressionBuilder ternary(
+    ExpressionBuilder ifTrue,
+    ExpressionBuilder ifFalse,
+  ) =>
+      new _TernaryExpression(this, ifTrue, ifFalse);
 }
 
 /// Builds an [Expression] AST when [buildExpression] is invoked.
@@ -456,6 +464,12 @@ abstract class ExpressionBuilder
 
   /// Returns {{this}}.{{name}}.
   ExpressionBuilder property(String name);
+
+  /// Returns {{this}} ? {{ifTrue}} : {{ifFalse}}.
+  ExpressionBuilder ternary(
+    ExpressionBuilder ifTrue,
+    ExpressionBuilder ifFalse,
+  );
 }
 
 /// An [AstBuilder] that can add [ExpressionBuilder].

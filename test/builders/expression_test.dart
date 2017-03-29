@@ -437,4 +437,13 @@ void main() {
     throw new StateError('Hey! No!');
     '''));
   });
+
+  test('should create a ternary condition ? ifTrue : ifFalse', () {
+    expect(
+      reference('someValue').ternary(literal(true), literal(false)),
+      equalsSource(r'''
+        someValue ? true : false
+      '''),
+    );
+  });
 }

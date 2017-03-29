@@ -202,6 +202,9 @@ final Token $var = new KeywordToken(Keyword.VAR, 0);
 /// The `with` token.
 final Token $with = new KeywordToken(Keyword.WITH, 0);
 
+/// The `?` token.
+final Token $question = new Token(TokenType.QUESTION, 0);
+
 /// Returns an int token for the given int [value].
 StringToken intToken(int value) => new StringToken(TokenType.INT, '$value', 0);
 
