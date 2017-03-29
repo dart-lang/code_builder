@@ -9,7 +9,11 @@ class _TernaryExpression extends TopLevelMixin with AbstractExpressionMixin {
   final ExpressionBuilder _ifTrue;
   final ExpressionBuilder _ifFalse;
 
-  _TernaryExpression(this._target, this._ifTrue, this._ifFalse,);
+  _TernaryExpression(
+    this._target,
+    this._ifTrue,
+    this._ifFalse,
+  );
 
   @override
   AstNode buildAst([Scope scope]) => buildExpression(scope);

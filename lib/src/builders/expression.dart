@@ -328,7 +328,8 @@ abstract class AbstractExpressionMixin implements ExpressionBuilder {
   ExpressionBuilder ternary(
     ExpressionBuilder ifTrue,
     ExpressionBuilder ifFalse,
-  ) => new _TernaryExpression(this, ifTrue, ifFalse);
+  ) =>
+      new _TernaryExpression(this, ifTrue, ifFalse);
 }
 
 /// Builds an [Expression] AST when [buildExpression] is invoked.
