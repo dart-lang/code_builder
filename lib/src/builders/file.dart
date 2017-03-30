@@ -144,14 +144,20 @@ class _LibraryDirectiveBuilder implements AstBuilder<LibraryDirective> {
   }
 }
 
+/// A builder that has a reference to a [uri].
+abstract class UriDirectiveBuilder implements AstBuilder<Directive> {
+  String get uri;
+}
+
 /// Lazily builds a [PartDirective] AST when built.
 class PartBuilder extends Object
     with HasAnnotationsMixin
-    implements AstBuilder<PartDirective> {
-  final String _uri;
+    implements AstBuilder<PartDirective>, UriDirectiveBuilder {
+  @override
+  final String uri;
 
   factory PartBuilder(String uri) = PartBuilder._;
-  PartBuilder._(this._uri);
+  PartBuilder._(this.uri);
 
   @override
   PartDirective buildAst([Scope scope]) {
@@ -159,7 +165,7 @@ class PartBuilder extends Object
       null,
       buildAnnotations(scope),
       $part,
-      astFactory.simpleStringLiteral(stringToken("'$_uri'"), _uri),
+      astFactory.simpleStringLiteral(stringToken("'$uri'"), uri),
       $semicolon,
     );
   }
@@ -168,9 +174,10 @@ class PartBuilder extends Object
 /// Lazily builds an [ImportDirective] AST when built.
 class ImportBuilder extends Object
     with HasAnnotationsMixin
-    implements AstBuilder<ImportDirective> {
+    implements AstBuilder<ImportDirective>, UriDirectiveBuilder {
   final String _prefix;
-  final String _uri;
+  @override
+  final String uri;
   final bool _deferred;
 
   final Set<String> _show = new Set<String>();
@@ -180,7 +187,7 @@ class ImportBuilder extends Object
     return new ImportBuilder._(path, prefix, deferred);
   }
 
-  ImportBuilder._(this._uri, this._prefix, this._deferred);
+  ImportBuilder._(this.uri, this._prefix, this._deferred);
 
   void hide(String identifier) {
     _hide.add(identifier);
@@ -221,7 +228,7 @@ class ImportBuilder extends Object
       null,
       buildAnnotations(scope),
       null,
-      astFactory.simpleStringLiteral(stringToken("'$_uri'"), _uri),
+      astFactory.simpleStringLiteral(stringToken("'$uri'"), uri),
       null,
       _deferred ? $deferred : null,
       _prefix != null ? $as : null,
@@ -235,15 +242,16 @@ class ImportBuilder extends Object
 /// Lazily builds an [ExportDirective] AST when built.
 class ExportBuilder extends Object
     with HasAnnotationsMixin
-    implements AstBuilder<ExportDirective> {
-  final String _uri;
+    implements AstBuilder<ExportDirective>, UriDirectiveBuilder {
+  @override
+  final String uri;
 
   final Set<String> _show = new Set<String>();
   final Set<String> _hide = new Set<String>();
 
   factory ExportBuilder(String path) = ExportBuilder._;
 
-  ExportBuilder._(this._uri);
+  ExportBuilder._(this.uri);
 
   void hide(String identifier) {
     _hide.add(identifier);
@@ -284,7 +292,7 @@ class ExportBuilder extends Object
       null,
       buildAnnotations(scope),
       null,
-      astFactory.simpleStringLiteral(stringToken("'$_uri'"), _uri),
+      astFactory.simpleStringLiteral(stringToken("'$uri'"), uri),
       null,
       combinators,
       $semicolon,
