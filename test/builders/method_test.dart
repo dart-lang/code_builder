@@ -77,6 +77,15 @@ void main() {
     );
   });
 
+  test('should emit a function with a lambda expression', () {
+    expect(
+      new MethodBuilder('talk', returns: literal('Hello World')),
+      equalsSource(r'''
+        talk() => 'Hello World';
+      '''),
+    );
+  });
+
   group('constructors', () {
     test('should emit a simple constructor', () {
       expect(

@@ -174,6 +174,11 @@ void main() {
         constructor([
           lib$core.print.call([literal('Called constructor')]),
         ]),
+        new MethodBuilder(
+          'toString',
+          returns: literal(r'$Animal'),
+          returnType: lib$core.String,
+        ),
       ]),
       equalsSource(r'''
         class Animal {
@@ -186,6 +191,7 @@ void main() {
           void instanceMethod() {
             print('Called instanceMethod');
           }
+          String toString() => '$Animal';
         }
       '''),
     );
