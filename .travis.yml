@@ -2,7 +2,6 @@ language: dart
 
 dart:
   - 1.22.0
-  - dev
   - stable
 
 script: ./tool/presubmit.sh
