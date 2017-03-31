@@ -15,7 +15,8 @@ export 'src/builders/file.dart'
         ImportBuilder,
         LibraryBuilder,
         PartBuilder,
-        PartOfBuilder;
+        PartOfBuilder,
+        UriDirectiveBuilder;
 export 'src/builders/method.dart'
     show
         constructor,
