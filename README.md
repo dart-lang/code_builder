@@ -17,6 +17,20 @@ the analyzer's own understood format.
 
 [analyzer]: https://pub.dartlang.org/packages/analyzer
 
+## Contributing
+
+* Read and help us document common patterns over [at the wiki][wiki].
+* Is there a *bug* in the code? [File an issue][issue].
+
+If a feature is missing (the Dart language is always evolving) or you'd like an
+easier or better way to do something, consider [opening a pull request][pull].
+You can always [file an issue][issue], but generally speaking feature requests
+will be on a best-effort basis.
+
+[wiki]: https://github.com/dart-lang/code_builder/wiki
+[issue]: https://github.com/dart-lang/code_builder/issues
+[pull]: https://github.com/dart-lang/code_builder/pulls
+
 ## Usage
 
 Code builder has a narrow and user-friendly API.

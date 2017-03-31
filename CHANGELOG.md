@@ -1,3 +1,13 @@
+## 1.0.0
+
+First full release. At this point all changes until `2.0.0` will be backwards
+compatible (new features) or bug fixes that are not breaking. This doesn't mean
+that the entire Dart language is buildable with our API, though.
+
+**Contributions are welcome.**
+
+- Exposed `uri` in `ImportBuilder`, `ExportBuilder`, and `Part[Of]Builder`.
+
 ## 1.0.0-beta+7
 
 - Added `ExpressionBuilder#ternary`.
