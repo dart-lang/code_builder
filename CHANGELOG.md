@@ -1,3 +1,7 @@
+## 1.0.1
+
+* Support the latest version of `package:dart_style`.
+
 ## 1.0.0
 
 First full release. At this point all changes until `2.0.0` will be backwards
