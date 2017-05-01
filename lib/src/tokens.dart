@@ -15,13 +15,13 @@ final Token $as = new KeywordToken(Keyword.AS, 0);
 final Token $assert = new KeywordToken(Keyword.ASSERT, 0);
 
 /// The `async` token.
-final Token $async = new StringToken(TokenType.KEYWORD, 'async', 0);
+final Token $async = new KeywordToken(Keyword.ASYNC, 0);
 
 /// The `@` token.
 final Token $at = new Token(TokenType.AT, 0);
 
 /// The `await` token.
-final Token $await = new StringToken(TokenType.KEYWORD, 'await', 0);
+final Token $await = new KeywordToken(Keyword.AWAIT, 0);
 
 /// The `break` token.
 final Token $break = new KeywordToken(Keyword.BREAK, 0);
@@ -96,7 +96,7 @@ final Token $switch = new KeywordToken(Keyword.SWITCH, 0);
 final Token $super = new KeywordToken(Keyword.SUPER, 0);
 
 /// The `yield` token.
-final Token $yield = new StringToken(TokenType.KEYWORD, 'yield', 0);
+final Token $yield = new KeywordToken(Keyword.YIELD, 0);
 
 /// The `while` keyword.
 final Token $while = new KeywordToken(Keyword.WHILE, 0);
@@ -110,7 +110,7 @@ final Token $and = new Token(TokenType.AMPERSAND_AMPERSAND, 0);
 final Token $star = $multiply;
 
 /// The `hide` token.
-final Token $hide = new StringToken(TokenType.KEYWORD, 'hide', 0);
+final Token $hide = new KeywordToken(Keyword.HIDE, 0);
 
 /// The `implements` token.
 final Token $implements = new KeywordToken(Keyword.IMPLEMENTS, 0);
@@ -149,7 +149,7 @@ final Token $null = new KeywordToken(Keyword.NULL, 0);
 final Token $nullAwareEquals = new Token(TokenType.QUESTION_QUESTION_EQ, 0);
 
 /// The `of` token.
-final Token $of = new StringToken(TokenType.KEYWORD, 'of', 0);
+final Token $of = new KeywordToken(Keyword.OF, 0);
 
 /// The `||` token.
 final Token $or = new Token(TokenType.BAR_BAR, 0);
@@ -182,7 +182,7 @@ final Token $return = new KeywordToken(Keyword.RETURN, 0);
 final Token $semicolon = new Token(TokenType.SEMICOLON, 0);
 
 /// The `show` token.
-final Token $show = new StringToken(TokenType.KEYWORD, 'show', 0);
+final Token $show = new KeywordToken(Keyword.SHOW, 0);
 
 /// The `static` token.
 final Token $static = new KeywordToken(Keyword.STATIC, 0);

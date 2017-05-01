@@ -35,19 +35,19 @@ ConstructorBuilder constructorNamed(
 /// Various types of modifiers for methods.
 class MethodModifier implements ValidMethodMember {
   static const MethodModifier asAsync = const MethodModifier._(
-    'async',
+    Keyword.ASYNC,
     false,
   );
   static const MethodModifier asAsyncStar = const MethodModifier._(
-    'async',
+    Keyword.ASYNC,
     true,
   );
   static const MethodModifier asSyncStar = const MethodModifier._(
-    'sync',
+    Keyword.SYNC,
     true,
   );
 
-  final String _keyword;
+  final Keyword _keyword;
 
   const MethodModifier._(this._keyword, this.isStar);
 
@@ -56,7 +56,7 @@ class MethodModifier implements ValidMethodMember {
 
   final bool isStar;
 
-  Token keyword() => new StringToken(TokenType.KEYWORD, _keyword, 0);
+  Token keyword() => new KeywordToken(_keyword, 0);
 }
 
 /// Short-hand for `new MethodBuilder.getter(...)`.
