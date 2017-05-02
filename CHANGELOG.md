@@ -1,3 +1,7 @@
+## 1.0.2
+
+* update internals to use newer analyzer API
+
 ## 1.0.1
 
 * Support the latest version of `package:dart_style`.
