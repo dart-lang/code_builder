@@ -12,6 +12,8 @@ if [ "$TRAVIS_DART_VERSION" = "stable" ]; then
     exit 1
   fi
   echo "PASSED"
+else
+  echo "SKIPPED"
 fi
 
 # Make sure we pass the analyzer
