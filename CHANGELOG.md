@@ -1,3 +1,7 @@
+## 1.0.3
+
+* Support latest `pkg/analyzer` and `pkg/func`.
+
 ## 1.0.2
 
 * update internals to use newer analyzer API
