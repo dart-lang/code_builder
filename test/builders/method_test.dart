@@ -77,6 +77,15 @@ void main() {
     );
   });
 
+  test('should emit a function with a lambda expression', () {
+    expect(
+      new MethodBuilder('talk', returns: literal('Hello World')),
+      equalsSource(r'''
+        talk() => 'Hello World';
+      '''),
+    );
+  });
+
   group('constructors', () {
     test('should emit a simple constructor', () {
       expect(
@@ -117,6 +126,48 @@ void main() {
             .toSource(),
         equalsIgnoringWhitespace(r'''
           Animal(this.name);
+        '''),
+      );
+    });
+
+    test('should emit a const constructor', () {
+      expect(
+        new ConstructorBuilder(asConst: true)
+            .buildConstructor(
+              reference('Animal'),
+            )
+            .toSource(),
+        equalsIgnoringWhitespace(r'''
+          const Animal();
+        '''),
+      );
+    });
+
+    test('should emit a factory constructor', () {
+      expect(
+        (new ConstructorBuilder(asFactory: true)
+              ..addStatement(literal(null).asReturn()))
+            .buildConstructor(
+              reference('Animal'),
+            )
+            .toSource(),
+        equalsIgnoringWhitespace(r'''
+          factory Animal() {return null;}
+        '''),
+      );
+    });
+
+    test('should emit a redirecting constructor', () {
+      expect(
+        new ConstructorBuilder.redirectTo(
+          'noopAnimal',
+          reference('NoopAnimalImpl'),
+          asConst: true,
+        )
+            .buildConstructor(reference('Animal'))
+            .toSource(),
+        equalsIgnoringWhitespace(r'''
+          const factory Animal.noopAnimal() = NoopAnimalImpl;
         '''),
       );
     });

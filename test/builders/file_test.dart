@@ -62,9 +62,41 @@ void main() {
     group('$LibraryBuilder', () {
       test('should handle empty methods', () {
         expect(
-            new LibraryBuilder()
-              ..addMember(new MethodBuilder.returnVoid('main')),
-            equalsSource('void main() {}'));
+          new LibraryBuilder()..addMember(new MethodBuilder.returnVoid('main')),
+          equalsSource('void main() {}'),
+        );
+      });
+
+      test('should support metadata', () {
+        expect(
+          new LibraryBuilder('some_lib')..addAnnotation(reference('ignore')),
+          equalsSource(r'''
+            @ignore
+            library some_lib;
+          '''),
+        );
+      });
+    });
+
+    group('$PartBuilder', () {
+      test('should emit a part directive', () {
+        expect(
+          new LibraryBuilder()..addDirective(new PartBuilder('part.dart')),
+          equalsSource(r'''
+            part 'part.dart';
+          '''),
+        );
+      });
+    });
+
+    group('$PartOfBuilder', () {
+      test('should emit a part-of file', () {
+        expect(
+          new PartOfBuilder('main.dart'),
+          equalsSource(r'''
+            part of 'main.dart';
+          '''),
+        );
       });
     });
   });

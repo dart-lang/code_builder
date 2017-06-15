@@ -30,6 +30,8 @@ part 'expression/is_instance_of.dart';
 part 'expression/negate.dart';
 part 'expression/operators.dart';
 part 'expression/return.dart';
+part 'expression/ternary.dart';
+part 'expression/throw.dart';
 part 'expression/yield.dart';
 
 final _false =
@@ -84,13 +86,23 @@ Literal _literal(value) {
   } else if (value is bool) {
     return value ? _true : _false;
   } else if (value is String) {
-    return astFactory.simpleStringLiteral(stringToken("'$value'"), value);
+    return astFactory.simpleStringLiteral(stringToken(_quote(value)), value);
   } else if (value is int) {
     return astFactory.integerLiteral(stringToken('$value'), value);
   } else if (value is double) {
     return astFactory.doubleLiteral(stringToken('$value'), value);
   }
   throw new ArgumentError.value(value, 'Unsupported');
+}
+
+/// Quotes the string literal. It is assumed that the [value] is meant to be
+/// the raw string, so all `\` are escaped.
+String _quote(String value) {
+  value = value.replaceAll(r'\', r'\\').replaceAll(r"'", r"\'");
+  if (value.contains('\n')) {
+    return "'''$value'''";
+  }
+  return "'$value'";
 }
 
 /// Implements much of [ExpressionBuilder].
@@ -207,6 +219,9 @@ abstract class AbstractExpressionMixin implements ExpressionBuilder {
   StatementBuilder asYieldStar() => new _AsYield(this, true);
 
   @override
+  ExpressionBuilder asThrow() => new _ThrowExpression(this);
+
+  @override
   WhileStatementBuilder asWhile({bool asDo: false}) {
     return new WhileStatementBuilder(asDo, this);
   }
@@ -317,6 +332,13 @@ abstract class AbstractExpressionMixin implements ExpressionBuilder {
 
   @override
   ExpressionBuilder property(String name) => new _MemberExpression(this, name);
+
+  @override
+  ExpressionBuilder ternary(
+    ExpressionBuilder ifTrue,
+    ExpressionBuilder ifFalse,
+  ) =>
+      new _TernaryExpression(this, ifTrue, ifFalse);
 }
 
 /// Builds an [Expression] AST when [buildExpression] is invoked.
@@ -379,6 +401,9 @@ abstract class ExpressionBuilder
   /// directly; this API exists in order force [buildAst] to return a
   /// [Statement] AST instead of an expression.
   StatementBuilder asStatement();
+
+  /// Returns as an [ExpressionBuilder] that throws this expression as an error.
+  ExpressionBuilder asThrow();
 
   /// Returns as a [StatementBuilder] that assigns to a new `var` [variable].
   ///
@@ -454,6 +479,12 @@ abstract class ExpressionBuilder
 
   /// Returns {{this}}.{{name}}.
   ExpressionBuilder property(String name);
+
+  /// Returns {{this}} ? {{ifTrue}} : {{ifFalse}}.
+  ExpressionBuilder ternary(
+    ExpressionBuilder ifTrue,
+    ExpressionBuilder ifFalse,
+  );
 }
 
 /// An [AstBuilder] that can add [ExpressionBuilder].

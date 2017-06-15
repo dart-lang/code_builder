@@ -218,3 +218,43 @@ class _SimpleParameterBuilder extends Object
     );
   }
 }
+
+/// A parameter type that represents a function definition.
+class FunctionParameterBuilder extends Object
+    with HasAnnotationsMixin, HasParametersMixin
+    implements ParameterBuilder {
+  @override
+  final String name;
+  final TypeBuilder returnType;
+
+  FunctionParameterBuilder(
+    this.name, {
+    this.returnType,
+  });
+
+  @override
+  ParameterBuilder asOptional([ExpressionBuilder defaultTo]) {
+    return new _OptionalParameterBuilder(this, defaultTo);
+  }
+
+  @override
+  FunctionTypedFormalParameter buildAst([Scope scope]) =>
+      buildPositional(false, scope);
+
+  @override
+  FunctionTypedFormalParameter buildNamed(bool field, [Scope scope]) {
+    return asOptional().buildNamed(field, scope);
+  }
+
+  @override
+  FunctionTypedFormalParameter buildPositional(bool field, [Scope scope]) {
+    return astFactory.functionTypedFormalParameter(
+      null,
+      buildAnnotations(scope),
+      returnType?.buildType(scope),
+      stringIdentifier(name),
+      null,
+      buildParameterList(scope),
+    );
+  }
+}

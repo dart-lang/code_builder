@@ -1,3 +1,52 @@
+## 1.0.3
+
+* Support latest `pkg/analyzer` and `pkg/func`.
+
+## 1.0.2
+
+* update internals to use newer analyzer API
+
+## 1.0.1
+
+* Support the latest version of `package:dart_style`.
+
+## 1.0.0
+
+First full release. At this point all changes until `2.0.0` will be backwards
+compatible (new features) or bug fixes that are not breaking. This doesn't mean
+that the entire Dart language is buildable with our API, though.
+
+**Contributions are welcome.**
+
+- Exposed `uri` in `ImportBuilder`, `ExportBuilder`, and `Part[Of]Builder`.
+
+## 1.0.0-beta+7
+
+- Added `ExpressionBuilder#ternary`.
+
+## 1.0.0-beta+6
+
+- Added `TypeDefBuilder`.
+- Added `FunctionParameterBuilder`.
+- Added `asAbstract` to various `MethodBuilder` constructors.
+
+## 1.0.0-beta+5
+
+- Re-published the package without merge conflicts.
+
+## 1.0.0-beta+4
+
+- Renamed `PartBuilder` to `PartOfBuilder`.
+- Added a new class, `PartBuilder`, to represent `part '...dart'` directives.
+- Added the `HasAnnotations` interface to all library/part/directive builders.
+- Added `asFactory` and `asConst` to `ConstructorBuilder`.
+- Added `ConstructorBuilder.redirectTo` for a redirecting factory constructor.
+- Added a `name` getter to `ReferenceBuilder`.
+- Supplying an empty constructor name (`''`) is equivalent to `null` (default).
+- Automatically encodes string literals with multiple lines as `'''`. 
+- Added `asThrow` to `ExpressionBuilder`.
+- Fixed a bug that prevented `FieldBuilder` from being used at the top-level.
+
 ## 1.0.0-beta+3
 
 - Added support for `genericTypes` parameter for `ExpressionBuilder#invoke`:

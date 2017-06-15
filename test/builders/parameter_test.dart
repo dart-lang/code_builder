@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:code_builder/code_builder.dart';
+import 'package:code_builder/dart/core.dart';
 import 'package:code_builder/testing.dart';
 import 'package:test/test.dart';
 
@@ -45,6 +46,20 @@ void main() {
     expect(
       parameter('foo').buildPositional(true).toSource(),
       equalsIgnoringCase(r'this.foo'),
+    );
+  });
+
+  test('should emit a function typed parameter', () {
+    expect(
+      (new FunctionParameterBuilder(
+        'callback',
+        returnType: lib$core.$void,
+      )..addPositional(parameter('value')))
+          .buildPositional(false)
+          .toSource(),
+      equalsIgnoringWhitespace(r'''
+        void callback(value)
+      '''),
     );
   });
 }

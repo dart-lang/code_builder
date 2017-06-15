@@ -131,4 +131,31 @@ void main() {
       throwsStateError,
     );
   });
+
+  test('can create a simple typedef', () {
+    expect(
+      new TypeDefBuilder(
+        'Callback',
+        returnType: lib$core.$void,
+      ),
+      equalsSource(r'''
+        typedef void Callback();
+      '''),
+    );
+  });
+
+  test('can create a more complex typedef', () {
+    expect(
+      new TypeDefBuilder(
+        'Callback',
+        genericTypes: {
+          'T': lib$core.Set,
+        },
+        returnType: reference('T'),
+      )..addPositional(parameter('items')),
+      equalsSource(r'''
+        typedef T Callback<T extends Set>(items);
+      '''),
+    );
+  });
 }

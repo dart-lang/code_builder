@@ -18,6 +18,21 @@ void main() {
     );
   });
 
+  test('should emit an abstract class', () {
+    expect(
+      new ClassBuilder('Animal', asAbstract: true)
+        ..addMethod(new MethodBuilder.returnVoid(
+          'eat',
+          asAbstract: true,
+        )),
+      equalsSource(r'''
+        abstract class Animal {
+          void eat();
+        }
+      '''),
+    );
+  });
+
   test('should emit a class with an annotation', () {
     expect(
       clazz('Animal', [reference('deprecated')]),
@@ -159,6 +174,11 @@ void main() {
         constructor([
           lib$core.print.call([literal('Called constructor')]),
         ]),
+        new MethodBuilder(
+          'toString',
+          returns: literal(r'$Animal'),
+          returnType: lib$core.String,
+        ),
       ]),
       equalsSource(r'''
         class Animal {
@@ -171,6 +191,7 @@ void main() {
           void instanceMethod() {
             print('Called instanceMethod');
           }
+          String toString() => '$Animal';
         }
       '''),
     );

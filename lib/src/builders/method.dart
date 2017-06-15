@@ -34,12 +34,20 @@ ConstructorBuilder constructorNamed(
 
 /// Various types of modifiers for methods.
 class MethodModifier implements ValidMethodMember {
-  static const MethodModifier asAsync = const MethodModifier._('async', false);
-  static const MethodModifier asAsyncStar =
-      const MethodModifier._('async', true);
-  static const MethodModifier asSyncStar = const MethodModifier._('sync', true);
+  static const MethodModifier asAsync = const MethodModifier._(
+    Keyword.ASYNC,
+    false,
+  );
+  static const MethodModifier asAsyncStar = const MethodModifier._(
+    Keyword.ASYNC,
+    true,
+  );
+  static const MethodModifier asSyncStar = const MethodModifier._(
+    Keyword.SYNC,
+    true,
+  );
 
-  final String _keyword;
+  final Keyword _keyword;
 
   const MethodModifier._(this._keyword, this.isStar);
 
@@ -48,7 +56,7 @@ class MethodModifier implements ValidMethodMember {
 
   final bool isStar;
 
-  Token keyword() => new StringToken(TokenType.KEYWORD, _keyword, 0);
+  Token keyword() => new KeywordToken(_keyword, 0);
 }
 
 /// Short-hand for `new MethodBuilder.getter(...)`.
@@ -183,6 +191,7 @@ typedef void _AddParameter(ConstructorBuilder constructor);
 abstract class ConstructorBuilder
     implements
         AstBuilder<ConstructorDeclaration>,
+        HasAnnotations,
         HasParameters,
         HasStatements,
         ValidClassMember {
@@ -193,7 +202,17 @@ abstract class ConstructorBuilder
     String name,
     String superName,
     List<ExpressionBuilder> invokeSuper,
+    bool asConst,
+    bool asFactory,
   }) = _NormalConstructorBuilder;
+
+  /// Create a new [ConstructorBuilder] that redirects to another constructor.
+  factory ConstructorBuilder.redirectTo(
+    String name,
+    TypeBuilder redirectToClass, {
+    String constructor,
+    bool asConst,
+  }) = _RedirectingConstructorBuilder;
 
   /// Adds a field initializer to this constructor.
   void addInitializer(
@@ -226,6 +245,7 @@ abstract class MethodBuilder
   /// Creates a new [MethodBuilder].
   factory MethodBuilder(
     String name, {
+    bool asAbstract: false,
     MethodModifier modifier,
     ExpressionBuilder returns,
     TypeBuilder returnType,
@@ -237,12 +257,14 @@ abstract class MethodBuilder
         returnType,
         null,
         modifier,
+        asAbstract,
       );
     } else {
       return new _MethodBuilderImpl(
         name,
         modifier: modifier,
         returns: returnType,
+        asAbstract: asAbstract,
       );
     }
   }
@@ -252,6 +274,7 @@ abstract class MethodBuilder
     MethodModifier modifier,
     ExpressionBuilder returns,
     TypeBuilder returnType,
+    bool asAbstract: false,
   }) {
     if (returns != null) {
       return new _LambdaMethodBuilder(
@@ -260,12 +283,14 @@ abstract class MethodBuilder
         returnType,
         null,
         modifier,
+        asAbstract,
       );
     } else {
       return new _MethodBuilderImpl(
         null,
         modifier: modifier,
         returns: returnType,
+        asAbstract: asAbstract,
       );
     }
   }
@@ -276,6 +301,7 @@ abstract class MethodBuilder
     MethodModifier modifier,
     TypeBuilder returnType,
     ExpressionBuilder returns,
+    bool asAbstract: false,
   }) {
     if (returns == null) {
       return new _MethodBuilderImpl(
@@ -283,6 +309,7 @@ abstract class MethodBuilder
         modifier: modifier,
         returns: returnType,
         property: Keyword.GET,
+        asAbstract: asAbstract,
       );
     } else {
       return new _LambdaMethodBuilder(
@@ -291,14 +318,23 @@ abstract class MethodBuilder
         returnType,
         Keyword.GET,
         modifier,
+        asAbstract,
       );
     }
   }
 
   /// Creates a new [MethodBuilder] that returns `void`.
-  factory MethodBuilder.returnVoid(String name, {ExpressionBuilder returns}) {
+  factory MethodBuilder.returnVoid(
+    String name, {
+    ExpressionBuilder returns,
+    bool asAbstract: false,
+  }) {
     if (returns == null) {
-      return new _MethodBuilderImpl(name, returns: lib$core.$void);
+      return new _MethodBuilderImpl(
+        name,
+        returns: lib$core.$void,
+        asAbstract: asAbstract,
+      );
     }
     return new _LambdaMethodBuilder(
       name,
@@ -306,6 +342,7 @@ abstract class MethodBuilder
       lib$core.$void,
       null,
       null,
+      asAbstract,
     );
   }
 
@@ -313,11 +350,13 @@ abstract class MethodBuilder
   factory MethodBuilder.setter(
     String name, {
     ExpressionBuilder returns,
+    bool asAbstract: false,
   }) {
     if (returns == null) {
       return new _MethodBuilderImpl(
         name,
         property: Keyword.SET,
+        asAbstract: asAbstract,
       );
     } else {
       return new _LambdaMethodBuilder(
@@ -326,6 +365,7 @@ abstract class MethodBuilder
         null,
         Keyword.SET,
         null,
+        asAbstract,
       );
     }
   }
@@ -365,6 +405,7 @@ class _LambdaMethodBuilder extends Object
   final String _name;
   final TypeBuilder _returnType;
   final Keyword _property;
+  final bool _asAbstract;
 
   _LambdaMethodBuilder(
     this._name,
@@ -372,6 +413,7 @@ class _LambdaMethodBuilder extends Object
     this._returnType,
     this._property,
     this._modifier,
+    this._asAbstract,
   );
 
   @override
@@ -419,7 +461,9 @@ class _LambdaMethodBuilder extends Object
       _returnType?.buildType(scope),
       _property != null ? new KeywordToken(_property, 0) : null,
       _name != null ? stringIdentifier(_name) : null,
-      _buildExpression(scope, isStatement: true),
+      _asAbstract
+          ? astFactory.emptyFunctionBody($semicolon)
+          : _buildExpression(scope, isStatement: true),
     );
   }
 
@@ -436,12 +480,14 @@ class _LambdaMethodBuilder extends Object
       stringIdentifier(_name),
       null,
       _property != Keyword.GET ? buildParameterList(scope) : null,
-      astFactory.expressionFunctionBody(
-        _modifier?.keyword(),
-        null,
-        _expression.buildExpression(scope),
-        $semicolon,
-      ),
+      _asAbstract
+          ? astFactory.emptyFunctionBody($semicolon)
+          : astFactory.expressionFunctionBody(
+              _modifier?.keyword(),
+              null,
+              _expression.buildExpression(scope),
+              $semicolon,
+            ),
     );
   }
 
@@ -461,12 +507,14 @@ class _MethodBuilderImpl extends Object
   final String _name;
   final TypeBuilder _returnType;
   final Keyword _property;
+  final bool asAbstract;
 
   _MethodBuilderImpl(
     this._name, {
     MethodModifier modifier,
     TypeBuilder returns,
     Keyword property,
+    this.asAbstract: false,
   })
       : _modifier = modifier,
         _returnType = returns,
@@ -485,11 +533,13 @@ class _MethodBuilderImpl extends Object
     return astFactory.functionExpression(
       null,
       _property != Keyword.GET ? buildParameterList(scope) : null,
-      astFactory.blockFunctionBody(
-        _modifier?.keyword(),
-        _modifier?.isStar == true ? $star : null,
-        buildBlock(scope),
-      ),
+      asAbstract
+          ? astFactory.emptyFunctionBody($semicolon)
+          : astFactory.blockFunctionBody(
+              _modifier?.keyword(),
+              _modifier?.isStar == true ? $star : null,
+              buildBlock(scope),
+            ),
     );
   }
 
@@ -519,11 +569,13 @@ class _MethodBuilderImpl extends Object
       identifier(scope, _name),
       null,
       _property != Keyword.GET ? buildParameterList(scope) : null,
-      astFactory.blockFunctionBody(
-        _modifier?.keyword(),
-        _modifier?.isStar == true ? $star : null,
-        buildBlock(scope),
-      ),
+      asAbstract
+          ? astFactory.emptyFunctionBody($semicolon)
+          : astFactory.blockFunctionBody(
+              _modifier?.keyword(),
+              _modifier?.isStar == true ? $star : null,
+              buildBlock(scope),
+            ),
     );
   }
 
@@ -541,10 +593,78 @@ class _NamedParameterWrapper
   AstNode buildAst([_]) => throw new UnsupportedError('Use within method');
 }
 
+class _RedirectingConstructorBuilder extends Object
+    with HasAnnotationsMixin, HasParametersMixin
+    implements ConstructorBuilder {
+  final String name;
+  final TypeBuilder redirectToClass;
+  final bool asConst;
+  final String constructor;
+
+  _RedirectingConstructorBuilder(
+    this.name,
+    this.redirectToClass, {
+    this.asConst: false,
+    this.constructor,
+  });
+
+  @override
+  void addInitializer(
+    String fieldName, {
+    ExpressionBuilder toExpression,
+    String toParameter,
+  }) {
+    throw new UnsupportedError('Not valid for redirect constructors');
+  }
+
+  @override
+  void addStatement(StatementBuilder statement) {
+    throw new UnsupportedError('Not valid for redirect constructors');
+  }
+
+  @override
+  void addStatements(Iterable<StatementBuilder> statements) {
+    throw new UnsupportedError('Not valid for redirect constructors');
+  }
+
+  @override
+  ConstructorDeclaration buildAst([_]) {
+    throw new UnsupportedError('Can only be built as part of a class.');
+  }
+
+  @override
+  ConstructorDeclaration buildConstructor(
+    TypeBuilder returnType, [
+    Scope scope,
+  ]) {
+    return astFactory.constructorDeclaration(
+      null,
+      buildAnnotations(scope),
+      null,
+      asConst ? $const : null,
+      $factory,
+      returnType.buildType(scope).name,
+      name != null ? $period : null,
+      name != null ? stringIdentifier(name) : null,
+      buildParameterList(scope),
+      null,
+      null,
+      astFactory.constructorName(
+        redirectToClass.buildType(scope),
+        constructor != null ? $period : null,
+        constructor != null ? stringIdentifier(constructor) : null,
+      ),
+      astFactory.emptyFunctionBody($semicolon),
+    );
+  }
+}
+
 class _NormalConstructorBuilder extends Object
     with HasAnnotationsMixin, HasParametersMixin, HasStatementsMixin
     implements ConstructorBuilder {
   final _initializers = <String, ExpressionBuilder>{};
+  final bool _asFactory;
+  final bool _asConst;
   final String _name;
   final String _superName;
   final List<ExpressionBuilder> _superInvocation;
@@ -553,10 +673,14 @@ class _NormalConstructorBuilder extends Object
     List<ExpressionBuilder> invokeSuper,
     String name,
     String superName,
+    bool asConst: false,
+    bool asFactory: false,
   })
       : _name = name,
         _superInvocation = invokeSuper,
-        _superName = superName;
+        _superName = superName,
+        _asConst = asConst,
+        _asFactory = asFactory;
 
   @override
   void addInitializer(
@@ -611,8 +735,8 @@ class _NormalConstructorBuilder extends Object
       null,
       buildAnnotations(scope),
       null,
-      null,
-      null,
+      _asConst ? $const : null,
+      _asFactory ? $factory : null,
       returnType.buildType(scope).name,
       _name != null ? $period : null,
       _name != null ? stringIdentifier(_name) : null,

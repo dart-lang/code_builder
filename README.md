@@ -17,16 +17,19 @@ the analyzer's own understood format.
 
 [analyzer]: https://pub.dartlang.org/packages/analyzer
 
-## Experimental
+## Contributing
 
-While `code_builder` is considered *stable*, the APIs are subject to
-frequent breaking change - a number of Dart language features are not
-yet implemented that make it unsuitable for all forms of code
-generation. 
+* Read and help us document common patterns over [at the wiki][wiki].
+* Is there a *bug* in the code? [File an issue][issue].
 
-**Contributions are [welcome][welcome]!**
+If a feature is missing (the Dart language is always evolving) or you'd like an
+easier or better way to do something, consider [opening a pull request][pull].
+You can always [file an issue][issue], but generally speaking feature requests
+will be on a best-effort basis.
 
-[welcome]: CONTRIBUTING.md
+[wiki]: https://github.com/dart-lang/code_builder/wiki
+[issue]: https://github.com/dart-lang/code_builder/issues
+[pull]: https://github.com/dart-lang/code_builder/pulls
 
 ## Usage
 
