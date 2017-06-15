@@ -14,7 +14,7 @@ void main() {
   });
 
   test('should emit an `is!` expression', () {
-    expect(reference('foo').isNotInstanceOf(_barType),
-        equalsSource('foo is! Bar'));
+    expect(reference('foo').isInstanceOf(_barType).negate(),
+        equalsSource('!(foo is Bar)'));
   });
 }

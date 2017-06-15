@@ -300,10 +300,6 @@ abstract class AbstractExpressionMixin implements ExpressionBuilder {
       new _IsInstanceOfExpression(this, type);
 
   @override
-  ExpressionBuilder isNotInstanceOf(TypeBuilder type) =>
-      new _IsNotInstanceOfExpression(this, type);
-
-  @override
   ExpressionBuilder negate() => new _NegateExpression(this);
 
   @override
@@ -458,9 +454,6 @@ abstract class ExpressionBuilder
 
   /// Returns as an [ExpressionBuilder] indicating whether this expression is an instance of [type], using the `is` operator.
   ExpressionBuilder isInstanceOf(TypeBuilder type);
-
-  /// Returns as an [ExpressionBuilder] indicating whether this expression is not an instance of [type], using the `is!` operator.
-  ExpressionBuilder isNotInstanceOf(TypeBuilder type);
 
   /// Returns as an [ExpressionBuilder] negating using the `!` operator.
   ExpressionBuilder negate();

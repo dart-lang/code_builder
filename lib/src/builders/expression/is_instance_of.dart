@@ -20,20 +20,3 @@ class _IsInstanceOfExpression extends AbstractExpressionMixin
         _expression.buildExpression(scope), $is, null, _type.buildType(scope));
   }
 }
-
-class _IsNotInstanceOfExpression extends AbstractExpressionMixin
-    with TopLevelMixin {
-  final ExpressionBuilder _expression;
-  final TypeBuilder _type;
-
-  _IsNotInstanceOfExpression(this._expression, this._type);
-
-  @override
-  AstNode buildAst([Scope scope]) => buildExpression(scope);
-
-  @override
-  Expression buildExpression([Scope scope]) {
-    return astFactory.isExpression(
-        _expression.buildExpression(scope), $is, $not, _type.buildType(scope));
-  }
-}
