@@ -115,6 +115,9 @@ final Token $implements = new KeywordToken(Keyword.IMPLEMENTS, 0);
 /// The `in` token.
 final Token $in = new KeywordToken(Keyword.IN, 0);
 
+/// The `is` token.
+final Token $is = new KeywordToken(Keyword.IS, 0);
+
 /// The `library` token.
 final Token $library = new KeywordToken(Keyword.LIBRARY, 0);
 
