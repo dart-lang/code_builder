@@ -1,10 +1,21 @@
+## 1.0.4
+
+* Added `isInstanceOf` to `ExpressionBuilder`, which performs an `is` check:
+
+```dart
+expect(
+  reference('foo').isInstanceOf(_barType), 
+  equalsSource('foo is Bar'),
+);
+```
+
 ## 1.0.3
 
 * Support latest `pkg/analyzer` and `pkg/func`.
 
 ## 1.0.2
 
-* update internals to use newer analyzer API
+* Update internals to use newer analyzer API
 
 ## 1.0.1
 
