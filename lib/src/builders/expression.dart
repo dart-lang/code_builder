@@ -26,6 +26,7 @@ part 'expression/cascade.dart';
 part 'expression/cast.dart';
 part 'expression/index.dart';
 part 'expression/invocation.dart';
+part 'expression/is_instance_of.dart';
 part 'expression/negate.dart';
 part 'expression/operators.dart';
 part 'expression/return.dart';
@@ -295,6 +296,10 @@ abstract class AbstractExpressionMixin implements ExpressionBuilder {
   }
 
   @override
+  ExpressionBuilder isInstanceOf(TypeBuilder type) =>
+      new _IsInstanceOfExpression(this, type);
+
+  @override
   ExpressionBuilder negate() => new _NegateExpression(this);
 
   @override
@@ -446,6 +451,9 @@ abstract class ExpressionBuilder
     Iterable<TypeBuilder> genericTypes,
     Map<String, ExpressionBuilder> namedArguments,
   });
+
+  /// Returns as an [ExpressionBuilder] indicating whether this expression is an instance of [type], using the `is` operator.
+  ExpressionBuilder isInstanceOf(TypeBuilder type);
 
   /// Returns as an [ExpressionBuilder] negating using the `!` operator.
   ExpressionBuilder negate();
