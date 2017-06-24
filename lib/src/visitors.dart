@@ -4,12 +4,15 @@
 
 import 'base.dart';
 import 'specs/class.dart';
+import 'specs/method.dart';
 import 'specs/type_reference.dart';
 
 abstract class SpecVisitor<T> {
   const SpecVisitor._();
 
   T visitClass(Class spec);
+
+  T visitMethod(Method spec);
 
   T visitSpec(Spec spec);
 
@@ -23,6 +26,9 @@ class SimpleSpecVisitor<T> implements SpecVisitor<T> {
 
   @override
   T visitClass(Class spec) => null;
+
+  @override
+  T visitMethod(Method spec) => null;
 
   @override
   T visitSpec(Spec spec) => spec.accept(this);

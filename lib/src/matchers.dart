@@ -8,8 +8,21 @@ import 'package:matcher/matcher.dart';
 import 'base.dart';
 import 'emitter.dart';
 
+final _formatter = new DartFormatter();
+
 /// Runs dartfmt.
-final _dartfmt = new DartFormatter().format;
+String _dartfmt(String source) {
+  try {
+    return _formatter.format(source);
+  } on FormatException catch (_) {
+    return _formatter.formatStatement(source);
+  } catch (_) {
+    return source
+        .replaceAll('  ', ' ')
+        .replaceAll('\n', '')
+        .trim();
+  }
+}
 
 /// Encodes [spec] as Dart source code.
 String _dart(Spec spec) =>
