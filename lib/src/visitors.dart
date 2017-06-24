@@ -4,6 +4,7 @@
 
 import 'base.dart';
 import 'specs/class.dart';
+import 'specs/type_reference.dart';
 
 abstract class SpecVisitor<T> {
   const SpecVisitor._();
@@ -11,6 +12,10 @@ abstract class SpecVisitor<T> {
   T visitClass(Class spec);
 
   T visitSpec(Spec spec);
+
+  T visitType(TypeReference spec);
+
+  T visitTypeParameters(Iterable<TypeReference> specs);
 }
 
 class SimpleSpecVisitor<T> implements SpecVisitor<T> {
@@ -21,6 +26,12 @@ class SimpleSpecVisitor<T> implements SpecVisitor<T> {
 
   @override
   T visitSpec(Spec spec) => spec.accept(this);
+
+  @override
+  T visitType(TypeReference spec) => null;
+
+  @override
+  T visitTypeParameters(Iterable<TypeReference> specs) => null;
 }
 
 class RecursiveSpecVisitor<T> extends SimpleSpecVisitor<T> {

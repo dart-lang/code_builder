@@ -12,7 +12,8 @@ import 'emitter.dart';
 final _dartfmt = new DartFormatter().format;
 
 /// Encodes [spec] as Dart source code.
-String _dart(Spec spec) => _dartfmt(spec.accept(const DartEmitter()));
+String _dart(Spec spec) =>
+    _dartfmt(spec.accept<StringSink>(const DartEmitter()).toString());
 
 /// Returns a matcher for Dart source code.
 Matcher equalsDart(String source) => new _EqualsDart(_dartfmt(source));

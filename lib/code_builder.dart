@@ -6,6 +6,8 @@ export 'src/base.dart' show Spec;
 export 'src/emitter.dart' show DartEmitter;
 export 'src/matchers.dart' show equalsDart;
 export 'src/specs/class.dart' show Class, ClassBuilder;
+export 'src/specs/reference.dart' show Reference;
+export 'src/specs/type_reference.dart' show TypeReference, TypeReferenceBuilder;
 export 'src/visitors.dart'
     show
         GeneralizingSpecVisitor,
