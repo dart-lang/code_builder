@@ -32,6 +32,12 @@ abstract class Method extends Object
   @override
   BuiltList<TypeReference> get types;
 
+  /// Optional parameters.
+  BuiltList<Parameter> get optionalParameters;
+
+  /// Required parameters.
+  BuiltList<Parameter> get requiredParameters;
+
   /// Body of the method.
   @nullable
   Code get body;
@@ -74,6 +80,12 @@ abstract class MethodBuilder extends Object
   @override
   ListBuilder<TypeReference> types = new ListBuilder<TypeReference>();
 
+  /// Optional parameters.
+  ListBuilder<Parameter> optionalParameters = new ListBuilder<Parameter>();
+
+  /// Required parameters.
+  ListBuilder<Parameter> requiredParameters = new ListBuilder<Parameter>();
+
   /// Body of the method.
   Code body;
 
@@ -87,4 +99,58 @@ abstract class MethodBuilder extends Object
   String name;
 
   TypeReference returns;
+}
+
+abstract class Parameter extends Object
+    with HasGenerics, HasDartDocs
+    implements Built<Parameter, ParameterBuilder> {
+  factory Parameter([void updates(ParameterBuilder b)]) = _$Parameter;
+
+  Parameter._();
+
+  /// If not `null`, a default assignment if the parameter is optional.
+  @nullable
+  Code get defaultTo;
+
+  /// Name of the parameter.
+  String get name;
+
+  /// Whether this parameter should be named, if optional.
+  bool get named;
+
+  @override
+  BuiltList<String> get docs;
+
+  @override
+  BuiltList<TypeReference> get types;
+
+  /// Type of the parameter;
+  @nullable
+  TypeReference get type;
+}
+
+abstract class ParameterBuilder extends Object
+    with HasGenericsBuilder, HasDartDocsBuilder
+    implements Builder<Parameter, ParameterBuilder> {
+  factory ParameterBuilder() = _$ParameterBuilder;
+
+  ParameterBuilder._();
+
+  /// If not `null`, a default assignment if the parameter is optional.
+  Code defaultTo;
+
+  /// Name of the parameter.
+  String name;
+
+  /// Whether this parameter should be named, if optional.
+  bool named = false;
+
+  @override
+  ListBuilder<String> docs = new ListBuilder<String>();
+
+  @override
+  ListBuilder<TypeReference> types = new ListBuilder<TypeReference>();
+
+  /// Type of the parameter;
+  TypeReference type;
 }

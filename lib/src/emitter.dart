@@ -66,7 +66,40 @@ class DartEmitter extends GeneralizingSpecVisitor<StringSink> {
     }
     output.write(spec.name);
     visitTypeParameters(spec.types, output);
-    output.write('()');
+    output.write('(');
+    if (spec.requiredParameters.isNotEmpty) {
+      var count = 0;
+      for (final p in spec.requiredParameters) {
+        count++;
+        _visitParameter(p, output);
+        if (spec.requiredParameters.length != count ||
+            spec.optionalParameters.isNotEmpty) {
+          output.write(', ');
+        }
+      }
+    }
+    if (spec.optionalParameters.isNotEmpty) {
+      final named = spec.optionalParameters.any((p) => p.named);
+      if (named) {
+        output.write('{');
+      } else {
+        output.write('[');
+      }
+      var count = 0;
+      for (final p in spec.optionalParameters) {
+        count++;
+        _visitParameter(p, output, optional: true, named: named);
+        if (spec.optionalParameters.length != count) {
+          output.write(', ');
+        }
+      }
+      if (named) {
+        output.write('}');
+      } else {
+        output.write(']');
+      }
+    }
+    output.write(')');
     if (spec.body != null) {
       if (spec.lambda) {
         output.write(' => ');
@@ -83,6 +116,28 @@ class DartEmitter extends GeneralizingSpecVisitor<StringSink> {
       output.write(';');
     }
     return output;
+  }
+
+  // Expose as a first-class visit function only if needed.
+  void _visitParameter(
+    Parameter spec,
+    StringSink output, {
+    bool optional: false,
+    bool named: false,
+  }) {
+    if (spec.type != null) {
+      visitType(spec.type, output);
+      output.write(' ');
+    }
+    output.write(spec.name);
+    if (optional && spec.defaultTo != null) {
+      if (spec.named) {
+        output.write(': ');
+      } else {
+        output.write(' = ');
+      }
+      visitCode(spec.defaultTo, output);
+    }
   }
 
   @override

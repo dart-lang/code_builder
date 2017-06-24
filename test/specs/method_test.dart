@@ -65,12 +65,16 @@ void main() {
 
   test('should create a lambda method', () {
     expect(
-      new Method((b) => b
-        ..name = 'foo'
-        ..lambda = true
-        ..body = new Code((b) => b.code = r'''
-          1 + 2
-        ''')),
+      new Method(
+        (b) => b
+          ..name = 'foo'
+          ..lambda = true
+          ..body = new Code(
+            (b) => b.code = r'''
+              1 + 2
+            ''',
+          ),
+      ),
       equalsDart(r'''
         foo() => 1 + 2;
       '''),
@@ -98,6 +102,170 @@ void main() {
         foo() {
           return new LinkedHashMap();
         }
+      '''),
+    );
+  });
+
+  test('should create a method with a paremter', () {
+    expect(
+      new Method(
+        (b) => b
+          ..name = 'fib'
+          ..requiredParameters.add(
+            new Parameter((b) => b.name = 'i'),
+          ),
+      ),
+      equalsDart(r'''
+        fib(i);
+      '''),
+    );
+  });
+
+  test('should create a method with a parameter with a type', () {
+    expect(
+      new Method(
+        (b) => b
+          ..name = 'fib'
+          ..requiredParameters.add(
+            new Parameter(
+              (b) => b
+                ..name = 'i'
+                ..type = const Reference.localScope('int').toType(),
+            ),
+          ),
+      ),
+      equalsDart(r'''
+        fib(int i);
+      '''),
+    );
+  });
+
+  test('should create a method with a parameter with a generic type', () {
+    expect(
+      new Method(
+        (b) => b
+          ..name = 'foo'
+          ..types.add(new TypeReference((b) => b
+            ..symbol = 'T'
+            ..bound = const Reference.localScope('Iterable').toType()))
+          ..requiredParameters.addAll([
+            new Parameter(
+              (b) => b
+                ..name = 't'
+                ..type = const Reference.localScope('T').toType(),
+            ),
+            new Parameter((b) => b
+              ..name = 'x'
+              ..type = new TypeReference((b) => b
+                ..symbol = 'X'
+                ..types.add(const Reference.localScope('T').toType()))),
+          ]),
+      ),
+      equalsDart(r'''
+        foo<T extends Iterable>(T t, X<T> x);
+      '''),
+    );
+  });
+
+  test('should create a method with an optional parameter', () {
+    expect(
+      new Method(
+        (b) => b
+          ..name = 'fib'
+          ..optionalParameters.add(
+            new Parameter((b) => b.name = 'i'),
+          ),
+      ),
+      equalsDart(r'''
+        fib([i]);
+      '''),
+    );
+  });
+
+  test('should create a method with multiple optional parameters', () {
+    expect(
+      new Method(
+        (b) => b
+          ..name = 'foo'
+          ..optionalParameters.addAll([
+            new Parameter((b) => b.name = 'a'),
+            new Parameter((b) => b.name = 'b'),
+          ]),
+      ),
+      equalsDart(r'''
+        foo([a, b]);
+      '''),
+    );
+  });
+
+  test('should create a method with an optional parameter with a value', () {
+    expect(
+      new Method(
+        (b) => b
+          ..name = 'fib'
+          ..optionalParameters.add(
+            new Parameter((b) => b
+              ..name = 'i'
+              ..defaultTo = new Code((b) => b.code = '0')),
+          ),
+      ),
+      equalsDart(r'''
+        fib([i = 0]);
+      '''),
+    );
+  });
+
+  test('should create a method with a named optional parameter', () {
+    expect(
+      new Method(
+        (b) => b
+          ..name = 'fib'
+          ..optionalParameters.add(
+            new Parameter((b) => b
+              ..named = true
+              ..name = 'i'),
+          ),
+      ),
+      equalsDart(r'''
+        fib({i});
+      '''),
+    );
+  });
+
+  test('should create a method with a named optional parameter with value', () {
+    expect(
+      new Method(
+        (b) => b
+          ..name = 'fib'
+          ..optionalParameters.add(
+            new Parameter((b) => b
+              ..named = true
+              ..name = 'i'
+              ..defaultTo = new Code((b) => b.code = '0')),
+          ),
+      ),
+      equalsDart(r'''
+        fib({i: 0});
+      '''),
+    );
+  });
+
+  test('should create a method with a mix of parameters', () {
+    expect(
+      new Method(
+        (b) => b
+          ..name = 'foo'
+          ..requiredParameters.add(
+            new Parameter((b) => b..name = 'a'),
+          )
+          ..optionalParameters.add(
+            new Parameter((b) => b
+              ..named = true
+              ..name = 'b'),
+          ),
+      ),
+      equalsDart(r'''
+        foo(a, {b});
       '''),
     );
   });

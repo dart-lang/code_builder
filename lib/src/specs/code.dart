@@ -35,5 +35,6 @@ abstract class CodeBuilder implements Builder<Code, CodeBuilder> {
 
   String code;
 
-  MapBuilder<String, Reference> references = new MapBuilder<String, Reference>();
+  MapBuilder<String, Reference> references =
+      new MapBuilder<String, Reference>();
 }

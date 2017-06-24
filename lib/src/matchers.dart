@@ -17,10 +17,7 @@ String _dartfmt(String source) {
   } on FormatException catch (_) {
     return _formatter.formatStatement(source);
   } catch (_) {
-    return source
-        .replaceAll('  ', ' ')
-        .replaceAll('\n', '')
-        .trim();
+    return source.replaceAll('  ', ' ').replaceAll('\n', '').trim();
   }
 }
 
