@@ -62,4 +62,43 @@ void main() {
       '''),
     );
   });
+
+  test('should create a lambda method', () {
+    expect(
+      new Method((b) => b
+        ..name = 'foo'
+        ..lambda = true
+        ..body = new Code((b) => b.code = r'''
+          1 + 2
+        ''')),
+      equalsDart(r'''
+        foo() => 1 + 2;
+      '''),
+    );
+  });
+
+  test('should create a method with a body with references', () {
+    final linkedHashMap = const Reference('LinkedHashMap', 'dart:collection');
+    expect(
+      new Method(
+        (b) => b
+          ..name = 'foo'
+          ..body = new Code(
+            (b) => b
+              // Just an example to make it clear this != an actual type.
+              //
+              // Can be used to do automatic import prefixing or rewrites.
+              ..references['LINKED_HASH_MAP'] = linkedHashMap
+              ..code = r'''
+                return new {{LINKED_HASH_MAP}}();
+              ''',
+          ),
+      ),
+      equalsDart(r'''
+        foo() {
+          return new LinkedHashMap();
+        }
+      '''),
+    );
+  });
 }

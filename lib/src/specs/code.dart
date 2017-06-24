@@ -5,10 +5,12 @@
 library code_builder.src.specs.code;
 
 import 'package:built_value/built_value.dart';
+import 'package:built_collection/built_collection.dart';
 import 'package:meta/meta.dart';
 
 import '../base.dart';
 import '../visitors.dart';
+import 'reference.dart';
 
 part 'code.g.dart';
 
@@ -20,6 +22,8 @@ abstract class Code implements Built<Code, CodeBuilder>, Spec {
 
   String get code;
 
+  BuiltMap<String, Reference> get references;
+
   @override
   R accept<R>(SpecVisitor<R> visitor) => visitor.visitCode(this);
 }
@@ -30,4 +34,6 @@ abstract class CodeBuilder implements Builder<Code, CodeBuilder> {
   CodeBuilder._();
 
   String code;
+
+  MapBuilder<String, Reference> references = new MapBuilder<String, Reference>();
 }

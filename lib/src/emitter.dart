@@ -5,6 +5,7 @@
 import 'specs/class.dart';
 import 'specs/code.dart';
 import 'specs/method.dart';
+import 'specs/reference.dart';
 import 'specs/type_reference.dart';
 import 'visitors.dart';
 
@@ -38,9 +39,19 @@ class DartEmitter extends GeneralizingSpecVisitor<StringSink> {
     return output;
   }
 
+  static final Pattern _refReplace = new RegExp(r'{{([^{}]*)}}');
+
   @override
   visitCode(Code spec, [StringSink output]) {
-    return (output ??= new StringBuffer())..write(spec.code);
+    output ??= new StringBuffer();
+    var code = spec.code;
+    if (spec.references.isNotEmpty) {
+      code = code.replaceAllMapped(_refReplace, (match) {
+        final symbol = spec.references[match.group(1)];
+        return visitReference(symbol).toString();
+      });
+    }
+    return output..write(code);
   }
 
   @override
@@ -57,9 +68,17 @@ class DartEmitter extends GeneralizingSpecVisitor<StringSink> {
     visitTypeParameters(spec.types, output);
     output.write('()');
     if (spec.body != null) {
-      output.write(' { ');
+      if (spec.lambda) {
+        output.write(' => ');
+      } else {
+        output.write(' { ');
+      }
       visitCode(spec.body, output);
-      output.write(' } ');
+      if (spec.lambda) {
+        output.write(';');
+      } else {
+        output.write(' } ');
+      }
     } else {
       output.write(';');
     }
@@ -67,8 +86,14 @@ class DartEmitter extends GeneralizingSpecVisitor<StringSink> {
   }
 
   @override
+  visitReference(Reference spec, [StringSink output]) {
+    return (output ??= new StringBuffer())..write(spec.symbol);
+  }
+
+  @override
   visitType(TypeReference spec, [StringSink output]) {
-    (output ??= new StringBuffer()).write(spec.symbol);
+    output ??= new StringBuffer();
+    visitReference(spec, output);
     if (spec.bound != null) {
       output.write(' extends ');
       visitType(spec.bound, output);

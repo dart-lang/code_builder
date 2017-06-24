@@ -17,6 +17,8 @@ class _$Method extends Method {
   @override
   final bool external;
   @override
+  final bool lambda;
+  @override
   final String name;
   @override
   final TypeReference returns;
@@ -29,12 +31,14 @@ class _$Method extends Method {
       this.types,
       this.body,
       this.external,
+      this.lambda,
       this.name,
       this.returns})
       : super._() {
     if (docs == null) throw new ArgumentError.notNull('docs');
     if (types == null) throw new ArgumentError.notNull('types');
     if (external == null) throw new ArgumentError.notNull('external');
+    if (lambda == null) throw new ArgumentError.notNull('lambda');
     if (name == null) throw new ArgumentError.notNull('name');
   }
 
@@ -53,6 +57,7 @@ class _$Method extends Method {
         types == other.types &&
         body == other.body &&
         external == other.external &&
+        lambda == other.lambda &&
         name == other.name &&
         returns == other.returns;
   }
@@ -61,8 +66,12 @@ class _$Method extends Method {
   int get hashCode {
     return $jf($jc(
         $jc(
-            $jc($jc($jc($jc(0, docs.hashCode), types.hashCode), body.hashCode),
-                external.hashCode),
+            $jc(
+                $jc(
+                    $jc($jc($jc(0, docs.hashCode), types.hashCode),
+                        body.hashCode),
+                    external.hashCode),
+                lambda.hashCode),
             name.hashCode),
         returns.hashCode));
   }
@@ -74,6 +83,7 @@ class _$Method extends Method {
           ..add('types', types)
           ..add('body', body)
           ..add('external', external)
+          ..add('lambda', lambda)
           ..add('name', name)
           ..add('returns', returns))
         .toString();
@@ -132,6 +142,18 @@ class _$MethodBuilder extends MethodBuilder {
   }
 
   @override
+  bool get lambda {
+    _$this;
+    return super.lambda;
+  }
+
+  @override
+  set lambda(bool lambda) {
+    _$this;
+    super.lambda = lambda;
+  }
+
+  @override
   String get name {
     _$this;
     return super.name;
@@ -163,6 +185,7 @@ class _$MethodBuilder extends MethodBuilder {
       super.types = _$v.types?.toBuilder();
       super.body = _$v.body;
       super.external = _$v.external;
+      super.lambda = _$v.lambda;
       super.name = _$v.name;
       super.returns = _$v.returns;
       _$v = null;
@@ -189,6 +212,7 @@ class _$MethodBuilder extends MethodBuilder {
             types: types?.build(),
             body: body,
             external: external,
+            lambda: lambda,
             name: name,
             returns: returns);
     replace(result);

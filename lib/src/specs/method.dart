@@ -39,6 +39,9 @@ abstract class Method extends Object
   /// Whether the method should be prefixed with `external`.
   bool get external;
 
+  /// Whether this method is a simple lambda expression.
+  bool get lambda;
+
   /// Name of the method or function.
   String get name;
 
@@ -76,6 +79,9 @@ abstract class MethodBuilder extends Object
 
   /// Whether the method should be prefixed with `external`.
   bool external = false;
+
+  /// Whether this method is a simple lambda expression.
+  bool lambda = false;
 
   /// Name of the method or function.
   String name;
