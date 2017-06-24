@@ -6,36 +6,25 @@ import 'package:code_builder/code_builder.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test('should build a class', () {
+  test('should build an enum', () {
     expect(
       specToDart(
-        classBuilder('Foo').build(),
+        enumBuilder('Foo').build(),
       ),
       equalsIgnoringWhitespace(r'''
-        class Foo {}
+        enum Foo {}
       '''),
     );
   });
 
-  test('should build an abstract class', () {
+  test('should build an enum with dartdoc', () {
     expect(
       specToDart(
-        classBuilder('Foo', isAbstract: true).build(),
+        (enumBuilder('Foo')..addDartDoc('/// My favorite enum.')).build(),
       ),
       equalsIgnoringWhitespace(r'''
-        abstract class Foo {}
-      '''),
-    );
-  });
-
-  test('should build a class with dartdoc', () {
-    expect(
-      specToDart(
-        (classBuilder('Foo')..addDartDoc('/// My favorite class.')).build(),
-      ),
-      equalsIgnoringWhitespace(r'''
-        /// My favorite class.
-        class Foo {}
+        /// My favorite enum.
+        enum Foo {}
       '''),
     );
   });

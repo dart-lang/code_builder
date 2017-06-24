@@ -5,4 +5,5 @@
 export 'src/base.dart' show Spec, SpecBuilder;
 export 'src/emitter.dart' show DartEmitter, specToDart;
 export 'src/specs/class.dart' show ClassSpec, ClassSpecBuilder, classBuilder;
+export 'src/specs/enum.dart' show EnumSpec, EnumSpecBuilder, enumBuilder;
 export 'src/visitor.dart' show SpecVisitor;

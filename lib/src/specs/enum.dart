@@ -9,41 +9,35 @@ import '../mixins/dartdoc.dart';
 import '../utils/assert.dart';
 import '../visitor.dart';
 
-/// A generated class definition.
+/// A generated enum definition.
 @immutable
-class ClassSpec extends Spec with DartDocMixin {
-  final bool isAbstract;
+class EnumSpec extends Spec with DartDocMixin {
   @override
   final String dartDoc;
   final String name;
 
-  ClassSpec._({
-    @required this.isAbstract,
+  EnumSpec._({
     @required this.dartDoc,
     @required this.name,
   });
 
   @override
-  R accept<R>(SpecVisitor<R> visitor) => visitor.visitClass(this);
+  R accept<R>(SpecVisitor<R> visitor) => visitor.visitEnum(this);
 }
 
-ClassSpecBuilder classBuilder(String name, {bool isAbstract: false}) =>
-    new ClassSpecBuilder._(
+EnumSpecBuilder enumBuilder(String name) => new EnumSpecBuilder._(
       notNull(name, 'name'),
-      isAbstract,
     );
 
 @immutable
-class ClassSpecBuilder extends SpecBuilder<ClassSpec> with DartDocBuilderMixin {
-  final bool _abstract;
+class EnumSpecBuilder extends SpecBuilder<EnumSpec> with DartDocBuilderMixin {
   final String _name;
 
-  ClassSpecBuilder._(this._name, this._abstract);
+  EnumSpecBuilder._(this._name);
 
   @override
-  ClassSpec build() => new ClassSpec._(
+  EnumSpec build() => new EnumSpec._(
         name: _name,
         dartDoc: dartDoc.toString(),
-        isAbstract: _abstract,
       );
 }

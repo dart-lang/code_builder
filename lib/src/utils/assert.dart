@@ -21,10 +21,16 @@ bool assertionsEnabled() {
 /// }
 /// ```
 T notNull<T>(T input, [String name]) {
-  if (assertionsEnabled()) {
-    if (input == null) {
-      throw new ArgumentError.notNull(name);
-    }
+  if (assertionsEnabled() && input == null) {
+    throw new ArgumentError.notNull(name);
+  }
+  return input;
+}
+
+/// Returns [input], checking for it starting with [prefix].
+String startsWith(String input, String prefix, [String name]) {
+  if (assertionsEnabled() && !notNull(input, name).startsWith(prefix)) {
+    throw new FormatException('Expected to start with $prefix', input, 0);
   }
   return input;
 }
