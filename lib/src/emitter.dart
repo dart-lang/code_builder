@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'specs/class.dart';
+import 'specs/code.dart';
 import 'specs/method.dart';
 import 'specs/type_reference.dart';
 import 'visitors.dart';
@@ -38,6 +39,11 @@ class DartEmitter extends GeneralizingSpecVisitor<StringSink> {
   }
 
   @override
+  visitCode(Code spec, [StringSink output]) {
+    return (output ??= new StringBuffer())..write(spec.code);
+  }
+
+  @override
   visitMethod(Method spec, [StringSink output]) {
     output ??= new StringBuffer();
     if (spec.external) {
@@ -49,7 +55,14 @@ class DartEmitter extends GeneralizingSpecVisitor<StringSink> {
     }
     output.write(spec.name);
     visitTypeParameters(spec.types, output);
-    output.write('();');
+    output.write('()');
+    if (spec.body != null) {
+      output.write(' { ');
+      visitCode(spec.body, output);
+      output.write(' } ');
+    } else {
+      output.write(';');
+    }
     return output;
   }
 

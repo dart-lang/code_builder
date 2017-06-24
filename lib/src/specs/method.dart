@@ -12,6 +12,7 @@ import '../base.dart';
 import '../mixins/dartdoc.dart';
 import '../mixins/generics.dart';
 import '../visitors.dart';
+import 'code.dart';
 import 'reference.dart';
 import 'type_reference.dart';
 
@@ -30,6 +31,10 @@ abstract class Method extends Object
 
   @override
   BuiltList<TypeReference> get types;
+
+  /// Body of the method.
+  @nullable
+  Code get body;
 
   /// Whether the method should be prefixed with `external`.
   bool get external;
@@ -65,6 +70,9 @@ abstract class MethodBuilder extends Object
 
   @override
   ListBuilder<TypeReference> types = new ListBuilder<TypeReference>();
+
+  /// Body of the method.
+  Code body;
 
   /// Whether the method should be prefixed with `external`.
   bool external = false;

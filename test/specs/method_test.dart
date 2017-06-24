@@ -47,4 +47,19 @@ void main() {
       '''),
     );
   });
+
+  test('should create a method with a body', () {
+    expect(
+      new Method((b) => b
+        ..name = 'foo'
+        ..body = new Code((b) => b.code = r'''
+          return 1 + 2;
+        ''')),
+      equalsDart(r'''
+        foo() {
+          return 1 + 2;
+        }
+      '''),
+    );
+  });
 }

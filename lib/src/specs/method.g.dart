@@ -13,6 +13,8 @@ class _$Method extends Method {
   @override
   final BuiltList<TypeReference> types;
   @override
+  final Code body;
+  @override
   final bool external;
   @override
   final String name;
@@ -22,7 +24,13 @@ class _$Method extends Method {
   factory _$Method([void updates(MethodBuilder b)]) =>
       (new MethodBuilder()..update(updates)).build() as _$Method;
 
-  _$Method._({this.docs, this.types, this.external, this.name, this.returns})
+  _$Method._(
+      {this.docs,
+      this.types,
+      this.body,
+      this.external,
+      this.name,
+      this.returns})
       : super._() {
     if (docs == null) throw new ArgumentError.notNull('docs');
     if (types == null) throw new ArgumentError.notNull('types');
@@ -43,6 +51,7 @@ class _$Method extends Method {
     if (other is! Method) return false;
     return docs == other.docs &&
         types == other.types &&
+        body == other.body &&
         external == other.external &&
         name == other.name &&
         returns == other.returns;
@@ -51,7 +60,9 @@ class _$Method extends Method {
   @override
   int get hashCode {
     return $jf($jc(
-        $jc($jc($jc($jc(0, docs.hashCode), types.hashCode), external.hashCode),
+        $jc(
+            $jc($jc($jc($jc(0, docs.hashCode), types.hashCode), body.hashCode),
+                external.hashCode),
             name.hashCode),
         returns.hashCode));
   }
@@ -61,6 +72,7 @@ class _$Method extends Method {
     return (newBuiltValueToStringHelper('Method')
           ..add('docs', docs)
           ..add('types', types)
+          ..add('body', body)
           ..add('external', external)
           ..add('name', name)
           ..add('returns', returns))
@@ -93,6 +105,18 @@ class _$MethodBuilder extends MethodBuilder {
   set types(ListBuilder<TypeReference> types) {
     _$this;
     super.types = types;
+  }
+
+  @override
+  Code get body {
+    _$this;
+    return super.body;
+  }
+
+  @override
+  set body(Code body) {
+    _$this;
+    super.body = body;
   }
 
   @override
@@ -137,6 +161,7 @@ class _$MethodBuilder extends MethodBuilder {
     if (_$v != null) {
       super.docs = _$v.docs?.toBuilder();
       super.types = _$v.types?.toBuilder();
+      super.body = _$v.body;
       super.external = _$v.external;
       super.name = _$v.name;
       super.returns = _$v.returns;
@@ -162,6 +187,7 @@ class _$MethodBuilder extends MethodBuilder {
         new _$Method._(
             docs: docs?.build(),
             types: types?.build(),
+            body: body,
             external: external,
             name: name,
             returns: returns);
