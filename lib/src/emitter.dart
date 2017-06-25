@@ -49,6 +49,8 @@ class DartEmitter extends GeneralizingSpecVisitor<StringSink> {
     }
     output.write(' {');
     spec.constructors.forEach((c) => visitConstructor(c, spec.name, output));
+    spec.fields.forEach((f) => visitField(f, output));
+    spec.methods.forEach((m) => visitMethod(m, output));
     output.write(' }');
     return output;
   }

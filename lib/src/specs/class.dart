@@ -15,6 +15,7 @@ import '../mixins/generics.dart';
 import '../visitors.dart';
 import 'annotation.dart';
 import 'constructor.dart';
+import 'field.dart';
 import 'method.dart';
 import 'type_reference.dart';
 
@@ -48,6 +49,8 @@ abstract class Class extends Object
   BuiltList<TypeReference> get types;
 
   BuiltList<Constructor> get constructors;
+  BuiltList<Method> get methods;
+  BuiltList<Field> get fields;
 
   /// Name of the class.
   String get name;
@@ -94,6 +97,7 @@ abstract class ClassBuilder extends Object
 
   ListBuilder<Constructor> constructors = new ListBuilder<Constructor>();
   ListBuilder<Method> methods = new ListBuilder<Method>();
+  ListBuilder<Field> fields = new ListBuilder<Field>();
 
   /// Name of the class.
   String name;

@@ -25,6 +25,10 @@ class _$Class extends Class {
   @override
   final BuiltList<Constructor> constructors;
   @override
+  final BuiltList<Method> methods;
+  @override
+  final BuiltList<Field> fields;
+  @override
   final String name;
 
   factory _$Class([void updates(ClassBuilder b)]) =>
@@ -39,6 +43,8 @@ class _$Class extends Class {
       this.mixins,
       this.types,
       this.constructors,
+      this.methods,
+      this.fields,
       this.name})
       : super._() {
     if (abstract == null) throw new ArgumentError.notNull('abstract');
@@ -48,6 +54,8 @@ class _$Class extends Class {
     if (mixins == null) throw new ArgumentError.notNull('mixins');
     if (types == null) throw new ArgumentError.notNull('types');
     if (constructors == null) throw new ArgumentError.notNull('constructors');
+    if (methods == null) throw new ArgumentError.notNull('methods');
+    if (fields == null) throw new ArgumentError.notNull('fields');
     if (name == null) throw new ArgumentError.notNull('name');
   }
 
@@ -70,6 +78,8 @@ class _$Class extends Class {
         mixins == other.mixins &&
         types == other.types &&
         constructors == other.constructors &&
+        methods == other.methods &&
+        fields == other.fields &&
         name == other.name;
   }
 
@@ -82,14 +92,18 @@ class _$Class extends Class {
                     $jc(
                         $jc(
                             $jc(
-                                $jc($jc(0, abstract.hashCode),
-                                    annotations.hashCode),
-                                docs.hashCode),
-                            extend.hashCode),
-                        implements.hashCode),
-                    mixins.hashCode),
-                types.hashCode),
-            constructors.hashCode),
+                                $jc(
+                                    $jc(
+                                        $jc($jc(0, abstract.hashCode),
+                                            annotations.hashCode),
+                                        docs.hashCode),
+                                    extend.hashCode),
+                                implements.hashCode),
+                            mixins.hashCode),
+                        types.hashCode),
+                    constructors.hashCode),
+                methods.hashCode),
+            fields.hashCode),
         name.hashCode));
   }
 
@@ -104,6 +118,8 @@ class _$Class extends Class {
           ..add('mixins', mixins)
           ..add('types', types)
           ..add('constructors', constructors)
+          ..add('methods', methods)
+          ..add('fields', fields)
           ..add('name', name))
         .toString();
   }
@@ -209,6 +225,30 @@ class _$ClassBuilder extends ClassBuilder {
   }
 
   @override
+  ListBuilder<Method> get methods {
+    _$this;
+    return super.methods ??= new ListBuilder<Method>();
+  }
+
+  @override
+  set methods(ListBuilder<Method> methods) {
+    _$this;
+    super.methods = methods;
+  }
+
+  @override
+  ListBuilder<Field> get fields {
+    _$this;
+    return super.fields ??= new ListBuilder<Field>();
+  }
+
+  @override
+  set fields(ListBuilder<Field> fields) {
+    _$this;
+    super.fields = fields;
+  }
+
+  @override
   String get name {
     _$this;
     return super.name;
@@ -232,6 +272,8 @@ class _$ClassBuilder extends ClassBuilder {
       super.mixins = _$v.mixins?.toBuilder();
       super.types = _$v.types?.toBuilder();
       super.constructors = _$v.constructors?.toBuilder();
+      super.methods = _$v.methods?.toBuilder();
+      super.fields = _$v.fields?.toBuilder();
       super.name = _$v.name;
       _$v = null;
     }
@@ -261,6 +303,8 @@ class _$ClassBuilder extends ClassBuilder {
             mixins: mixins?.build(),
             types: types?.build(),
             constructors: constructors?.build(),
+            methods: methods?.build(),
+            fields: fields?.build(),
             name: name);
     replace(result);
     return result;
