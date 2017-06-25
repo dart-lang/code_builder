@@ -9,6 +9,7 @@ export 'src/specs/annotation.dart' show Annotation, AnnotationBuilder;
 export 'src/specs/class.dart' show Class, ClassBuilder;
 export 'src/specs/code.dart' show Code, CodeBuilder;
 export 'src/specs/constructor.dart' show Constructor, ConstructorBuilder;
+export 'src/specs/field.dart' show Field, FieldBuilder, FieldModifier;
 export 'src/specs/method.dart'
     show Method, MethodBuilder, MethodType, Parameter, ParameterBuilder;
 export 'src/specs/reference.dart' show Reference;

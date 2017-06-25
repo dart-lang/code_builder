@@ -37,6 +37,9 @@ abstract class Constructor extends Object
   /// Required parameters.
   BuiltList<Parameter> get requiredParameters;
 
+  /// Constructor initializer statements.
+  BuiltList<Code> get initializers;
+
   /// Body of the method.
   @nullable
   Code get body;
@@ -80,6 +83,9 @@ abstract class ConstructorBuilder extends Object
 
   /// Required parameters.
   ListBuilder<Parameter> requiredParameters = new ListBuilder<Parameter>();
+
+  /// Constructor initializer statements.
+  ListBuilder<Code> initializers = new ListBuilder<Code>();
 
   /// Body of the constructor.
   Code body;

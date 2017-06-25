@@ -7,6 +7,7 @@ import 'specs/annotation.dart';
 import 'specs/class.dart';
 import 'specs/code.dart';
 import 'specs/constructor.dart';
+import 'specs/field.dart';
 import 'specs/method.dart';
 import 'specs/reference.dart';
 import 'specs/type_reference.dart';
@@ -21,6 +22,8 @@ abstract class SpecVisitor<T> {
   T visitCode(Code spec);
 
   T visitConstructor(Constructor spec, String clazz);
+
+  T visitField(Field spec);
 
   T visitMethod(Method spec);
 
@@ -47,6 +50,9 @@ class SimpleSpecVisitor<T> implements SpecVisitor<T> {
 
   @override
   T visitCode(Code spec) => null;
+
+  @override
+  T visitField(Field spec) => null;
 
   @override
   T visitMethod(Method spec) => null;

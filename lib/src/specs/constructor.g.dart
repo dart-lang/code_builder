@@ -17,6 +17,8 @@ class _$Constructor extends Constructor {
   @override
   final BuiltList<Parameter> requiredParameters;
   @override
+  final BuiltList<Code> initializers;
+  @override
   final Code body;
   @override
   final bool external;
@@ -39,6 +41,7 @@ class _$Constructor extends Constructor {
       this.docs,
       this.optionalParameters,
       this.requiredParameters,
+      this.initializers,
       this.body,
       this.external,
       this.constant,
@@ -53,6 +56,7 @@ class _$Constructor extends Constructor {
       throw new ArgumentError.notNull('optionalParameters');
     if (requiredParameters == null)
       throw new ArgumentError.notNull('requiredParameters');
+    if (initializers == null) throw new ArgumentError.notNull('initializers');
     if (external == null) throw new ArgumentError.notNull('external');
     if (constant == null) throw new ArgumentError.notNull('constant');
     if (factory == null) throw new ArgumentError.notNull('factory');
@@ -74,6 +78,7 @@ class _$Constructor extends Constructor {
         docs == other.docs &&
         optionalParameters == other.optionalParameters &&
         requiredParameters == other.requiredParameters &&
+        initializers == other.initializers &&
         body == other.body &&
         external == other.external &&
         constant == other.constant &&
@@ -94,10 +99,12 @@ class _$Constructor extends Constructor {
                             $jc(
                                 $jc(
                                     $jc(
-                                        $jc($jc(0, annotations.hashCode),
-                                            docs.hashCode),
-                                        optionalParameters.hashCode),
-                                    requiredParameters.hashCode),
+                                        $jc(
+                                            $jc($jc(0, annotations.hashCode),
+                                                docs.hashCode),
+                                            optionalParameters.hashCode),
+                                        requiredParameters.hashCode),
+                                    initializers.hashCode),
                                 body.hashCode),
                             external.hashCode),
                         constant.hashCode),
@@ -114,6 +121,7 @@ class _$Constructor extends Constructor {
           ..add('docs', docs)
           ..add('optionalParameters', optionalParameters)
           ..add('requiredParameters', requiredParameters)
+          ..add('initializers', initializers)
           ..add('body', body)
           ..add('external', external)
           ..add('constant', constant)
@@ -174,6 +182,18 @@ class _$ConstructorBuilder extends ConstructorBuilder {
   set requiredParameters(ListBuilder<Parameter> requiredParameters) {
     _$this;
     super.requiredParameters = requiredParameters;
+  }
+
+  @override
+  ListBuilder<Code> get initializers {
+    _$this;
+    return super.initializers ??= new ListBuilder<Code>();
+  }
+
+  @override
+  set initializers(ListBuilder<Code> initializers) {
+    _$this;
+    super.initializers = initializers;
   }
 
   @override
@@ -268,6 +288,7 @@ class _$ConstructorBuilder extends ConstructorBuilder {
       super.docs = _$v.docs?.toBuilder();
       super.optionalParameters = _$v.optionalParameters?.toBuilder();
       super.requiredParameters = _$v.requiredParameters?.toBuilder();
+      super.initializers = _$v.initializers?.toBuilder();
       super.body = _$v.body;
       super.external = _$v.external;
       super.constant = _$v.constant;
@@ -299,6 +320,7 @@ class _$ConstructorBuilder extends ConstructorBuilder {
             docs: docs?.build(),
             optionalParameters: optionalParameters?.build(),
             requiredParameters: requiredParameters?.build(),
+            initializers: initializers?.build(),
             body: body,
             external: external,
             constant: constant,

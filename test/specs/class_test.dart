@@ -160,6 +160,29 @@ void main() {
     );
   });
 
+  test('should create a class with a constructor with initializers', () {
+    expect(
+      new Class(
+        (b) => b
+          ..name = 'Foo'
+          ..constructors.add(
+            new Constructor(
+              (b) => b
+                ..initializers.addAll([
+                  new Code((b) => b.code = 'a = 5'),
+                  new Code((b) => b.code = 'super()'),
+                ]),
+            ),
+          ),
+      ),
+      equalsDart(r'''
+        class Foo {
+          Foo() : a = 5, super();
+        }
+      '''),
+    );
+  });
+
   test('should create a class with a constructor with an annotation', () {
     expect(
       new Class((b) => b
@@ -280,6 +303,33 @@ void main() {
       equalsDart(r'''
         class Foo {
           Foo(a, b, {c});
+        }
+      '''),
+    );
+  });
+
+  test('should create a class with a constructor+field-formal parameters', () {
+    expect(
+      new Class((b) => b
+        ..name = 'Foo'
+        ..constructors.add(new Constructor((b) => b
+          ..requiredParameters.addAll([
+            new Parameter((b) => b
+              ..name = 'a'
+              ..toThis = true),
+            new Parameter((b) => b
+              ..name = 'b'
+              ..toThis = true),
+          ])
+          ..optionalParameters.addAll([
+            new Parameter((b) => b
+              ..name = 'c'
+              ..named = true
+              ..toThis = true),
+          ])))),
+      equalsDart(r'''
+        class Foo {
+          Foo(this.a, this.b, {this.c});
         }
       '''),
     );

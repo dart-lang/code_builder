@@ -6,6 +6,7 @@ import 'specs/annotation.dart';
 import 'specs/class.dart';
 import 'specs/code.dart';
 import 'specs/constructor.dart';
+import 'specs/field.dart';
 import 'specs/method.dart';
 import 'specs/reference.dart';
 import 'specs/type_reference.dart';
@@ -104,6 +105,17 @@ class DartEmitter extends GeneralizingSpecVisitor<StringSink> {
       }
     }
     output.write(')');
+    if (spec.initializers.isNotEmpty) {
+      output.write(' : ');
+      var count = 0;
+      for (final initializer in spec.initializers) {
+        count++;
+        visitCode(initializer, output);
+        if (count != spec.initializers.length) {
+          output.write(', ');
+        }
+      }
+    }
     if (spec.redirect != null) {
       output.write(' = ');
       visitType(spec.redirect.toType(), output);
@@ -138,6 +150,40 @@ class DartEmitter extends GeneralizingSpecVisitor<StringSink> {
       });
     }
     return output..write(code);
+  }
+
+  @override
+  visitField(Field spec, [StringSink output]) {
+    output ??= new StringBuffer();
+    spec.docs.forEach(output.writeln);
+    spec.annotations.forEach((a) => visitAnnotation(a, output));
+    if (spec.static) {
+      output.write('static ');
+    }
+    switch (spec.modifier) {
+      case FieldModifier.var$:
+        if (spec.type == null) {
+          output.write('var ');
+        }
+        break;
+      case FieldModifier.final$:
+        output.write('final ');
+        break;
+      case FieldModifier.constant:
+        output.write('const ');
+        break;
+    }
+    if (spec.type != null) {
+      visitType(spec.type, output);
+      output.write(' ');
+    }
+    output.write(spec.name);
+    if (spec.assignment != null) {
+      output.write(' = ');
+      visitCode(spec.assignment, output);
+    }
+    output.write(';');
+    return output;
   }
 
   @override
@@ -228,6 +274,9 @@ class DartEmitter extends GeneralizingSpecVisitor<StringSink> {
     if (spec.type != null) {
       visitType(spec.type, output);
       output.write(' ');
+    }
+    if (spec.toThis) {
+      output.write('this.');
     }
     output.write(spec.name);
     if (optional && spec.defaultTo != null) {
