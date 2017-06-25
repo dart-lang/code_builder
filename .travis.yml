@@ -1,7 +1,28 @@
 language: dart
-
 dart:
-  - 1.22.0
+  - dev
   - stable
+cache:
+  directories:
+    - $HOME/.pub-cache
 
-script: ./tool/presubmit.sh
+branches:
+  only: [master, v2]
+
+# Check for analysis issues, run the test cases, and ensure `dartfmt` is run.
+dart_task:
+  - test: --platform vm
+  - dartanalyzer
+  - dartfmt
+
+# The Dart language is constantly being worked on, and sometimes the dev and
+# stable builds don't agree on what is considered formatted or what is analysis
+# warning free (though this does not effect _using_ the library, likely).
+#
+# We exclude `dev` from analysis and formatting checks.
+matrix:
+  allow_failure:
+    - dart: dev
+      dart_task: dartfmt
+    - dart: dev
+      dart_task: dartanalyzer
