@@ -48,8 +48,17 @@ abstract class Method extends Object
   /// Whether this method is a simple lambda expression.
   bool get lambda;
 
+  /// Whether this method should be prefixed with `static`.
+  ///
+  /// This is only valid within classes.
+  bool get static;
+
   /// Name of the method or function.
   String get name;
+
+  /// Whether this is a getter or setter.
+  @nullable
+  MethodType get type;
 
   @nullable
   TypeReference get returns;
@@ -95,10 +104,23 @@ abstract class MethodBuilder extends Object
   /// Whether this method is a simple lambda expression.
   bool lambda = false;
 
+  /// Whether this method should be prefixed with `static`.
+  ///
+  /// This is only valid within classes.
+  bool static = false;
+
   /// Name of the method or function.
   String name;
 
+  /// Whether this is a getter or setter.
+  MethodType type;
+
   TypeReference returns;
+}
+
+enum MethodType {
+  getter,
+  setter,
 }
 
 abstract class Parameter extends Object
@@ -117,6 +139,11 @@ abstract class Parameter extends Object
 
   /// Whether this parameter should be named, if optional.
   bool get named;
+
+  /// Whether this parameter should be field formal (i.e. `this.`).
+  ///
+  /// This is only valid on constructors;
+  bool get toThis;
 
   @override
   BuiltList<String> get docs;
@@ -144,6 +171,11 @@ abstract class ParameterBuilder extends Object
 
   /// Whether this parameter should be named, if optional.
   bool named = false;
+
+  /// Whether this parameter should be field formal (i.e. `this.`).
+  ///
+  /// This is only valid on constructors;
+  bool toThis = false;
 
   @override
   ListBuilder<String> docs = new ListBuilder<String>();

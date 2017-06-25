@@ -120,4 +120,126 @@ void main() {
       '''),
     );
   });
+
+  test('should create a class with a constructor', () {
+    expect(
+      new Class((b) => b
+        ..name = 'Foo'
+        ..constructors.add(new Constructor())),
+      equalsDart(r'''
+        class Foo {
+          Foo();
+        }
+      '''),
+    );
+  });
+
+  test('should create a class with a named constructor', () {
+    expect(
+      new Class((b) => b
+        ..name = 'Foo'
+        ..constructors.add(new Constructor((b) => b..name = 'named'))),
+      equalsDart(r'''
+        class Foo {
+          Foo.named();
+        }
+      '''),
+    );
+  });
+
+  test('should create a class with a const constructor', () {
+    expect(
+      new Class((b) => b
+        ..name = 'Foo'
+        ..constructors.add(new Constructor((b) => b..constant = true))),
+      equalsDart(r'''
+        class Foo {
+          const Foo();
+        }
+      '''),
+    );
+  });
+
+  test('should create a class with an external constructor', () {
+    expect(
+      new Class((b) => b
+        ..name = 'Foo'
+        ..constructors.add(new Constructor((b) => b..external = true))),
+      equalsDart(r'''
+        class Foo {
+          external Foo();
+        }
+      '''),
+    );
+  });
+
+  test('should create a class with a factory constructor', () {
+    expect(
+      new Class((b) => b
+        ..name = 'Foo'
+        ..constructors.add(new Constructor((b) => b
+          ..factory = true
+          ..redirect = const Reference.localScope('_Foo')))),
+      equalsDart(r'''
+        class Foo {
+          factory Foo() = _Foo;
+        }
+      '''),
+    );
+  });
+
+  test('should create a class with a factory lambda constructor', () {
+    expect(
+      new Class((b) => b
+        ..name = 'Foo'
+        ..constructors.add(new Constructor((b) => b
+          ..factory = true
+          ..lambda = true
+          ..body = new Code((b) => b..code = 'new _Foo()')))),
+      equalsDart(r'''
+        class Foo {
+          factory Foo() => new _Foo();
+        }
+      '''),
+    );
+  });
+
+  test('should create a class with a constructor with a body', () {
+    expect(
+      new Class((b) => b
+        ..name = 'Foo'
+        ..constructors.add(new Constructor((b) => b
+          ..factory = true
+          ..body = new Code((b) => b..code = 'return new _Foo();')))),
+      equalsDart(r'''
+        class Foo {
+          factory Foo() {
+            return new _Foo();
+          }
+        }
+      '''),
+    );
+  });
+
+  test('should create a class with method parameters', () {
+    expect(
+      new Class((b) => b
+        ..name = 'Foo'
+        ..constructors.add(new Constructor((b) => b
+          ..requiredParameters.addAll([
+            new Parameter((b) => b..name = 'a'),
+            new Parameter((b) => b..name = 'b'),
+          ])
+          ..optionalParameters.addAll([
+            new Parameter((b) => b
+              ..name = 'c'
+              ..named = true),
+          ])))),
+      equalsDart(r'''
+        class Foo {
+          Foo(a, b, {c});
+        }
+      '''),
+    );
+  });
 }

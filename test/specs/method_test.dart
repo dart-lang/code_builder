@@ -15,6 +15,31 @@ void main() {
     );
   });
 
+  test('should create a getter', () {
+    expect(
+      new Method((b) => b
+        ..name = 'foo'
+        ..external = true
+        ..type = MethodType.getter),
+      equalsDart(r'''
+        external get foo;
+      '''),
+    );
+  });
+
+  test('should create a setter', () {
+    expect(
+      new Method((b) => b
+        ..name = 'foo'
+        ..external = true
+        ..requiredParameters.add((new Parameter((b) => b..name = 'foo')))
+        ..type = MethodType.setter),
+      equalsDart(r'''
+        external set foo(foo);
+      '''),
+    );
+  });
+
   test('should create a method with a return type', () {
     expect(
       new Method((b) => b

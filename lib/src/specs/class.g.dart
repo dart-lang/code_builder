@@ -21,6 +21,8 @@ class _$Class extends Class {
   @override
   final BuiltList<TypeReference> types;
   @override
+  final BuiltList<Constructor> constructors;
+  @override
   final String name;
 
   factory _$Class([void updates(ClassBuilder b)]) =>
@@ -33,6 +35,7 @@ class _$Class extends Class {
       this.implements,
       this.mixins,
       this.types,
+      this.constructors,
       this.name})
       : super._() {
     if (abstract == null) throw new ArgumentError.notNull('abstract');
@@ -40,6 +43,7 @@ class _$Class extends Class {
     if (implements == null) throw new ArgumentError.notNull('implements');
     if (mixins == null) throw new ArgumentError.notNull('mixins');
     if (types == null) throw new ArgumentError.notNull('types');
+    if (constructors == null) throw new ArgumentError.notNull('constructors');
     if (name == null) throw new ArgumentError.notNull('name');
   }
 
@@ -60,6 +64,7 @@ class _$Class extends Class {
         implements == other.implements &&
         mixins == other.mixins &&
         types == other.types &&
+        constructors == other.constructors &&
         name == other.name;
   }
 
@@ -69,11 +74,13 @@ class _$Class extends Class {
         $jc(
             $jc(
                 $jc(
-                    $jc($jc($jc(0, abstract.hashCode), docs.hashCode),
-                        extend.hashCode),
-                    implements.hashCode),
-                mixins.hashCode),
-            types.hashCode),
+                    $jc(
+                        $jc($jc($jc(0, abstract.hashCode), docs.hashCode),
+                            extend.hashCode),
+                        implements.hashCode),
+                    mixins.hashCode),
+                types.hashCode),
+            constructors.hashCode),
         name.hashCode));
   }
 
@@ -86,6 +93,7 @@ class _$Class extends Class {
           ..add('implements', implements)
           ..add('mixins', mixins)
           ..add('types', types)
+          ..add('constructors', constructors)
           ..add('name', name))
         .toString();
   }
@@ -167,6 +175,18 @@ class _$ClassBuilder extends ClassBuilder {
   }
 
   @override
+  ListBuilder<Constructor> get constructors {
+    _$this;
+    return super.constructors ??= new ListBuilder<Constructor>();
+  }
+
+  @override
+  set constructors(ListBuilder<Constructor> constructors) {
+    _$this;
+    super.constructors = constructors;
+  }
+
+  @override
   String get name {
     _$this;
     return super.name;
@@ -188,6 +208,7 @@ class _$ClassBuilder extends ClassBuilder {
       super.implements = _$v.implements?.toBuilder();
       super.mixins = _$v.mixins?.toBuilder();
       super.types = _$v.types?.toBuilder();
+      super.constructors = _$v.constructors?.toBuilder();
       super.name = _$v.name;
       _$v = null;
     }
@@ -215,6 +236,7 @@ class _$ClassBuilder extends ClassBuilder {
             implements: implements?.build(),
             mixins: mixins?.build(),
             types: types?.build(),
+            constructors: constructors?.build(),
             name: name);
     replace(result);
     return result;

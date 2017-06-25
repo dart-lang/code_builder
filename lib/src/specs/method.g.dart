@@ -23,7 +23,11 @@ class _$Method extends Method {
   @override
   final bool lambda;
   @override
+  final bool static;
+  @override
   final String name;
+  @override
+  final MethodType type;
   @override
   final TypeReference returns;
 
@@ -38,7 +42,9 @@ class _$Method extends Method {
       this.body,
       this.external,
       this.lambda,
+      this.static,
       this.name,
+      this.type,
       this.returns})
       : super._() {
     if (docs == null) throw new ArgumentError.notNull('docs');
@@ -49,6 +55,7 @@ class _$Method extends Method {
       throw new ArgumentError.notNull('requiredParameters');
     if (external == null) throw new ArgumentError.notNull('external');
     if (lambda == null) throw new ArgumentError.notNull('lambda');
+    if (static == null) throw new ArgumentError.notNull('static');
     if (name == null) throw new ArgumentError.notNull('name');
   }
 
@@ -70,7 +77,9 @@ class _$Method extends Method {
         body == other.body &&
         external == other.external &&
         lambda == other.lambda &&
+        static == other.static &&
         name == other.name &&
+        type == other.type &&
         returns == other.returns;
   }
 
@@ -82,13 +91,19 @@ class _$Method extends Method {
                 $jc(
                     $jc(
                         $jc(
-                            $jc($jc($jc(0, docs.hashCode), types.hashCode),
-                                optionalParameters.hashCode),
-                            requiredParameters.hashCode),
-                        body.hashCode),
-                    external.hashCode),
-                lambda.hashCode),
-            name.hashCode),
+                            $jc(
+                                $jc(
+                                    $jc(
+                                        $jc($jc(0, docs.hashCode),
+                                            types.hashCode),
+                                        optionalParameters.hashCode),
+                                    requiredParameters.hashCode),
+                                body.hashCode),
+                            external.hashCode),
+                        lambda.hashCode),
+                    static.hashCode),
+                name.hashCode),
+            type.hashCode),
         returns.hashCode));
   }
 
@@ -102,7 +117,9 @@ class _$Method extends Method {
           ..add('body', body)
           ..add('external', external)
           ..add('lambda', lambda)
+          ..add('static', static)
           ..add('name', name)
+          ..add('type', type)
           ..add('returns', returns))
         .toString();
   }
@@ -196,6 +213,18 @@ class _$MethodBuilder extends MethodBuilder {
   }
 
   @override
+  bool get static {
+    _$this;
+    return super.static;
+  }
+
+  @override
+  set static(bool static) {
+    _$this;
+    super.static = static;
+  }
+
+  @override
   String get name {
     _$this;
     return super.name;
@@ -205,6 +234,18 @@ class _$MethodBuilder extends MethodBuilder {
   set name(String name) {
     _$this;
     super.name = name;
+  }
+
+  @override
+  MethodType get type {
+    _$this;
+    return super.type;
+  }
+
+  @override
+  set type(MethodType type) {
+    _$this;
+    super.type = type;
   }
 
   @override
@@ -230,7 +271,9 @@ class _$MethodBuilder extends MethodBuilder {
       super.body = _$v.body;
       super.external = _$v.external;
       super.lambda = _$v.lambda;
+      super.static = _$v.static;
       super.name = _$v.name;
+      super.type = _$v.type;
       super.returns = _$v.returns;
       _$v = null;
     }
@@ -259,7 +302,9 @@ class _$MethodBuilder extends MethodBuilder {
             body: body,
             external: external,
             lambda: lambda,
+            static: static,
             name: name,
+            type: type,
             returns: returns);
     replace(result);
     return result;
@@ -279,6 +324,8 @@ class _$Parameter extends Parameter {
   @override
   final bool named;
   @override
+  final bool toThis;
+  @override
   final BuiltList<String> docs;
   @override
   final BuiltList<TypeReference> types;
@@ -289,10 +336,17 @@ class _$Parameter extends Parameter {
       (new ParameterBuilder()..update(updates)).build() as _$Parameter;
 
   _$Parameter._(
-      {this.defaultTo, this.name, this.named, this.docs, this.types, this.type})
+      {this.defaultTo,
+      this.name,
+      this.named,
+      this.toThis,
+      this.docs,
+      this.types,
+      this.type})
       : super._() {
     if (name == null) throw new ArgumentError.notNull('name');
     if (named == null) throw new ArgumentError.notNull('named');
+    if (toThis == null) throw new ArgumentError.notNull('toThis');
     if (docs == null) throw new ArgumentError.notNull('docs');
     if (types == null) throw new ArgumentError.notNull('types');
   }
@@ -311,6 +365,7 @@ class _$Parameter extends Parameter {
     return defaultTo == other.defaultTo &&
         name == other.name &&
         named == other.named &&
+        toThis == other.toThis &&
         docs == other.docs &&
         types == other.types &&
         type == other.type;
@@ -321,8 +376,10 @@ class _$Parameter extends Parameter {
     return $jf($jc(
         $jc(
             $jc(
-                $jc($jc($jc(0, defaultTo.hashCode), name.hashCode),
-                    named.hashCode),
+                $jc(
+                    $jc($jc($jc(0, defaultTo.hashCode), name.hashCode),
+                        named.hashCode),
+                    toThis.hashCode),
                 docs.hashCode),
             types.hashCode),
         type.hashCode));
@@ -334,6 +391,7 @@ class _$Parameter extends Parameter {
           ..add('defaultTo', defaultTo)
           ..add('name', name)
           ..add('named', named)
+          ..add('toThis', toThis)
           ..add('docs', docs)
           ..add('types', types)
           ..add('type', type))
@@ -381,6 +439,18 @@ class _$ParameterBuilder extends ParameterBuilder {
   }
 
   @override
+  bool get toThis {
+    _$this;
+    return super.toThis;
+  }
+
+  @override
+  set toThis(bool toThis) {
+    _$this;
+    super.toThis = toThis;
+  }
+
+  @override
   ListBuilder<String> get docs {
     _$this;
     return super.docs ??= new ListBuilder<String>();
@@ -423,6 +493,7 @@ class _$ParameterBuilder extends ParameterBuilder {
       super.defaultTo = _$v.defaultTo;
       super.name = _$v.name;
       super.named = _$v.named;
+      super.toThis = _$v.toThis;
       super.docs = _$v.docs?.toBuilder();
       super.types = _$v.types?.toBuilder();
       super.type = _$v.type;
@@ -449,6 +520,7 @@ class _$ParameterBuilder extends ParameterBuilder {
             defaultTo: defaultTo,
             name: name,
             named: named,
+            toThis: toThis,
             docs: docs?.build(),
             types: types?.build(),
             type: type);

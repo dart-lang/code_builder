@@ -12,6 +12,8 @@ import '../base.dart';
 import '../mixins/dartdoc.dart';
 import '../mixins/generics.dart';
 import '../visitors.dart';
+import 'constructor.dart';
+import 'method.dart';
 import 'type_reference.dart';
 
 part 'class.g.dart';
@@ -39,6 +41,8 @@ abstract class Class extends Object
 
   @override
   BuiltList<TypeReference> get types;
+
+  BuiltList<Constructor> get constructors;
 
   /// Name of the class.
   String get name;
@@ -79,6 +83,9 @@ abstract class ClassBuilder extends Object
 
   @override
   ListBuilder<TypeReference> types = new ListBuilder<TypeReference>();
+
+  ListBuilder<Constructor> constructors = new ListBuilder<Constructor>();
+  ListBuilder<Method> methods = new ListBuilder<Method>();
 
   /// Name of the class.
   String name;

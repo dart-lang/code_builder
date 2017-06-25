@@ -4,6 +4,7 @@
 
 import 'specs/class.dart';
 import 'specs/code.dart';
+import 'specs/constructor.dart';
 import 'specs/method.dart';
 import 'specs/reference.dart';
 import 'specs/type_reference.dart';
@@ -35,37 +36,28 @@ class DartEmitter extends GeneralizingSpecVisitor<StringSink> {
         ..write(' implements ')
         ..writeAll(spec.implements.map<StringSink>(visitType), ',');
     }
-    output.write(' {}');
+    output.write(' {');
+    spec.constructors.forEach((c) => visitConstructor(c, spec.name, output));
+    output.write(' }');
     return output;
   }
 
-  static final Pattern _refReplace = new RegExp(r'{{([^{}]*)}}');
-
   @override
-  visitCode(Code spec, [StringSink output]) {
-    output ??= new StringBuffer();
-    var code = spec.code;
-    if (spec.references.isNotEmpty) {
-      code = code.replaceAllMapped(_refReplace, (match) {
-        final symbol = spec.references[match.group(1)];
-        return visitReference(symbol).toString();
-      });
-    }
-    return output..write(code);
-  }
-
-  @override
-  visitMethod(Method spec, [StringSink output]) {
+  visitConstructor(Constructor spec, String clazz, [StringSink output]) {
     output ??= new StringBuffer();
     if (spec.external) {
       output.write('external ');
     }
-    if (spec.returns != null) {
-      visitType(spec.returns, output);
-      output.write(' ');
+    if (spec.factory) {
+      output.write('factory ');
     }
-    output.write(spec.name);
-    visitTypeParameters(spec.types, output);
+    if (spec.constant) {
+      output.write('const ');
+    }
+    output.write(clazz);
+    if (spec.name != null) {
+      output..write('.')..write(spec.name);
+    }
     output.write('(');
     if (spec.requiredParameters.isNotEmpty) {
       var count = 0;
@@ -100,6 +92,97 @@ class DartEmitter extends GeneralizingSpecVisitor<StringSink> {
       }
     }
     output.write(')');
+    if (spec.redirect != null) {
+      output.write(' = ');
+      visitType(spec.redirect.toType(), output);
+      output.write(';');
+    } else if (spec.body != null) {
+      if (spec.lambda) {
+        output.write(' => ');
+        visitCode(spec.body, output);
+        output.write(';');
+      } else {
+        output.write(' { ');
+        visitCode(spec.body, output);
+        output.write(' }');
+      }
+    } else {
+      output.write(';');
+    }
+    return output;
+  }
+
+  static final Pattern _refReplace = new RegExp(r'{{([^{}]*)}}');
+
+  @override
+  visitCode(Code spec, [StringSink output]) {
+    output ??= new StringBuffer();
+    var code = spec.code;
+    if (spec.references.isNotEmpty) {
+      code = code.replaceAllMapped(_refReplace, (match) {
+        final symbol = spec.references[match.group(1)];
+        return visitReference(symbol).toString();
+      });
+    }
+    return output..write(code);
+  }
+
+  @override
+  visitMethod(Method spec, [StringSink output]) {
+    output ??= new StringBuffer();
+    if (spec.external) {
+      output.write('external ');
+    }
+    if (spec.static) {
+      output.write('static ');
+    }
+    if (spec.returns != null) {
+      visitType(spec.returns, output);
+      output.write(' ');
+    }
+    if (spec.type == MethodType.getter) {
+      output..write('get ')..write(spec.name);
+    } else {
+      if (spec.type == MethodType.setter) {
+        output.write('set ');
+      }
+      output.write(spec.name);
+      visitTypeParameters(spec.types, output);
+      output.write('(');
+      if (spec.requiredParameters.isNotEmpty) {
+        var count = 0;
+        for (final p in spec.requiredParameters) {
+          count++;
+          _visitParameter(p, output);
+          if (spec.requiredParameters.length != count ||
+              spec.optionalParameters.isNotEmpty) {
+            output.write(', ');
+          }
+        }
+      }
+      if (spec.optionalParameters.isNotEmpty) {
+        final named = spec.optionalParameters.any((p) => p.named);
+        if (named) {
+          output.write('{');
+        } else {
+          output.write('[');
+        }
+        var count = 0;
+        for (final p in spec.optionalParameters) {
+          count++;
+          _visitParameter(p, output, optional: true, named: named);
+          if (spec.optionalParameters.length != count) {
+            output.write(', ');
+          }
+        }
+        if (named) {
+          output.write('}');
+        } else {
+          output.write(']');
+        }
+      }
+      output.write(')');
+    }
     if (spec.body != null) {
       if (spec.lambda) {
         output.write(' => ');
