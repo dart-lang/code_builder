@@ -44,6 +44,32 @@ void main() {
     );
   });
 
+  test('should create a class with annotations', () {
+    final $deprecated = const Reference.localScope('deprecated');
+    expect(
+      new Class(
+        (b) => b
+          ..name = 'Foo'
+          ..annotations.add(
+            new Annotation(
+              (b) => b
+                ..code = new Code(
+                  (b) => b
+                    ..code = '{{deprecated}}'
+                    ..specs.addAll({
+                      'deprecated': () => $deprecated,
+                    }),
+                ),
+            ),
+          ),
+      ),
+      equalsDart(r'''
+        @deprecated
+        class Foo {}
+      '''),
+    );
+  });
+
   test('should create a class with a generic type', () {
     expect(
       new Class((b) => b
@@ -128,6 +154,22 @@ void main() {
         ..constructors.add(new Constructor())),
       equalsDart(r'''
         class Foo {
+          Foo();
+        }
+      '''),
+    );
+  });
+
+  test('should create a class with a constructor with an annotation', () {
+    expect(
+      new Class((b) => b
+        ..name = 'Foo'
+        ..constructors.add(new Constructor((b) => b
+          ..annotations.add(new Annotation(
+              (b) => b..code = new Code((b) => b..code = 'deprecated')))))),
+      equalsDart(r'''
+        class Foo {
+          @deprecated
           Foo();
         }
       '''),

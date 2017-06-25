@@ -11,6 +11,8 @@ class _$Class extends Class {
   @override
   final bool abstract;
   @override
+  final BuiltList<Annotation> annotations;
+  @override
   final BuiltList<String> docs;
   @override
   final TypeReference extend;
@@ -30,6 +32,7 @@ class _$Class extends Class {
 
   _$Class._(
       {this.abstract,
+      this.annotations,
       this.docs,
       this.extend,
       this.implements,
@@ -39,6 +42,7 @@ class _$Class extends Class {
       this.name})
       : super._() {
     if (abstract == null) throw new ArgumentError.notNull('abstract');
+    if (annotations == null) throw new ArgumentError.notNull('annotations');
     if (docs == null) throw new ArgumentError.notNull('docs');
     if (implements == null) throw new ArgumentError.notNull('implements');
     if (mixins == null) throw new ArgumentError.notNull('mixins');
@@ -59,6 +63,7 @@ class _$Class extends Class {
     if (identical(other, this)) return true;
     if (other is! Class) return false;
     return abstract == other.abstract &&
+        annotations == other.annotations &&
         docs == other.docs &&
         extend == other.extend &&
         implements == other.implements &&
@@ -75,7 +80,11 @@ class _$Class extends Class {
             $jc(
                 $jc(
                     $jc(
-                        $jc($jc($jc(0, abstract.hashCode), docs.hashCode),
+                        $jc(
+                            $jc(
+                                $jc($jc(0, abstract.hashCode),
+                                    annotations.hashCode),
+                                docs.hashCode),
                             extend.hashCode),
                         implements.hashCode),
                     mixins.hashCode),
@@ -88,6 +97,7 @@ class _$Class extends Class {
   String toString() {
     return (newBuiltValueToStringHelper('Class')
           ..add('abstract', abstract)
+          ..add('annotations', annotations)
           ..add('docs', docs)
           ..add('extend', extend)
           ..add('implements', implements)
@@ -112,6 +122,18 @@ class _$ClassBuilder extends ClassBuilder {
   set abstract(bool abstract) {
     _$this;
     super.abstract = abstract;
+  }
+
+  @override
+  ListBuilder<Annotation> get annotations {
+    _$this;
+    return super.annotations ??= new ListBuilder<Annotation>();
+  }
+
+  @override
+  set annotations(ListBuilder<Annotation> annotations) {
+    _$this;
+    super.annotations = annotations;
   }
 
   @override
@@ -203,6 +225,7 @@ class _$ClassBuilder extends ClassBuilder {
   ClassBuilder get _$this {
     if (_$v != null) {
       super.abstract = _$v.abstract;
+      super.annotations = _$v.annotations?.toBuilder();
       super.docs = _$v.docs?.toBuilder();
       super.extend = _$v.extend;
       super.implements = _$v.implements?.toBuilder();
@@ -231,6 +254,7 @@ class _$ClassBuilder extends ClassBuilder {
     final result = _$v ??
         new _$Class._(
             abstract: abstract,
+            annotations: annotations?.build(),
             docs: docs?.build(),
             extend: extend,
             implements: implements?.build(),

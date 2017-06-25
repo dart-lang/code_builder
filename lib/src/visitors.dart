@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'base.dart';
+import 'specs/annotation.dart';
 import 'specs/class.dart';
 import 'specs/code.dart';
 import 'specs/constructor.dart';
@@ -12,6 +13,8 @@ import 'specs/type_reference.dart';
 
 abstract class SpecVisitor<T> {
   const SpecVisitor._();
+
+  T visitAnnotation(Annotation spec);
 
   T visitClass(Class spec);
 
@@ -32,6 +35,9 @@ abstract class SpecVisitor<T> {
 
 class SimpleSpecVisitor<T> implements SpecVisitor<T> {
   const SimpleSpecVisitor();
+
+  @override
+  T visitAnnotation(Annotation spec) => null;
 
   @override
   T visitClass(Class spec) => null;

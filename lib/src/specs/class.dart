@@ -9,9 +9,11 @@ import 'package:built_collection/built_collection.dart';
 import 'package:meta/meta.dart';
 
 import '../base.dart';
+import '../mixins/annotations.dart';
 import '../mixins/dartdoc.dart';
 import '../mixins/generics.dart';
 import '../visitors.dart';
+import 'annotation.dart';
 import 'constructor.dart';
 import 'method.dart';
 import 'type_reference.dart';
@@ -20,7 +22,7 @@ part 'class.g.dart';
 
 @immutable
 abstract class Class extends Object
-    with HasDartDocs, HasGenerics
+    with HasAnnotations, HasDartDocs, HasGenerics
     implements Built<Class, ClassBuilder>, TypeReference, Spec {
   factory Class([void updates(ClassBuilder b)]) = _$Class;
 
@@ -28,6 +30,9 @@ abstract class Class extends Object
 
   /// Whether the class is `abstract`.
   bool get abstract;
+
+  @override
+  BuiltList<Annotation> get annotations;
 
   @override
   BuiltList<String> get docs;
@@ -64,7 +69,7 @@ abstract class Class extends Object
 }
 
 abstract class ClassBuilder extends Object
-    with HasDartDocsBuilder, HasGenericsBuilder
+    with HasAnnotationsBuilder, HasDartDocsBuilder, HasGenericsBuilder
     implements Builder<Class, ClassBuilder>, TypeReferenceBuilder {
   factory ClassBuilder() = _$ClassBuilder;
 
@@ -72,6 +77,9 @@ abstract class ClassBuilder extends Object
 
   /// Whether the class is `abstract`.
   bool abstract = false;
+
+  @override
+  ListBuilder<Annotation> annotations = new ListBuilder<Annotation>();
 
   @override
   ListBuilder<String> docs = new ListBuilder<String>();

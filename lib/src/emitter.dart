@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'specs/annotation.dart';
 import 'specs/class.dart';
 import 'specs/code.dart';
 import 'specs/constructor.dart';
@@ -14,9 +15,18 @@ class DartEmitter extends GeneralizingSpecVisitor<StringSink> {
   const DartEmitter();
 
   @override
+  visitAnnotation(Annotation spec, [StringSink output]) {
+    (output ??= new StringBuffer()).write('@');
+    visitCode(spec.code, output);
+    output.write(' ');
+    return output;
+  }
+
+  @override
   visitClass(Class spec, [StringSink output]) {
     output ??= new StringBuffer();
     spec.docs.forEach(output.writeln);
+    spec.annotations.forEach((a) => visitAnnotation(a, output));
     if (spec.abstract) {
       output.write('abstract ');
     }
@@ -45,6 +55,8 @@ class DartEmitter extends GeneralizingSpecVisitor<StringSink> {
   @override
   visitConstructor(Constructor spec, String clazz, [StringSink output]) {
     output ??= new StringBuffer();
+    spec.docs.forEach(output.writeln);
+    spec.annotations.forEach((a) => visitAnnotation(a, output));
     if (spec.external) {
       output.write('external ');
     }
@@ -118,10 +130,11 @@ class DartEmitter extends GeneralizingSpecVisitor<StringSink> {
   visitCode(Code spec, [StringSink output]) {
     output ??= new StringBuffer();
     var code = spec.code;
-    if (spec.references.isNotEmpty) {
+    if (spec.specs.isNotEmpty) {
       code = code.replaceAllMapped(_refReplace, (match) {
-        final symbol = spec.references[match.group(1)];
-        return visitReference(symbol).toString();
+        // ignore: strong_mode_implicit_dynamic_variable
+        final lazy = spec.specs[match.group(1)];
+        return lazy().accept(this).toString();
       });
     }
     return output..write(code);
@@ -130,6 +143,8 @@ class DartEmitter extends GeneralizingSpecVisitor<StringSink> {
   @override
   visitMethod(Method spec, [StringSink output]) {
     output ??= new StringBuffer();
+    spec.docs.forEach(output.writeln);
+    spec.annotations.forEach((a) => visitAnnotation(a, output));
     if (spec.external) {
       output.write('external ');
     }
@@ -208,6 +223,8 @@ class DartEmitter extends GeneralizingSpecVisitor<StringSink> {
     bool optional: false,
     bool named: false,
   }) {
+    spec.docs.forEach(output.writeln);
+    spec.annotations.forEach((a) => visitAnnotation(a, output));
     if (spec.type != null) {
       visitType(spec.type, output);
       output.write(' ');

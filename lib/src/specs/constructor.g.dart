@@ -9,6 +9,8 @@ part of code_builder.src.specs.constructor;
 
 class _$Constructor extends Constructor {
   @override
+  final BuiltList<Annotation> annotations;
+  @override
   final BuiltList<String> docs;
   @override
   final BuiltList<Parameter> optionalParameters;
@@ -33,7 +35,8 @@ class _$Constructor extends Constructor {
       (new ConstructorBuilder()..update(updates)).build() as _$Constructor;
 
   _$Constructor._(
-      {this.docs,
+      {this.annotations,
+      this.docs,
       this.optionalParameters,
       this.requiredParameters,
       this.body,
@@ -44,6 +47,7 @@ class _$Constructor extends Constructor {
       this.name,
       this.redirect})
       : super._() {
+    if (annotations == null) throw new ArgumentError.notNull('annotations');
     if (docs == null) throw new ArgumentError.notNull('docs');
     if (optionalParameters == null)
       throw new ArgumentError.notNull('optionalParameters');
@@ -66,7 +70,8 @@ class _$Constructor extends Constructor {
   bool operator ==(dynamic other) {
     if (identical(other, this)) return true;
     if (other is! Constructor) return false;
-    return docs == other.docs &&
+    return annotations == other.annotations &&
+        docs == other.docs &&
         optionalParameters == other.optionalParameters &&
         requiredParameters == other.requiredParameters &&
         body == other.body &&
@@ -88,7 +93,9 @@ class _$Constructor extends Constructor {
                         $jc(
                             $jc(
                                 $jc(
-                                    $jc($jc(0, docs.hashCode),
+                                    $jc(
+                                        $jc($jc(0, annotations.hashCode),
+                                            docs.hashCode),
                                         optionalParameters.hashCode),
                                     requiredParameters.hashCode),
                                 body.hashCode),
@@ -103,6 +110,7 @@ class _$Constructor extends Constructor {
   @override
   String toString() {
     return (newBuiltValueToStringHelper('Constructor')
+          ..add('annotations', annotations)
           ..add('docs', docs)
           ..add('optionalParameters', optionalParameters)
           ..add('requiredParameters', requiredParameters)
@@ -119,6 +127,18 @@ class _$Constructor extends Constructor {
 
 class _$ConstructorBuilder extends ConstructorBuilder {
   _$Constructor _$v;
+
+  @override
+  ListBuilder<Annotation> get annotations {
+    _$this;
+    return super.annotations ??= new ListBuilder<Annotation>();
+  }
+
+  @override
+  set annotations(ListBuilder<Annotation> annotations) {
+    _$this;
+    super.annotations = annotations;
+  }
 
   @override
   ListBuilder<String> get docs {
@@ -244,6 +264,7 @@ class _$ConstructorBuilder extends ConstructorBuilder {
 
   ConstructorBuilder get _$this {
     if (_$v != null) {
+      super.annotations = _$v.annotations?.toBuilder();
       super.docs = _$v.docs?.toBuilder();
       super.optionalParameters = _$v.optionalParameters?.toBuilder();
       super.requiredParameters = _$v.requiredParameters?.toBuilder();
@@ -274,6 +295,7 @@ class _$ConstructorBuilder extends ConstructorBuilder {
   _$Constructor build() {
     final result = _$v ??
         new _$Constructor._(
+            annotations: annotations?.build(),
             docs: docs?.build(),
             optionalParameters: optionalParameters?.build(),
             requiredParameters: requiredParameters?.build(),

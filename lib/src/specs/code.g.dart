@@ -11,14 +11,14 @@ class _$Code extends Code {
   @override
   final String code;
   @override
-  final BuiltMap<String, Reference> references;
+  final BuiltMap<String, LazySpec> specs;
 
   factory _$Code([void updates(CodeBuilder b)]) =>
       (new CodeBuilder()..update(updates)).build() as _$Code;
 
-  _$Code._({this.code, this.references}) : super._() {
+  _$Code._({this.code, this.specs}) : super._() {
     if (code == null) throw new ArgumentError.notNull('code');
-    if (references == null) throw new ArgumentError.notNull('references');
+    if (specs == null) throw new ArgumentError.notNull('specs');
   }
 
   @override
@@ -32,19 +32,19 @@ class _$Code extends Code {
   bool operator ==(dynamic other) {
     if (identical(other, this)) return true;
     if (other is! Code) return false;
-    return code == other.code && references == other.references;
+    return code == other.code && specs == other.specs;
   }
 
   @override
   int get hashCode {
-    return $jf($jc($jc(0, code.hashCode), references.hashCode));
+    return $jf($jc($jc(0, code.hashCode), specs.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper('Code')
           ..add('code', code)
-          ..add('references', references))
+          ..add('specs', specs))
         .toString();
   }
 }
@@ -65,15 +65,15 @@ class _$CodeBuilder extends CodeBuilder {
   }
 
   @override
-  MapBuilder<String, Reference> get references {
+  MapBuilder<String, LazySpec> get specs {
     _$this;
-    return super.references ??= new MapBuilder<String, Reference>();
+    return super.specs ??= new MapBuilder<String, LazySpec>();
   }
 
   @override
-  set references(MapBuilder<String, Reference> references) {
+  set specs(MapBuilder<String, LazySpec> specs) {
     _$this;
-    super.references = references;
+    super.specs = specs;
   }
 
   _$CodeBuilder() : super._();
@@ -81,7 +81,7 @@ class _$CodeBuilder extends CodeBuilder {
   CodeBuilder get _$this {
     if (_$v != null) {
       super.code = _$v.code;
-      super.references = _$v.references?.toBuilder();
+      super.specs = _$v.specs?.toBuilder();
       _$v = null;
     }
     return this;
@@ -100,8 +100,7 @@ class _$CodeBuilder extends CodeBuilder {
 
   @override
   _$Code build() {
-    final result =
-        _$v ?? new _$Code._(code: code, references: references?.build());
+    final result = _$v ?? new _$Code._(code: code, specs: specs?.build());
     replace(result);
     return result;
   }

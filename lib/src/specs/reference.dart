@@ -7,6 +7,8 @@ library code_builder.src.specs.reference;
 import 'package:built_value/built_value.dart';
 import 'package:meta/meta.dart';
 
+import '../base.dart';
+import '../visitors.dart';
 import 'type_reference.dart';
 
 /// A reference to [symbol], such as a class, or top-level method or field.
@@ -14,7 +16,7 @@ import 'type_reference.dart';
 /// References can be collected and collated in order to automatically generate
 /// `import` statements for all used symbols.
 @immutable
-class Reference {
+class Reference implements Spec {
   /// Relative, `package:` or `dart:` URL of the library.
   ///
   /// May be omitted (`null`) in order to express "same library".
@@ -28,6 +30,9 @@ class Reference {
 
   /// Create a reference to [symbol] in the same library (no import statement).
   const Reference.localScope(this.symbol) : url = null;
+
+  @override
+  R accept<R>(SpecVisitor<R> visitor) => visitor.visitReference(this);
 
   @override
   int get hashCode => '$url#$symbol'.hashCode;

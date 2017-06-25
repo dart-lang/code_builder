@@ -112,16 +112,16 @@ void main() {
       new Method(
         (b) => b
           ..name = 'foo'
-          ..body = new Code(
-            (b) => b
-              // Just an example to make it clear this != an actual type.
-              //
-              // Can be used to do automatic import prefixing or rewrites.
-              ..references['LINKED_HASH_MAP'] = linkedHashMap
-              ..code = r'''
+          ..body = new Code((b) => b
+            ..code = r'''
                 return new {{LINKED_HASH_MAP}}();
-              ''',
-          ),
+              '''
+            // Just an example to make it clear this != an actual type.
+            //
+            // Can be used to do automatic import prefixing or rewrites.
+            ..specs.addAll({
+              'LINKED_HASH_MAP': () => linkedHashMap,
+            })),
       ),
       equalsDart(r'''
         foo() {
@@ -142,6 +142,24 @@ void main() {
       ),
       equalsDart(r'''
         fib(i);
+      '''),
+    );
+  });
+
+  test('should create a method with a paremter with an annotation', () {
+    expect(
+      new Method(
+        (b) => b
+          ..name = 'fib'
+          ..requiredParameters.add(
+            new Parameter((b) => b
+              ..name = 'i'
+              ..annotations.add(new Annotation(
+                  (a) => a..code = new Code((b) => b..code = 'deprecated')))),
+          ),
+      ),
+      equalsDart(r'''
+        fib(@deprecated i);
       '''),
     );
   });

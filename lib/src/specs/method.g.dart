@@ -9,6 +9,8 @@ part of code_builder.src.specs.method;
 
 class _$Method extends Method {
   @override
+  final BuiltList<Annotation> annotations;
+  @override
   final BuiltList<String> docs;
   @override
   final BuiltList<TypeReference> types;
@@ -35,7 +37,8 @@ class _$Method extends Method {
       (new MethodBuilder()..update(updates)).build() as _$Method;
 
   _$Method._(
-      {this.docs,
+      {this.annotations,
+      this.docs,
       this.types,
       this.optionalParameters,
       this.requiredParameters,
@@ -47,6 +50,7 @@ class _$Method extends Method {
       this.type,
       this.returns})
       : super._() {
+    if (annotations == null) throw new ArgumentError.notNull('annotations');
     if (docs == null) throw new ArgumentError.notNull('docs');
     if (types == null) throw new ArgumentError.notNull('types');
     if (optionalParameters == null)
@@ -70,7 +74,8 @@ class _$Method extends Method {
   bool operator ==(dynamic other) {
     if (identical(other, this)) return true;
     if (other is! Method) return false;
-    return docs == other.docs &&
+    return annotations == other.annotations &&
+        docs == other.docs &&
         types == other.types &&
         optionalParameters == other.optionalParameters &&
         requiredParameters == other.requiredParameters &&
@@ -94,7 +99,9 @@ class _$Method extends Method {
                             $jc(
                                 $jc(
                                     $jc(
-                                        $jc($jc(0, docs.hashCode),
+                                        $jc(
+                                            $jc($jc(0, annotations.hashCode),
+                                                docs.hashCode),
                                             types.hashCode),
                                         optionalParameters.hashCode),
                                     requiredParameters.hashCode),
@@ -110,6 +117,7 @@ class _$Method extends Method {
   @override
   String toString() {
     return (newBuiltValueToStringHelper('Method')
+          ..add('annotations', annotations)
           ..add('docs', docs)
           ..add('types', types)
           ..add('optionalParameters', optionalParameters)
@@ -127,6 +135,18 @@ class _$Method extends Method {
 
 class _$MethodBuilder extends MethodBuilder {
   _$Method _$v;
+
+  @override
+  ListBuilder<Annotation> get annotations {
+    _$this;
+    return super.annotations ??= new ListBuilder<Annotation>();
+  }
+
+  @override
+  set annotations(ListBuilder<Annotation> annotations) {
+    _$this;
+    super.annotations = annotations;
+  }
 
   @override
   ListBuilder<String> get docs {
@@ -264,6 +284,7 @@ class _$MethodBuilder extends MethodBuilder {
 
   MethodBuilder get _$this {
     if (_$v != null) {
+      super.annotations = _$v.annotations?.toBuilder();
       super.docs = _$v.docs?.toBuilder();
       super.types = _$v.types?.toBuilder();
       super.optionalParameters = _$v.optionalParameters?.toBuilder();
@@ -295,6 +316,7 @@ class _$MethodBuilder extends MethodBuilder {
   _$Method build() {
     final result = _$v ??
         new _$Method._(
+            annotations: annotations?.build(),
             docs: docs?.build(),
             types: types?.build(),
             optionalParameters: optionalParameters?.build(),
@@ -326,6 +348,8 @@ class _$Parameter extends Parameter {
   @override
   final bool toThis;
   @override
+  final BuiltList<Annotation> annotations;
+  @override
   final BuiltList<String> docs;
   @override
   final BuiltList<TypeReference> types;
@@ -340,6 +364,7 @@ class _$Parameter extends Parameter {
       this.name,
       this.named,
       this.toThis,
+      this.annotations,
       this.docs,
       this.types,
       this.type})
@@ -347,6 +372,7 @@ class _$Parameter extends Parameter {
     if (name == null) throw new ArgumentError.notNull('name');
     if (named == null) throw new ArgumentError.notNull('named');
     if (toThis == null) throw new ArgumentError.notNull('toThis');
+    if (annotations == null) throw new ArgumentError.notNull('annotations');
     if (docs == null) throw new ArgumentError.notNull('docs');
     if (types == null) throw new ArgumentError.notNull('types');
   }
@@ -366,6 +392,7 @@ class _$Parameter extends Parameter {
         name == other.name &&
         named == other.named &&
         toThis == other.toThis &&
+        annotations == other.annotations &&
         docs == other.docs &&
         types == other.types &&
         type == other.type;
@@ -377,9 +404,11 @@ class _$Parameter extends Parameter {
         $jc(
             $jc(
                 $jc(
-                    $jc($jc($jc(0, defaultTo.hashCode), name.hashCode),
-                        named.hashCode),
-                    toThis.hashCode),
+                    $jc(
+                        $jc($jc($jc(0, defaultTo.hashCode), name.hashCode),
+                            named.hashCode),
+                        toThis.hashCode),
+                    annotations.hashCode),
                 docs.hashCode),
             types.hashCode),
         type.hashCode));
@@ -392,6 +421,7 @@ class _$Parameter extends Parameter {
           ..add('name', name)
           ..add('named', named)
           ..add('toThis', toThis)
+          ..add('annotations', annotations)
           ..add('docs', docs)
           ..add('types', types)
           ..add('type', type))
@@ -451,6 +481,18 @@ class _$ParameterBuilder extends ParameterBuilder {
   }
 
   @override
+  ListBuilder<Annotation> get annotations {
+    _$this;
+    return super.annotations ??= new ListBuilder<Annotation>();
+  }
+
+  @override
+  set annotations(ListBuilder<Annotation> annotations) {
+    _$this;
+    super.annotations = annotations;
+  }
+
+  @override
   ListBuilder<String> get docs {
     _$this;
     return super.docs ??= new ListBuilder<String>();
@@ -494,6 +536,7 @@ class _$ParameterBuilder extends ParameterBuilder {
       super.name = _$v.name;
       super.named = _$v.named;
       super.toThis = _$v.toThis;
+      super.annotations = _$v.annotations?.toBuilder();
       super.docs = _$v.docs?.toBuilder();
       super.types = _$v.types?.toBuilder();
       super.type = _$v.type;
@@ -521,6 +564,7 @@ class _$ParameterBuilder extends ParameterBuilder {
             name: name,
             named: named,
             toThis: toThis,
+            annotations: annotations?.build(),
             docs: docs?.build(),
             types: types?.build(),
             type: type);

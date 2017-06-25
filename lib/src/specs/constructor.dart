@@ -8,8 +8,9 @@ import 'package:built_value/built_value.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:meta/meta.dart';
 
-import '../base.dart';
+import '../mixins/annotations.dart';
 import '../mixins/dartdoc.dart';
+import 'annotation.dart';
 import 'code.dart';
 import 'method.dart';
 import 'reference.dart';
@@ -18,11 +19,14 @@ part 'constructor.g.dart';
 
 @immutable
 abstract class Constructor extends Object
-    with HasDartDocs
+    with HasAnnotations, HasDartDocs
     implements Built<Constructor, ConstructorBuilder> {
   factory Constructor([void updates(ConstructorBuilder b)]) = _$Constructor;
 
   Constructor._();
+
+  @override
+  BuiltList<Annotation> get annotations;
 
   @override
   BuiltList<String> get docs;
@@ -59,11 +63,14 @@ abstract class Constructor extends Object
 }
 
 abstract class ConstructorBuilder extends Object
-    with HasDartDocsBuilder
+    with HasAnnotationsBuilder, HasDartDocsBuilder
     implements Builder<Constructor, ConstructorBuilder> {
   factory ConstructorBuilder() = _$ConstructorBuilder;
 
   ConstructorBuilder._();
+
+  @override
+  ListBuilder<Annotation> annotations = new ListBuilder<Annotation>();
 
   @override
   ListBuilder<String> docs = new ListBuilder<String>();

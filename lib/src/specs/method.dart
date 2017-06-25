@@ -9,9 +9,11 @@ import 'package:built_collection/built_collection.dart';
 import 'package:meta/meta.dart';
 
 import '../base.dart';
+import '../mixins/annotations.dart';
 import '../mixins/dartdoc.dart';
 import '../mixins/generics.dart';
 import '../visitors.dart';
+import 'annotation.dart';
 import 'code.dart';
 import 'reference.dart';
 import 'type_reference.dart';
@@ -20,11 +22,14 @@ part 'method.g.dart';
 
 @immutable
 abstract class Method extends Object
-    with HasGenerics, HasDartDocs
+    with HasAnnotations, HasGenerics, HasDartDocs
     implements Built<Method, MethodBuilder>, Reference, Spec {
   factory Method([void updates(MethodBuilder b)]) = _$Method;
 
   Method._();
+
+  @override
+  BuiltList<Annotation> get annotations;
 
   @override
   BuiltList<String> get docs;
@@ -77,11 +82,14 @@ abstract class Method extends Object
 }
 
 abstract class MethodBuilder extends Object
-    with HasGenericsBuilder, HasDartDocsBuilder
+    with HasAnnotationsBuilder, HasGenericsBuilder, HasDartDocsBuilder
     implements Builder<Method, MethodBuilder> {
   factory MethodBuilder() = _$MethodBuilder;
 
   MethodBuilder._();
+
+  @override
+  ListBuilder<Annotation> annotations = new ListBuilder<Annotation>();
 
   @override
   ListBuilder<String> docs = new ListBuilder<String>();
@@ -124,7 +132,7 @@ enum MethodType {
 }
 
 abstract class Parameter extends Object
-    with HasGenerics, HasDartDocs
+    with HasAnnotations, HasGenerics, HasDartDocs
     implements Built<Parameter, ParameterBuilder> {
   factory Parameter([void updates(ParameterBuilder b)]) = _$Parameter;
 
@@ -146,6 +154,9 @@ abstract class Parameter extends Object
   bool get toThis;
 
   @override
+  BuiltList<Annotation> get annotations;
+
+  @override
   BuiltList<String> get docs;
 
   @override
@@ -157,7 +168,7 @@ abstract class Parameter extends Object
 }
 
 abstract class ParameterBuilder extends Object
-    with HasGenericsBuilder, HasDartDocsBuilder
+    with HasAnnotationsBuilder, HasGenericsBuilder, HasDartDocsBuilder
     implements Builder<Parameter, ParameterBuilder> {
   factory ParameterBuilder() = _$ParameterBuilder;
 
@@ -176,6 +187,9 @@ abstract class ParameterBuilder extends Object
   ///
   /// This is only valid on constructors;
   bool toThis = false;
+
+  @override
+  ListBuilder<Annotation> annotations = new ListBuilder<Annotation>();
 
   @override
   ListBuilder<String> docs = new ListBuilder<String>();
