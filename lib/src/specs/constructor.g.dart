@@ -7,6 +7,7 @@ part of code_builder.src.specs.constructor;
 // Target: abstract class Constructor
 // **************************************************************************
 
+// ignore_for_file: annotate_overrides
 class _$Constructor extends Constructor {
   @override
   final BuiltList<Annotation> annotations;
