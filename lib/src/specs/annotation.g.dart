@@ -7,7 +7,6 @@ part of code_builder.src.specs.annotation;
 // Target: abstract class Annotation
 // **************************************************************************
 
-// ignore_for_file: annotate_overrides
 class _$Annotation extends Annotation {
   @override
   final Code code;

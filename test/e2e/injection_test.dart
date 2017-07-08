@@ -9,8 +9,8 @@ void main() {
   test('should generate a complex generated file', () {
     // Imports from an existing Dart library.
     final $App = const Reference('App', 'package:app/app.dart');
-    final $Module = const Reference('Module', 'package:app/app.dart');
-    final $Thing = const Reference('Thing', 'package:app/app.dart');
+    final $Module = const Reference('Module', 'package:app/module.dart');
+    final $Thing = const Reference('Thing', 'package:app/thing.dart');
 
     final clazz = new ClassBuilder()
       ..name = 'Injector'
@@ -43,6 +43,18 @@ void main() {
           Thing getThing() => new Thing(_module.get1(), _module.get2());
         }
       '''),
+    );
+
+    expect(
+      clazz.build(),
+      equalsDart(r'''
+        class Injector implements _1.App {
+          Injector(this._module);
+          final _2.Module _module;
+          @override
+          _3.Thing getThing() => new _3.Thing(_module.get1(), _module.get2());
+        }
+      ''', new DartEmitter(new Allocator.simplePrefixing())),
     );
   });
 }

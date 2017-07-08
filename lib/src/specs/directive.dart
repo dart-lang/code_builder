@@ -5,7 +5,6 @@
 library code_builder.src.specs.directive;
 
 import 'package:built_value/built_value.dart';
-import 'package:built_collection/built_collection.dart';
 import 'package:meta/meta.dart';
 
 import '../base.dart';
@@ -14,21 +13,49 @@ import '../visitors.dart';
 part 'directive.g.dart';
 
 @immutable
-abstract class Directive implements Built<Directive, CodeBuilder>, Spec {
-  factory Directive([void updates(CodeBuilder b)]) = _$Directive;
+abstract class Directive implements Built<Directive, DirectiveBuilder>, Spec {
+  factory Directive([void updates(DirectiveBuilder b)]) = _$Directive;
+
+  factory Directive.import(
+    String url, {
+    String as,
+  }) =>
+      new Directive((builder) => builder
+        ..as = as
+        ..type = DirectiveType.import
+        ..url = url);
+
+  factory Directive.export(String url) => new Directive((builder) => builder
+    ..type = DirectiveType.export
+    ..url = url);
 
   Directive._();
 
+  @nullable
+  String get as;
+
   String get url;
 
+  DirectiveType get type;
+
   @override
-  R accept<R>(SpecVisitor<R> visitor) => visitor.visitCode(this);
+  R accept<R>(SpecVisitor<R> visitor) => visitor.visitDirective(this);
 }
 
-abstract class CodeBuilder implements Builder<Directive, CodeBuilder> {
-  factory CodeBuilder() = _$Directive;
+abstract class DirectiveBuilder
+    implements Builder<Directive, DirectiveBuilder> {
+  factory DirectiveBuilder() = _$DirectiveBuilder;
 
-  CodeBuilder._();
+  DirectiveBuilder._();
+
+  String as;
 
   String url;
+
+  DirectiveType type;
+}
+
+enum DirectiveType {
+  import,
+  export,
 }
