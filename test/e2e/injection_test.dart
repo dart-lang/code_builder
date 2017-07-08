@@ -47,14 +47,16 @@ void main() {
 
     expect(
       clazz.build(),
-      equalsDart(r'''
+      equalsDart(
+          r'''
         class Injector implements _1.App {
           Injector(this._module);
           final _2.Module _module;
           @override
           _3.Thing getThing() => new _3.Thing(_module.get1(), _module.get2());
         }
-      ''', new DartEmitter(new Allocator.simplePrefixing())),
+      ''',
+          new DartEmitter(new Allocator.simplePrefixing())),
     );
   });
 }
