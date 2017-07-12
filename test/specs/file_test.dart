@@ -19,13 +19,11 @@ void main() {
             ..assignment = new Code((b) => b
               ..code = 'new {{LinkedHashMap}}()'
               ..specs.addAll({'LinkedHashMap': () => $linkedHashMap}))))),
-        equalsDart(
-            r'''
+        equalsDart(r'''
             import 'dart:collection';
           
             final test = new LinkedHashMap();
-          ''',
-            const DartEmitter()),
+          ''', const DartEmitter()),
       );
     });
 
@@ -38,13 +36,11 @@ void main() {
             ..assignment = new Code((b) => b
               ..code = 'new {{LinkedHashMap}}()'
               ..specs.addAll({'LinkedHashMap': () => $linkedHashMap}))))),
-        equalsDart(
-            r'''
+        equalsDart(r'''
           import 'dart:collection';
           
           final test = new LinkedHashMap();
-        ''',
-            new DartEmitter.scoped()),
+        ''', new DartEmitter.scoped()),
       );
     });
 
@@ -57,13 +53,11 @@ void main() {
             ..assignment = new Code((b) => b
               ..code = 'new {{LinkedHashMap}}()'
               ..specs.addAll({'LinkedHashMap': () => $linkedHashMap}))))),
-        equalsDart(
-            r'''
+        equalsDart(r'''
           import 'dart:collection' as _1;
           
           final test = new _1.LinkedHashMap();
-        ''',
-            new DartEmitter(new Allocator.simplePrefixing())),
+        ''', new DartEmitter(new Allocator.simplePrefixing())),
       );
     });
   });
