@@ -54,7 +54,7 @@ void main() {
           @override
           _3.Thing getThing() => new _3.Thing(_module.get1(), _module.get2());
         }
-      '''),
+      ''', new DartEmitter(new Allocator.simplePrefixing())),
     );
   });
 }
