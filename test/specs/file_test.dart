@@ -8,7 +8,8 @@ import 'package:test/test.dart';
 void main() {
   group('File', () {
     const $linkedHashMap = const Reference('LinkedHashMap', 'dart:collection');
-    test('should emit a source file', () {
+
+    test('should emit a source file with manual imports', () {
       expect(
         new File((b) => b
           ..directives.add(new Directive.import('dart:collection'))
@@ -18,11 +19,51 @@ void main() {
             ..assignment = new Code((b) => b
               ..code = 'new {{LinkedHashMap}}()'
               ..specs.addAll({'LinkedHashMap': () => $linkedHashMap}))))),
-        equalsDart(r'''
+        equalsDart(
+            r'''
+            import 'dart:collection';
+          
+            final test = new LinkedHashMap();
+          ''',
+            const DartEmitter()),
+      );
+    });
+
+    test('should emit a source file with allocation', () {
+      expect(
+        new File((b) => b
+          ..body.add(new Field((b) => b
+            ..name = 'test'
+            ..modifier = FieldModifier.final$
+            ..assignment = new Code((b) => b
+              ..code = 'new {{LinkedHashMap}}()'
+              ..specs.addAll({'LinkedHashMap': () => $linkedHashMap}))))),
+        equalsDart(
+            r'''
           import 'dart:collection';
           
           final test = new LinkedHashMap();
-        '''),
+        ''',
+            new DartEmitter.scoped()),
+      );
+    });
+
+    test('should emit a source file with allocation + prefixing', () {
+      expect(
+        new File((b) => b
+          ..body.add(new Field((b) => b
+            ..name = 'test'
+            ..modifier = FieldModifier.final$
+            ..assignment = new Code((b) => b
+              ..code = 'new {{LinkedHashMap}}()'
+              ..specs.addAll({'LinkedHashMap': () => $linkedHashMap}))))),
+        equalsDart(
+            r'''
+          import 'dart:collection' as _1;
+          
+          final test = new _1.LinkedHashMap();
+        ''',
+            new DartEmitter(new Allocator.simplePrefixing())),
       );
     });
   });

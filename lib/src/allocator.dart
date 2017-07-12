@@ -29,12 +29,12 @@ abstract class Allocator {
   ///
   /// For example, a no-op implementation:
   /// ```dart
-  /// allocate(const Reference('List', 'dart:core')); // Outputs 'List'.
+  /// allocate(const Reference('List', 'dart:core')); // Returns 'List'.
   /// ```
   ///
   /// Where-as an implementation that prefixes imports might output:
   /// ```dart
-  /// allocate(const Reference('Foo', 'package:foo')); // Outputs '_i1.Foo'.
+  /// allocate(const Reference('Foo', 'package:foo')); // Returns '_i1.Foo'.
   /// ```
   String allocate(Reference reference);
 

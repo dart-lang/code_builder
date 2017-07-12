@@ -174,7 +174,11 @@ class DartEmitter implements SpecVisitor<StringSink> {
     } else {
       output.write('export ');
     }
-    output.write("'${spec.url}';");
+    output.write("'${spec.url}'");
+    if (spec.as != null) {
+      output.write(' as ${spec.as}');
+    }
+    output.write(';');
     return output;
   }
 
@@ -215,12 +219,19 @@ class DartEmitter implements SpecVisitor<StringSink> {
   @override
   visitFile(File spec, [StringSink output]) {
     output ??= new StringBuffer();
+    // Process the body first in order to prime the allocators.
+    final body = new StringBuffer();
+    for (final spec in spec.body) {
+      body.write(visitSpec(spec));
+    }
+    // TODO: Allow some sort of logical ordering.
     for (final directive in spec.directives) {
       visitDirective(directive, output);
     }
-    for (final spec in spec.body) {
-      output.write(visitSpec(spec));
+    for (final directive in _allocator.imports) {
+      visitDirective(directive, output);
     }
+    output.write(body);
     return output;
   }
 
