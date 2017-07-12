@@ -22,16 +22,21 @@ String _dartfmt(String source) {
 }
 
 /// Encodes [spec] as Dart source code.
-String _dart(Spec spec) =>
-    _dartfmt(spec.accept<StringSink>(const DartEmitter()).toString());
+String _dart(Spec spec, DartEmitter emitter) =>
+    _dartfmt(spec.accept<StringSink>(emitter).toString()).trim();
 
 /// Returns a matcher for Dart source code.
-Matcher equalsDart(String source) => new _EqualsDart(_dartfmt(source));
+Matcher equalsDart(
+  String source, [
+  DartEmitter emitter = const DartEmitter(),
+]) =>
+    new _EqualsDart(_dartfmt(source).trim(), emitter);
 
 class _EqualsDart extends Matcher {
+  final DartEmitter _emitter;
   final String _source;
 
-  const _EqualsDart(this._source);
+  const _EqualsDart(this._source, this._emitter);
 
   @override
   Description describe(Description description) => description.add(_source);
@@ -40,11 +45,18 @@ class _EqualsDart extends Matcher {
   Description describeMismatch(
     covariant Spec item,
     Description mismatchDescription,
-    _,
-    __,
-  ) =>
-      mismatchDescription.add(_dart(item));
+    state,
+    verbose,
+  ) {
+    final result = _dart(item, _emitter);
+    return equals(result).describeMismatch(
+      _source,
+      mismatchDescription,
+      state,
+      verbose,
+    );
+  }
 
   @override
-  bool matches(covariant Spec item, _) => _dart(item) == _source;
+  bool matches(covariant Spec item, _) => _dart(item, _emitter) == _source;
 }

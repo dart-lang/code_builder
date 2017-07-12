@@ -2,18 +2,30 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'allocator.dart';
+import 'base.dart';
 import 'specs/annotation.dart';
 import 'specs/class.dart';
 import 'specs/code.dart';
 import 'specs/constructor.dart';
+import 'specs/directive.dart';
 import 'specs/field.dart';
+import 'specs/file.dart';
 import 'specs/method.dart';
 import 'specs/reference.dart';
 import 'specs/type_reference.dart';
 import 'visitors.dart';
 
-class DartEmitter extends GeneralizingSpecVisitor<StringSink> {
-  const DartEmitter();
+class DartEmitter implements SpecVisitor<StringSink> {
+  final Allocator _allocator;
+
+  /// Creates a new instance of [DartEmitter].
+  ///
+  /// May specify an [Allocator] to use for symbols, otherwise uses a no-op.
+  const DartEmitter([this._allocator = Allocator.none]);
+
+  /// Creates a new instance of [DartEmitter] with a default [Allocator].
+  factory DartEmitter.scoped() => new DartEmitter(new Allocator());
 
   @override
   visitAnnotation(Annotation spec, [StringSink output]) {
@@ -155,6 +167,22 @@ class DartEmitter extends GeneralizingSpecVisitor<StringSink> {
   }
 
   @override
+  visitDirective(Directive spec, [StringSink output]) {
+    output ??= new StringBuffer();
+    if (spec.type == DirectiveType.import) {
+      output.write('import ');
+    } else {
+      output.write('export ');
+    }
+    output.write("'${spec.url}'");
+    if (spec.as != null) {
+      output.write(' as ${spec.as}');
+    }
+    output.write(';');
+    return output;
+  }
+
+  @override
   visitField(Field spec, [StringSink output]) {
     output ??= new StringBuffer();
     spec.docs.forEach(output.writeln);
@@ -185,6 +213,25 @@ class DartEmitter extends GeneralizingSpecVisitor<StringSink> {
       visitCode(spec.assignment, output);
     }
     output.write(';');
+    return output;
+  }
+
+  @override
+  visitFile(File spec, [StringSink output]) {
+    output ??= new StringBuffer();
+    // Process the body first in order to prime the allocators.
+    final body = new StringBuffer();
+    for (final spec in spec.body) {
+      body.write(visitSpec(spec));
+    }
+    // TODO: Allow some sort of logical ordering.
+    for (final directive in spec.directives) {
+      visitDirective(directive, output);
+    }
+    for (final directive in _allocator.imports) {
+      visitDirective(directive, output);
+    }
+    output.write(body);
     return output;
   }
 
@@ -293,8 +340,11 @@ class DartEmitter extends GeneralizingSpecVisitor<StringSink> {
 
   @override
   visitReference(Reference spec, [StringSink output]) {
-    return (output ??= new StringBuffer())..write(spec.symbol);
+    return (output ??= new StringBuffer())..write(_allocator.allocate(spec));
   }
+
+  @override
+  visitSpec(Spec spec) => spec.accept(this);
 
   @override
   visitType(TypeReference spec, [StringSink output]) {
