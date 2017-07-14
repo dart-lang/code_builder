@@ -18,14 +18,13 @@ import 'constructor.dart';
 import 'field.dart';
 import 'method.dart';
 import 'reference.dart';
-import 'type_reference.dart';
 
 part 'class.g.dart';
 
 @immutable
 abstract class Class extends Object
     with HasAnnotations, HasDartDocs, HasGenerics
-    implements Built<Class, ClassBuilder>, TypeReference, Spec {
+    implements Built<Class, ClassBuilder>, Spec {
   factory Class([void updates(ClassBuilder b)]) = _$Class;
 
   Class._();
@@ -57,24 +56,12 @@ abstract class Class extends Object
   String get name;
 
   @override
-  TypeReference get bound => null;
-
-  @override
-  String get url => null;
-
-  @override
-  String get symbol => name;
-
-  @override
   R accept<R>(SpecVisitor<R> visitor) => visitor.visitClass(this);
-
-  @override
-  TypeReference toType() => this;
 }
 
 abstract class ClassBuilder extends Object
     with HasAnnotationsBuilder, HasDartDocsBuilder, HasGenericsBuilder
-    implements Builder<Class, ClassBuilder>, TypeReferenceBuilder {
+    implements Builder<Class, ClassBuilder> {
   factory ClassBuilder() = _$ClassBuilder;
 
   ClassBuilder._();
@@ -102,22 +89,4 @@ abstract class ClassBuilder extends Object
 
   /// Name of the class.
   String name;
-
-  @override
-  Reference get bound => null;
-
-  @override
-  set bound(Reference bound) => throw new UnsupportedError('');
-
-  @override
-  String get url => null;
-
-  @override
-  set url(String url) => throw new UnsupportedError('');
-
-  @override
-  set symbol(String symbol) => name = symbol;
-
-  @override
-  String get symbol => name;
 }

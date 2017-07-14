@@ -16,6 +16,8 @@ final animal = new Class((b) => b
 ```
 
 * We now support the Dart 2.0 pre-release SDKs (`<2.0.0-dev.infinity`)
+* Removed the ability to treat `Class` as a `TypeReference`.
+  * Was required for compilation to `dart2js`, which is now tested on travis.
 
 ## 2.0.0-alpha
 

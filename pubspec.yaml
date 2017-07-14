@@ -19,3 +19,7 @@ dev_dependencies:
   built_value_generator: '>=1.0.0 <=1.1.4'
   source_gen: '>=0.5.0 <0.7.0'
   test: ^0.12.0
+
+transformers:
+  - test/pub_serve:
+      $include: test/**_test.dart
