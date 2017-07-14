@@ -16,7 +16,7 @@ branches:
 
 # Check for analysis issues, run the test cases, and ensure `dartfmt` is run.
 dart_task:
-  - test: --platform vm,chrome
+  - test: --platform vm
   - dartanalyzer
   - dartfmt
 
