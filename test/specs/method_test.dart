@@ -51,6 +51,15 @@ void main() {
     );
   });
 
+  test('should create a method with a void return type', () {
+    expect(
+      new Method.returnsVoid((b) => b..name = 'foo'),
+      equalsDart(r'''
+        void foo();
+      '''),
+    );
+  });
+
   test('should create a method with generic types', () {
     expect(
       new Method((b) => b
