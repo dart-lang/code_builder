@@ -20,11 +20,22 @@ import 'type_reference.dart';
 
 part 'method.g.dart';
 
+final TypeReference _$void = const Reference.localScope('void').toType();
+
 @immutable
 abstract class Method extends Object
     with HasAnnotations, HasGenerics, HasDartDocs
     implements Built<Method, MethodBuilder>, Reference, Spec {
   factory Method([void updates(MethodBuilder b)]) = _$Method;
+
+  factory Method.returnsVoid([void updates(MethodBuilder b)]) {
+    return new Method((b) {
+      if (updates != null) {
+        updates(b);
+      }
+      b.returns = _$void;
+    });
+  }
 
   Method._();
 

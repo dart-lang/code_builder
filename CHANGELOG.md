@@ -1,3 +1,9 @@
+## 2.0.0-alpha
+
+* Complete re-write to not use `package:analyzer`.
+* Code generation now properly uses the _builder_ pattern (via `built_value`).
+* See examples and tests for details.
+
 ## 1.0.4
 
 * Added `isInstanceOf` to `ExpressionBuilder`, which performs an `is` check:
