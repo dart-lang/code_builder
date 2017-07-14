@@ -16,5 +16,6 @@ Future<Null> main() async {
       ]),
       new InputSet('code_builder', const ['lib/src/specs/**.dart']),
     ),
+    deleteFilesByDefault: true,
   );
 }

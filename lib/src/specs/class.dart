@@ -17,6 +17,7 @@ import 'annotation.dart';
 import 'constructor.dart';
 import 'field.dart';
 import 'method.dart';
+import 'reference.dart';
 import 'type_reference.dart';
 
 part 'class.g.dart';
@@ -39,14 +40,14 @@ abstract class Class extends Object
   BuiltList<String> get docs;
 
   @nullable
-  TypeReference get extend;
+  Reference get extend;
 
-  BuiltList<TypeReference> get implements;
+  BuiltList<Reference> get implements;
 
-  BuiltList<TypeReference> get mixins;
+  BuiltList<Reference> get mixins;
 
   @override
-  BuiltList<TypeReference> get types;
+  BuiltList<Reference> get types;
 
   BuiltList<Constructor> get constructors;
   BuiltList<Method> get methods;
@@ -87,13 +88,13 @@ abstract class ClassBuilder extends Object
   @override
   ListBuilder<String> docs = new ListBuilder<String>();
 
-  TypeReference extend;
+  Reference extend;
 
-  ListBuilder<TypeReference> implements = new ListBuilder<TypeReference>();
-  ListBuilder<TypeReference> mixins = new ListBuilder<TypeReference>();
+  ListBuilder<Reference> implements = new ListBuilder<Reference>();
+  ListBuilder<Reference> mixins = new ListBuilder<Reference>();
 
   @override
-  ListBuilder<TypeReference> types = new ListBuilder<TypeReference>();
+  ListBuilder<Reference> types = new ListBuilder<Reference>();
 
   ListBuilder<Constructor> constructors = new ListBuilder<Constructor>();
   ListBuilder<Method> methods = new ListBuilder<Method>();
@@ -103,10 +104,10 @@ abstract class ClassBuilder extends Object
   String name;
 
   @override
-  TypeReference get bound => null;
+  Reference get bound => null;
 
   @override
-  set bound(TypeReference bound) => throw new UnsupportedError('');
+  set bound(Reference bound) => throw new UnsupportedError('');
 
   @override
   String get url => null;

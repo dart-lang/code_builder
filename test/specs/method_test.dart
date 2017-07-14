@@ -44,7 +44,7 @@ void main() {
     expect(
       new Method((b) => b
         ..name = 'foo'
-        ..returns = const Reference.localScope('String').toType()),
+        ..returns = const Reference('String')),
       equalsDart(r'''
         String foo();
       '''),
@@ -64,7 +64,7 @@ void main() {
     expect(
       new Method((b) => b
         ..name = 'foo'
-        ..types.add(const Reference.localScope('T').toType())),
+        ..types.add(const Reference('T'))),
       equalsDart(r'''
         foo<T>();
       '''),
@@ -182,7 +182,7 @@ void main() {
             new Parameter(
               (b) => b
                 ..name = 'i'
-                ..type = const Reference.localScope('int').toType(),
+                ..type = const Reference('int').toType(),
             ),
           ),
       ),
@@ -199,18 +199,18 @@ void main() {
           ..name = 'foo'
           ..types.add(new TypeReference((b) => b
             ..symbol = 'T'
-            ..bound = const Reference.localScope('Iterable').toType()))
+            ..bound = const Reference('Iterable')))
           ..requiredParameters.addAll([
             new Parameter(
               (b) => b
                 ..name = 't'
-                ..type = const Reference.localScope('T').toType(),
+                ..type = const Reference('T'),
             ),
             new Parameter((b) => b
               ..name = 'x'
               ..type = new TypeReference((b) => b
                 ..symbol = 'X'
-                ..types.add(const Reference.localScope('T').toType()))),
+                ..types.add(const Reference('T')))),
           ]),
       ),
       equalsDart(r'''

@@ -8,7 +8,7 @@ import 'package:dart_style/dart_style.dart';
 void main() {
   final animal = new Class((b) => b
     ..name = 'Animal'
-    ..extend = const Reference.localScope('Organism').toType()
+    ..extend = const Reference('Organism')
     ..methods.add(new Method.returnsVoid((b) => b
       ..name = 'eat'
       ..lambda = true

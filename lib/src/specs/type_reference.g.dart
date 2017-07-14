@@ -13,9 +13,9 @@ class _$TypeReference extends TypeReference {
   @override
   final String url;
   @override
-  final TypeReference bound;
+  final Reference bound;
   @override
-  final BuiltList<TypeReference> types;
+  final BuiltList<Reference> types;
 
   factory _$TypeReference([void updates(TypeReferenceBuilder b)]) =>
       (new TypeReferenceBuilder()..update(updates)).build() as _$TypeReference;
@@ -90,25 +90,25 @@ class _$TypeReferenceBuilder extends TypeReferenceBuilder {
   }
 
   @override
-  TypeReference get bound {
+  Reference get bound {
     _$this;
     return super.bound;
   }
 
   @override
-  set bound(TypeReference bound) {
+  set bound(Reference bound) {
     _$this;
     super.bound = bound;
   }
 
   @override
-  ListBuilder<TypeReference> get types {
+  ListBuilder<Reference> get types {
     _$this;
-    return super.types ??= new ListBuilder<TypeReference>();
+    return super.types ??= new ListBuilder<Reference>();
   }
 
   @override
-  set types(ListBuilder<TypeReference> types) {
+  set types(ListBuilder<Reference> types) {
     _$this;
     super.types = types;
   }

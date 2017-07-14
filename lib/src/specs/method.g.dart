@@ -13,7 +13,7 @@ class _$Method extends Method {
   @override
   final BuiltList<String> docs;
   @override
-  final BuiltList<TypeReference> types;
+  final BuiltList<Reference> types;
   @override
   final BuiltList<Parameter> optionalParameters;
   @override
@@ -31,7 +31,7 @@ class _$Method extends Method {
   @override
   final MethodType type;
   @override
-  final TypeReference returns;
+  final Reference returns;
 
   factory _$Method([void updates(MethodBuilder b)]) =>
       (new MethodBuilder()..update(updates)).build() as _$Method;
@@ -161,13 +161,13 @@ class _$MethodBuilder extends MethodBuilder {
   }
 
   @override
-  ListBuilder<TypeReference> get types {
+  ListBuilder<Reference> get types {
     _$this;
-    return super.types ??= new ListBuilder<TypeReference>();
+    return super.types ??= new ListBuilder<Reference>();
   }
 
   @override
-  set types(ListBuilder<TypeReference> types) {
+  set types(ListBuilder<Reference> types) {
     _$this;
     super.types = types;
   }
@@ -269,13 +269,13 @@ class _$MethodBuilder extends MethodBuilder {
   }
 
   @override
-  TypeReference get returns {
+  Reference get returns {
     _$this;
     return super.returns;
   }
 
   @override
-  set returns(TypeReference returns) {
+  set returns(Reference returns) {
     _$this;
     super.returns = returns;
   }
@@ -352,9 +352,9 @@ class _$Parameter extends Parameter {
   @override
   final BuiltList<String> docs;
   @override
-  final BuiltList<TypeReference> types;
+  final BuiltList<Reference> types;
   @override
-  final TypeReference type;
+  final Reference type;
 
   factory _$Parameter([void updates(ParameterBuilder b)]) =>
       (new ParameterBuilder()..update(updates)).build() as _$Parameter;
@@ -505,25 +505,25 @@ class _$ParameterBuilder extends ParameterBuilder {
   }
 
   @override
-  ListBuilder<TypeReference> get types {
+  ListBuilder<Reference> get types {
     _$this;
-    return super.types ??= new ListBuilder<TypeReference>();
+    return super.types ??= new ListBuilder<Reference>();
   }
 
   @override
-  set types(ListBuilder<TypeReference> types) {
+  set types(ListBuilder<Reference> types) {
     _$this;
     super.types = types;
   }
 
   @override
-  TypeReference get type {
+  Reference get type {
     _$this;
     return super.type;
   }
 
   @override
-  set type(TypeReference type) {
+  set type(Reference type) {
     _$this;
     super.type = type;
   }

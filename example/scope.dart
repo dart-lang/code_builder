@@ -10,11 +10,11 @@ void main() {
         new Method((b) => b
           ..body = new Code((b) => b.code = '')
           ..name = 'doThing'
-          ..returns = const Reference('Thing', 'package:a/a.dart').toType()),
+          ..returns = const Reference('Thing', 'package:a/a.dart')),
         new Method((b) => b
           ..body = new Code((b) => b..code = '')
           ..name = 'doOther'
-          ..returns = const Reference('Other', 'package:b/b.dart').toType()),
+          ..returns = const Reference('Other', 'package:b/b.dart')),
       ]));
   final emitter = new DartEmitter(new Allocator.simplePrefixing());
   print(new DartFormatter().format('${library.accept(emitter)}'));

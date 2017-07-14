@@ -4,14 +4,14 @@
 
 import 'package:built_collection/built_collection.dart';
 
-import '../specs/type_reference.dart';
+import '../specs/reference.dart';
 
 abstract class HasGenerics {
   /// Generic type parameters.
-  BuiltList<TypeReference> get types;
+  BuiltList<Reference> get types;
 }
 
 abstract class HasGenericsBuilder {
   /// Generic type parameters.
-  ListBuilder<TypeReference> types;
+  ListBuilder<Reference> types;
 }

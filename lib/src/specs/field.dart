@@ -46,7 +46,7 @@ abstract class Field extends Object
   String get name;
 
   @nullable
-  TypeReference get type;
+  Reference get type;
 
   FieldModifier get modifier;
 
@@ -93,7 +93,7 @@ abstract class FieldBuilder extends Object
   /// Name of the field.
   String name;
 
-  TypeReference type;
+  Reference type;
 
   FieldModifier modifier = FieldModifier.var$;
 }

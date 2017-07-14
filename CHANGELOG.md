@@ -1,3 +1,22 @@
+## 2.0.0-alpha+1
+
+* Removed `Reference.localScope`. Just use `Reference(symbol)` now.
+* Allow `Reference` instead of an explicit `TypeReference` in most APIs.
+  * `toType()` is performed for you as part the emitter process
+
+```dart
+final animal = new Class((b) => b
+  ..name = 'Animal'
+  // Used to need a suffix of .toType().
+  ..extend = const Reference('Organism')
+  ..methods.add(new Method.returnsVoid((b) => b
+    ..name = 'eat'
+    ..lambda = true
+    ..body = new Code((b) => b..code = 'print(\'Yum\')'))));
+```
+
+* We now support the Dart 2.0 pre-release SDKs (`<2.0.0-dev.infinity`)
+
 ## 2.0.0-alpha
 
 * Complete re-write to not use `package:analyzer`.

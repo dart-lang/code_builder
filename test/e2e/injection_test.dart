@@ -14,7 +14,7 @@ void main() {
 
     final clazz = new ClassBuilder()
       ..name = 'Injector'
-      ..implements.add($App.toType())
+      ..implements.add($App)
       ..fields.add(new Field((b) => b
         ..modifier = FieldModifier.final$
         ..name = '_module'
@@ -29,7 +29,7 @@ void main() {
           ..code = 'new {{ThingRef}}(_module.get1(), _module.get2())'
           ..specs['ThingRef'] = () => $Thing)
         ..lambda = true
-        ..returns = $Thing.toType()
+        ..returns = $Thing
         ..annotations.add(new Annotation(
             (b) => b..code = new Code((b) => b.code = 'override')))));
 

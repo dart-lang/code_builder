@@ -19,7 +19,7 @@ class _$Field extends Field {
   @override
   final String name;
   @override
-  final TypeReference type;
+  final Reference type;
   @override
   final FieldModifier modifier;
 
@@ -154,13 +154,13 @@ class _$FieldBuilder extends FieldBuilder {
   }
 
   @override
-  TypeReference get type {
+  Reference get type {
     _$this;
     return super.type;
   }
 
   @override
-  set type(TypeReference type) {
+  set type(Reference type) {
     _$this;
     super.type = type;
   }
