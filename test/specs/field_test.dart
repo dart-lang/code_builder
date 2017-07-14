@@ -19,7 +19,7 @@ void main() {
     expect(
       new Field((b) => b
         ..name = 'foo'
-        ..type = const Reference.localScope('String').toType()),
+        ..type = const Reference('String')),
       equalsDart(r'''
         String foo;
       '''),

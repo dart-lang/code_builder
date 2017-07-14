@@ -20,7 +20,7 @@ import 'type_reference.dart';
 
 part 'method.g.dart';
 
-final TypeReference _$void = const Reference.localScope('void').toType();
+final Reference _$void = const Reference('void');
 
 @immutable
 abstract class Method extends Object
@@ -46,7 +46,7 @@ abstract class Method extends Object
   BuiltList<String> get docs;
 
   @override
-  BuiltList<TypeReference> get types;
+  BuiltList<Reference> get types;
 
   /// Optional parameters.
   BuiltList<Parameter> get optionalParameters;
@@ -77,7 +77,7 @@ abstract class Method extends Object
   MethodType get type;
 
   @nullable
-  TypeReference get returns;
+  Reference get returns;
 
   @override
   String get symbol => name;
@@ -106,7 +106,7 @@ abstract class MethodBuilder extends Object
   ListBuilder<String> docs = new ListBuilder<String>();
 
   @override
-  ListBuilder<TypeReference> types = new ListBuilder<TypeReference>();
+  ListBuilder<Reference> types = new ListBuilder<Reference>();
 
   /// Optional parameters.
   ListBuilder<Parameter> optionalParameters = new ListBuilder<Parameter>();
@@ -134,7 +134,7 @@ abstract class MethodBuilder extends Object
   /// Whether this is a getter or setter.
   MethodType type;
 
-  TypeReference returns;
+  Reference returns;
 }
 
 enum MethodType {
@@ -171,11 +171,11 @@ abstract class Parameter extends Object
   BuiltList<String> get docs;
 
   @override
-  BuiltList<TypeReference> get types;
+  BuiltList<Reference> get types;
 
   /// Type of the parameter;
   @nullable
-  TypeReference get type;
+  Reference get type;
 }
 
 abstract class ParameterBuilder extends Object
@@ -206,8 +206,8 @@ abstract class ParameterBuilder extends Object
   ListBuilder<String> docs = new ListBuilder<String>();
 
   @override
-  ListBuilder<TypeReference> types = new ListBuilder<TypeReference>();
+  ListBuilder<Reference> types = new ListBuilder<Reference>();
 
   /// Type of the parameter;
-  TypeReference type;
+  Reference type;
 }

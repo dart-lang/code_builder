@@ -34,10 +34,10 @@ abstract class TypeReference extends Object
 
   /// Optional bound generic.
   @nullable
-  TypeReference get bound;
+  Reference get bound;
 
   @override
-  BuiltList<TypeReference> get types;
+  BuiltList<Reference> get types;
 
   @override
   R accept<R>(SpecVisitor<R> visitor) => visitor.visitType(this);
@@ -58,8 +58,8 @@ abstract class TypeReferenceBuilder extends Object
   String url;
 
   /// Optional bound generic.
-  TypeReference bound;
+  Reference bound;
 
   @override
-  ListBuilder<TypeReference> types = new ListBuilder<TypeReference>();
+  ListBuilder<Reference> types = new ListBuilder<Reference>();
 }

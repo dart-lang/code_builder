@@ -15,13 +15,13 @@ class _$Class extends Class {
   @override
   final BuiltList<String> docs;
   @override
-  final TypeReference extend;
+  final Reference extend;
   @override
-  final BuiltList<TypeReference> implements;
+  final BuiltList<Reference> implements;
   @override
-  final BuiltList<TypeReference> mixins;
+  final BuiltList<Reference> mixins;
   @override
-  final BuiltList<TypeReference> types;
+  final BuiltList<Reference> types;
   @override
   final BuiltList<Constructor> constructors;
   @override
@@ -165,49 +165,49 @@ class _$ClassBuilder extends ClassBuilder {
   }
 
   @override
-  TypeReference get extend {
+  Reference get extend {
     _$this;
     return super.extend;
   }
 
   @override
-  set extend(TypeReference extend) {
+  set extend(Reference extend) {
     _$this;
     super.extend = extend;
   }
 
   @override
-  ListBuilder<TypeReference> get implements {
+  ListBuilder<Reference> get implements {
     _$this;
-    return super.implements ??= new ListBuilder<TypeReference>();
+    return super.implements ??= new ListBuilder<Reference>();
   }
 
   @override
-  set implements(ListBuilder<TypeReference> implements) {
+  set implements(ListBuilder<Reference> implements) {
     _$this;
     super.implements = implements;
   }
 
   @override
-  ListBuilder<TypeReference> get mixins {
+  ListBuilder<Reference> get mixins {
     _$this;
-    return super.mixins ??= new ListBuilder<TypeReference>();
+    return super.mixins ??= new ListBuilder<Reference>();
   }
 
   @override
-  set mixins(ListBuilder<TypeReference> mixins) {
+  set mixins(ListBuilder<Reference> mixins) {
     _$this;
     super.mixins = mixins;
   }
 
   @override
-  ListBuilder<TypeReference> get types {
+  ListBuilder<Reference> get types {
     _$this;
-    return super.types ??= new ListBuilder<TypeReference>();
+    return super.types ??= new ListBuilder<Reference>();
   }
 
   @override
-  set types(ListBuilder<TypeReference> types) {
+  set types(ListBuilder<Reference> types) {
     _$this;
     super.types = types;
   }

@@ -18,7 +18,7 @@ void main() {
       allocator = new Allocator()
         ..allocate(const Reference('List', 'dart:core'))
         ..allocate(const Reference('LinkedHashMap', 'dart:collection'))
-        ..allocate(const Reference.localScope('someSymbol'));
+        ..allocate(const Reference('someSymbol'));
       expect(allocator.imports.map((d) => d.url), [
         'dart:core',
         'dart:collection',

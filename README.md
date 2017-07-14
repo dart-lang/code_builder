@@ -33,7 +33,7 @@ import 'package:dart_style/dart_style.dart';
 void main() {
   final animal = new Class((b) => b
     ..name = 'Animal'
-    ..extend = const Reference.localScope('Organism').toType()
+    ..extend = const Reference('Organism').toType()
     ..methods.add(new Method.returnsVoid((b) => b
       ..name = 'eat'
       ..lambda = true
@@ -63,11 +63,11 @@ void main() {
         new Method((b) => b
           ..body = new Code((b) => b.code = '')
           ..name = 'doThing'
-          ..returns = const Reference('Thing', 'package:a/a.dart').toType()),
+          ..returns = const Reference('Thing', 'package:a/a.dart')),
         new Method((b) => b
           ..body = new Code((b) => b..code = '')
           ..name = 'doOther'
-          ..returns = const Reference('Other', 'package:b/b.dart').toType()),
+          ..returns = const Reference('Other', 'package:b/b.dart')),
       ]));
   final emitter = new DartEmitter(new Allocator.simplePrefixing());
   print(new DartFormatter().format('${library.accept(emitter)}'));

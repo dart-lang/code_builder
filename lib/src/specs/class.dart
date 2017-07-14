@@ -17,14 +17,14 @@ import 'annotation.dart';
 import 'constructor.dart';
 import 'field.dart';
 import 'method.dart';
-import 'type_reference.dart';
+import 'reference.dart';
 
 part 'class.g.dart';
 
 @immutable
 abstract class Class extends Object
     with HasAnnotations, HasDartDocs, HasGenerics
-    implements Built<Class, ClassBuilder>, TypeReference, Spec {
+    implements Built<Class, ClassBuilder>, Spec {
   factory Class([void updates(ClassBuilder b)]) = _$Class;
 
   Class._();
@@ -39,14 +39,14 @@ abstract class Class extends Object
   BuiltList<String> get docs;
 
   @nullable
-  TypeReference get extend;
+  Reference get extend;
 
-  BuiltList<TypeReference> get implements;
+  BuiltList<Reference> get implements;
 
-  BuiltList<TypeReference> get mixins;
+  BuiltList<Reference> get mixins;
 
   @override
-  BuiltList<TypeReference> get types;
+  BuiltList<Reference> get types;
 
   BuiltList<Constructor> get constructors;
   BuiltList<Method> get methods;
@@ -56,24 +56,12 @@ abstract class Class extends Object
   String get name;
 
   @override
-  TypeReference get bound => null;
-
-  @override
-  String get url => null;
-
-  @override
-  String get symbol => name;
-
-  @override
   R accept<R>(SpecVisitor<R> visitor) => visitor.visitClass(this);
-
-  @override
-  TypeReference toType() => this;
 }
 
 abstract class ClassBuilder extends Object
     with HasAnnotationsBuilder, HasDartDocsBuilder, HasGenericsBuilder
-    implements Builder<Class, ClassBuilder>, TypeReferenceBuilder {
+    implements Builder<Class, ClassBuilder> {
   factory ClassBuilder() = _$ClassBuilder;
 
   ClassBuilder._();
@@ -87,13 +75,13 @@ abstract class ClassBuilder extends Object
   @override
   ListBuilder<String> docs = new ListBuilder<String>();
 
-  TypeReference extend;
+  Reference extend;
 
-  ListBuilder<TypeReference> implements = new ListBuilder<TypeReference>();
-  ListBuilder<TypeReference> mixins = new ListBuilder<TypeReference>();
+  ListBuilder<Reference> implements = new ListBuilder<Reference>();
+  ListBuilder<Reference> mixins = new ListBuilder<Reference>();
 
   @override
-  ListBuilder<TypeReference> types = new ListBuilder<TypeReference>();
+  ListBuilder<Reference> types = new ListBuilder<Reference>();
 
   ListBuilder<Constructor> constructors = new ListBuilder<Constructor>();
   ListBuilder<Method> methods = new ListBuilder<Method>();
@@ -101,22 +89,4 @@ abstract class ClassBuilder extends Object
 
   /// Name of the class.
   String name;
-
-  @override
-  TypeReference get bound => null;
-
-  @override
-  set bound(TypeReference bound) => throw new UnsupportedError('');
-
-  @override
-  String get url => null;
-
-  @override
-  set url(String url) => throw new UnsupportedError('');
-
-  @override
-  set symbol(String symbol) => name = symbol;
-
-  @override
-  String get symbol => name;
 }

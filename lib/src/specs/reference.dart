@@ -26,10 +26,7 @@ class Reference implements Spec {
   final String symbol;
 
   /// Create a reference to [symbol] in [url].
-  const Reference(this.symbol, this.url);
-
-  /// Create a reference to [symbol] in the same library (no import statement).
-  const Reference.localScope(this.symbol) : url = null;
+  const Reference(this.symbol, [this.url]);
 
   @override
   R accept<R>(SpecVisitor<R> visitor) => visitor.visitReference(this);

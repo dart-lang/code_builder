@@ -6,6 +6,11 @@ cache:
   directories:
     - $HOME/.pub-cache
 
+# TODO: Use chrome in --headless mode once supported by pub run test.
+dist: trusty
+addons:
+  chrome: stable
+
 branches:
   only: [master, v2]
 
