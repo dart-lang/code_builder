@@ -16,6 +16,13 @@ easier or better way to do something, consider [opening a pull request][pull].
 You can always [file an issue][issue], but generally speaking feature requests
 will be on a best-effort basis.
 
+> **NOTE**: Due to the evolving Dart SDK the local `dartfmt` must be used to
+> format this repository. You can run it simply from the command-line:
+
+```sh
+$ pub run dart_style:format -w .
+```
+
 [wiki]: https://github.com/dart-lang/code_builder/wiki
 [issue]: https://github.com/dart-lang/code_builder/issues
 [pull]: https://github.com/dart-lang/code_builder/pulls
