@@ -4,8 +4,11 @@ part of code_builder.src.specs.directive;
 
 // **************************************************************************
 // Generator: BuiltValueGenerator
-// Target: abstract class Directive
 // **************************************************************************
+
+// ignore_for_file: annotate_overrides
+// ignore_for_file: prefer_expression_function_bodies
+// ignore_for_file: sort_constructors_first
 
 class _$Directive extends Directive {
   @override
@@ -14,13 +17,24 @@ class _$Directive extends Directive {
   final String url;
   @override
   final DirectiveType type;
+  @override
+  final List<String> show;
+  @override
+  final List<String> hide;
+  @override
+  final bool deferred;
 
   factory _$Directive([void updates(DirectiveBuilder b)]) =>
       (new DirectiveBuilder()..update(updates)).build() as _$Directive;
 
-  _$Directive._({this.as, this.url, this.type}) : super._() {
+  _$Directive._(
+      {this.as, this.url, this.type, this.show, this.hide, this.deferred})
+      : super._() {
     if (url == null) throw new ArgumentError.notNull('url');
     if (type == null) throw new ArgumentError.notNull('type');
+    if (show == null) throw new ArgumentError.notNull('show');
+    if (hide == null) throw new ArgumentError.notNull('hide');
+    if (deferred == null) throw new ArgumentError.notNull('deferred');
   }
 
   @override
@@ -34,12 +48,22 @@ class _$Directive extends Directive {
   bool operator ==(dynamic other) {
     if (identical(other, this)) return true;
     if (other is! Directive) return false;
-    return as == other.as && url == other.url && type == other.type;
+    return as == other.as &&
+        url == other.url &&
+        type == other.type &&
+        show == other.show &&
+        hide == other.hide &&
+        deferred == other.deferred;
   }
 
   @override
   int get hashCode {
-    return $jf($jc($jc($jc(0, as.hashCode), url.hashCode), type.hashCode));
+    return $jf($jc(
+        $jc(
+            $jc($jc($jc($jc(0, as.hashCode), url.hashCode), type.hashCode),
+                show.hashCode),
+            hide.hashCode),
+        deferred.hashCode));
   }
 
   @override
@@ -47,7 +71,10 @@ class _$Directive extends Directive {
     return (newBuiltValueToStringHelper('Directive')
           ..add('as', as)
           ..add('url', url)
-          ..add('type', type))
+          ..add('type', type)
+          ..add('show', show)
+          ..add('hide', hide)
+          ..add('deferred', deferred))
         .toString();
   }
 }
@@ -91,6 +118,42 @@ class _$DirectiveBuilder extends DirectiveBuilder {
     super.type = type;
   }
 
+  @override
+  List<String> get show {
+    _$this;
+    return super.show;
+  }
+
+  @override
+  set show(List<String> show) {
+    _$this;
+    super.show = show;
+  }
+
+  @override
+  List<String> get hide {
+    _$this;
+    return super.hide;
+  }
+
+  @override
+  set hide(List<String> hide) {
+    _$this;
+    super.hide = hide;
+  }
+
+  @override
+  bool get deferred {
+    _$this;
+    return super.deferred;
+  }
+
+  @override
+  set deferred(bool deferred) {
+    _$this;
+    super.deferred = deferred;
+  }
+
   _$DirectiveBuilder() : super._();
 
   DirectiveBuilder get _$this {
@@ -98,6 +161,9 @@ class _$DirectiveBuilder extends DirectiveBuilder {
       super.as = _$v.as;
       super.url = _$v.url;
       super.type = _$v.type;
+      super.show = _$v.show;
+      super.hide = _$v.hide;
+      super.deferred = _$v.deferred;
       _$v = null;
     }
     return this;
@@ -116,8 +182,15 @@ class _$DirectiveBuilder extends DirectiveBuilder {
 
   @override
   _$Directive build() {
-    final result = _$v ?? new _$Directive._(as: as, url: url, type: type);
-    replace(result);
-    return result;
+    final _$result = _$v ??
+        new _$Directive._(
+            as: as,
+            url: url,
+            type: type,
+            show: show,
+            hide: hide,
+            deferred: deferred);
+    replace(_$result);
+    return _$result;
   }
 }

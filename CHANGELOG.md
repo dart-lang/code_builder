@@ -1,3 +1,14 @@
+## 2.0.0-alpha+2
+
+* Upgraded `build_runner` from `^0.3.0` to `>=0.4.0 <0.6.0`.
+* Upgraded `build_value{_generator}` from `^1.0.0` to `>=2.0.0 <5.0.0`.
+* Upgraded `source_gen` from `>=0.5.0 <0.7.0` to `^0.7.0`.
+
+* Added `MethodModifier` to allow emit a `Method` with `async|async*|sync*`.
+* Added `show|hide` to `Directive`.
+* Added `Directive.importDeferredAs`.
+* Added a new line character after emitting some types (class, method, etc).
+
 ## 2.0.0-alpha+1
 
 * Removed `Reference.localScope`. Just use `Reference(symbol)` now.

@@ -4,8 +4,11 @@ part of code_builder.src.specs.field;
 
 // **************************************************************************
 // Generator: BuiltValueGenerator
-// Target: abstract class Field
 // **************************************************************************
+
+// ignore_for_file: annotate_overrides
+// ignore_for_file: prefer_expression_function_bodies
+// ignore_for_file: sort_constructors_first
 
 class _$Field extends Field {
   @override
@@ -206,7 +209,7 @@ class _$FieldBuilder extends FieldBuilder {
 
   @override
   _$Field build() {
-    final result = _$v ??
+    final _$result = _$v ??
         new _$Field._(
             annotations: annotations?.build(),
             docs: docs?.build(),
@@ -215,7 +218,7 @@ class _$FieldBuilder extends FieldBuilder {
             name: name,
             type: type,
             modifier: modifier);
-    replace(result);
-    return result;
+    replace(_$result);
+    return _$result;
   }
 }

@@ -15,6 +15,12 @@ export 'src/specs/directive.dart'
 export 'src/specs/field.dart' show Field, FieldBuilder, FieldModifier;
 export 'src/specs/file.dart' show File, FileBuilder;
 export 'src/specs/method.dart'
-    show Method, MethodBuilder, MethodType, Parameter, ParameterBuilder;
+    show
+        Method,
+        MethodBuilder,
+        MethodModifier,
+        MethodType,
+        Parameter,
+        ParameterBuilder;
 export 'src/specs/reference.dart' show Reference;
 export 'src/specs/type_reference.dart' show TypeReference, TypeReferenceBuilder;

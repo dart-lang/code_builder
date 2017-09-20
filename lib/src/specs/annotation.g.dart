@@ -4,8 +4,11 @@ part of code_builder.src.specs.annotation;
 
 // **************************************************************************
 // Generator: BuiltValueGenerator
-// Target: abstract class Annotation
 // **************************************************************************
+
+// ignore_for_file: annotate_overrides
+// ignore_for_file: prefer_expression_function_bodies
+// ignore_for_file: sort_constructors_first
 
 class _$Annotation extends Annotation {
   @override
@@ -82,8 +85,8 @@ class _$AnnotationBuilder extends AnnotationBuilder {
 
   @override
   _$Annotation build() {
-    final result = _$v ?? new _$Annotation._(code: code);
-    replace(result);
-    return result;
+    final _$result = _$v ?? new _$Annotation._(code: code);
+    replace(_$result);
+    return _$result;
   }
 }

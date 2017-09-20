@@ -19,15 +19,40 @@ abstract class Directive implements Built<Directive, DirectiveBuilder>, Spec {
   factory Directive.import(
     String url, {
     String as,
+    List<String> show: const [],
+    List<String> hide: const [],
   }) =>
       new Directive((builder) => builder
         ..as = as
         ..type = DirectiveType.import
-        ..url = url);
+        ..url = url
+        ..show.addAll(show)
+        ..hide.addAll(hide));
 
-  factory Directive.export(String url) => new Directive((builder) => builder
-    ..type = DirectiveType.export
-    ..url = url);
+  factory Directive.importDeferredAs(
+    String url,
+    String as, {
+    List<String> show: const [],
+    List<String> hide: const [],
+  }) =>
+      new Directive((builder) => builder
+        ..as = as
+        ..type = DirectiveType.import
+        ..url = url
+        ..deferred = true
+        ..show.addAll(show)
+        ..hide.addAll(hide));
+
+  factory Directive.export(
+    String url, {
+    List<String> show: const [],
+    List<String> hide: const [],
+  }) =>
+      new Directive((builder) => builder
+        ..type = DirectiveType.export
+        ..url = url
+        ..show.addAll(show)
+        ..hide.addAll(hide));
 
   Directive._();
 
@@ -37,6 +62,12 @@ abstract class Directive implements Built<Directive, DirectiveBuilder>, Spec {
   String get url;
 
   DirectiveType get type;
+
+  List<String> get show;
+
+  List<String> get hide;
+
+  bool get deferred;
 
   @override
   R accept<R>(SpecVisitor<R> visitor) => visitor.visitDirective(this);
@@ -48,9 +79,15 @@ abstract class DirectiveBuilder
 
   DirectiveBuilder._();
 
+  bool deferred = false;
+
   String as;
 
   String url;
+
+  List<String> show = <String>[];
+
+  List<String> hide = <String>[];
 
   DirectiveType type;
 }

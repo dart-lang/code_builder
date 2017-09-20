@@ -4,8 +4,11 @@ part of code_builder.src.specs.constructor;
 
 // **************************************************************************
 // Generator: BuiltValueGenerator
-// Target: abstract class Constructor
 // **************************************************************************
+
+// ignore_for_file: annotate_overrides
+// ignore_for_file: prefer_expression_function_bodies
+// ignore_for_file: sort_constructors_first
 
 class _$Constructor extends Constructor {
   @override
@@ -314,7 +317,7 @@ class _$ConstructorBuilder extends ConstructorBuilder {
 
   @override
   _$Constructor build() {
-    final result = _$v ??
+    final _$result = _$v ??
         new _$Constructor._(
             annotations: annotations?.build(),
             docs: docs?.build(),
@@ -328,7 +331,7 @@ class _$ConstructorBuilder extends ConstructorBuilder {
             lambda: lambda,
             name: name,
             redirect: redirect);
-    replace(result);
-    return result;
+    replace(_$result);
+    return _$result;
   }
 }

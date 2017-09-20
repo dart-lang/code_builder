@@ -4,8 +4,11 @@ part of code_builder.src.specs.method;
 
 // **************************************************************************
 // Generator: BuiltValueGenerator
-// Target: abstract class Method
 // **************************************************************************
+
+// ignore_for_file: annotate_overrides
+// ignore_for_file: prefer_expression_function_bodies
+// ignore_for_file: sort_constructors_first
 
 class _$Method extends Method {
   @override
@@ -31,6 +34,8 @@ class _$Method extends Method {
   @override
   final MethodType type;
   @override
+  final MethodModifier modifier;
+  @override
   final Reference returns;
 
   factory _$Method([void updates(MethodBuilder b)]) =>
@@ -48,6 +53,7 @@ class _$Method extends Method {
       this.static,
       this.name,
       this.type,
+      this.modifier,
       this.returns})
       : super._() {
     if (annotations == null) throw new ArgumentError.notNull('annotations');
@@ -85,6 +91,7 @@ class _$Method extends Method {
         static == other.static &&
         name == other.name &&
         type == other.type &&
+        modifier == other.modifier &&
         returns == other.returns;
   }
 
@@ -100,17 +107,21 @@ class _$Method extends Method {
                                 $jc(
                                     $jc(
                                         $jc(
-                                            $jc($jc(0, annotations.hashCode),
-                                                docs.hashCode),
-                                            types.hashCode),
-                                        optionalParameters.hashCode),
-                                    requiredParameters.hashCode),
-                                body.hashCode),
-                            external.hashCode),
-                        lambda.hashCode),
-                    static.hashCode),
-                name.hashCode),
-            type.hashCode),
+                                            $jc(
+                                                $jc(
+                                                    $jc(0,
+                                                        annotations.hashCode),
+                                                    docs.hashCode),
+                                                types.hashCode),
+                                            optionalParameters.hashCode),
+                                        requiredParameters.hashCode),
+                                    body.hashCode),
+                                external.hashCode),
+                            lambda.hashCode),
+                        static.hashCode),
+                    name.hashCode),
+                type.hashCode),
+            modifier.hashCode),
         returns.hashCode));
   }
 
@@ -128,6 +139,7 @@ class _$Method extends Method {
           ..add('static', static)
           ..add('name', name)
           ..add('type', type)
+          ..add('modifier', modifier)
           ..add('returns', returns))
         .toString();
   }
@@ -269,6 +281,18 @@ class _$MethodBuilder extends MethodBuilder {
   }
 
   @override
+  MethodModifier get modifier {
+    _$this;
+    return super.modifier;
+  }
+
+  @override
+  set modifier(MethodModifier modifier) {
+    _$this;
+    super.modifier = modifier;
+  }
+
+  @override
   Reference get returns {
     _$this;
     return super.returns;
@@ -295,6 +319,7 @@ class _$MethodBuilder extends MethodBuilder {
       super.static = _$v.static;
       super.name = _$v.name;
       super.type = _$v.type;
+      super.modifier = _$v.modifier;
       super.returns = _$v.returns;
       _$v = null;
     }
@@ -314,7 +339,7 @@ class _$MethodBuilder extends MethodBuilder {
 
   @override
   _$Method build() {
-    final result = _$v ??
+    final _$result = _$v ??
         new _$Method._(
             annotations: annotations?.build(),
             docs: docs?.build(),
@@ -327,16 +352,12 @@ class _$MethodBuilder extends MethodBuilder {
             static: static,
             name: name,
             type: type,
+            modifier: modifier,
             returns: returns);
-    replace(result);
-    return result;
+    replace(_$result);
+    return _$result;
   }
 }
-
-// **************************************************************************
-// Generator: BuiltValueGenerator
-// Target: abstract class Parameter
-// **************************************************************************
 
 class _$Parameter extends Parameter {
   @override
@@ -558,7 +579,7 @@ class _$ParameterBuilder extends ParameterBuilder {
 
   @override
   _$Parameter build() {
-    final result = _$v ??
+    final _$result = _$v ??
         new _$Parameter._(
             defaultTo: defaultTo,
             name: name,
@@ -568,7 +589,7 @@ class _$ParameterBuilder extends ParameterBuilder {
             docs: docs?.build(),
             types: types?.build(),
             type: type);
-    replace(result);
-    return result;
+    replace(_$result);
+    return _$result;
   }
 }
