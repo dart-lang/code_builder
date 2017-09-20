@@ -64,7 +64,7 @@ void main() {
     test('should emit a source file with a "hide" combinator', () {
       expect(
         new File(
-              (b) => b
+          (b) => b
             ..directives.add(
               new Directive.import(
                 'package:foo/foo.dart',
