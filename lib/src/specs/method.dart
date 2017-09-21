@@ -76,6 +76,10 @@ abstract class Method extends Object
   @nullable
   MethodType get type;
 
+  /// Whether this method is `async`, `async*`, or `sync*`.
+  @nullable
+  MethodModifier get modifier;
+
   @nullable
   Reference get returns;
 
@@ -134,12 +138,21 @@ abstract class MethodBuilder extends Object
   /// Whether this is a getter or setter.
   MethodType type;
 
+  /// Whether this method is `async`, `async*`, or `sync*`.
+  MethodModifier modifier;
+
   Reference returns;
 }
 
 enum MethodType {
   getter,
   setter,
+}
+
+enum MethodModifier {
+  async,
+  asyncStar,
+  syncStar,
 }
 
 abstract class Parameter extends Object

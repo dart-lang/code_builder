@@ -20,6 +20,8 @@ dart_task:
   - dartanalyzer
   - dartfmt
 
+# TODO: Test with dartdevc once https://github.com/dart-lang/sdk/issues/30810.
+
 # The Dart language is constantly being worked on, and sometimes the dev and
 # stable builds don't agree on what is considered formatted or what is analysis
 # warning free (though this does not effect _using_ the library, likely).

@@ -4,8 +4,11 @@ part of code_builder.src.specs.type_reference;
 
 // **************************************************************************
 // Generator: BuiltValueGenerator
-// Target: abstract class TypeReference
 // **************************************************************************
+
+// ignore_for_file: annotate_overrides
+// ignore_for_file: prefer_expression_function_bodies
+// ignore_for_file: sort_constructors_first
 
 class _$TypeReference extends TypeReference {
   @override
@@ -139,10 +142,10 @@ class _$TypeReferenceBuilder extends TypeReferenceBuilder {
 
   @override
   _$TypeReference build() {
-    final result = _$v ??
+    final _$result = _$v ??
         new _$TypeReference._(
             symbol: symbol, url: url, bound: bound, types: types?.build());
-    replace(result);
-    return result;
+    replace(_$result);
+    return _$result;
   }
 }

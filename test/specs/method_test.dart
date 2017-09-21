@@ -15,6 +15,45 @@ void main() {
     );
   });
 
+  test('should create an async method', () {
+    expect(
+      new Method((b) => b
+        ..name = 'foo'
+        ..modifier = MethodModifier.async
+        ..lambda = true
+        ..body = new Code((b) => b..code = 'null')),
+      equalsDart(r'''
+        foo() async => null; 
+      '''),
+    );
+  });
+
+  test('should create an async* method', () {
+    expect(
+      new Method((b) => b
+        ..name = 'foo'
+        ..modifier = MethodModifier.asyncStar
+        ..lambda = true
+        ..body = new Code((b) => b..code = 'null')),
+      equalsDart(r'''
+        foo() async* => null; 
+      '''),
+    );
+  });
+
+  test('should create an sync* method', () {
+    expect(
+      new Method((b) => b
+        ..name = 'foo'
+        ..modifier = MethodModifier.syncStar
+        ..lambda = true
+        ..body = new Code((b) => b..code = 'null')),
+      equalsDart(r'''
+        foo() sync* => null; 
+      '''),
+    );
+  });
+
   test('should create a getter', () {
     expect(
       new Method((b) => b

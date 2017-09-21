@@ -4,8 +4,11 @@ part of code_builder.src.specs.library;
 
 // **************************************************************************
 // Generator: BuiltValueGenerator
-// Target: abstract class File
 // **************************************************************************
+
+// ignore_for_file: annotate_overrides
+// ignore_for_file: prefer_expression_function_bodies
+// ignore_for_file: sort_constructors_first
 
 class _$File extends File {
   @override
@@ -100,9 +103,9 @@ class _$FileBuilder extends FileBuilder {
 
   @override
   _$File build() {
-    final result = _$v ??
+    final _$result = _$v ??
         new _$File._(directives: directives?.build(), body: body?.build());
-    replace(result);
-    return result;
+    replace(_$result);
+    return _$result;
   }
 }

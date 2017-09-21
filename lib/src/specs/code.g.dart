@@ -4,8 +4,11 @@ part of code_builder.src.specs.code;
 
 // **************************************************************************
 // Generator: BuiltValueGenerator
-// Target: abstract class Code
 // **************************************************************************
+
+// ignore_for_file: annotate_overrides
+// ignore_for_file: prefer_expression_function_bodies
+// ignore_for_file: sort_constructors_first
 
 class _$Code extends Code {
   @override
@@ -100,8 +103,8 @@ class _$CodeBuilder extends CodeBuilder {
 
   @override
   _$Code build() {
-    final result = _$v ?? new _$Code._(code: code, specs: specs?.build());
-    replace(result);
-    return result;
+    final _$result = _$v ?? new _$Code._(code: code, specs: specs?.build());
+    replace(_$result);
+    return _$result;
   }
 }

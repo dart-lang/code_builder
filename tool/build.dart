@@ -5,17 +5,9 @@
 import 'dart:async';
 
 import 'package:build_runner/build_runner.dart';
-import 'package:built_value_generator/built_value_generator.dart';
-import 'package:source_gen/source_gen.dart';
+
+import 'src/codegen.dart';
 
 Future<Null> main() async {
-  await build(
-    new PhaseGroup.singleAction(
-      new GeneratorBuilder([
-        new BuiltValueGenerator(),
-      ]),
-      new InputSet('code_builder', const ['lib/src/specs/**.dart']),
-    ),
-    deleteFilesByDefault: true,
-  );
+  await build([buildAction()], deleteFilesByDefault: true);
 }

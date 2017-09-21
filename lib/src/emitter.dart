@@ -65,7 +65,7 @@ class DartEmitter implements SpecVisitor<StringSink> {
     spec.constructors.forEach((c) => visitConstructor(c, spec.name, output));
     spec.fields.forEach((f) => visitField(f, output));
     spec.methods.forEach((m) => visitMethod(m, output));
-    output.write(' }');
+    output.writeln(' }');
     return output;
   }
 
@@ -149,6 +149,7 @@ class DartEmitter implements SpecVisitor<StringSink> {
     } else {
       output.write(';');
     }
+    output.writeln();
     return output;
   }
 
@@ -178,7 +179,19 @@ class DartEmitter implements SpecVisitor<StringSink> {
     }
     output.write("'${spec.url}'");
     if (spec.as != null) {
+      if (spec.deferred) {
+        output.write(' deferred ');
+      }
       output.write(' as ${spec.as}');
+    }
+    if (spec.show.isNotEmpty) {
+      output
+        ..write(' show ')
+        ..writeAll(spec.show, ', ');
+    } else if (spec.hide.isNotEmpty) {
+      output
+        ..write(' hide ')
+        ..writeAll(spec.hide, ', ');
     }
     output.write(';');
     return output;
@@ -214,7 +227,7 @@ class DartEmitter implements SpecVisitor<StringSink> {
       output.write(' = ');
       visitCode(spec.assignment, output);
     }
-    output.write(';');
+    output.writeln(';');
     return output;
   }
 
@@ -296,6 +309,19 @@ class DartEmitter implements SpecVisitor<StringSink> {
       output.write(')');
     }
     if (spec.body != null) {
+      if (spec.modifier != null) {
+        switch (spec.modifier) {
+          case MethodModifier.async:
+            output.write(' async ');
+            break;
+          case MethodModifier.asyncStar:
+            output.write(' async* ');
+            break;
+          case MethodModifier.syncStar:
+            output.write(' sync* ');
+            break;
+        }
+      }
       if (spec.lambda) {
         output.write(' => ');
       } else {
@@ -310,6 +336,7 @@ class DartEmitter implements SpecVisitor<StringSink> {
     } else {
       output.write(';');
     }
+    output.writeln();
     return output;
   }
 
