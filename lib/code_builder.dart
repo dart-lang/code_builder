@@ -9,6 +9,14 @@ export 'src/matchers.dart' show equalsDart;
 export 'src/specs/annotation.dart' show Annotation, AnnotationBuilder;
 export 'src/specs/class.dart' show Class, ClassBuilder;
 export 'src/specs/code.dart' show Code, CodeBuilder;
+export 'src/specs/code/expression.dart'
+    show
+        Expression,
+        literal,
+        literalNull,
+        literalBool,
+        literalTrue,
+        literalFalse;
 export 'src/specs/constructor.dart' show Constructor, ConstructorBuilder;
 export 'src/specs/directive.dart'
     show Directive, DirectiveType, DirectiveBuilder;

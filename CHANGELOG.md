@@ -9,6 +9,10 @@
 * Added `Directive.importDeferredAs`.
 * Added a new line character after emitting some types (class, method, etc).
 
+* Removed `SimpleSpecVisitor` (it was unused).
+
+* In process of adding classes/methods for writing bodies of `Code` fluently.
+
 ## 2.0.0-alpha+1
 
 * Removed `Reference.localScope`. Just use `Reference(symbol)` now.
