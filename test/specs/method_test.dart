@@ -152,7 +152,7 @@ void main() {
       new Method((b) => b
         ..name = 'foo'
         ..body = new Code.scope(
-          (a) => 'return new ${a.allocate(linkedHashMap)}();',
+          (a) => 'return new ${a(linkedHashMap)}();',
         )),
       equalsDart(r'''
         foo() {

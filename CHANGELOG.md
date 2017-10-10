@@ -9,8 +9,10 @@
 * Added `Directive.importDeferredAs`.
 * Added a new line character after emitting some types (class, method, etc).
 
+* `SpecVisitor<T>`'s methods all have an optional `[T context]` parameter now.
+  * This makes it much easier to avoid allocating extra `StringBuffer`s.
 * Removed `SimpleSpecVisitor` (it was unused).
-
+* `equalsDart` removes insignificant white space before comparing results.
 * In process of adding classes/methods for writing bodies of `Code` fluently:
   * `Expression`
   * `LiteralExpression`
@@ -19,6 +21,8 @@
     * `literalBool`
     * `literalTrue`
     * `literalFalse`
+  * `const Code(staticString)`
+  * `const Code.scope((allocate) => '')`
 
 ## 2.0.0-alpha+1
 

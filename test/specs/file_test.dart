@@ -17,7 +17,7 @@ void main() {
             ..name = 'test'
             ..modifier = FieldModifier.final$
             ..assignment =
-                new Code.scope((a) => 'new ${a.allocate($linkedHashMap)}()')))),
+                new Code.scope((a) => 'new ${a($linkedHashMap)}()')))),
         equalsDart(r'''
             import 'dart:collection';
           
@@ -84,7 +84,7 @@ void main() {
             ..name = 'test'
             ..modifier = FieldModifier.final$
             ..assignment =
-                new Code.scope((a) => 'new ${a.allocate($linkedHashMap)}()')))),
+                new Code.scope((a) => 'new ${a($linkedHashMap)}()')))),
         equalsDart(r'''
           import 'dart:collection';
           
@@ -100,7 +100,7 @@ void main() {
             ..name = 'test'
             ..modifier = FieldModifier.final$
             ..assignment =
-                new Code.scope((a) => 'new ${a.allocate($linkedHashMap)}()')))),
+                new Code.scope((a) => 'new ${a($linkedHashMap)}()')))),
         equalsDart(r'''
           import 'dart:collection' as _1;
           

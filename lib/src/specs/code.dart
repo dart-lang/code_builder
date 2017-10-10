@@ -8,7 +8,13 @@ import 'package:meta/meta.dart';
 
 import '../allocator.dart';
 import '../base.dart';
+import '../specs/reference.dart';
 import '../visitors.dart';
+
+/// Returns a scoped symbol to [Reference], with an import prefix if needed.
+///
+/// This is short-hand for [Allocator.allocate] in most implementations.
+typedef Allocate = String Function(Reference reference);
 
 /// Represents arbitrary Dart code (either expressions or statements).
 ///
@@ -27,7 +33,7 @@ abstract class Code implements Spec {
   /// });
   /// ```
   const factory Code.scope(
-    String Function(Allocator allocator) scope,
+    String Function(Allocate allocate) scope,
   ) = ScopedCode._;
 
   @override
@@ -56,7 +62,7 @@ abstract class CodeEmitter implements CodeVisitor<StringSink> {
   @override
   visitScopedCode(ScopedCode code, [StringSink output]) {
     output ??= new StringBuffer();
-    return output..write(code.code(allocator));
+    return output..write(code.code(allocator.allocate));
   }
 }
 
@@ -74,7 +80,7 @@ class StaticCode implements Code {
 
 /// Represents a [code] block that may require scoping.
 class ScopedCode implements Code {
-  final String Function(Allocator allocator) code;
+  final String Function(Allocate allocate) code;
 
   const ScopedCode._(this.code);
 

@@ -26,7 +26,7 @@ void main() {
       ..methods.add(new Method((b) => b
         ..name = 'getThing'
         ..body = new Code.scope(
-            (a) => 'new ${a.allocate($Thing)}(_module.get1(), _module.get2())')
+            (a) => 'new ${a($Thing)}(_module.get1(), _module.get2())')
         ..lambda = true
         ..returns = $Thing
         ..annotations

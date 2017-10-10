@@ -52,7 +52,7 @@ void main() {
           ..name = 'Foo'
           ..annotations.add(
             new Annotation(
-              (b) => b..code = new Code.scope((a) => a.allocate($deprecated)),
+              (b) => b..code = new Code.scope((a) => a($deprecated)),
             ),
           ),
       ),
