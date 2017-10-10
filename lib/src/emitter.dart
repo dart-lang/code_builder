@@ -7,6 +7,7 @@ import 'base.dart';
 import 'specs/annotation.dart';
 import 'specs/class.dart';
 import 'specs/code.dart';
+import 'specs/code/expression.dart';
 import 'specs/constructor.dart';
 import 'specs/directive.dart';
 import 'specs/field.dart';
@@ -16,7 +17,7 @@ import 'specs/reference.dart';
 import 'specs/type_reference.dart';
 import 'visitors.dart';
 
-class DartEmitter implements SpecVisitor<StringSink> {
+class DartEmitter extends ExpressionEmitter implements SpecVisitor<StringSink> {
   final Allocator _allocator;
 
   /// Creates a new instance of [DartEmitter].
@@ -151,22 +152,6 @@ class DartEmitter implements SpecVisitor<StringSink> {
     }
     output.writeln();
     return output;
-  }
-
-  static final Pattern _refReplace = new RegExp(r'{{([^{}]*)}}');
-
-  @override
-  visitCode(Code spec, [StringSink output]) {
-    output ??= new StringBuffer();
-    var code = spec.code;
-    if (spec.specs.isNotEmpty) {
-      code = code.replaceAllMapped(_refReplace, (match) {
-        // ignore: strong_mode_implicit_dynamic_variable
-        final lazy = spec.specs[match.group(1)];
-        return lazy().accept(this).toString();
-      });
-    }
-    return output..write(code);
   }
 
   @override
@@ -397,5 +382,23 @@ class DartEmitter implements SpecVisitor<StringSink> {
         ..write('>');
     }
     return output;
+  }
+
+  // Expression/Bodies
+
+  static final Pattern _refReplace = new RegExp(r'{{([^{}]*)}}');
+
+  @override
+  visitCode(Code spec, [StringSink output]) {
+    output ??= new StringBuffer();
+    var code = spec.code;
+    if (spec.specs.isNotEmpty) {
+      code = code.replaceAllMapped(_refReplace, (match) {
+        // ignore: strong_mode_implicit_dynamic_variable
+        final lazy = spec.specs[match.group(1)];
+        return lazy().accept(this).toString();
+      });
+    }
+    return output..write(code);
   }
 }
