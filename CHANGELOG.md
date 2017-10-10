@@ -11,7 +11,14 @@
 
 * Removed `SimpleSpecVisitor` (it was unused).
 
-* In process of adding classes/methods for writing bodies of `Code` fluently.
+* In process of adding classes/methods for writing bodies of `Code` fluently:
+  * `Expression`
+  * `LiteralExpression`
+    * `literal`
+    * `literalNull`
+    * `literalBool`
+    * `literalTrue`
+    * `literalFalse`
 
 ## 2.0.0-alpha+1
 
