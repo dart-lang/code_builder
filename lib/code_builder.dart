@@ -8,7 +8,7 @@ export 'src/emitter.dart' show DartEmitter;
 export 'src/matchers.dart' show equalsDart;
 export 'src/specs/annotation.dart' show Annotation, AnnotationBuilder;
 export 'src/specs/class.dart' show Class, ClassBuilder;
-export 'src/specs/code.dart' show Code, CodeBuilder;
+export 'src/specs/code.dart' show Code, StaticCode, ScopedCode;
 export 'src/specs/code/expression.dart'
     show
         Expression,

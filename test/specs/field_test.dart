@@ -52,7 +52,7 @@ void main() {
     expect(
       new Field((b) => b
         ..name = 'foo'
-        ..assignment = new Code((b) => b..code = '1')),
+        ..assignment = const Code('1')),
       equalsDart(r'''
         var foo = 1;
       '''),

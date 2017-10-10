@@ -25,13 +25,12 @@ void main() {
           ..toThis = true))))
       ..methods.add(new Method((b) => b
         ..name = 'getThing'
-        ..body = new Code((b) => b
-          ..code = 'new {{ThingRef}}(_module.get1(), _module.get2())'
-          ..specs['ThingRef'] = () => $Thing)
+        ..body = new Code.scope(
+            (a) => 'new ${a.allocate($Thing)}(_module.get1(), _module.get2())')
         ..lambda = true
         ..returns = $Thing
-        ..annotations.add(new Annotation(
-            (b) => b..code = new Code((b) => b.code = 'override')))));
+        ..annotations
+            .add(new Annotation((b) => b..code = const Code('override')))));
 
     expect(
       clazz.build(),

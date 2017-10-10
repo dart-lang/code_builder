@@ -56,7 +56,11 @@ abstract class Class extends Object
   String get name;
 
   @override
-  R accept<R>(SpecVisitor<R> visitor) => visitor.visitClass(this);
+  R accept<R>(
+    SpecVisitor<R> visitor, [
+    R context,
+  ]) =>
+      visitor.visitClass(this, context);
 }
 
 abstract class ClassBuilder extends Object

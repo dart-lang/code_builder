@@ -12,7 +12,7 @@ abstract class Expression implements Spec {
   const Expression();
 
   @override
-  R accept<R>(covariant ExpressionVisitor<R> visitor);
+  R accept<R>(covariant ExpressionVisitor<R> visitor, [R context]);
 
   Expression and(Expression other) => new BinaryExpression._(this, other, '&&');
 }
@@ -29,8 +29,6 @@ abstract class ExpressionVisitor<T> implements SpecVisitor<T> {
 ///
 /// **INTERNAL ONLY**.
 abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
-  const ExpressionEmitter();
-
   @override
   visitBinaryExpression(BinaryExpression expression, [StringSink output]) {
     output ??= new StringBuffer();
@@ -91,8 +89,8 @@ class LiteralExpression extends Expression {
   const LiteralExpression._(this.literal);
 
   @override
-  R accept<R>(ExpressionVisitor<R> visitor) {
-    return visitor.visitLiteralExpression(this);
+  R accept<R>(ExpressionVisitor<R> visitor, [R context]) {
+    return visitor.visitLiteralExpression(this, context);
   }
 }
 
@@ -105,7 +103,7 @@ class BinaryExpression extends Expression {
   const BinaryExpression._(this.left, this.right, this.operator);
 
   @override
-  R accept<R>(ExpressionVisitor<R> visitor) {
-    return visitor.visitBinaryExpression(this);
+  R accept<R>(ExpressionVisitor<R> visitor, [R context]) {
+    return visitor.visitBinaryExpression(this, context);
   }
 }

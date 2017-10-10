@@ -17,13 +17,15 @@ import 'specs/reference.dart';
 import 'specs/type_reference.dart';
 import 'visitors.dart';
 
-class DartEmitter extends ExpressionEmitter implements SpecVisitor<StringSink> {
+class DartEmitter extends Object
+    with CodeEmitter, ExpressionEmitter
+    implements SpecVisitor<StringSink> {
   final Allocator _allocator;
 
   /// Creates a new instance of [DartEmitter].
   ///
   /// May specify an [Allocator] to use for symbols, otherwise uses a no-op.
-  const DartEmitter([this._allocator = Allocator.none]);
+  DartEmitter([this._allocator = Allocator.none]);
 
   /// Creates a new instance of [DartEmitter] with a default [Allocator].
   factory DartEmitter.scoped() => new DartEmitter(new Allocator());
@@ -31,7 +33,7 @@ class DartEmitter extends ExpressionEmitter implements SpecVisitor<StringSink> {
   @override
   visitAnnotation(Annotation spec, [StringSink output]) {
     (output ??= new StringBuffer()).write('@');
-    visitCode(spec.code, output);
+    spec.code.accept(this, output);
     output.write(' ');
     return output;
   }
@@ -127,7 +129,7 @@ class DartEmitter extends ExpressionEmitter implements SpecVisitor<StringSink> {
       var count = 0;
       for (final initializer in spec.initializers) {
         count++;
-        visitCode(initializer, output);
+        initializer.accept(this, output);
         if (count != spec.initializers.length) {
           output.write(', ');
         }
@@ -140,11 +142,11 @@ class DartEmitter extends ExpressionEmitter implements SpecVisitor<StringSink> {
     } else if (spec.body != null) {
       if (spec.lambda) {
         output.write(' => ');
-        visitCode(spec.body, output);
+        spec.body.accept(this, output);
         output.write(';');
       } else {
         output.write(' { ');
-        visitCode(spec.body, output);
+        spec.body.accept(this, output);
         output.write(' }');
       }
     } else {
@@ -210,7 +212,7 @@ class DartEmitter extends ExpressionEmitter implements SpecVisitor<StringSink> {
     output.write(spec.name);
     if (spec.assignment != null) {
       output.write(' = ');
-      visitCode(spec.assignment, output);
+      spec.assignment.accept(this, output);
     }
     output.writeln(';');
     return output;
@@ -312,7 +314,7 @@ class DartEmitter extends ExpressionEmitter implements SpecVisitor<StringSink> {
       } else {
         output.write(' { ');
       }
-      visitCode(spec.body, output);
+      spec.body.accept(this, output);
       if (spec.lambda) {
         output.write(';');
       } else {
@@ -348,7 +350,7 @@ class DartEmitter extends ExpressionEmitter implements SpecVisitor<StringSink> {
       } else {
         output.write(' = ');
       }
-      visitCode(spec.defaultTo, output);
+      spec.defaultTo.accept(this, output);
     }
   }
 
@@ -358,7 +360,7 @@ class DartEmitter extends ExpressionEmitter implements SpecVisitor<StringSink> {
   }
 
   @override
-  visitSpec(Spec spec) => spec.accept(this);
+  visitSpec(Spec spec, [StringSink output]) => spec.accept(this, output);
 
   @override
   visitType(TypeReference spec, [StringSink output]) {
@@ -382,23 +384,5 @@ class DartEmitter extends ExpressionEmitter implements SpecVisitor<StringSink> {
         ..write('>');
     }
     return output;
-  }
-
-  // Expression/Bodies
-
-  static final Pattern _refReplace = new RegExp(r'{{([^{}]*)}}');
-
-  @override
-  visitCode(Code spec, [StringSink output]) {
-    output ??= new StringBuffer();
-    var code = spec.code;
-    if (spec.specs.isNotEmpty) {
-      code = code.replaceAllMapped(_refReplace, (match) {
-        // ignore: strong_mode_implicit_dynamic_variable
-        final lazy = spec.specs[match.group(1)];
-        return lazy().accept(this).toString();
-      });
-    }
-    return output..write(code);
   }
 }

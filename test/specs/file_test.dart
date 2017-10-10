@@ -16,14 +16,13 @@ void main() {
           ..body.add(new Field((b) => b
             ..name = 'test'
             ..modifier = FieldModifier.final$
-            ..assignment = new Code((b) => b
-              ..code = 'new {{LinkedHashMap}}()'
-              ..specs.addAll({'LinkedHashMap': () => $linkedHashMap}))))),
+            ..assignment =
+                new Code.scope((a) => 'new ${a.allocate($linkedHashMap)}()')))),
         equalsDart(r'''
             import 'dart:collection';
           
             final test = new LinkedHashMap();
-          ''', const DartEmitter()),
+          ''', new DartEmitter()),
       );
     });
 
@@ -84,9 +83,8 @@ void main() {
           ..body.add(new Field((b) => b
             ..name = 'test'
             ..modifier = FieldModifier.final$
-            ..assignment = new Code((b) => b
-              ..code = 'new {{LinkedHashMap}}()'
-              ..specs.addAll({'LinkedHashMap': () => $linkedHashMap}))))),
+            ..assignment =
+                new Code.scope((a) => 'new ${a.allocate($linkedHashMap)}()')))),
         equalsDart(r'''
           import 'dart:collection';
           
@@ -101,9 +99,8 @@ void main() {
           ..body.add(new Field((b) => b
             ..name = 'test'
             ..modifier = FieldModifier.final$
-            ..assignment = new Code((b) => b
-              ..code = 'new {{LinkedHashMap}}()'
-              ..specs.addAll({'LinkedHashMap': () => $linkedHashMap}))))),
+            ..assignment =
+                new Code.scope((a) => 'new ${a.allocate($linkedHashMap)}()')))),
         equalsDart(r'''
           import 'dart:collection' as _1;
           

@@ -29,7 +29,11 @@ class Reference implements Spec {
   const Reference(this.symbol, [this.url]);
 
   @override
-  R accept<R>(SpecVisitor<R> visitor) => visitor.visitReference(this);
+  R accept<R>(
+    SpecVisitor<R> visitor, [
+    R context,
+  ]) =>
+      visitor.visitReference(this, context);
 
   @override
   int get hashCode => '$url#$symbol'.hashCode;

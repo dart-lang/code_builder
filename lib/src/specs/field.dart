@@ -57,7 +57,11 @@ abstract class Field extends Object
   String get url => null;
 
   @override
-  R accept<R>(SpecVisitor<R> visitor) => visitor.visitField(this);
+  R accept<R>(
+    SpecVisitor<R> visitor, [
+    R context,
+  ]) =>
+      visitor.visitField(this, context);
 
   @override
   TypeReference toType() => throw new UnsupportedError('');

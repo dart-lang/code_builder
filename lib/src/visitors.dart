@@ -2,10 +2,11 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:meta/meta.dart';
+
 import 'base.dart';
 import 'specs/annotation.dart';
 import 'specs/class.dart';
-import 'specs/code.dart';
 import 'specs/constructor.dart';
 import 'specs/directive.dart';
 import 'specs/field.dart';
@@ -14,30 +15,29 @@ import 'specs/method.dart';
 import 'specs/reference.dart';
 import 'specs/type_reference.dart';
 
+@optionalTypeArgs
 abstract class SpecVisitor<T> {
   const SpecVisitor._();
 
-  T visitAnnotation(Annotation spec);
+  T visitAnnotation(Annotation spec, [T context]);
 
-  T visitClass(Class spec);
+  T visitClass(Class spec, [T context]);
 
-  T visitCode(Code spec);
+  T visitConstructor(Constructor spec, String clazz, [T context]);
 
-  T visitConstructor(Constructor spec, String clazz);
+  T visitDirective(Directive spec, [T context]);
 
-  T visitDirective(Directive spec);
+  T visitField(Field spec, [T context]);
 
-  T visitField(Field spec);
+  T visitFile(File spec, [T context]);
 
-  T visitFile(File spec);
+  T visitMethod(Method spec, [T context]);
 
-  T visitMethod(Method spec);
+  T visitReference(Reference spec, [T context]);
 
-  T visitReference(Reference spec);
+  T visitSpec(Spec spec, [T context]);
 
-  T visitSpec(Spec spec);
+  T visitType(TypeReference spec, [T context]);
 
-  T visitType(TypeReference spec);
-
-  T visitTypeParameters(Iterable<TypeReference> specs);
+  T visitTypeParameters(Iterable<TypeReference> specs, [T context]);
 }

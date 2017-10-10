@@ -28,9 +28,9 @@ String _dart(Spec spec, DartEmitter emitter) =>
 /// Returns a matcher for Dart source code.
 Matcher equalsDart(
   String source, [
-  DartEmitter emitter = const DartEmitter(),
+  DartEmitter emitter,
 ]) =>
-    new _EqualsDart(_dartfmt(source).trim(), emitter);
+    new _EqualsDart(_dartfmt(source).trim(), emitter ?? new DartEmitter());
 
 class _EqualsDart extends Matcher {
   final DartEmitter _emitter;

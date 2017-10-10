@@ -8,11 +8,11 @@ import 'package:dart_style/dart_style.dart';
 void main() {
   final library = new File((b) => b.body.addAll([
         new Method((b) => b
-          ..body = new Code((b) => b.code = '')
+          ..body = const Code('')
           ..name = 'doThing'
           ..returns = const Reference('Thing', 'package:a/a.dart')),
         new Method((b) => b
-          ..body = new Code((b) => b..code = '')
+          ..body = const Code('')
           ..name = 'doOther'
           ..returns = const Reference('Other', 'package:b/b.dart')),
       ]));
