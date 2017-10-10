@@ -4,6 +4,8 @@
 
 library code_builder.src.specs.code;
 
+import 'package:meta/meta.dart';
+
 import '../allocator.dart';
 import '../base.dart';
 import '../visitors.dart';
@@ -42,11 +44,20 @@ abstract class CodeVisitor<T> implements SpecVisitor<T> {
 
 /// Knowledge of how to write valid Dart code from [CodeVisitor].
 abstract class CodeEmitter implements CodeVisitor<StringSink> {
-  @override
-  visitStaticCode(StaticCode code, [StringSink output]) {}
+  @protected
+  Allocator get allocator;
 
   @override
-  visitScopedCode(ScopedCode code, [StringSink output]) {}
+  visitStaticCode(StaticCode code, [StringSink output]) {
+    output ??= new StringBuffer();
+    return output..write(code.code);
+  }
+
+  @override
+  visitScopedCode(ScopedCode code, [StringSink output]) {
+    output ??= new StringBuffer();
+    return output..write(code.code(allocator));
+  }
 }
 
 /// Represents a simple, literal [code] block to be inserted as-is.

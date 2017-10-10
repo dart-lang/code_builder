@@ -13,12 +13,15 @@ final _formatter = new DartFormatter();
 /// Runs dartfmt.
 String _dartfmt(String source) {
   try {
-    return _formatter.format(source);
+    source = _formatter.format(source);
   } on FormatException catch (_) {
-    return _formatter.formatStatement(source);
+    source = _formatter.formatStatement(source);
   } catch (_) {
-    return source.replaceAll('  ', ' ').replaceAll('\n', '').trim();
+    // Ignored on purpose, probably not exactly valid Dart code.
+  } finally {
+    source = source.replaceAll('  ', ' ').replaceAll('\n', '').trim();
   }
+  return source;
 }
 
 /// Encodes [spec] as Dart source code.

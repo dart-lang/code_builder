@@ -37,7 +37,9 @@ void main() {
       equalsDart(r'''
         class Injector implements App {
           Injector(this._module);
+
           final Module _module;
+
           @override
           Thing getThing() => new Thing(_module.get1(), _module.get2());
         }
@@ -49,7 +51,9 @@ void main() {
       equalsDart(r'''
         class Injector implements _1.App {
           Injector(this._module);
+
           final _2.Module _module;
+
           @override
           _3.Thing getThing() => new _3.Thing(_module.get1(), _module.get2());
         }

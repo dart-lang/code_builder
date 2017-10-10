@@ -151,8 +151,9 @@ void main() {
     expect(
       new Method((b) => b
         ..name = 'foo'
-        ..body =
-            new Code.scope((a) => 'return new ${a.allocate(linkedHashMap)}()')),
+        ..body = new Code.scope(
+          (a) => 'return new ${a.allocate(linkedHashMap)}();',
+        )),
       equalsDart(r'''
         foo() {
           return new LinkedHashMap();

@@ -20,12 +20,13 @@ import 'visitors.dart';
 class DartEmitter extends Object
     with CodeEmitter, ExpressionEmitter
     implements SpecVisitor<StringSink> {
-  final Allocator _allocator;
+  @override
+  final Allocator allocator;
 
   /// Creates a new instance of [DartEmitter].
   ///
   /// May specify an [Allocator] to use for symbols, otherwise uses a no-op.
-  DartEmitter([this._allocator = Allocator.none]);
+  DartEmitter([this.allocator = Allocator.none]);
 
   /// Creates a new instance of [DartEmitter] with a default [Allocator].
   factory DartEmitter.scoped() => new DartEmitter(new Allocator());
@@ -230,7 +231,7 @@ class DartEmitter extends Object
     for (final directive in spec.directives) {
       visitDirective(directive, output);
     }
-    for (final directive in _allocator.imports) {
+    for (final directive in allocator.imports) {
       visitDirective(directive, output);
     }
     output.write(body);
@@ -356,7 +357,7 @@ class DartEmitter extends Object
 
   @override
   visitReference(Reference spec, [StringSink output]) {
-    return (output ??= new StringBuffer())..write(_allocator.allocate(spec));
+    return (output ??= new StringBuffer())..write(allocator.allocate(spec));
   }
 
   @override
