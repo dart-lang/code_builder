@@ -90,7 +90,11 @@ abstract class Method extends Object
   String get url => null;
 
   @override
-  R accept<R>(SpecVisitor<R> visitor) => visitor.visitMethod(this);
+  R accept<R>(
+    SpecVisitor<R> visitor, [
+    R context,
+  ]) =>
+      visitor.visitMethod(this, context);
 
   @override
   TypeReference toType() => throw new UnsupportedError('');

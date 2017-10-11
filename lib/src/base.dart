@@ -5,5 +5,5 @@
 import 'visitors.dart';
 
 abstract class Spec {
-  R accept<R>(SpecVisitor<R> visitor);
+  R accept<R>(SpecVisitor<R> visitor, [R context]);
 }

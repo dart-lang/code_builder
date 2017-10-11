@@ -40,7 +40,11 @@ abstract class TypeReference extends Object
   BuiltList<Reference> get types;
 
   @override
-  R accept<R>(SpecVisitor<R> visitor) => visitor.visitType(this);
+  R accept<R>(
+    SpecVisitor<R> visitor, [
+    R context,
+  ]) =>
+      visitor.visitType(this, context);
 
   @override
   TypeReference toType() => this;

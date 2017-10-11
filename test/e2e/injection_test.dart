@@ -25,20 +25,21 @@ void main() {
           ..toThis = true))))
       ..methods.add(new Method((b) => b
         ..name = 'getThing'
-        ..body = new Code((b) => b
-          ..code = 'new {{ThingRef}}(_module.get1(), _module.get2())'
-          ..specs['ThingRef'] = () => $Thing)
+        ..body = new Code.scope(
+            (a) => 'new ${a($Thing)}(_module.get1(), _module.get2())')
         ..lambda = true
         ..returns = $Thing
-        ..annotations.add(new Annotation(
-            (b) => b..code = new Code((b) => b.code = 'override')))));
+        ..annotations
+            .add(new Annotation((b) => b..code = const Code('override')))));
 
     expect(
       clazz.build(),
       equalsDart(r'''
         class Injector implements App {
           Injector(this._module);
+
           final Module _module;
+
           @override
           Thing getThing() => new Thing(_module.get1(), _module.get2());
         }
@@ -50,7 +51,9 @@ void main() {
       equalsDart(r'''
         class Injector implements _1.App {
           Injector(this._module);
+
           final _2.Module _module;
+
           @override
           _3.Thing getThing() => new _3.Thing(_module.get1(), _module.get2());
         }

@@ -24,7 +24,11 @@ abstract class File implements Built<File, FileBuilder>, Spec {
   BuiltList<Spec> get body;
 
   @override
-  R accept<R>(SpecVisitor<R> visitor) => visitor.visitFile(this);
+  R accept<R>(
+    SpecVisitor<R> visitor, [
+    R context,
+  ]) =>
+      visitor.visitFile(this, context);
 }
 
 abstract class FileBuilder implements Builder<File, FileBuilder> {

@@ -21,7 +21,7 @@ void main() {
         ..name = 'foo'
         ..modifier = MethodModifier.async
         ..lambda = true
-        ..body = new Code((b) => b..code = 'null')),
+        ..body = const Code('null')),
       equalsDart(r'''
         foo() async => null; 
       '''),
@@ -34,7 +34,7 @@ void main() {
         ..name = 'foo'
         ..modifier = MethodModifier.asyncStar
         ..lambda = true
-        ..body = new Code((b) => b..code = 'null')),
+        ..body = const Code('null')),
       equalsDart(r'''
         foo() async* => null; 
       '''),
@@ -47,7 +47,7 @@ void main() {
         ..name = 'foo'
         ..modifier = MethodModifier.syncStar
         ..lambda = true
-        ..body = new Code((b) => b..code = 'null')),
+        ..body = const Code('null')),
       equalsDart(r'''
         foo() sync* => null; 
       '''),
@@ -125,9 +125,7 @@ void main() {
     expect(
       new Method((b) => b
         ..name = 'foo'
-        ..body = new Code((b) => b.code = r'''
-          return 1 + 2;
-        ''')),
+        ..body = const Code('return 1+ 2;')),
       equalsDart(r'''
         foo() {
           return 1 + 2;
@@ -138,16 +136,10 @@ void main() {
 
   test('should create a lambda method', () {
     expect(
-      new Method(
-        (b) => b
-          ..name = 'foo'
-          ..lambda = true
-          ..body = new Code(
-            (b) => b.code = r'''
-              1 + 2
-            ''',
-          ),
-      ),
+      new Method((b) => b
+        ..name = 'foo'
+        ..lambda = true
+        ..body = const Code('1 + 2')),
       equalsDart(r'''
         foo() => 1 + 2;
       '''),
@@ -157,20 +149,11 @@ void main() {
   test('should create a method with a body with references', () {
     final linkedHashMap = const Reference('LinkedHashMap', 'dart:collection');
     expect(
-      new Method(
-        (b) => b
-          ..name = 'foo'
-          ..body = new Code((b) => b
-            ..code = r'''
-                return new {{LINKED_HASH_MAP}}();
-              '''
-            // Just an example to make it clear this != an actual type.
-            //
-            // Can be used to do automatic import prefixing or rewrites.
-            ..specs.addAll({
-              'LINKED_HASH_MAP': () => linkedHashMap,
-            })),
-      ),
+      new Method((b) => b
+        ..name = 'foo'
+        ..body = new Code.scope(
+          (a) => 'return new ${a(linkedHashMap)}();',
+        )),
       equalsDart(r'''
         foo() {
           return new LinkedHashMap();
@@ -202,8 +185,8 @@ void main() {
           ..requiredParameters.add(
             new Parameter((b) => b
               ..name = 'i'
-              ..annotations.add(new Annotation(
-                  (a) => a..code = new Code((b) => b..code = 'deprecated')))),
+              ..annotations.add(
+                  new Annotation((a) => a..code = const Code('deprecated')))),
           ),
       ),
       equalsDart(r'''
@@ -297,7 +280,7 @@ void main() {
           ..optionalParameters.add(
             new Parameter((b) => b
               ..name = 'i'
-              ..defaultTo = new Code((b) => b.code = '0')),
+              ..defaultTo = const Code('0')),
           ),
       ),
       equalsDart(r'''
@@ -332,7 +315,7 @@ void main() {
             new Parameter((b) => b
               ..named = true
               ..name = 'i'
-              ..defaultTo = new Code((b) => b.code = '0')),
+              ..defaultTo = const Code('0')),
           ),
       ),
       equalsDart(r'''

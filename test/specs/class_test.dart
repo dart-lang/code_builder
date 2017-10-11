@@ -52,14 +52,7 @@ void main() {
           ..name = 'Foo'
           ..annotations.add(
             new Annotation(
-              (b) => b
-                ..code = new Code(
-                  (b) => b
-                    ..code = '{{deprecated}}'
-                    ..specs.addAll({
-                      'deprecated': () => $deprecated,
-                    }),
-                ),
+              (b) => b..code = new Code.scope((a) => a($deprecated)),
             ),
           ),
       ),
@@ -169,8 +162,8 @@ void main() {
             new Constructor(
               (b) => b
                 ..initializers.addAll([
-                  new Code((b) => b.code = 'a = 5'),
-                  new Code((b) => b.code = 'super()'),
+                  const Code('a = 5'),
+                  const Code('super()'),
                 ]),
             ),
           ),
@@ -188,8 +181,8 @@ void main() {
       new Class((b) => b
         ..name = 'Foo'
         ..constructors.add(new Constructor((b) => b
-          ..annotations.add(new Annotation(
-              (b) => b..code = new Code((b) => b..code = 'deprecated')))))),
+          ..annotations.add(
+              new Annotation((b) => b..code = const Code('deprecated')))))),
       equalsDart(r'''
         class Foo {
           @deprecated
@@ -260,7 +253,7 @@ void main() {
         ..constructors.add(new Constructor((b) => b
           ..factory = true
           ..lambda = true
-          ..body = new Code((b) => b..code = 'new _Foo()')))),
+          ..body = const Code('new _Foo()')))),
       equalsDart(r'''
         class Foo {
           factory Foo() => new _Foo();
@@ -275,7 +268,7 @@ void main() {
         ..name = 'Foo'
         ..constructors.add(new Constructor((b) => b
           ..factory = true
-          ..body = new Code((b) => b..code = 'return new _Foo();')))),
+          ..body = const Code('return new _Foo();')))),
       equalsDart(r'''
         class Foo {
           factory Foo() {

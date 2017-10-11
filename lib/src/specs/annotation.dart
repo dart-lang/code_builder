@@ -24,7 +24,11 @@ abstract class Annotation
   Code get code;
 
   @override
-  R accept<R>(SpecVisitor<R> visitor) => visitor.visitAnnotation(this);
+  R accept<R>(
+    SpecVisitor<R> visitor, [
+    R context,
+  ]) =>
+      visitor.visitAnnotation(this, context);
 }
 
 abstract class AnnotationBuilder

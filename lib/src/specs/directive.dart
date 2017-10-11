@@ -70,7 +70,11 @@ abstract class Directive implements Built<Directive, DirectiveBuilder>, Spec {
   bool get deferred;
 
   @override
-  R accept<R>(SpecVisitor<R> visitor) => visitor.visitDirective(this);
+  R accept<R>(
+    SpecVisitor<R> visitor, [
+    R context,
+  ]) =>
+      visitor.visitDirective(this, context);
 }
 
 abstract class DirectiveBuilder
