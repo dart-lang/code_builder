@@ -11,12 +11,14 @@ import 'package:meta/meta.dart';
 import '../base.dart';
 import '../mixins/generics.dart';
 import '../visitors.dart';
+import 'code.dart';
+import 'expression.dart';
 import 'reference.dart';
 
 part 'type_reference.g.dart';
 
 @immutable
-abstract class TypeReference extends Object
+abstract class TypeReference extends Expression
     with HasGenerics
     implements Built<TypeReference, TypeReferenceBuilder>, Reference, Spec {
   factory TypeReference([
@@ -45,6 +47,11 @@ abstract class TypeReference extends Object
     R context,
   ]) =>
       visitor.visitType(this, context);
+
+  @override
+  Expression toExpression() {
+    return new CodeExpression(new Code.scope((a) => a(this)));
+  }
 
   @override
   TypeReference toType() => this;

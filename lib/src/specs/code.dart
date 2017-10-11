@@ -14,7 +14,7 @@ import '../visitors.dart';
 /// Returns a scoped symbol to [Reference], with an import prefix if needed.
 ///
 /// This is short-hand for [Allocator.allocate] in most implementations.
-typedef Allocate = String Function(Reference reference);
+typedef String Allocate(Reference reference);
 
 /// Represents arbitrary Dart code (either expressions or statements).
 ///

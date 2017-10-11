@@ -9,6 +9,8 @@ import 'package:meta/meta.dart';
 
 import '../base.dart';
 import '../visitors.dart';
+import 'code.dart';
+import 'expression.dart';
 import 'type_reference.dart';
 
 /// A reference to [symbol], such as a class, or top-level method or field.
@@ -16,7 +18,7 @@ import 'type_reference.dart';
 /// References can be collected and collated in order to automatically generate
 /// `import` statements for all used symbols.
 @immutable
-class Reference implements Spec {
+class Reference extends Expression implements Spec {
   /// Relative, `package:` or `dart:` URL of the library.
   ///
   /// May be omitted (`null`) in order to express "same library".
@@ -41,6 +43,11 @@ class Reference implements Spec {
   @override
   bool operator ==(Object o) =>
       o is Reference && o.url == url && o.symbol == symbol;
+
+  @override
+  Expression toExpression() {
+    return new CodeExpression(new Code.scope((a) => a(this)));
+  }
 
   @override
   String toString() => (newBuiltValueToStringHelper('Reference')

@@ -12,7 +12,9 @@
 * `SpecVisitor<T>`'s methods all have an optional `[T context]` parameter now.
   * This makes it much easier to avoid allocating extra `StringBuffer`s.
 * Removed `SimpleSpecVisitor` (it was unused).
+* Removed `implements Reference` from `Method` and `Field`; not a lot of value. 
 * `equalsDart` removes insignificant white space before comparing results.
+
 * In process of adding classes/methods for writing bodies of `Code` fluently:
   * `Expression`
   * `LiteralExpression`
@@ -21,6 +23,7 @@
     * `literalBool`
     * `literalTrue`
     * `literalFalse`
+    * `literalList`
   * `const Code(staticString)`
   * `const Code.scope((allocate) => '')`
 
