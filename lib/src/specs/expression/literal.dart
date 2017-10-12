@@ -2,50 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../../base.dart';
-import '../../visitors.dart';
-
-/// Represents a Dart expression.
-///
-/// See various concrete implementations for details.
-abstract class Expression implements Spec {
-  const Expression();
-
-  @override
-  R accept<R>(covariant ExpressionVisitor<R> visitor, [R context]);
-
-  Expression and(Expression other) => new BinaryExpression._(this, other, '&&');
-}
-
-/// Knowledge of different types of expressions in Dart.
-///
-/// **INTERNAL ONLY**.
-abstract class ExpressionVisitor<T> implements SpecVisitor<T> {
-  T visitBinaryExpression(BinaryExpression expression, [T context]);
-  T visitLiteralExpression(LiteralExpression expression, [T context]);
-}
-
-/// Knowledge of how to write valid Dart code from [ExpressionVisitor].
-///
-/// **INTERNAL ONLY**.
-abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
-  @override
-  visitBinaryExpression(BinaryExpression expression, [StringSink output]) {
-    output ??= new StringBuffer();
-    return output
-      ..write(expression.left.accept(this))
-      ..write(' ')
-      ..write(expression.operator)
-      ..write(' ')
-      ..write(expression.right.accept(this));
-  }
-
-  @override
-  visitLiteralExpression(LiteralExpression expression, [StringSink output]) {
-    output ??= new StringBuffer();
-    return output..write(expression.literal);
-  }
-}
+part of code_builder.src.specs.expression;
 
 /// Converts a runtime Dart [literal] value into an [Expression].
 ///
@@ -75,6 +32,16 @@ Expression literalBool(bool value) => value ? literalTrue : literalFalse;
 /// Represents the literal value `null`.
 const Expression literalNull = const LiteralExpression._('null');
 
+/// Creates a literal list expression from [values].
+LiteralListExpression literalList(List<Object> values, [Reference type]) {
+  return new LiteralListExpression._(false, values, type);
+}
+
+/// Creates a literal `const` list expression from [values].
+LiteralListExpression literalConstList(List<Object> values, [Reference type]) {
+  return new LiteralListExpression._(true, values, type);
+}
+
 /// Represents a literal value in Dart source code.
 ///
 /// For example, `new LiteralExpression('null')` should emit `null`.
@@ -83,6 +50,7 @@ const Expression literalNull = const LiteralExpression._('null');
 /// * [literal]
 /// * [literalBool] and [literalTrue], [literalFalse]
 /// * [literalNull]
+/// * [literalList] and [literalConstList]
 class LiteralExpression extends Expression {
   final String literal;
 
@@ -94,16 +62,15 @@ class LiteralExpression extends Expression {
   }
 }
 
-/// Represents two expressions ([left] and [right]) and an [operator].
-class BinaryExpression extends Expression {
-  final Expression left;
-  final Expression right;
-  final String operator;
+class LiteralListExpression extends Expression {
+  final bool isConst;
+  final List<Object> values;
+  final Reference type;
 
-  const BinaryExpression._(this.left, this.right, this.operator);
+  const LiteralListExpression._(this.isConst, this.values, this.type);
 
   @override
   R accept<R>(ExpressionVisitor<R> visitor, [R context]) {
-    return visitor.visitBinaryExpression(this, context);
+    return visitor.visitLiteralListExpression(this, context);
   }
 }

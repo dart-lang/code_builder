@@ -16,7 +16,6 @@ import '../visitors.dart';
 import 'annotation.dart';
 import 'code.dart';
 import 'reference.dart';
-import 'type_reference.dart';
 
 part 'method.g.dart';
 
@@ -25,7 +24,7 @@ final Reference _$void = const Reference('void');
 @immutable
 abstract class Method extends Object
     with HasAnnotations, HasGenerics, HasDartDocs
-    implements Built<Method, MethodBuilder>, Reference, Spec {
+    implements Built<Method, MethodBuilder>, Spec {
   factory Method([void updates(MethodBuilder b)]) = _$Method;
 
   factory Method.returnsVoid([void updates(MethodBuilder b)]) {
@@ -84,20 +83,11 @@ abstract class Method extends Object
   Reference get returns;
 
   @override
-  String get symbol => name;
-
-  @override
-  String get url => null;
-
-  @override
   R accept<R>(
     SpecVisitor<R> visitor, [
     R context,
   ]) =>
       visitor.visitMethod(this, context);
-
-  @override
-  TypeReference toType() => throw new UnsupportedError('');
 }
 
 abstract class MethodBuilder extends Object

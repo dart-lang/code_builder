@@ -15,14 +15,13 @@ import '../visitors.dart';
 import 'annotation.dart';
 import 'code.dart';
 import 'reference.dart';
-import 'type_reference.dart';
 
 part 'field.g.dart';
 
 @immutable
 abstract class Field extends Object
     with HasAnnotations, HasDartDocs
-    implements Built<Field, FieldBuilder>, Reference, Spec {
+    implements Built<Field, FieldBuilder>, Spec {
   factory Field([void updates(FieldBuilder b)]) = _$Field;
 
   Field._();
@@ -51,20 +50,11 @@ abstract class Field extends Object
   FieldModifier get modifier;
 
   @override
-  String get symbol => name;
-
-  @override
-  String get url => null;
-
-  @override
   R accept<R>(
     SpecVisitor<R> visitor, [
     R context,
   ]) =>
       visitor.visitField(this, context);
-
-  @override
-  TypeReference toType() => throw new UnsupportedError('');
 }
 
 enum FieldModifier {
