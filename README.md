@@ -44,7 +44,7 @@ void main() {
     ..methods.add(new Method.returnsVoid((b) => b
       ..name = 'eat'
       ..lambda = true
-      ..body = new Code((b) => b..code = 'print(\'Yum\')'))));
+      ..body = new Code.static('print(\'Yum\')'))));
   final emitter = const DartEmitter();
   print(new DartFormatter().format('${animal.accept(emitter)}'));
 }
