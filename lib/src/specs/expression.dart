@@ -106,6 +106,7 @@ abstract class ExpressionVisitor<T> implements SpecVisitor<T> {
   T visitInvokeExpression(InvokeExpression expression, [T context]);
   T visitLiteralExpression(LiteralExpression expression, [T context]);
   T visitLiteralListExpression(LiteralListExpression expression, [T context]);
+  T visitLiteralMapExpression(LiteralMapExpression expression, [T context]);
 }
 
 /// Knowledge of how to write valid Dart code from [ExpressionVisitor].
@@ -167,6 +168,14 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
     return output..write(expression.literal);
   }
 
+  void _acceptLiteral(Object literalOrSpec, StringSink output) {
+    if (literalOrSpec is Spec) {
+      literalOrSpec.accept(this, output);
+      return;
+    }
+    literal(literalOrSpec).accept(this, output);
+  }
+
   @override
   visitLiteralListExpression(
     LiteralListExpression expression, [
@@ -182,18 +191,39 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
       output.write('>');
     }
     output.write('[');
-    // ignore: prefer_final_locals
-    for (var i = 0, l = expression.values.length; i < l; i++) {
-      final value = expression.values[i];
-      if (value is Spec) {
-        value.accept(this, output);
-      } else {
-        literal(value).accept(this, output);
-      }
-      if (i < l - 1) {
-        output.write(', ');
-      }
-    }
+    visitAll<Object>(expression.values, output, (value) {
+      _acceptLiteral(value, output);
+    });
     return output..write(']');
+  }
+
+  @override
+  visitLiteralMapExpression(
+    LiteralMapExpression expression, [
+    StringSink output,
+  ]) {
+    output ??= new StringBuffer();
+    if (expression.isConst) {
+      output.write('const ');
+    }
+    if (expression.keyType != null) {
+      output.write('<');
+      expression.keyType.accept(this, output);
+      output.write(', ');
+      if (expression.valueType == null) {
+        const Reference('dynamic', 'dart:core').accept(this, output);
+      } else {
+        expression.valueType.accept(this, output);
+      }
+      output.write('>');
+    }
+    output.write('{');
+    visitAll<Object>(expression.values.keys, output, (key) {
+      final value = expression.values[key];
+      _acceptLiteral(key, output);
+      output.write(': ');
+      _acceptLiteral(value, output);
+    });
+    return output..write('}');
   }
 }

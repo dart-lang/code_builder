@@ -22,18 +22,40 @@ void main() {
     expect(literalConstList([]), equalsDart('const []'));
   });
 
-  test('should emit a typed list', () {
+  test('should emit an explicitly typed list', () {
     expect(literalList([], refer('int')), equalsDart('<int>[]'));
+  });
+
+  test('should emit a map', () {
+    expect(literalMap({}), equalsDart('{}'));
+  });
+
+  test('should emit a const map', () {
+    expect(literalConstMap({}), equalsDart('const {}'));
+  });
+
+  test('should emit an explicitly typed map', () {
+    expect(
+      literalMap({}, refer('int'), refer('bool')),
+      equalsDart('<int, bool>{}'),
+    );
+  });
+
+  test('should emit a map of other literals and expressions', () {
+    expect(
+      literalMap({
+        1: 'one',
+        2: refer('two'),
+        refer('three'): 3,
+        refer('Map').newInstance([]): null,
+      }),
+      equalsDart(r"{1: 'one', 2: two, three: 3, new Map(): null}"),
+    );
   });
 
   test('should emit a list of other literals and expressions', () {
     expect(
-      literalList([
-        literalList([]),
-        literalTrue,
-        literalNull,
-        refer('Map').newInstance([])
-      ]),
+      literalList([<dynamic>[], true, null, refer('Map').newInstance([])]),
       equalsDart('[[], true, null, new Map()]'),
     );
   });

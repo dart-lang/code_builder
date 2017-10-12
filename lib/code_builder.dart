@@ -28,6 +28,9 @@ export 'src/specs/expression.dart'
         literalBool,
         literalList,
         literalConstList,
+        literalMap,
+        literalConstMap,
+        literalString,
         literalTrue,
         literalFalse;
 export 'src/specs/field.dart' show Field, FieldBuilder, FieldModifier;

@@ -14,6 +14,12 @@ Expression literal(Object literal, {Expression onError(Object value)}) {
   if (literal is num) {
     return literalNum(literal);
   }
+  if (literal is String) {
+    return literalString(literal);
+  }
+  if (literal is List) {
+    return literalList(literal);
+  }
   if (literal == null) {
     return literalNull;
   }
@@ -38,6 +44,11 @@ const Expression literalNull = const LiteralExpression._('null');
 /// Create a literal expression from a number [value].
 Expression literalNum(num value) => new LiteralExpression._('$value');
 
+/// Create a literal expression from a string [value].
+///
+/// **NOTE**: The string is always formatted `'<value>'`.
+Expression literalString(String value) => new LiteralExpression._("'$value'");
+
 /// Creates a literal list expression from [values].
 LiteralListExpression literalList(List<Object> values, [Reference type]) {
   return new LiteralListExpression._(false, values, type);
@@ -46,6 +57,24 @@ LiteralListExpression literalList(List<Object> values, [Reference type]) {
 /// Creates a literal `const` list expression from [values].
 LiteralListExpression literalConstList(List<Object> values, [Reference type]) {
   return new LiteralListExpression._(true, values, type);
+}
+
+/// Create a literal map expression from [values].
+LiteralMapExpression literalMap(
+  Map<Object, Object> values, [
+  Reference keyType,
+  Reference valueType,
+]) {
+  return new LiteralMapExpression._(false, values, keyType, valueType);
+}
+
+/// Create a literal `const` map expression from [values].
+LiteralMapExpression literalConstMap(
+  Map<Object, Object> values, [
+  Reference keyType,
+  Reference valueType,
+]) {
+  return new LiteralMapExpression._(true, values, keyType, valueType);
 }
 
 /// Represents a literal value in Dart source code.
@@ -78,5 +107,24 @@ class LiteralListExpression extends Expression {
   @override
   R accept<R>(ExpressionVisitor<R> visitor, [R context]) {
     return visitor.visitLiteralListExpression(this, context);
+  }
+}
+
+class LiteralMapExpression extends Expression {
+  final bool isConst;
+  final Map<Object, Object> values;
+  final Reference keyType;
+  final Reference valueType;
+
+  const LiteralMapExpression._(
+    this.isConst,
+    this.values,
+    this.keyType,
+    this.valueType,
+  );
+
+  @override
+  R accept<R>(ExpressionVisitor<R> visitor, [R context]) {
+    return visitor.visitLiteralMapExpression(this, context);
   }
 }

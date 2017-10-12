@@ -20,7 +20,9 @@
     * `literalTrue`
     * `literalFalse`
     * `literalNum`
-    * `literalList`
+    * `literalString`
+    * `literalList` and `literalConstList`
+    * `literalMap` and `literalConstMap`
   * `const Code(staticString)`
   * `const Code.scope((allocate) => '')`
 
