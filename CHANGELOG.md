@@ -8,14 +8,10 @@
 * Added `show|hide` to `Directive`.
 * Added `Directive.importDeferredAs`.
 * Added a new line character after emitting some types (class, method, etc).
+* Added `refer` as a short-hand for `new Reference(...)`.
+  * `Reference` now implements `Expression`.
 
-* `SpecVisitor<T>`'s methods all have an optional `[T context]` parameter now.
-  * This makes it much easier to avoid allocating extra `StringBuffer`s.
-* Removed `SimpleSpecVisitor` (it was unused).
-* Removed `implements Reference` from `Method` and `Field`; not a lot of value. 
-* `equalsDart` removes insignificant white space before comparing results.
-
-* In process of adding classes/methods for writing bodies of `Code` fluently:
+* Added many classes/methods for writing bodies of `Code` fluently:
   * `Expression`
   * `LiteralExpression`
     * `literal`
@@ -27,6 +23,13 @@
     * `literalList`
   * `const Code(staticString)`
   * `const Code.scope((allocate) => '')`
+
+* Removed `SimpleSpecVisitor` (it was unused).
+* Removed `implements Reference` from `Method` and `Field`; not a lot of value. 
+
+* `SpecVisitor<T>`'s methods all have an optional `[T context]` parameter now.
+  * This makes it much easier to avoid allocating extra `StringBuffer`s.
+* `equalsDart` removes insignificant white space before comparing results.
 
 ## 2.0.0-alpha+1
 

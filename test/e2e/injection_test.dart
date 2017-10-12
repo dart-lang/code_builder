@@ -8,9 +8,9 @@ import 'package:test/test.dart';
 void main() {
   test('should generate a complex generated file', () {
     // Imports from an existing Dart library.
-    final $App = const Reference('App', 'package:app/app.dart');
-    final $Module = const Reference('Module', 'package:app/module.dart');
-    final $Thing = const Reference('Thing', 'package:app/thing.dart');
+    final $App = refer('App', 'package:app/app.dart');
+    final $Module = refer('Module', 'package:app/module.dart');
+    final $Thing = refer('Thing', 'package:app/thing.dart');
 
     final clazz = new ClassBuilder()
       ..name = 'Injector'
@@ -26,8 +26,8 @@ void main() {
       ..methods.add(new Method((b) => b
         ..name = 'getThing'
         ..body = $Thing.newInstance([
-          const Reference('_module').property('get1').call([]),
-          const Reference('_module').property('get2').call([]),
+          refer('_module').property('get1').call([]),
+          refer('_module').property('get2').call([]),
         ]).asCode()
         ..lambda = true
         ..returns = $Thing

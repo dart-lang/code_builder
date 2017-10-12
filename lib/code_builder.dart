@@ -40,5 +40,5 @@ export 'src/specs/method.dart'
         MethodType,
         Parameter,
         ParameterBuilder;
-export 'src/specs/reference.dart' show Reference;
+export 'src/specs/reference.dart' show refer, Reference;
 export 'src/specs/type_reference.dart' show TypeReference, TypeReferenceBuilder;

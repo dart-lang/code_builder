@@ -13,6 +13,11 @@ import 'code.dart';
 import 'expression.dart';
 import 'type_reference.dart';
 
+/// Short-hand for `new Reference(symbol, url)`.
+Reference refer(String symbol, [String url]) {
+  return new Reference(symbol, url);
+}
+
 /// A reference to [symbol], such as a class, or top-level method or field.
 ///
 /// References can be collected and collated in order to automatically generate

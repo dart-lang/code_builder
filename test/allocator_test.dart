@@ -11,14 +11,14 @@ void main() {
 
     test('should return the exact (non-prefixed) symbol', () {
       allocator = new Allocator();
-      expect(allocator.allocate(const Reference('Foo', 'package:foo')), 'Foo');
+      expect(allocator.allocate(refer('Foo', 'package:foo')), 'Foo');
     });
 
     test('should collect import URLs', () {
       allocator = new Allocator()
-        ..allocate(const Reference('List', 'dart:core'))
-        ..allocate(const Reference('LinkedHashMap', 'dart:collection'))
-        ..allocate(const Reference('someSymbol'));
+        ..allocate(refer('List', 'dart:core'))
+        ..allocate(refer('LinkedHashMap', 'dart:collection'))
+        ..allocate(refer('someSymbol'));
       expect(allocator.imports.map((d) => d.url), [
         'dart:core',
         'dart:collection',
@@ -27,18 +27,18 @@ void main() {
 
     test('.none should do nothing', () {
       allocator = Allocator.none;
-      expect(allocator.allocate(const Reference('Foo', 'package:foo')), 'Foo');
+      expect(allocator.allocate(refer('Foo', 'package:foo')), 'Foo');
       expect(allocator.imports, isEmpty);
     });
 
     test('.simplePrefixing should add import prefixes', () {
       allocator = new Allocator.simplePrefixing();
       expect(
-        allocator.allocate(const Reference('List', 'dart:core')),
+        allocator.allocate(refer('List', 'dart:core')),
         'List',
       );
       expect(
-        allocator.allocate(const Reference('LinkedHashMap', 'dart:collection')),
+        allocator.allocate(refer('LinkedHashMap', 'dart:collection')),
         '_1.LinkedHashMap',
       );
       expect(allocator.imports.map((d) => '${d.url} as ${d.as}'), [
