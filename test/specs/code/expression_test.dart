@@ -32,7 +32,7 @@ void main() {
         literalList([]),
         literalTrue,
         literalNull,
-        const Reference('Map').toExpression().newInstance()
+        const Reference('Map').toExpression().newInstance([])
       ]),
       equalsDart('[[], true, null, new Map()]'),
     );
@@ -51,8 +51,63 @@ void main() {
 
   test('should emit invoking new Type()', () {
     expect(
-      const Reference('Map').toExpression().newInstance(),
+      const Reference('Map').toExpression().newInstance([]),
       equalsDart('new Map()'),
+    );
+  });
+
+  test('should emit invoking a property accessor', () {
+    expect(const Reference('foo').property('bar'), equalsDart('foo.bar'));
+  });
+
+  test('should emit invoking a method with a single positional argument', () {
+    expect(
+      const Reference('foo').toExpression().call([
+        literal(1),
+      ]),
+      equalsDart('foo(1)'),
+    );
+  });
+
+  test('should emit invoking a method with positional arguments', () {
+    expect(
+      const Reference('foo').toExpression().call([
+        literal(1),
+        literal(2),
+        literal(3),
+      ]),
+      equalsDart('foo(1, 2, 3)'),
+    );
+  });
+
+  test('should emit invoking a method with a single named argument', () {
+    expect(
+      const Reference('foo').toExpression().call([], {
+        'bar': literal(1),
+      }),
+      equalsDart('foo(bar: 1)'),
+    );
+  });
+
+  test('should emit invoking a method with named arguments', () {
+    expect(
+      const Reference('foo').toExpression().call([], {
+        'bar': literal(1),
+        'baz': literal(2),
+      }),
+      equalsDart('foo(bar: 1, baz: 2)'),
+    );
+  });
+
+  test('should emit invoking a method with positional and named arguments', () {
+    expect(
+      const Reference('foo').toExpression().call([
+        literal(1)
+      ], {
+        'bar': literal(2),
+        'baz': literal(3),
+      }),
+      equalsDart('foo(1, bar: 2, baz: 3)'),
     );
   });
 }

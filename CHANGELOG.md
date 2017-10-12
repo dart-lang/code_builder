@@ -23,6 +23,7 @@
     * `literalBool`
     * `literalTrue`
     * `literalFalse`
+    * `literalNum`
     * `literalList`
   * `const Code(staticString)`
   * `const Code.scope((allocate) => '')`

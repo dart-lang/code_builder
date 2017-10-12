@@ -25,8 +25,10 @@ void main() {
           ..toThis = true))))
       ..methods.add(new Method((b) => b
         ..name = 'getThing'
-        ..body = new Code.scope(
-            (a) => 'new ${a($Thing)}(_module.get1(), _module.get2())')
+        ..body = $Thing.newInstance([
+          const Reference('_module').property('get1').call([]),
+          const Reference('_module').property('get2').call([]),
+        ]).asCode()
         ..lambda = true
         ..returns = $Thing
         ..annotations

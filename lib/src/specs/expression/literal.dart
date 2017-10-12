@@ -11,6 +11,9 @@ Expression literal(Object literal, {Expression onError(Object value)}) {
   if (literal is bool) {
     return literalBool(literal);
   }
+  if (literal is num) {
+    return literalNum(literal);
+  }
   if (literal == null) {
     return literalNull;
   }
@@ -31,6 +34,9 @@ Expression literalBool(bool value) => value ? literalTrue : literalFalse;
 
 /// Represents the literal value `null`.
 const Expression literalNull = const LiteralExpression._('null');
+
+/// Create a literal expression from a number [value].
+Expression literalNum(num value) => new LiteralExpression._('$value');
 
 /// Creates a literal list expression from [values].
 LiteralListExpression literalList(List<Object> values, [Reference type]) {

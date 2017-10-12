@@ -7,6 +7,7 @@ library code_builder.src.specs.expression;
 import 'package:meta/meta.dart';
 
 import '../base.dart';
+import '../emitter.dart';
 import '../visitors.dart';
 import 'code.dart';
 import 'reference.dart';
@@ -25,29 +26,75 @@ abstract class Expression implements Spec {
   @override
   R accept<R>(covariant ExpressionVisitor<R> visitor, [R context]);
 
+  /// Returns the expression as a valid [Code] block.
+  Code asCode() => new _AsExpressionCode(this);
+
   /// Returns the result of [this] `&&` [other].
   Expression and(Expression other) {
     return new BinaryExpression._(toExpression(), other, '&&');
   }
 
   /// Call this expression as a method.
-  Expression call() {
-    return new InvokeExpression._(this);
+  Expression call(
+    List<Expression> positionalArguments, [
+    Map<String, Expression> namedArguments = const {},
+  ]) {
+    return new InvokeExpression._(
+      this,
+      positionalArguments,
+      namedArguments,
+    );
+  }
+
+  /// Returns an expression accessing `.<name>` on this expression.
+  Expression property(String name) {
+    return new BinaryExpression._(
+      this,
+      new LiteralExpression._(name),
+      '.',
+      false,
+    );
   }
 
   /// Returns a new instance of this expression.
-  Expression newInstance() {
-    return new InvokeExpression._new(this);
+  Expression newInstance(
+    List<Expression> positionalArguments, [
+    Map<String, Expression> namedArguments = const {},
+  ]) {
+    return new InvokeExpression._new(
+      this,
+      positionalArguments,
+      namedArguments,
+    );
   }
 
   /// Returns a const instance of this expression.
-  Expression constInstance() {
-    return new InvokeExpression._const(this);
+  Expression constInstance(
+    List<Expression> positionalArguments, [
+    Map<String, Expression> namedArguments = const {},
+  ]) {
+    return new InvokeExpression._const(
+      this,
+      positionalArguments,
+      namedArguments,
+    );
   }
 
   /// May be overriden to support other types implementing [Expression].
   @visibleForOverriding
   Expression toExpression() => this;
+}
+
+/// Represents a [code] block that wraps an [Expression].
+class _AsExpressionCode implements Code {
+  final Expression code;
+
+  const _AsExpressionCode(this.code);
+
+  @override
+  R accept<R>(CodeVisitor<R> visitor, [R context]) {
+    return code.accept(visitor as ExpressionVisitor<R>, context);
+  }
 }
 
 /// Knowledge of different types of expressions in Dart.
@@ -68,12 +115,16 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
   @override
   visitBinaryExpression(BinaryExpression expression, [StringSink output]) {
     output ??= new StringBuffer();
-    return output
-      ..write(expression.left.accept(this))
-      ..write(' ')
-      ..write(expression.operator)
-      ..write(' ')
-      ..write(expression.right.accept(this));
+    expression.left.accept(this, output);
+    if (expression.addSpace) {
+      output.write(' ');
+    }
+    output.write(expression.operator);
+    if (expression.addSpace) {
+      output.write(' ');
+    }
+    expression.right.accept(this, output);
+    return output;
   }
 
   @override
@@ -95,7 +146,19 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
         break;
     }
     expression.target.accept(this, output);
-    return output..write('()');
+    output.write('(');
+    visitAll<Spec>(expression.positionalArguments, output, (spec) {
+      spec.accept(this, output);
+    });
+    if (expression.positionalArguments.isNotEmpty &&
+        expression.namedArguments.isNotEmpty) {
+      output.write(', ');
+    }
+    visitAll<String>(expression.namedArguments.keys, output, (name) {
+      output..write(name)..write(': ');
+      expression.namedArguments[name].accept(this, output);
+    });
+    return output..write(')');
   }
 
   @override
