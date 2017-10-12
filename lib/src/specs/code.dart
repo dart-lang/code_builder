@@ -4,13 +4,19 @@
 
 library code_builder.src.specs.code;
 
+import 'package:built_value/built_value.dart';
+import 'package:built_collection/built_collection.dart';
 import 'package:meta/meta.dart';
 
 import '../allocator.dart';
 import '../base.dart';
+import '../emitter.dart';
 import '../visitors.dart';
 
+import 'expression.dart';
 import 'reference.dart';
+
+part 'code.g.dart';
 
 /// Returns a scoped symbol to [Reference], with an import prefix if needed.
 ///
@@ -41,10 +47,40 @@ abstract class Code implements Spec {
   R accept<R>(covariant CodeVisitor<R> visitor, [R context]);
 }
 
+/// Represents blocks of statements of Dart code.
+abstract class Block implements Built<Block, BlockBuilder>, Spec {
+  factory Block([void updates(BlockBuilder b)]) = _$Block;
+
+  Block._();
+
+  @override
+  R accept<R>(covariant CodeVisitor<R> visitor, [R context]) {
+    return visitor.visitBlock(this, context);
+  }
+
+  BuiltList<Code> get statements;
+}
+
+abstract class BlockBuilder implements Builder<Block, BlockBuilder> {
+  factory BlockBuilder() = _$BlockBuilder;
+
+  BlockBuilder._();
+
+  /// Adds an [expression] to [statements].
+  ///
+  /// **NOTE**: Not all expressions are _useful_ statements.
+  void addExpression(Expression expression) {
+    statements.add(expression.asStatement());
+  }
+
+  ListBuilder<Code> statements = new ListBuilder<Code>();
+}
+
 /// Knowledge of different types of blocks of code in Dart.
 ///
 /// **INTERNAL ONLY**.
 abstract class CodeVisitor<T> implements SpecVisitor<T> {
+  T visitBlock(Block code, [T context]);
   T visitStaticCode(StaticCode code, [T context]);
   T visitScopedCode(ScopedCode code, [T context]);
 }
@@ -53,6 +89,14 @@ abstract class CodeVisitor<T> implements SpecVisitor<T> {
 abstract class CodeEmitter implements CodeVisitor<StringSink> {
   @protected
   Allocator get allocator;
+
+  @override
+  visitBlock(Block block, [StringSink output]) {
+    output ??= new StringBuffer();
+    return visitAll<Code>(block.statements, output, (statement) {
+      statement.accept(this, output);
+    }, '\n');
+  }
 
   @override
   visitStaticCode(StaticCode code, [StringSink output]) {
@@ -77,6 +121,9 @@ class StaticCode implements Code {
   R accept<R>(CodeVisitor<R> visitor, [R context]) {
     return visitor.visitStaticCode(this, context);
   }
+
+  @override
+  String toString() => code;
 }
 
 /// Represents a [code] block that may require scoping.
@@ -89,4 +136,7 @@ class ScopedCode implements Code {
   R accept<R>(CodeVisitor<R> visitor, [R context]) {
     return visitor.visitScopedCode(this, context);
   }
+
+  @override
+  String toString() => code((ref) => ref.symbol);
 }
