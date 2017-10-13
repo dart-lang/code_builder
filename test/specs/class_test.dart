@@ -45,7 +45,7 @@ void main() {
   });
 
   test('should create a class with annotations', () {
-    final $deprecated = const Reference('deprecated');
+    final $deprecated = refer('deprecated');
     expect(
       new Class(
         (b) => b
@@ -67,7 +67,7 @@ void main() {
     expect(
       new Class((b) => b
         ..name = 'List'
-        ..types.add(const Reference('T'))),
+        ..types.add(refer('T'))),
       equalsDart(r'''
         class List<T> {}
       '''),
@@ -80,8 +80,8 @@ void main() {
         (b) => b
           ..name = 'Map'
           ..types.addAll([
-            const Reference('K'),
-            const Reference('V'),
+            refer('K'),
+            refer('V'),
           ]),
       ),
       equalsDart(r'''
@@ -98,7 +98,7 @@ void main() {
           ..symbol = 'T'
           ..bound = new TypeReference((b) => b
             ..symbol = 'Comparable'
-            ..types.add(const Reference('T').toType()))))),
+            ..types.add(refer('T').toType()))))),
       equalsDart(r'''
         class Comparable<T extends Comparable<T>> {}
       '''),
@@ -237,7 +237,7 @@ void main() {
         ..name = 'Foo'
         ..constructors.add(new Constructor((b) => b
           ..factory = true
-          ..redirect = const Reference('_Foo')))),
+          ..redirect = refer('_Foo')))),
       equalsDart(r'''
         class Foo {
           factory Foo() = _Foo;

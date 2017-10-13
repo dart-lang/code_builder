@@ -9,8 +9,14 @@ class BinaryExpression extends Expression {
   final Expression left;
   final Expression right;
   final String operator;
+  final bool addSpace;
 
-  const BinaryExpression._(this.left, this.right, this.operator);
+  const BinaryExpression._(
+    this.left,
+    this.right,
+    this.operator, [
+    this.addSpace = true,
+  ]);
 
   @override
   R accept<R>(ExpressionVisitor<R> visitor, [R context]) {

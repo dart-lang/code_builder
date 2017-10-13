@@ -7,6 +7,7 @@ library code_builder.src.specs.expression;
 import 'package:meta/meta.dart';
 
 import '../base.dart';
+import '../emitter.dart';
 import '../visitors.dart';
 import 'code.dart';
 import 'reference.dart';
@@ -25,29 +26,75 @@ abstract class Expression implements Spec {
   @override
   R accept<R>(covariant ExpressionVisitor<R> visitor, [R context]);
 
+  /// Returns the expression as a valid [Code] block.
+  Code asCode() => new _AsExpressionCode(this);
+
   /// Returns the result of [this] `&&` [other].
   Expression and(Expression other) {
     return new BinaryExpression._(toExpression(), other, '&&');
   }
 
   /// Call this expression as a method.
-  Expression call() {
-    return new InvokeExpression._(this);
+  Expression call(
+    List<Expression> positionalArguments, [
+    Map<String, Expression> namedArguments = const {},
+  ]) {
+    return new InvokeExpression._(
+      this,
+      positionalArguments,
+      namedArguments,
+    );
+  }
+
+  /// Returns an expression accessing `.<name>` on this expression.
+  Expression property(String name) {
+    return new BinaryExpression._(
+      this,
+      new LiteralExpression._(name),
+      '.',
+      false,
+    );
   }
 
   /// Returns a new instance of this expression.
-  Expression newInstance() {
-    return new InvokeExpression._new(this);
+  Expression newInstance(
+    List<Expression> positionalArguments, [
+    Map<String, Expression> namedArguments = const {},
+  ]) {
+    return new InvokeExpression._new(
+      this,
+      positionalArguments,
+      namedArguments,
+    );
   }
 
   /// Returns a const instance of this expression.
-  Expression constInstance() {
-    return new InvokeExpression._const(this);
+  Expression constInstance(
+    List<Expression> positionalArguments, [
+    Map<String, Expression> namedArguments = const {},
+  ]) {
+    return new InvokeExpression._const(
+      this,
+      positionalArguments,
+      namedArguments,
+    );
   }
 
   /// May be overriden to support other types implementing [Expression].
   @visibleForOverriding
   Expression toExpression() => this;
+}
+
+/// Represents a [code] block that wraps an [Expression].
+class _AsExpressionCode implements Code {
+  final Expression code;
+
+  const _AsExpressionCode(this.code);
+
+  @override
+  R accept<R>(CodeVisitor<R> visitor, [R context]) {
+    return code.accept(visitor as ExpressionVisitor<R>, context);
+  }
 }
 
 /// Knowledge of different types of expressions in Dart.
@@ -59,6 +106,7 @@ abstract class ExpressionVisitor<T> implements SpecVisitor<T> {
   T visitInvokeExpression(InvokeExpression expression, [T context]);
   T visitLiteralExpression(LiteralExpression expression, [T context]);
   T visitLiteralListExpression(LiteralListExpression expression, [T context]);
+  T visitLiteralMapExpression(LiteralMapExpression expression, [T context]);
 }
 
 /// Knowledge of how to write valid Dart code from [ExpressionVisitor].
@@ -68,12 +116,16 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
   @override
   visitBinaryExpression(BinaryExpression expression, [StringSink output]) {
     output ??= new StringBuffer();
-    return output
-      ..write(expression.left.accept(this))
-      ..write(' ')
-      ..write(expression.operator)
-      ..write(' ')
-      ..write(expression.right.accept(this));
+    expression.left.accept(this, output);
+    if (expression.addSpace) {
+      output.write(' ');
+    }
+    output.write(expression.operator);
+    if (expression.addSpace) {
+      output.write(' ');
+    }
+    expression.right.accept(this, output);
+    return output;
   }
 
   @override
@@ -95,13 +147,33 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
         break;
     }
     expression.target.accept(this, output);
-    return output..write('()');
+    output.write('(');
+    visitAll<Spec>(expression.positionalArguments, output, (spec) {
+      spec.accept(this, output);
+    });
+    if (expression.positionalArguments.isNotEmpty &&
+        expression.namedArguments.isNotEmpty) {
+      output.write(', ');
+    }
+    visitAll<String>(expression.namedArguments.keys, output, (name) {
+      output..write(name)..write(': ');
+      expression.namedArguments[name].accept(this, output);
+    });
+    return output..write(')');
   }
 
   @override
   visitLiteralExpression(LiteralExpression expression, [StringSink output]) {
     output ??= new StringBuffer();
     return output..write(expression.literal);
+  }
+
+  void _acceptLiteral(Object literalOrSpec, StringSink output) {
+    if (literalOrSpec is Spec) {
+      literalOrSpec.accept(this, output);
+      return;
+    }
+    literal(literalOrSpec).accept(this, output);
   }
 
   @override
@@ -119,18 +191,39 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
       output.write('>');
     }
     output.write('[');
-    // ignore: prefer_final_locals
-    for (var i = 0, l = expression.values.length; i < l; i++) {
-      final value = expression.values[i];
-      if (value is Spec) {
-        value.accept(this, output);
-      } else {
-        literal(value).accept(this, output);
-      }
-      if (i < l - 1) {
-        output.write(', ');
-      }
-    }
+    visitAll<Object>(expression.values, output, (value) {
+      _acceptLiteral(value, output);
+    });
     return output..write(']');
+  }
+
+  @override
+  visitLiteralMapExpression(
+    LiteralMapExpression expression, [
+    StringSink output,
+  ]) {
+    output ??= new StringBuffer();
+    if (expression.isConst) {
+      output.write('const ');
+    }
+    if (expression.keyType != null) {
+      output.write('<');
+      expression.keyType.accept(this, output);
+      output.write(', ');
+      if (expression.valueType == null) {
+        const Reference('dynamic', 'dart:core').accept(this, output);
+      } else {
+        expression.valueType.accept(this, output);
+      }
+      output.write('>');
+    }
+    output.write('{');
+    visitAll<Object>(expression.values.keys, output, (key) {
+      final value = expression.values[key];
+      _acceptLiteral(key, output);
+      output.write(': ');
+      _acceptLiteral(value, output);
+    });
+    return output..write('}');
   }
 }

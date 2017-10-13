@@ -8,8 +8,9 @@ import 'package:meta/meta.dart';
 
 import '../allocator.dart';
 import '../base.dart';
-import '../specs/reference.dart';
 import '../visitors.dart';
+
+import 'reference.dart';
 
 /// Returns a scoped symbol to [Reference], with an import prefix if needed.
 ///

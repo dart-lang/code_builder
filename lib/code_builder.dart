@@ -28,6 +28,9 @@ export 'src/specs/expression.dart'
         literalBool,
         literalList,
         literalConstList,
+        literalMap,
+        literalConstMap,
+        literalString,
         literalTrue,
         literalFalse;
 export 'src/specs/field.dart' show Field, FieldBuilder, FieldModifier;
@@ -40,5 +43,5 @@ export 'src/specs/method.dart'
         MethodType,
         Parameter,
         ParameterBuilder;
-export 'src/specs/reference.dart' show Reference;
+export 'src/specs/reference.dart' show refer, Reference;
 export 'src/specs/type_reference.dart' show TypeReference, TypeReferenceBuilder;

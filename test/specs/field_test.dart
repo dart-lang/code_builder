@@ -19,7 +19,7 @@ void main() {
     expect(
       new Field((b) => b
         ..name = 'foo'
-        ..type = const Reference('String')),
+        ..type = refer('String')),
       equalsDart(r'''
         String foo;
       '''),

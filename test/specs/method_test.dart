@@ -83,7 +83,7 @@ void main() {
     expect(
       new Method((b) => b
         ..name = 'foo'
-        ..returns = const Reference('String')),
+        ..returns = refer('String')),
       equalsDart(r'''
         String foo();
       '''),
@@ -103,7 +103,7 @@ void main() {
     expect(
       new Method((b) => b
         ..name = 'foo'
-        ..types.add(const Reference('T'))),
+        ..types.add(refer('T'))),
       equalsDart(r'''
         foo<T>();
       '''),
@@ -147,12 +147,12 @@ void main() {
   });
 
   test('should create a method with a body with references', () {
-    final linkedHashMap = const Reference('LinkedHashMap', 'dart:collection');
+    final $LinkedHashMap = refer('LinkedHashMap', 'dart:collection');
     expect(
       new Method((b) => b
         ..name = 'foo'
         ..body = new Code.scope(
-          (a) => 'return new ${a(linkedHashMap)}();',
+          (a) => 'return new ${a($LinkedHashMap)}();',
         )),
       equalsDart(r'''
         foo() {
@@ -204,7 +204,7 @@ void main() {
             new Parameter(
               (b) => b
                 ..name = 'i'
-                ..type = const Reference('int').toType(),
+                ..type = refer('int').toType(),
             ),
           ),
       ),
@@ -221,18 +221,18 @@ void main() {
           ..name = 'foo'
           ..types.add(new TypeReference((b) => b
             ..symbol = 'T'
-            ..bound = const Reference('Iterable')))
+            ..bound = refer('Iterable')))
           ..requiredParameters.addAll([
             new Parameter(
               (b) => b
                 ..name = 't'
-                ..type = const Reference('T'),
+                ..type = refer('T'),
             ),
             new Parameter((b) => b
               ..name = 'x'
               ..type = new TypeReference((b) => b
                 ..symbol = 'X'
-                ..types.add(const Reference('T')))),
+                ..types.add(refer('T')))),
           ]),
       ),
       equalsDart(r'''

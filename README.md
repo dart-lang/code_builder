@@ -40,11 +40,11 @@ import 'package:dart_style/dart_style.dart';
 void main() {
   final animal = new Class((b) => b
     ..name = 'Animal'
-    ..extend = const Reference('Organism').toType()
+    ..extend = refer('Organism').toType()
     ..methods.add(new Method.returnsVoid((b) => b
       ..name = 'eat'
       ..lambda = true
-      ..body = new Code((b) => b..code = 'print(\'Yum\')'))));
+      ..body = const Code('print(\'Yum\')'))));
   final emitter = const DartEmitter();
   print(new DartFormatter().format('${animal.accept(emitter)}'));
 }
@@ -70,11 +70,11 @@ void main() {
         new Method((b) => b
           ..body = new Code((b) => b.code = '')
           ..name = 'doThing'
-          ..returns = const Reference('Thing', 'package:a/a.dart')),
+          ..returns = refer('Thing', 'package:a/a.dart')),
         new Method((b) => b
           ..body = new Code((b) => b..code = '')
           ..name = 'doOther'
-          ..returns = const Reference('Other', 'package:b/b.dart')),
+          ..returns = refer('Other', 'package:b/b.dart')),
       ]));
   final emitter = new DartEmitter(new Allocator.simplePrefixing());
   print(new DartFormatter().format('${library.accept(emitter)}'));

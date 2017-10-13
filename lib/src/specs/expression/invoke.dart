@@ -12,12 +12,29 @@ class InvokeExpression extends Expression {
   /// Optional; type of invocation.
   final InvokeExpressionType type;
 
-  const InvokeExpression._(this.target) : type = null;
+  final List<Expression> positionalArguments;
 
-  const InvokeExpression._new(this.target)
+  final Map<String, Expression> namedArguments;
+
+  const InvokeExpression._(
+    this.target,
+    this.positionalArguments, [
+    this.namedArguments = const {},
+  ])
+      : type = null;
+
+  const InvokeExpression._new(
+    this.target,
+    this.positionalArguments, [
+    this.namedArguments = const {},
+  ])
       : type = InvokeExpressionType.newInstance;
 
-  const InvokeExpression._const(this.target)
+  const InvokeExpression._const(
+    this.target,
+    this.positionalArguments, [
+    this.namedArguments = const {},
+  ])
       : type = InvokeExpressionType.constInstance;
 
   @override

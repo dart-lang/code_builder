@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:meta/meta.dart';
+
 import 'allocator.dart';
 import 'base.dart';
 import 'specs/annotation.dart';
@@ -16,6 +18,33 @@ import 'specs/method.dart';
 import 'specs/reference.dart';
 import 'specs/type_reference.dart';
 import 'visitors.dart';
+
+/// Helper method improving on [StringSink.writeAll].
+///
+/// For every `Spec` in [elements], executing [visit].
+///
+/// If [elements] is at least 2 elements, inserts [separator] delimiting them.
+@visibleForTesting
+void visitAll<T>(
+  Iterable<T> elements,
+  StringSink output,
+  void visit(T element), [
+  String separator = ', ',
+]) {
+  // Basically, this whole method is an improvement on
+  //   output.writeAll(specs.map((s) => s.accept(visitor));
+  //
+  // ... which would allocate more StringBuffer(s) for a one-time use.
+  if (elements.isEmpty) {
+    return;
+  }
+  final iterator = elements.iterator..moveNext();
+  visit(iterator.current);
+  while (iterator.moveNext()) {
+    output.write(separator);
+    visit(iterator.current);
+  }
+}
 
 class DartEmitter extends Object
     with CodeEmitter, ExpressionEmitter

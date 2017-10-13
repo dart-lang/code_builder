@@ -7,7 +7,7 @@ import 'package:test/test.dart';
 
 void main() {
   group('File', () {
-    const $linkedHashMap = const Reference('LinkedHashMap', 'dart:collection');
+    final $LinkedHashMap = refer('LinkedHashMap', 'dart:collection');
 
     test('should emit a source file with manual imports', () {
       expect(
@@ -16,8 +16,7 @@ void main() {
           ..body.add(new Field((b) => b
             ..name = 'test'
             ..modifier = FieldModifier.final$
-            ..assignment =
-                new Code.scope((a) => 'new ${a($linkedHashMap)}()')))),
+            ..assignment = $LinkedHashMap.newInstance([]).asCode()))),
         equalsDart(r'''
             import 'dart:collection';
           
@@ -84,7 +83,7 @@ void main() {
             ..name = 'test'
             ..modifier = FieldModifier.final$
             ..assignment =
-                new Code.scope((a) => 'new ${a($linkedHashMap)}()')))),
+                new Code.scope((a) => 'new ${a($LinkedHashMap)}()')))),
         equalsDart(r'''
           import 'dart:collection';
           
@@ -100,7 +99,7 @@ void main() {
             ..name = 'test'
             ..modifier = FieldModifier.final$
             ..assignment =
-                new Code.scope((a) => 'new ${a($linkedHashMap)}()')))),
+                new Code.scope((a) => 'new ${a($LinkedHashMap)}()')))),
         equalsDart(r'''
           import 'dart:collection' as _1;
           
