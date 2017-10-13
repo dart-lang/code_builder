@@ -19,7 +19,7 @@ String _dartfmt(String source) {
   } catch (_) {
     // Ignored on purpose, probably not exactly valid Dart code.
   } finally {
-    source = source.replaceAll('  ', ' ').replaceAll('\n', '').trim();
+    source = collapseWhitespace(source);
   }
   return source;
 }

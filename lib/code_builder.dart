@@ -8,12 +8,14 @@ export 'src/emitter.dart' show DartEmitter;
 export 'src/matchers.dart' show equalsDart;
 export 'src/specs/annotation.dart' show Annotation, AnnotationBuilder;
 export 'src/specs/class.dart' show Class, ClassBuilder;
-export 'src/specs/code.dart' show Code, StaticCode, ScopedCode;
+export 'src/specs/code.dart'
+    show Block, BlockBuilder, Code, StaticCode, ScopedCode;
 export 'src/specs/constructor.dart' show Constructor, ConstructorBuilder;
 export 'src/specs/directive.dart'
     show Directive, DirectiveType, DirectiveBuilder;
 export 'src/specs/expression.dart'
     show
+        AsCodeExpression,
         BinaryExpression,
         CodeExpression,
         Expression,

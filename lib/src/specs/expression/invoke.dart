@@ -41,6 +41,10 @@ class InvokeExpression extends Expression {
   R accept<R>(ExpressionVisitor<R> visitor, [R context]) {
     return visitor.visitInvokeExpression(this, context);
   }
+
+  @override
+  String toString() =>
+      '${type ?? ''} $target($positionalArguments, $namedArguments)';
 }
 
 enum InvokeExpressionType {

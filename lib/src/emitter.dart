@@ -25,7 +25,7 @@ import 'visitors.dart';
 ///
 /// If [elements] is at least 2 elements, inserts [separator] delimiting them.
 @visibleForTesting
-void visitAll<T>(
+StringSink visitAll<T>(
   Iterable<T> elements,
   StringSink output,
   void visit(T element), [
@@ -36,7 +36,7 @@ void visitAll<T>(
   //
   // ... which would allocate more StringBuffer(s) for a one-time use.
   if (elements.isEmpty) {
-    return;
+    return output;
   }
   final iterator = elements.iterator..moveNext();
   visit(iterator.current);
@@ -44,6 +44,7 @@ void visitAll<T>(
     output.write(separator);
     visit(iterator.current);
   }
+  return output;
 }
 
 class DartEmitter extends Object

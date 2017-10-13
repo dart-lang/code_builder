@@ -95,6 +95,9 @@ class LiteralExpression extends Expression {
   R accept<R>(ExpressionVisitor<R> visitor, [R context]) {
     return visitor.visitLiteralExpression(this, context);
   }
+
+  @override
+  String toString() => literal;
 }
 
 class LiteralListExpression extends Expression {
@@ -108,6 +111,9 @@ class LiteralListExpression extends Expression {
   R accept<R>(ExpressionVisitor<R> visitor, [R context]) {
     return visitor.visitLiteralListExpression(this, context);
   }
+
+  @override
+  String toString() => '[${values.map(literal).join(', ')}]';
 }
 
 class LiteralMapExpression extends Expression {
@@ -127,4 +133,7 @@ class LiteralMapExpression extends Expression {
   R accept<R>(ExpressionVisitor<R> visitor, [R context]) {
     return visitor.visitLiteralMapExpression(this, context);
   }
+
+  @override
+  String toString() => '{$values}';
 }

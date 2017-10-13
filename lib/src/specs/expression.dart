@@ -27,7 +27,12 @@ abstract class Expression implements Spec {
   R accept<R>(covariant ExpressionVisitor<R> visitor, [R context]);
 
   /// Returns the expression as a valid [Code] block.
-  Code asCode() => new _AsExpressionCode(this);
+  ///
+  /// Also see [asStatement].
+  Code asCode() => new AsCodeExpression(this, false);
+
+  /// Returns the expression asa valid [Code] block with a trailing `;`.
+  Code asStatement() => new AsCodeExpression(this, true);
 
   /// Returns the result of [this] `&&` [other].
   Expression and(Expression other) {
@@ -86,21 +91,30 @@ abstract class Expression implements Spec {
 }
 
 /// Represents a [code] block that wraps an [Expression].
-class _AsExpressionCode implements Code {
+class AsCodeExpression implements Code {
   final Expression code;
 
-  const _AsExpressionCode(this.code);
+  /// Whether this code should be considered a _statement_.
+  final bool isStatement;
+
+  @visibleForTesting
+  const AsCodeExpression(this.code, [this.isStatement = false]);
 
   @override
   R accept<R>(CodeVisitor<R> visitor, [R context]) {
-    return code.accept(visitor as ExpressionVisitor<R>, context);
+    return (visitor as ExpressionVisitor<R>)
+        .visitAsCodeExpression(this, context);
   }
+
+  @override
+  String toString() => code.toString();
 }
 
 /// Knowledge of different types of expressions in Dart.
 ///
 /// **INTERNAL ONLY**.
 abstract class ExpressionVisitor<T> implements SpecVisitor<T> {
+  T visitAsCodeExpression(AsCodeExpression code, [T context]);
   T visitBinaryExpression(BinaryExpression expression, [T context]);
   T visitCodeExpression(CodeExpression expression, [T context]);
   T visitInvokeExpression(InvokeExpression expression, [T context]);
@@ -113,6 +127,16 @@ abstract class ExpressionVisitor<T> implements SpecVisitor<T> {
 ///
 /// **INTERNAL ONLY**.
 abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
+  @override
+  visitAsCodeExpression(AsCodeExpression expression, [StringSink output]) {
+    output ??= new StringBuffer();
+    expression.code.accept(this, output);
+    if (expression.isStatement) {
+      output.write(';');
+    }
+    return output;
+  }
+
   @override
   visitBinaryExpression(BinaryExpression expression, [StringSink output]) {
     output ??= new StringBuffer();
