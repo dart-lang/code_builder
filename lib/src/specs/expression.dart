@@ -67,9 +67,15 @@ abstract class Expression implements Spec {
   }
 
   /// Return `var {name} = {this}`.
-  Expression assignVar(String name) {
+  Expression assignVar(String name, [Reference type]) {
     return new BinaryExpression._(
-      new LiteralExpression._('var $name'),
+      type == null
+          ? new LiteralExpression._('var $name')
+          : new BinaryExpression._(
+              type.toExpression(),
+              new LiteralExpression._(name),
+              '',
+            ),
       this,
       '=',
     );
@@ -86,7 +92,7 @@ abstract class Expression implements Spec {
               '',
             ),
       this,
-      '=',
+      '$name =',
     );
   }
 
@@ -101,7 +107,7 @@ abstract class Expression implements Spec {
               '',
             ),
       this,
-      '=',
+      '$name =',
     );
   }
 

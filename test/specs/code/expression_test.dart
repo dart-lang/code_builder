@@ -78,6 +78,20 @@ void main() {
     );
   });
 
+  test('should emit invoking new named constructor', () {
+    expect(
+      refer('Foo').newInstanceNamed('bar', []),
+      equalsDart('new Foo.bar()'),
+    );
+  });
+
+  test('should emit invoking const Type()', () {
+    expect(
+      refer('Object').constInstance([]),
+      equalsDart('const Object()'),
+    );
+  });
+
   test('should emit invoking a property accessor', () {
     expect(refer('foo').property('bar'), equalsDart('foo.bar'));
   });
@@ -130,6 +144,82 @@ void main() {
         'baz': literal(3),
       }),
       equalsDart('foo(1, bar: 2, baz: 3)'),
+    );
+  });
+
+  test('should emit invoking a method with a single type argument', () {
+    expect(
+      refer('foo').call(
+        [],
+        {},
+        [
+          refer('String'),
+        ],
+      ),
+      equalsDart('foo<String>()'),
+    );
+  });
+
+  test('should emit invoking a method with type arguments', () {
+    expect(
+      refer('foo').call(
+        [],
+        {},
+        [
+          refer('String'),
+          refer('int'),
+        ],
+      ),
+      equalsDart('foo<String, int>()'),
+    );
+  });
+
+  test('should emit an assignment', () {
+    expect(
+      literalTrue.assign(refer('foo')),
+      equalsDart('foo = true'),
+    );
+  });
+
+  test('should emit assigning to a var', () {
+    expect(
+      literalTrue.assignVar('foo'),
+      equalsDart('var foo = true'),
+    );
+  });
+
+  test('should emit assigning to a type', () {
+    expect(
+      literalTrue.assignVar('foo', refer('bool')),
+      equalsDart('bool foo = true'),
+    );
+  });
+
+  test('should emit assigning to a final', () {
+    expect(
+      literalTrue.assignFinal('foo'),
+      equalsDart('final foo = true'),
+    );
+  });
+
+  test('should emit assigning to a const', () {
+    expect(
+      literalTrue.assignConst('foo'),
+      equalsDart('const foo = true'),
+    );
+  });
+
+  test('should emit await', () {
+    expect(
+      refer('future').awaited,
+      equalsDart('await future'),
+    );
+  });
+
+  test('should emit return', () {
+    expect(
+      literalNull.returned,
+      equalsDart('return null'),
     );
   });
 }
