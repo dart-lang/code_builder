@@ -88,7 +88,7 @@ void main() {
           import 'dart:collection';
           
           final test = new LinkedHashMap();
-        ''', new DartEmitter.scoped()),
+        ''', new DartEmitter(new Allocator())),
       );
     });
 

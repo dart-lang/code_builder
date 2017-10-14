@@ -58,8 +58,10 @@ class DartEmitter extends Object
   /// May specify an [Allocator] to use for symbols, otherwise uses a no-op.
   DartEmitter([this.allocator = Allocator.none]);
 
-  /// Creates a new instance of [DartEmitter] with a default [Allocator].
-  factory DartEmitter.scoped() => new DartEmitter(new Allocator());
+  /// Creates a new instance of [DartEmitter] with simple automatic imports.
+  factory DartEmitter.scoped() {
+    return new DartEmitter(new Allocator.simplePrefixing());
+  }
 
   @override
   visitAnnotation(Annotation spec, [StringSink output]) {
