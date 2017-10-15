@@ -99,7 +99,7 @@ void main() {
           ..symbol = 'T'
           ..bound = new TypeReference((b) => b
             ..symbol = 'Comparable'
-            ..types.add(refer('T').toType()))))),
+            ..types.add(refer('T').type))))),
       equalsDart(r'''
         class Comparable<T extends Comparable<T>> {}
       '''),

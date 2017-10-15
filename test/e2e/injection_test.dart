@@ -18,7 +18,7 @@ void main() {
       ..fields.add(new Field((b) => b
         ..modifier = FieldModifier.final$
         ..name = '_module'
-        ..type = $Module.toType()))
+        ..type = $Module.type))
       ..constructors.add(new Constructor((b) => b
         ..requiredParameters.add(new Parameter((b) => b
           ..name = '_module'

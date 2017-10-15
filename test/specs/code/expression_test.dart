@@ -174,6 +174,56 @@ void main() {
     );
   });
 
+  test('should emit a function type', () {
+    expect(
+      new FunctionType((b) => b.returnType = refer('void')),
+      equalsDart('void Function()'),
+    );
+  });
+
+  test('should emit a typedef statement', () {
+    expect(
+      new FunctionType((b) => b.returnType = refer('void')).toTypeDef('Void0'),
+      equalsDart('typedef Void0 = void Function();'),
+    );
+  });
+
+  test('should emit a function type with type parameters', () {
+    expect(
+      new FunctionType((b) => b
+        ..returnType = refer('T')
+        ..types.add(refer('T'))),
+      equalsDart('T Function<T>()'),
+    );
+  });
+
+  test('should emit a function type a single parameter', () {
+    expect(
+      new FunctionType((b) => b..requiredParameters.add(refer('String'))),
+      equalsDart('Function(String)'),
+    );
+  });
+
+  test('should emit a function type with parameters', () {
+    expect(
+      new FunctionType((b) => b
+        ..requiredParameters.add(refer('String'))
+        ..optionalParameters.add(refer('int'))),
+      equalsDart('Function(String, [int])'),
+    );
+  });
+
+  test('should emit a function type with named parameters', () {
+    expect(
+      new FunctionType((b) => b
+        ..namedParameters.addAll({
+          'x': refer('int'),
+          'y': refer('int'),
+        })),
+      equalsDart('Function({int x, int y})'),
+    );
+  });
+
   test('should emit a closure', () {
     expect(
       refer('map').property('putIfAbsent').call([

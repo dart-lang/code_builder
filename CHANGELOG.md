@@ -6,6 +6,7 @@
   * `toExpression()` to `expression`
 * Added `Expression.annotation` and `Expression.annotationNamed`.
 * Added `Method.closure` to create an `Expression`.
+* Added `FunctionType`.
 
 ## 2.0.0-alpha+3
 

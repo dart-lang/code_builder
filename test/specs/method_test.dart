@@ -204,7 +204,7 @@ void main() {
             new Parameter(
               (b) => b
                 ..name = 'i'
-                ..type = refer('int').toType(),
+                ..type = refer('int').type,
             ),
           ),
       ),

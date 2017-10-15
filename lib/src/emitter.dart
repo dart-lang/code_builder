@@ -16,6 +16,7 @@ import 'specs/field.dart';
 import 'specs/file.dart';
 import 'specs/method.dart';
 import 'specs/reference.dart';
+import 'specs/type_function.dart';
 import 'specs/type_reference.dart';
 import 'visitors.dart';
 
@@ -80,22 +81,21 @@ class DartEmitter extends Object
       output.write('abstract ');
     }
     output.write('class ${spec.name}');
-    visitTypeParameters(spec.types.map((r) => r.toType()), output);
+    visitTypeParameters(spec.types.map((r) => r.type), output);
     if (spec.extend != null) {
       output.write(' extends ');
-      visitType(spec.extend.toType(), output);
+      visitType(spec.extend.type, output);
     }
     if (spec.mixins.isNotEmpty) {
       output
         ..write(' with ')
-        ..writeAll(
-            spec.mixins.map<StringSink>((m) => visitType(m.toType())), ',');
+        ..writeAll(spec.mixins.map<StringSink>((m) => visitType(m.type)), ',');
     }
     if (spec.implements.isNotEmpty) {
       output
         ..write(' implements ')
         ..writeAll(
-            spec.implements.map<StringSink>((m) => visitType(m.toType())), ',');
+            spec.implements.map<StringSink>((m) => visitType(m.type)), ',');
     }
     output.write(' {');
     spec.constructors.forEach((c) {
@@ -182,7 +182,7 @@ class DartEmitter extends Object
     }
     if (spec.redirect != null) {
       output.write(' = ');
-      visitType(spec.redirect.toType(), output);
+      visitType(spec.redirect.type, output);
       output.write(';');
     } else if (spec.body != null) {
       if (spec.lambda) {
@@ -251,7 +251,7 @@ class DartEmitter extends Object
         break;
     }
     if (spec.type != null) {
-      visitType(spec.type.toType(), output);
+      visitType(spec.type.type, output);
       output.write(' ');
     }
     output.write(spec.name);
@@ -286,6 +286,49 @@ class DartEmitter extends Object
   }
 
   @override
+  visitFunctionType(FunctionType spec, [StringSink output]) {
+    output ??= new StringBuffer();
+    if (spec.returnType != null) {
+      spec.returnType.accept(this, output);
+      output.write(' ');
+    }
+    output.write('Function');
+    if (spec.types.isNotEmpty) {
+      output.write('<');
+      visitAll<Reference>(spec.types, output, (spec) {
+        spec.accept(this, output);
+      });
+      output.write('>');
+    }
+    output.write('(');
+    visitAll<Reference>(spec.requiredParameters, output, (spec) {
+      spec.accept(this, output);
+    });
+    if (spec.optionalParameters.isNotEmpty ||
+        spec.namedParameters.isNotEmpty &&
+        spec.requiredParameters.isNotEmpty) {
+      output.write(', ');
+    }
+    if (spec.optionalParameters.isNotEmpty) {
+      output.write('[');
+      visitAll<Reference>(spec.optionalParameters, output, (spec) {
+        spec.accept(this, output);
+      });
+      output.write(']');
+    } else if (spec.namedParameters.isNotEmpty) {
+      output.write('{');
+      visitAll<String>(spec.namedParameters.keys, output, (name) {
+        spec.namedParameters[name].accept(this, output);
+        output
+          ..write(' ')
+          ..write(name);
+      });
+      output.write('}');
+    }
+    return output..write(')');
+  }
+
+  @override
   visitMethod(Method spec, [StringSink output]) {
     output ??= new StringBuffer();
     spec.docs.forEach(output.writeln);
@@ -297,7 +340,7 @@ class DartEmitter extends Object
       output.write('static ');
     }
     if (spec.returns != null) {
-      visitType(spec.returns.toType(), output);
+      visitType(spec.returns.type, output);
       output.write(' ');
     }
     if (spec.type == MethodType.getter) {
@@ -309,7 +352,7 @@ class DartEmitter extends Object
       if (spec.name != null) {
         output.write(spec.name);
       }
-      visitTypeParameters(spec.types.map((r) => r.toType()), output);
+      visitTypeParameters(spec.types.map((r) => r.type), output);
       output.write('(');
       if (spec.requiredParameters.isNotEmpty) {
         var count = 0;
@@ -384,7 +427,7 @@ class DartEmitter extends Object
     spec.docs.forEach(output.writeln);
     spec.annotations.forEach((a) => visitAnnotation(a, output));
     if (spec.type != null) {
-      visitType(spec.type.toType(), output);
+      visitType(spec.type.type, output);
       output.write(' ');
     }
     if (spec.toThis) {
@@ -415,9 +458,9 @@ class DartEmitter extends Object
     visitReference(spec, output);
     if (spec.bound != null) {
       output.write(' extends ');
-      visitType(spec.bound.toType(), output);
+      visitType(spec.bound.type, output);
     }
-    visitTypeParameters(spec.types.map((r) => r.toType()), output);
+    visitTypeParameters(spec.types.map((r) => r.type), output);
     return output;
   }
 

@@ -13,6 +13,7 @@ import 'annotation.dart';
 import 'code.dart';
 import 'method.dart';
 import 'reference.dart';
+import 'type_function.dart';
 
 part 'expression/binary.dart';
 part 'expression/closure.dart';
@@ -250,6 +251,11 @@ abstract class Expression implements Spec {
   @visibleForOverriding
   Expression get expression => this;
 }
+
+/// Creates `typedef {name} =`.
+Code createTypeDef(String name, FunctionType type) => new BinaryExpression._(
+        new LiteralExpression._('typedef $name'), type.expression, '=')
+    .statement;
 
 class ToCodeExpression implements Code {
   final Expression code;

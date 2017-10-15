@@ -54,7 +54,7 @@ abstract class TypeReference extends Expression
   }
 
   @override
-  TypeReference toType() => this;
+  TypeReference get type => this;
 }
 
 abstract class TypeReferenceBuilder extends Object
