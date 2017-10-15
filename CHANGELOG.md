@@ -3,6 +3,7 @@
 * Renamed many of the `.asFoo(...)` and `.toFoo(...)` methods to single getter:
   * `asCode()` to `code`
   * `asStatement()` to `statement`
+  * `toExpression()` to `expression`
 * Added `Expression.annotation` and `Expression.annotationNamed`.
 * Added `Method.closure` to create an `Expression`.
 

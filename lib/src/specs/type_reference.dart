@@ -49,7 +49,7 @@ abstract class TypeReference extends Expression
       visitor.visitType(this, context);
 
   @override
-  Expression toExpression() {
+  Expression get expression {
     return new CodeExpression(new Code.scope((a) => a(this)));
   }
 

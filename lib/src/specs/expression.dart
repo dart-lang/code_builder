@@ -41,7 +41,7 @@ abstract class Expression implements Spec {
 
   /// Returns the result of [this] `&&` [other].
   Expression and(Expression other) {
-    return new BinaryExpression._(toExpression(), other, '&&');
+    return new BinaryExpression._(expression, other, '&&');
   }
 
   /// This expression preceding by `await`.
@@ -77,7 +77,7 @@ abstract class Expression implements Spec {
       type == null
           ? new LiteralExpression._('var $name')
           : new BinaryExpression._(
-              type.toExpression(),
+              type.expression,
               new LiteralExpression._(name),
               '',
             ),
@@ -93,7 +93,7 @@ abstract class Expression implements Spec {
           ? const LiteralExpression._('final')
           : new BinaryExpression._(
               const LiteralExpression._('final'),
-              type.toExpression(),
+              type.expression,
               '',
             ),
       this,
@@ -108,7 +108,7 @@ abstract class Expression implements Spec {
           ? const LiteralExpression._('const')
           : new BinaryExpression._(
               const LiteralExpression._('const'),
-              type.toExpression(),
+              type.expression,
               '',
             ),
       this,
@@ -248,7 +248,7 @@ abstract class Expression implements Spec {
 
   /// May be overridden to support other types implementing [Expression].
   @visibleForOverriding
-  Expression toExpression() => this;
+  Expression get expression => this;
 }
 
 class ToCodeExpression implements Code {

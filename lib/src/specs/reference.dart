@@ -50,7 +50,7 @@ class Reference extends Expression implements Spec {
       o is Reference && o.url == url && o.symbol == symbol;
 
   @override
-  Expression toExpression() {
+  Expression get expression {
     return new CodeExpression(new Code.scope((a) => a(this)));
   }
 
