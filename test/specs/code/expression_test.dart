@@ -174,6 +174,18 @@ void main() {
     );
   });
 
+  test('should emit a closure', () {
+    expect(
+      refer('map').property('putIfAbsent').call([
+        literalString('foo'),
+        new Method((b) => b
+          ..lambda = true
+          ..body = literalTrue.code).closure,
+      ]),
+      equalsDart("map.putIfAbsent('foo', () => true)"),
+    );
+  });
+
   test('should emit an assignment', () {
     expect(
       literalTrue.assign(refer('foo')),

@@ -70,7 +70,7 @@ abstract class BlockBuilder implements Builder<Block, BlockBuilder> {
   ///
   /// **NOTE**: Not all expressions are _useful_ statements.
   void addExpression(Expression expression) {
-    statements.add(expression.asStatement());
+    statements.add(expression.statement);
   }
 
   ListBuilder<Code> statements = new ListBuilder<Code>();

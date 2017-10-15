@@ -9,13 +9,18 @@ import 'package:meta/meta.dart';
 import '../base.dart';
 import '../emitter.dart';
 import '../visitors.dart';
+import 'annotation.dart';
 import 'code.dart';
+import 'method.dart';
 import 'reference.dart';
 
 part 'expression/binary.dart';
+part 'expression/closure.dart';
 part 'expression/code.dart';
 part 'expression/invoke.dart';
 part 'expression/literal.dart';
+
+/// Represents a [code] block that wraps an [Expression].
 
 /// Represents a Dart expression.
 ///
@@ -26,13 +31,13 @@ abstract class Expression implements Spec {
   @override
   R accept<R>(covariant ExpressionVisitor<R> visitor, [R context]);
 
-  /// Returns the expression as a valid [Code] block.
+  /// The expression as a valid [Code] block.
   ///
-  /// Also see [asStatement].
-  Code asCode() => new AsCodeExpression(this, false);
+  /// Also see [statement].
+  Code get code => new ToCodeExpression(this, false);
 
-  /// Returns the expression asa valid [Code] block with a trailing `;`.
-  Code asStatement() => new AsCodeExpression(this, true);
+  /// The expression as a valid [Code] block with a trailing `;`.
+  Code get statement => new ToCodeExpression(this, true);
 
   /// Returns the result of [this] `&&` [other].
   Expression and(Expression other) {
@@ -166,6 +171,41 @@ abstract class Expression implements Spec {
     );
   }
 
+  /// Returns an annotation as a result of calling this constructor.
+  Annotation annotation([
+    List<Expression> positionalArguments,
+    Map<String, Expression> namedArguments = const {},
+    List<Reference> typeArguments = const [],
+  ]) {
+    if (positionalArguments == null) {
+      return new Annotation((b) {
+        b.code = code;
+      });
+    }
+    return new Annotation((b) {
+      b.code = new InvokeExpression._(
+        this,
+        positionalArguments,
+        namedArguments,
+        typeArguments,
+      )
+          .code;
+    });
+  }
+
+  /// Returns an annotation as a result of calling a named constructor.
+  Annotation annotationNamed(
+    String name,
+    List<Expression> positionalArguments, [
+    Map<String, Expression> namedArguments = const {},
+    List<Reference> typeArguments = const [],
+  ]) {
+    return new Annotation((b) => b
+      ..code = new InvokeExpression._(
+              this, positionalArguments, namedArguments, typeArguments, name)
+          .code);
+  }
+
   /// Returns a const instance of this expression.
   Expression constInstance(
     List<Expression> positionalArguments, [
@@ -211,20 +251,19 @@ abstract class Expression implements Spec {
   Expression toExpression() => this;
 }
 
-/// Represents a [code] block that wraps an [Expression].
-class AsCodeExpression implements Code {
+class ToCodeExpression implements Code {
   final Expression code;
 
   /// Whether this code should be considered a _statement_.
   final bool isStatement;
 
   @visibleForTesting
-  const AsCodeExpression(this.code, [this.isStatement = false]);
+  const ToCodeExpression(this.code, [this.isStatement = false]);
 
   @override
   R accept<R>(CodeVisitor<R> visitor, [R context]) {
     return (visitor as ExpressionVisitor<R>)
-        .visitAsCodeExpression(this, context);
+        .visitToCodeExpression(this, context);
   }
 
   @override
@@ -235,8 +274,9 @@ class AsCodeExpression implements Code {
 ///
 /// **INTERNAL ONLY**.
 abstract class ExpressionVisitor<T> implements SpecVisitor<T> {
-  T visitAsCodeExpression(AsCodeExpression code, [T context]);
+  T visitToCodeExpression(ToCodeExpression code, [T context]);
   T visitBinaryExpression(BinaryExpression expression, [T context]);
+  T visitClosureExpression(ClosureExpression expression, [T context]);
   T visitCodeExpression(CodeExpression expression, [T context]);
   T visitInvokeExpression(InvokeExpression expression, [T context]);
   T visitLiteralExpression(LiteralExpression expression, [T context]);
@@ -249,7 +289,7 @@ abstract class ExpressionVisitor<T> implements SpecVisitor<T> {
 /// **INTERNAL ONLY**.
 abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
   @override
-  visitAsCodeExpression(AsCodeExpression expression, [StringSink output]) {
+  visitToCodeExpression(ToCodeExpression expression, [StringSink output]) {
     output ??= new StringBuffer();
     expression.code.accept(this, output);
     if (expression.isStatement) {
@@ -271,6 +311,12 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
     }
     expression.right.accept(this, output);
     return output;
+  }
+
+  @override
+  visitClosureExpression(ClosureExpression expression, [StringSink output]) {
+    output ??= new StringBuffer();
+    return expression.method.accept(this, output);
   }
 
   @override

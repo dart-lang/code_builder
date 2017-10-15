@@ -15,7 +15,7 @@ export 'src/specs/directive.dart'
     show Directive, DirectiveType, DirectiveBuilder;
 export 'src/specs/expression.dart'
     show
-        AsCodeExpression,
+        ToCodeExpression,
         BinaryExpression,
         CodeExpression,
         Expression,

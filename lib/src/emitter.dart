@@ -98,9 +98,21 @@ class DartEmitter extends Object
             spec.implements.map<StringSink>((m) => visitType(m.toType())), ',');
     }
     output.write(' {');
-    spec.constructors.forEach((c) => visitConstructor(c, spec.name, output));
-    spec.fields.forEach((f) => visitField(f, output));
-    spec.methods.forEach((m) => visitMethod(m, output));
+    spec.constructors.forEach((c) {
+      visitConstructor(c, spec.name, output);
+      output.writeln();
+    });
+    spec.fields.forEach((f) {
+      visitField(f, output);
+      output.writeln();
+    });
+    spec.methods.forEach((m) {
+      visitMethod(m, output);
+      if (m.lambda) {
+        output.write(';');
+      }
+      output.writeln();
+    });
     output.writeln(' }');
     return output;
   }
@@ -258,6 +270,9 @@ class DartEmitter extends Object
     final body = new StringBuffer();
     for (final spec in spec.body) {
       body.write(visitSpec(spec));
+      if (spec is Method && spec.lambda) {
+        output.write(';');
+      }
     }
     // TODO: Allow some sort of logical ordering.
     for (final directive in spec.directives) {
@@ -291,7 +306,9 @@ class DartEmitter extends Object
       if (spec.type == MethodType.setter) {
         output.write('set ');
       }
-      output.write(spec.name);
+      if (spec.name != null) {
+        output.write(spec.name);
+      }
       visitTypeParameters(spec.types.map((r) => r.toType()), output);
       output.write('(');
       if (spec.requiredParameters.isNotEmpty) {
@@ -348,15 +365,12 @@ class DartEmitter extends Object
         output.write(' { ');
       }
       spec.body.accept(this, output);
-      if (spec.lambda) {
-        output.write(';');
-      } else {
+      if (!spec.lambda) {
         output.write(' } ');
       }
     } else {
       output.write(';');
     }
-    output.writeln();
     return output;
   }
 

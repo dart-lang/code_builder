@@ -28,7 +28,7 @@ void main() {
         ..body = $Thing.newInstance([
           refer('_module').property('get1').call([]),
           refer('_module').property('get2').call([]),
-        ]).asCode()
+        ]).code
         ..lambda = true
         ..returns = $Thing
         ..annotations

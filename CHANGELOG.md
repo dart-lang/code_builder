@@ -1,3 +1,11 @@
+## 2.0.0-alpha+4
+
+* Renamed many of the `.asFoo(...)` and `.toFoo(...)` methods to single getter:
+  * `asCode()` to `code`
+  * `asStatement()` to `statement`
+* Added `Expression.annotation` and `Expression.annotationNamed`.
+* Added `Method.closure` to create an `Expression`.
+
 ## 2.0.0-alpha+3
 
 * Added `{new|const}InstanceNamed` to `Expression` [#135](https://github.com/dart-lang/code_builder/issues/135).

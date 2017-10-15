@@ -6,6 +6,7 @@ part of code_builder.src.specs.expression;
 
 /// Represents a [Code] block as an [Expression].
 class CodeExpression extends Expression {
+  @override
   final Code code;
 
   /// **INTERNAL ONLY**: Used to wrap [Code] as an [Expression].

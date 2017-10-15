@@ -15,6 +15,7 @@ import '../mixins/generics.dart';
 import '../visitors.dart';
 import 'annotation.dart';
 import 'code.dart';
+import 'expression.dart';
 import 'reference.dart';
 
 part 'method.g.dart';
@@ -69,6 +70,9 @@ abstract class Method extends Object
   bool get static;
 
   /// Name of the method or function.
+  ///
+  /// May be `null` when being used as a [closure].
+  @nullable
   String get name;
 
   /// Whether this is a getter or setter.
@@ -88,6 +92,9 @@ abstract class Method extends Object
     R context,
   ]) =>
       visitor.visitMethod(this, context);
+
+  /// This method as a closure.
+  Expression get closure => toClosure(this);
 }
 
 abstract class MethodBuilder extends Object
