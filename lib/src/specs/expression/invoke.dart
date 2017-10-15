@@ -23,7 +23,8 @@ class InvokeExpression extends Expression {
     this.namedArguments = const {},
     this.typeArguments,
   ])
-      : type = null, name = null;
+      : type = null,
+        name = null;
 
   const InvokeExpression._new(
     this.target,
