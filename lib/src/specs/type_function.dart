@@ -80,5 +80,6 @@ abstract class FunctionTypeBuilder extends Object
 
   ListBuilder<Reference> optionalParameters = new ListBuilder<Reference>();
 
-  MapBuilder<String, Reference> namedParameters = new MapBuilder<String, Reference>();
+  MapBuilder<String, Reference> namedParameters =
+      new MapBuilder<String, Reference>();
 }

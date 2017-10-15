@@ -305,8 +305,7 @@ class DartEmitter extends Object
       spec.accept(this, output);
     });
     if (spec.optionalParameters.isNotEmpty ||
-        spec.namedParameters.isNotEmpty &&
-        spec.requiredParameters.isNotEmpty) {
+        spec.namedParameters.isNotEmpty && spec.requiredParameters.isNotEmpty) {
       output.write(', ');
     }
     if (spec.optionalParameters.isNotEmpty) {
@@ -319,9 +318,7 @@ class DartEmitter extends Object
       output.write('{');
       visitAll<String>(spec.namedParameters.keys, output, (name) {
         spec.namedParameters[name].accept(this, output);
-        output
-          ..write(' ')
-          ..write(name);
+        output..write(' ')..write(name);
       });
       output.write('}');
     }

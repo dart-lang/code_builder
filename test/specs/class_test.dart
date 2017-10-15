@@ -51,9 +51,8 @@ void main() {
           ..name = 'Foo'
           ..annotations.addAll([
             refer('deprecated').annotation(),
-            refer('Deprecated').annotation([
-              literalString('This is an old class')
-            ])
+            refer('Deprecated')
+                .annotation([literalString('This is an old class')])
           ]),
       ),
       equalsDart(r'''
