@@ -40,12 +40,12 @@ import 'package:dart_style/dart_style.dart';
 void main() {
   final animal = new Class((b) => b
     ..name = 'Animal'
-    ..extend = refer('Organism').toType()
+    ..extend = refer('Organism')
     ..methods.add(new Method.returnsVoid((b) => b
       ..name = 'eat'
       ..lambda = true
       ..body = const Code('print(\'Yum\')'))));
-  final emitter = const DartEmitter();
+  final emitter = new DartEmitter();
   print(new DartFormatter().format('${animal.accept(emitter)}'));
 }
 ```
@@ -68,11 +68,11 @@ import 'package:dart_style/dart_style.dart';
 void main() {
   final library = new File((b) => b.body.addAll([
         new Method((b) => b
-          ..body = new Code((b) => b.code = '')
+          ..body = const Code('')
           ..name = 'doThing'
           ..returns = refer('Thing', 'package:a/a.dart')),
         new Method((b) => b
-          ..body = new Code((b) => b..code = '')
+          ..body = const Code('')
           ..name = 'doOther'
           ..returns = refer('Other', 'package:b/b.dart')),
       ]));
