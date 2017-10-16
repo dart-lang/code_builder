@@ -55,6 +55,68 @@ abstract class TypeReference extends Expression
 
   @override
   TypeReference get type => this;
+
+  @override
+  Expression newInstance(
+    List<Expression> positionalArguments, [
+    Map<String, Expression> namedArguments = const {},
+    List<Reference> typeArguments = const [],
+  ]) {
+    return new InvokeExpression.newOf(
+      this,
+      positionalArguments,
+      namedArguments,
+      typeArguments,
+      null,
+    );
+  }
+
+  @override
+  Expression newInstanceNamed(
+    String name,
+    List<Expression> positionalArguments, [
+    Map<String, Expression> namedArguments = const {},
+    List<Reference> typeArguments = const [],
+  ]) {
+    return new InvokeExpression.newOf(
+      this,
+      positionalArguments,
+      namedArguments,
+      typeArguments,
+      name,
+    );
+  }
+
+  @override
+  Expression constInstance(
+    List<Expression> positionalArguments, [
+    Map<String, Expression> namedArguments = const {},
+    List<Reference> typeArguments = const [],
+  ]) {
+    return new InvokeExpression.constOf(
+      this,
+      positionalArguments,
+      namedArguments,
+      typeArguments,
+      null,
+    );
+  }
+
+  @override
+  Expression constInstanceNamed(
+    String name,
+    List<Expression> positionalArguments, [
+    Map<String, Expression> namedArguments = const {},
+    List<Reference> typeArguments = const [],
+  ]) {
+    return new InvokeExpression.constOf(
+      this,
+      positionalArguments,
+      namedArguments,
+      typeArguments,
+      name,
+    );
+  }
 }
 
 abstract class TypeReferenceBuilder extends Object

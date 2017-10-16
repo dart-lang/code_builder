@@ -1,21 +1,22 @@
 ## 2.0.0-alpha+4
 
+* Added `Expression.annotation` and `Expression.annotationNamed`.
+* Added `Method.closure` to create an `Expression`.
+* Added `FunctionType`.
+* Added `{new|const}InstanceNamed` to `Expression` [#135](https://github.com/dart-lang/code_builder/issues/135).
+  * Also added a `typeArguments` option to all invocations.
+* Added `assign{...}` variants to `Expression` [#137](https://github.com/dart-lang/code_builder/issues/137).
+* Added `.awaited` and `.returned` to `Expression` [#138](https://github.com/dart-lang/code_builder/issues/138).
+
+* **BUG FIX**: `Block` now implements `Code` [#136](https://github.com/dart-lang/code_builder/issues/136).
+* **BUG FIX**: `new DartEmitter.scoped()` applies prefixing [#139](https://github.com/dart-lang/code_builder/issues/139).
+
 * Renamed many of the `.asFoo(...)` and `.toFoo(...)` methods to single getter:
   * `asCode()` to `code`
   * `asStatement()` to `statement`
   * `toExpression()` to `expression`
-* Added `Expression.annotation` and `Expression.annotationNamed`.
-* Added `Method.closure` to create an `Expression`.
-* Added `FunctionType`.
 
-## 2.0.0-alpha+3
-
-* Added `{new|const}InstanceNamed` to `Expression` [#135](https://github.com/dart-lang/code_builder/issues/135).
-  * Also added a `typeArguments` option to all invocations.
-* **BUG FIX**: `Block` now implements `Code` [#136](https://github.com/dart-lang/code_builder/issues/136).
-* Added `assign{...}` variants to `Expression` [#137](https://github.com/dart-lang/code_builder/issues/137).
-* Added `.awaited` and `.returned` to `Expression` [#138](https://github.com/dart-lang/code_builder/issues/138).
-* **BUG FIX**: `new DartEmitter.scoped()` applies prefixing [#139](https://github.com/dart-lang/code_builder/issues/139).
+* Moved `{new|const}Instance{[Named]}` from `Expression` to `Reference`.
 
 ## 2.0.0-alpha+2
 

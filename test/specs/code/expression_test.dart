@@ -238,8 +238,15 @@ void main() {
 
   test('should emit an assignment', () {
     expect(
-      literalTrue.assign(refer('foo')),
+      refer('foo').assign(literalTrue),
       equalsDart('foo = true'),
+    );
+  });
+
+  test('should emit a null-aware assignment', () {
+    expect(
+      refer('foo').assignNullAware(literalTrue),
+      equalsDart('foo ??= true'),
     );
   });
 

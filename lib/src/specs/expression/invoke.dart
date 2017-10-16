@@ -26,7 +26,8 @@ class InvokeExpression extends Expression {
   ])
       : type = null;
 
-  const InvokeExpression._new(
+  @visibleForTesting
+  const InvokeExpression.newOf(
     this.target,
     this.positionalArguments, [
     this.namedArguments = const {},
@@ -35,7 +36,8 @@ class InvokeExpression extends Expression {
   ])
       : type = InvokeExpressionType.newInstance;
 
-  const InvokeExpression._const(
+  @visibleForTesting
+  const InvokeExpression.constOf(
     this.target,
     this.positionalArguments, [
     this.namedArguments = const {},

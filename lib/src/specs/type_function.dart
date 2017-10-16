@@ -60,6 +60,40 @@ abstract class FunctionType extends Expression
   @override
   TypeReference get type => null;
 
+  @override
+  Expression newInstance(
+    List<Expression> positionalArguments, [
+    Map<String, Expression> namedArguments = const {},
+    List<Reference> typeArguments = const [],
+  ]) =>
+      throw new UnsupportedError('Cannot "new" a function type.');
+
+  @override
+  Expression newInstanceNamed(
+    String name,
+    List<Expression> positionalArguments, [
+    Map<String, Expression> namedArguments = const {},
+    List<Reference> typeArguments = const [],
+  ]) =>
+      throw new UnsupportedError('Cannot "new" a function type.');
+
+  @override
+  Expression constInstance(
+    List<Expression> positionalArguments, [
+    Map<String, Expression> namedArguments = const {},
+    List<Reference> typeArguments = const [],
+  ]) =>
+      throw new UnsupportedError('Cannot "const" a function type.');
+
+  @override
+  Expression constInstanceNamed(
+    String name,
+    List<Expression> positionalArguments, [
+    Map<String, Expression> namedArguments = const {},
+    List<Reference> typeArguments = const [],
+  ]) =>
+      throw new UnsupportedError('Cannot "const" a function type.');
+
   /// A typedef assignment to this type.
   Code toTypeDef(String name) => createTypeDef(name, this);
 }

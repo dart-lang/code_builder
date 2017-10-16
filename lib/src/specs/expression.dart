@@ -45,7 +45,7 @@ abstract class Expression implements Spec {
     return new BinaryExpression._(expression, other, '&&');
   }
 
-  /// This expression preceding by `await`.
+  /// This expression preceded by `await`.
   Expression get awaited {
     return new BinaryExpression._(
       const LiteralExpression._('await'),
@@ -57,8 +57,8 @@ abstract class Expression implements Spec {
   /// Return `{other} = {this}`.
   Expression assign(Expression other) {
     return new BinaryExpression._(
-      other,
       this,
+      other,
       '=',
     );
   }
@@ -66,8 +66,8 @@ abstract class Expression implements Spec {
   /// Return `{other} ??= {this}`.
   Expression assignNullAware(Expression other) {
     return new BinaryExpression._(
-      other,
       this,
+      other,
       '??=',
     );
   }
@@ -141,37 +141,6 @@ abstract class Expression implements Spec {
     );
   }
 
-  /// Returns a new instance of this expression.
-  Expression newInstance(
-    List<Expression> positionalArguments, [
-    Map<String, Expression> namedArguments = const {},
-    List<Reference> typeArguments = const [],
-  ]) {
-    return new InvokeExpression._new(
-      this,
-      positionalArguments,
-      namedArguments,
-      typeArguments,
-      null,
-    );
-  }
-
-  /// Returns a new instance of this expression with a named constructor.
-  Expression newInstanceNamed(
-    String name,
-    List<Expression> positionalArguments, [
-    Map<String, Expression> namedArguments = const {},
-    List<Reference> typeArguments = const [],
-  ]) {
-    return new InvokeExpression._new(
-      this,
-      positionalArguments,
-      namedArguments,
-      typeArguments,
-      name,
-    );
-  }
-
   /// Returns an annotation as a result of calling this constructor.
   Annotation annotation([
     List<Expression> positionalArguments,
@@ -207,38 +176,7 @@ abstract class Expression implements Spec {
           .code);
   }
 
-  /// Returns a const instance of this expression.
-  Expression constInstance(
-    List<Expression> positionalArguments, [
-    Map<String, Expression> namedArguments = const {},
-    List<Reference> typeArguments = const [],
-  ]) {
-    return new InvokeExpression._const(
-      this,
-      positionalArguments,
-      namedArguments,
-      typeArguments,
-      null,
-    );
-  }
-
-  /// Returns a const instance of this expression with a named constructor.
-  Expression constInstanceNamed(
-    String name,
-    List<Expression> positionalArguments, [
-    Map<String, Expression> namedArguments = const {},
-    List<Reference> typeArguments = const [],
-  ]) {
-    return new InvokeExpression._const(
-      this,
-      positionalArguments,
-      namedArguments,
-      typeArguments,
-      name,
-    );
-  }
-
-  /// This expression preceding by `return`.
+  /// This expression preceded by `return`.
   Expression get returned {
     return new BinaryExpression._(
       const LiteralExpression._('return'),
