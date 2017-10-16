@@ -1,4 +1,4 @@
-## 2.0.0-alpha+4
+## 2.0.0-alpha+3
 
 * Added `Expression.annotation` and `Expression.annotationNamed`.
 * Added `Method.closure` to create an `Expression`.
