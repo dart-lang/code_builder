@@ -39,15 +39,89 @@ abstract class Expression implements Spec {
     return new BinaryExpression._(toExpression(), other, '&&');
   }
 
+  /// This expression preceding by `await`.
+  Expression get awaited {
+    return new BinaryExpression._(
+      const LiteralExpression._('await'),
+      this,
+      '',
+    );
+  }
+
+  /// Return `{other} = {this}`.
+  Expression assign(Expression other) {
+    return new BinaryExpression._(
+      other,
+      this,
+      '=',
+    );
+  }
+
+  /// Return `{other} ??= {this}`.
+  Expression assignNullAware(Expression other) {
+    return new BinaryExpression._(
+      other,
+      this,
+      '??=',
+    );
+  }
+
+  /// Return `var {name} = {this}`.
+  Expression assignVar(String name, [Reference type]) {
+    return new BinaryExpression._(
+      type == null
+          ? new LiteralExpression._('var $name')
+          : new BinaryExpression._(
+              type.toExpression(),
+              new LiteralExpression._(name),
+              '',
+            ),
+      this,
+      '=',
+    );
+  }
+
+  /// Return `final {name} = {this}`.
+  Expression assignFinal(String name, [Reference type]) {
+    return new BinaryExpression._(
+      type == null
+          ? const LiteralExpression._('final')
+          : new BinaryExpression._(
+              const LiteralExpression._('final'),
+              type.toExpression(),
+              '',
+            ),
+      this,
+      '$name =',
+    );
+  }
+
+  /// Return `const {name} = {this}`.
+  Expression assignConst(String name, [Reference type]) {
+    return new BinaryExpression._(
+      type == null
+          ? const LiteralExpression._('const')
+          : new BinaryExpression._(
+              const LiteralExpression._('const'),
+              type.toExpression(),
+              '',
+            ),
+      this,
+      '$name =',
+    );
+  }
+
   /// Call this expression as a method.
   Expression call(
     List<Expression> positionalArguments, [
     Map<String, Expression> namedArguments = const {},
+    List<Reference> typeArguments = const [],
   ]) {
     return new InvokeExpression._(
       this,
       positionalArguments,
       namedArguments,
+      typeArguments,
     );
   }
 
@@ -65,11 +139,30 @@ abstract class Expression implements Spec {
   Expression newInstance(
     List<Expression> positionalArguments, [
     Map<String, Expression> namedArguments = const {},
+    List<Reference> typeArguments = const [],
   ]) {
     return new InvokeExpression._new(
       this,
       positionalArguments,
       namedArguments,
+      typeArguments,
+      null,
+    );
+  }
+
+  /// Returns a new instance of this expression with a named constructor.
+  Expression newInstanceNamed(
+    String name,
+    List<Expression> positionalArguments, [
+    Map<String, Expression> namedArguments = const {},
+    List<Reference> typeArguments = const [],
+  ]) {
+    return new InvokeExpression._new(
+      this,
+      positionalArguments,
+      namedArguments,
+      typeArguments,
+      name,
     );
   }
 
@@ -77,15 +170,43 @@ abstract class Expression implements Spec {
   Expression constInstance(
     List<Expression> positionalArguments, [
     Map<String, Expression> namedArguments = const {},
+    List<Reference> typeArguments = const [],
   ]) {
     return new InvokeExpression._const(
       this,
       positionalArguments,
       namedArguments,
+      typeArguments,
+      null,
     );
   }
 
-  /// May be overriden to support other types implementing [Expression].
+  /// Returns a const instance of this expression with a named constructor.
+  Expression constInstanceNamed(
+    String name,
+    List<Expression> positionalArguments, [
+    Map<String, Expression> namedArguments = const {},
+    List<Reference> typeArguments = const [],
+  ]) {
+    return new InvokeExpression._const(
+      this,
+      positionalArguments,
+      namedArguments,
+      typeArguments,
+      name,
+    );
+  }
+
+  /// This expression preceding by `return`.
+  Expression get returned {
+    return new BinaryExpression._(
+      const LiteralExpression._('return'),
+      this,
+      '',
+    );
+  }
+
+  /// May be overridden to support other types implementing [Expression].
   @visibleForOverriding
   Expression toExpression() => this;
 }
@@ -171,6 +292,16 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
         break;
     }
     expression.target.accept(this, output);
+    if (expression.name != null) {
+      output..write('.')..write(expression.name);
+    }
+    if (expression.typeArguments.isNotEmpty) {
+      output.write('<');
+      visitAll<Reference>(expression.typeArguments, output, (type) {
+        type.accept(this, output);
+      });
+      output.write('>');
+    }
     output.write('(');
     visitAll<Spec>(expression.positionalArguments, output, (spec) {
       spec.accept(this, output);

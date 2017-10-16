@@ -48,7 +48,7 @@ abstract class Code implements Spec {
 }
 
 /// Represents blocks of statements of Dart code.
-abstract class Block implements Built<Block, BlockBuilder>, Spec {
+abstract class Block implements Built<Block, BlockBuilder>, Code, Spec {
   factory Block([void updates(BlockBuilder b)]) = _$Block;
 
   Block._();
