@@ -23,7 +23,7 @@ void main() {
         ..lambda = true
         ..body = const Code('null')),
       equalsDart(r'''
-        foo() async => null; 
+        foo() async => null
       '''),
     );
   });
@@ -36,7 +36,7 @@ void main() {
         ..lambda = true
         ..body = const Code('null')),
       equalsDart(r'''
-        foo() async* => null; 
+        foo() async* => null
       '''),
     );
   });
@@ -49,7 +49,7 @@ void main() {
         ..lambda = true
         ..body = const Code('null')),
       equalsDart(r'''
-        foo() sync* => null; 
+        foo() sync* => null
       '''),
     );
   });
@@ -141,7 +141,7 @@ void main() {
         ..lambda = true
         ..body = const Code('1 + 2')),
       equalsDart(r'''
-        foo() => 1 + 2;
+        foo() => 1 + 2
       '''),
     );
   });
@@ -204,7 +204,7 @@ void main() {
             new Parameter(
               (b) => b
                 ..name = 'i'
-                ..type = refer('int').toType(),
+                ..type = refer('int').type,
             ),
           ),
       ),

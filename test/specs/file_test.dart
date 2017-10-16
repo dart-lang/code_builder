@@ -16,7 +16,7 @@ void main() {
           ..body.add(new Field((b) => b
             ..name = 'test'
             ..modifier = FieldModifier.final$
-            ..assignment = $LinkedHashMap.newInstance([]).asCode()))),
+            ..assignment = $LinkedHashMap.newInstance([]).code))),
         equalsDart(r'''
             import 'dart:collection';
           

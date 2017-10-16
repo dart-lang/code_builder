@@ -49,8 +49,70 @@ class Reference extends Expression implements Spec {
   bool operator ==(Object o) =>
       o is Reference && o.url == url && o.symbol == symbol;
 
+  /// Returns a new instance of this expression.
+  Expression newInstance(
+    List<Expression> positionalArguments, [
+    Map<String, Expression> namedArguments = const {},
+    List<Reference> typeArguments = const [],
+  ]) {
+    return new InvokeExpression.newOf(
+      this,
+      positionalArguments,
+      namedArguments,
+      typeArguments,
+      null,
+    );
+  }
+
+  /// Returns a new instance of this expression with a named constructor.
+  Expression newInstanceNamed(
+    String name,
+    List<Expression> positionalArguments, [
+    Map<String, Expression> namedArguments = const {},
+    List<Reference> typeArguments = const [],
+  ]) {
+    return new InvokeExpression.newOf(
+      this,
+      positionalArguments,
+      namedArguments,
+      typeArguments,
+      name,
+    );
+  }
+
+  /// Returns a const instance of this expression.
+  Expression constInstance(
+    List<Expression> positionalArguments, [
+    Map<String, Expression> namedArguments = const {},
+    List<Reference> typeArguments = const [],
+  ]) {
+    return new InvokeExpression.constOf(
+      this,
+      positionalArguments,
+      namedArguments,
+      typeArguments,
+      null,
+    );
+  }
+
+  /// Returns a const instance of this expression with a named constructor.
+  Expression constInstanceNamed(
+    String name,
+    List<Expression> positionalArguments, [
+    Map<String, Expression> namedArguments = const {},
+    List<Reference> typeArguments = const [],
+  ]) {
+    return new InvokeExpression.constOf(
+      this,
+      positionalArguments,
+      namedArguments,
+      typeArguments,
+      name,
+    );
+  }
+
   @override
-  Expression toExpression() {
+  Expression get expression {
     return new CodeExpression(new Code.scope((a) => a(this)));
   }
 
@@ -61,7 +123,7 @@ class Reference extends Expression implements Spec {
       .toString();
 
   /// Returns as a [TypeReference], which allows adding generic type parameters.
-  TypeReference toType() => new TypeReference((b) => b
+  TypeReference get type => new TypeReference((b) => b
     ..url = url
     ..symbol = symbol);
 }

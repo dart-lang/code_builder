@@ -18,7 +18,7 @@ void main() {
       ..fields.add(new Field((b) => b
         ..modifier = FieldModifier.final$
         ..name = '_module'
-        ..type = $Module.toType()))
+        ..type = $Module.type))
       ..constructors.add(new Constructor((b) => b
         ..requiredParameters.add(new Parameter((b) => b
           ..name = '_module'
@@ -28,7 +28,7 @@ void main() {
         ..body = $Thing.newInstance([
           refer('_module').property('get1').call([]),
           refer('_module').property('get2').call([]),
-        ]).asCode()
+        ]).code
         ..lambda = true
         ..returns = $Thing
         ..annotations

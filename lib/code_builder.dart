@@ -15,7 +15,7 @@ export 'src/specs/directive.dart'
     show Directive, DirectiveType, DirectiveBuilder;
 export 'src/specs/expression.dart'
     show
-        AsCodeExpression,
+        ToCodeExpression,
         BinaryExpression,
         CodeExpression,
         Expression,
@@ -46,4 +46,5 @@ export 'src/specs/method.dart'
         Parameter,
         ParameterBuilder;
 export 'src/specs/reference.dart' show refer, Reference;
+export 'src/specs/type_function.dart' show FunctionType, FunctionTypeBuilder;
 export 'src/specs/type_reference.dart' show TypeReference, TypeReferenceBuilder;

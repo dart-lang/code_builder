@@ -45,19 +45,19 @@ void main() {
   });
 
   test('should create a class with annotations', () {
-    final $deprecated = refer('deprecated');
     expect(
       new Class(
         (b) => b
           ..name = 'Foo'
-          ..annotations.add(
-            new Annotation(
-              (b) => b..code = new Code.scope((a) => a($deprecated)),
-            ),
-          ),
+          ..annotations.addAll([
+            refer('deprecated').annotation(),
+            refer('Deprecated')
+                .annotation([literalString('This is an old class')])
+          ]),
       ),
       equalsDart(r'''
         @deprecated
+        @Deprecated('This is an old class')
         class Foo {}
       '''),
     );
@@ -98,7 +98,7 @@ void main() {
           ..symbol = 'T'
           ..bound = new TypeReference((b) => b
             ..symbol = 'Comparable'
-            ..types.add(refer('T').toType()))))),
+            ..types.add(refer('T').type))))),
       equalsDart(r'''
         class Comparable<T extends Comparable<T>> {}
       '''),

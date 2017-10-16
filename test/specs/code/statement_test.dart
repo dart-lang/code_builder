@@ -25,7 +25,7 @@ void main() {
     expect(
       new Block((b) => b.statements.addAll([
             const Code('if (foo) {'),
-            refer('print')([literalTrue]).asStatement(),
+            refer('print')([literalTrue]).statement,
             const Code('}'),
           ])),
       equalsDart(r'''

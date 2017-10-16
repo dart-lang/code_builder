@@ -13,6 +13,7 @@ import 'specs/field.dart';
 import 'specs/file.dart';
 import 'specs/method.dart';
 import 'specs/reference.dart';
+import 'specs/type_function.dart';
 import 'specs/type_reference.dart';
 
 @optionalTypeArgs
@@ -30,6 +31,8 @@ abstract class SpecVisitor<T> {
   T visitField(Field spec, [T context]);
 
   T visitFile(File spec, [T context]);
+
+  T visitFunctionType(FunctionType spec, [T context]);
 
   T visitMethod(Method spec, [T context]);
 
