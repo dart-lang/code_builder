@@ -7,3 +7,17 @@ import 'visitors.dart';
 abstract class Spec {
   R accept<R>(SpecVisitor<R> visitor, [R context]);
 }
+
+/// Returns a generic [Spec] that is lazily generated when visited.
+Spec lazySpec(Spec Function() generate) => new _LazySpec(generate);
+
+class _LazySpec implements Spec {
+  final Spec Function() generate;
+
+  const _LazySpec(this.generate);
+
+  @override
+  R accept<R>(SpecVisitor<R> visitor, [R context]) {
+    return generate().accept(visitor, context);
+  }
+}

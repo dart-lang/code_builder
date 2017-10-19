@@ -1,3 +1,10 @@
+## 2.0.0-beta
+
+* Added `lazySpec` and `lazyCode` to lazily create code on visit [#145](https://github.com/dart-lang/code_builder/issues/145).
+
+* **BUG FIX**: `equalsDart` emits the failing source code [#147](https://github.com/dart-lang/code_builder/issues/147).
+* **BUG FIX**: Top-level `lambda` `Method`s no longer emit invalid code [#146](https://github.com/dart-lang/code_builder/issues/146).
+
 ## 2.0.0-alpha+3
 
 * Added `Expression.annotation` and `Expression.annotationNamed`.
