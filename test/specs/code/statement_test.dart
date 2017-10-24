@@ -8,11 +8,11 @@ import 'package:test/test.dart';
 void main() {
   test('should emit a block of code', () {
     expect(
-      new Block((b) => b.statements.addAll([
-            const Code('if (foo) {'),
-            const Code('  print(true);'),
-            const Code('}'),
-          ])),
+      new Block.of([
+        const Code('if (foo) {'),
+        const Code('  print(true);'),
+        const Code('}'),
+      ]),
       equalsDart(r'''
         if (foo) {
           print(true);
@@ -23,14 +23,35 @@ void main() {
 
   test('should emit a block of code including expressions', () {
     expect(
-      new Block((b) => b.statements.addAll([
-            const Code('if (foo) {'),
-            refer('print')([literalTrue]).statement,
-            const Code('}'),
-          ])),
+      new Block.of([
+        const Code('if (foo) {'),
+        refer('print')([literalTrue]).statement,
+        const Code('}'),
+      ]),
       equalsDart(r'''
         if (foo) {
           print(true);
+        }
+      '''),
+    );
+  });
+
+  test('should emit a block of code with lazyily invoked generators', () {
+    expect(
+      new Method((b) => b
+        ..name = 'main'
+        ..body = new Block.of([
+          const Code('if ('),
+          lazyCode(() => refer('foo').code),
+          const Code(') {'),
+          refer('print')([literalTrue]).statement,
+          const Code('}'),
+        ])),
+      equalsDart(r'''
+        main() {
+          if (foo) {
+            print(true);
+          }
         }
       '''),
     );

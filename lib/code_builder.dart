@@ -3,13 +3,13 @@
 // BSD-style license that can be found in the LICENSE file.
 
 export 'src/allocator.dart' show Allocator;
-export 'src/base.dart' show Spec;
+export 'src/base.dart' show lazySpec, Spec;
 export 'src/emitter.dart' show DartEmitter;
 export 'src/matchers.dart' show equalsDart;
 export 'src/specs/annotation.dart' show Annotation, AnnotationBuilder;
 export 'src/specs/class.dart' show Class, ClassBuilder;
 export 'src/specs/code.dart'
-    show Block, BlockBuilder, Code, StaticCode, ScopedCode;
+    show lazyCode, Block, BlockBuilder, Code, StaticCode, ScopedCode;
 export 'src/specs/constructor.dart' show Constructor, ConstructorBuilder;
 export 'src/specs/directive.dart'
     show Directive, DirectiveType, DirectiveBuilder;

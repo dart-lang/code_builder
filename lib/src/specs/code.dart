@@ -51,6 +51,10 @@ abstract class Code implements Spec {
 abstract class Block implements Built<Block, BlockBuilder>, Code, Spec {
   factory Block([void updates(BlockBuilder b)]) = _$Block;
 
+  factory Block.of(Iterable<Code> statements) {
+    return new Block((b) => b..statements.addAll(statements));
+  }
+
   Block._();
 
   @override
@@ -111,7 +115,33 @@ abstract class CodeEmitter implements CodeVisitor<StringSink> {
   }
 }
 
-/// Represents a simple, literal [code] block to be inserted as-is.
+/// Represents a code block that requires lazy visiting.
+class LazyCode implements Code {
+  final Spec Function(SpecVisitor) generate;
+
+  const LazyCode._(this.generate);
+
+  @override
+  R accept<R>(CodeVisitor<R> visitor, [R context]) {
+    return generate(visitor).accept(visitor, context);
+  }
+}
+
+/// Returns a generic [Code] that is lazily generated when visited.
+Code lazyCode(Code Function() generate) => new _LazyCode(generate);
+
+class _LazyCode implements Code {
+  final Code Function() generate;
+
+  const _LazyCode(this.generate);
+
+  @override
+  R accept<R>(CodeVisitor<R> visitor, [R context]) {
+    return generate().accept(visitor, context);
+  }
+}
+
+/// Represents a simple, literal code block to be inserted as-is.
 class StaticCode implements Code {
   final String code;
 
@@ -126,9 +156,9 @@ class StaticCode implements Code {
   String toString() => code;
 }
 
-/// Represents a [code] block that may require scoping.
+/// Represents a code block that may require scoping.
 class ScopedCode implements Code {
-  final String Function(Allocate allocate) code;
+  final String Function(Allocate) code;
 
   const ScopedCode._(this.code);
 

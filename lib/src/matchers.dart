@@ -18,7 +18,6 @@ String _dartfmt(String source) {
     source = _formatter.formatStatement(source);
   } catch (_) {
     // Ignored on purpose, probably not exactly valid Dart code.
-  } finally {
     source = collapseWhitespace(source);
   }
   return source;
@@ -54,7 +53,7 @@ class _EqualsDart extends Matcher {
     final result = _dart(item, _emitter);
     return equals(result).describeMismatch(
       _source,
-      mismatchDescription,
+      mismatchDescription.add(result),
       state,
       verbose,
     );

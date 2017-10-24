@@ -271,7 +271,7 @@ class DartEmitter extends Object
     for (final spec in spec.body) {
       body.write(visitSpec(spec));
       if (spec is Method && spec.lambda) {
-        output.write(';');
+        body.write(';');
       }
     }
     // TODO: Allow some sort of logical ordering.
