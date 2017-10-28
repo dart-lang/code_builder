@@ -10,6 +10,14 @@ void main() {
     expect(literalNull, equalsDart('null'));
   });
 
+  test('should emit a String', () {
+    expect(literalString(r'$monkey'), equalsDart(r"'$monkey'"));
+  });
+
+  test('should emit a raw String', () {
+    expect(literalString(r'$monkey', raw: true), equalsDart(r"r'$monkey'"));
+  });
+
   test('should emit a && expression', () {
     expect(literalTrue.and(literalFalse), equalsDart('true && false'));
   });
