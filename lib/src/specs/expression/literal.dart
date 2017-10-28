@@ -47,7 +47,10 @@ Expression literalNum(num value) => new LiteralExpression._('$value');
 /// Create a literal expression from a string [value].
 ///
 /// **NOTE**: The string is always formatted `'<value>'`.
-Expression literalString(String value) => new LiteralExpression._("'$value'");
+///
+/// If [raw] is `true`, creates a raw String formatted `r'<value>'`.
+Expression literalString(String value, {bool raw: false}) =>
+    new LiteralExpression._("${raw ? 'r' : ''}'$value'");
 
 /// Creates a literal list expression from [values].
 LiteralListExpression literalList(List<Object> values, [Reference type]) {
