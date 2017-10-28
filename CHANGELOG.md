@@ -1,3 +1,63 @@
+## 2.0.0
+
+Re-released without a direct dependency on `package:analyzer`!
+
+For users of the `1.x` branch of `code_builder`, this is a pretty big breaking
+change but ultimately is for the better - it's easier to evolve this library
+now and even add your own builders on top of the library.
+
+```dart
+// Copyright (c) 2017, the Dart project authors.  Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
+import 'package:code_builder/code_builder.dart';
+import 'package:dart_style/dart_style.dart';
+
+void main() {
+  final animal = new Class((b) => b
+    ..name = 'Animal'
+    ..extend = refer('Organism')
+    ..methods.add(new Method.returnsVoid((b) => b
+      ..name = 'eat'
+      ..lambda = true
+      ..body = const Code('print(\'Yum\')'))));
+  final emitter = new DartEmitter();
+  print(new DartFormatter().format('${animal.accept(emitter)}'));
+}
+```
+
+...outputs...
+
+```dart
+class Animal extends Organism {
+  void eat() => print('Yum!');
+}
+```
+
+**Major changes**:
+
+* Builders now use `built_value`, and have a more consistent, friendly API.
+* Builders are now consistent - they don't any work until code is emitted.
+* It's possible to overwrite the built-in code emitting, formatting, etc by
+  providing your own visitors. See `DartEmitter` as an example of the built-in
+  visitor/emitter.
+* Most of the expression and statement level helpers were removed; in practice
+  they were difficult to write and maintain, and many users commonly asked for
+  opt-out type APIs. See the `Code` example below:
+
+```dart
+void main() {
+  var code = new Code('x + y = z');
+  code.expression;
+  code.statement;
+}
+```
+
+See the commit log, examples, and tests for full details. While we want to try
+and avoid breaking changes, suggestions, new features, and incremental updates
+are welcome!
+
 ## 2.0.0-beta
 
 * Added `lazySpec` and `lazyCode` to lazily create code on visit [#145](https://github.com/dart-lang/code_builder/issues/145).
