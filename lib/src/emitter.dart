@@ -251,7 +251,7 @@ class DartEmitter extends Object
         break;
     }
     if (spec.type != null) {
-      visitType(spec.type.type, output);
+      spec.type.type.accept(this, output);
       output.write(' ');
     }
     output.write(spec.name);
@@ -269,17 +269,17 @@ class DartEmitter extends Object
     // Process the body first in order to prime the allocators.
     final body = new StringBuffer();
     for (final spec in spec.body) {
-      body.write(visitSpec(spec));
+      spec.accept(this, body);
       if (spec is Method && spec.lambda) {
         body.write(';');
       }
     }
     // TODO: Allow some sort of logical ordering.
     for (final directive in spec.directives) {
-      visitDirective(directive, output);
+      directive.accept(this, output);
     }
     for (final directive in allocator.imports) {
-      visitDirective(directive, output);
+      directive.accept(this, output);
     }
     output.write(body);
     return output;
@@ -329,7 +329,9 @@ class DartEmitter extends Object
   visitMethod(Method spec, [StringSink output]) {
     output ??= new StringBuffer();
     spec.docs.forEach(output.writeln);
-    spec.annotations.forEach((a) => visitAnnotation(a, output));
+    for (final annotation in spec.annotations) {
+      annotation.accept(this, output);
+    }
     if (spec.external) {
       output.write('external ');
     }
@@ -337,7 +339,7 @@ class DartEmitter extends Object
       output.write('static ');
     }
     if (spec.returns != null) {
-      visitType(spec.returns.type, output);
+      spec.returns.type.accept(this, output);
       output.write(' ');
     }
     if (spec.type == MethodType.getter) {
@@ -422,9 +424,11 @@ class DartEmitter extends Object
     bool named: false,
   }) {
     spec.docs.forEach(output.writeln);
-    spec.annotations.forEach((a) => visitAnnotation(a, output));
+    for (final annotation in spec.annotations) {
+      annotation.accept(this, output);
+    }
     if (spec.type != null) {
-      visitType(spec.type.type, output);
+      spec.type.type.accept(this, output);
       output.write(' ');
     }
     if (spec.toThis) {
@@ -452,10 +456,11 @@ class DartEmitter extends Object
   @override
   visitType(TypeReference spec, [StringSink output]) {
     output ??= new StringBuffer();
+    // Intentionally not .accept to avoid stack overflow.
     visitReference(spec, output);
     if (spec.bound != null) {
       output.write(' extends ');
-      visitType(spec.bound.type, output);
+      spec.bound.type.accept(this, output);
     }
     visitTypeParameters(spec.types.map((r) => r.type), output);
     return output;
