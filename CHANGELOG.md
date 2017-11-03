@@ -1,6 +1,7 @@
 ## 2.1.0
 
 * Added support for raw `String` literals.
+* Automatically escapes single quotes in now-raw `String` literals.
 * Deprecated `File`, which is now a redirect to the preferred class, `Library`.
 
 This helps avoid symbol clashes when used with `dart:io`, a popular library. It
