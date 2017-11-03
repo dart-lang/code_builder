@@ -36,7 +36,9 @@ export 'src/specs/expression.dart'
         literalTrue,
         literalFalse;
 export 'src/specs/field.dart' show Field, FieldBuilder, FieldModifier;
-export 'src/specs/file.dart' show File, FileBuilder;
+// TODO: Remove File, FileBuilder in 3.0.0.
+// ignore: deprecated_member_use
+export 'src/specs/library.dart' show File, FileBuilder, Library, LibraryBuilder;
 export 'src/specs/method.dart'
     show
         Method,

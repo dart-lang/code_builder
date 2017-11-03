@@ -10,7 +10,7 @@ import 'specs/class.dart';
 import 'specs/constructor.dart';
 import 'specs/directive.dart';
 import 'specs/field.dart';
-import 'specs/file.dart';
+import 'specs/library.dart';
 import 'specs/method.dart';
 import 'specs/reference.dart';
 import 'specs/type_function.dart';
@@ -30,7 +30,10 @@ abstract class SpecVisitor<T> {
 
   T visitField(Field spec, [T context]);
 
+  @Deprecated('Replace with visitLibrary by 3.0.0')
   T visitFile(File spec, [T context]);
+
+  T visitLibrary(Library spec, [T context]);
 
   T visitFunctionType(FunctionType spec, [T context]);
 
