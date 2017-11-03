@@ -86,7 +86,7 @@ class LibraryBuilder implements FileBuilder {
   }
 
   @override
-  void update(covariant void updates(LibraryBuilder builder)) {
+  void update(void updates(LibraryBuilder builder)) {
     if (updates != null) {
       updates(this);
     }
