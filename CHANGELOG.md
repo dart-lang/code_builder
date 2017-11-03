@@ -1,5 +1,7 @@
 ## 2.1.0
 
+We now require the Dart 2.0-dev branch SDK (`>= 2.0.0-dev`).
+
 * Added support for raw `String` literals.
 * Automatically escapes single quotes in now-raw `String` literals.
 * Deprecated `File`, which is now a redirect to the preferred class, `Library`.
