@@ -5,7 +5,6 @@ cache:
   directories:
     - $HOME/.pub-cache
 
-# TODO: Use chrome in --headless mode once supported by pub run test.
 dist: trusty
 addons:
   chrome: stable
@@ -13,10 +12,10 @@ addons:
 branches:
   only: [master]
 
-# Check for analysis issues, run the test cases, and ensure `dartfmt` is run.
+# TODO: Give up the dream of running with dartdevc until...
+# https://github.com/dart-lang/sdk/issues/31280
+
 dart_task:
   - test: --platform vm
   - dartanalyzer
   - dartfmt
-
-# TODO: Test with dartdevc once https://github.com/dart-lang/sdk/issues/30810.
