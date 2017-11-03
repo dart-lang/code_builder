@@ -48,9 +48,16 @@ Expression literalNum(num value) => new LiteralExpression._('$value');
 ///
 /// **NOTE**: The string is always formatted `'<value>'`.
 ///
-/// If [raw] is `true`, creates a raw String formatted `r'<value>'`.
-Expression literalString(String value, {bool raw: false}) =>
-    new LiteralExpression._("${raw ? 'r' : ''}'$value'");
+/// If [raw] is `true`, creates a raw String formatted `r'<value>'` and the
+/// value may not contain a single quote.
+/// If [raw] is `false` escapes single quotes in the value.
+Expression literalString(String value, {bool raw: false}) {
+  if (raw && value.contains('\'')) {
+    throw new ArgumentError('Cannot include a single quote in a raw string');
+  }
+  final escaped = value.replaceAll('\'', '\\\'');
+  return new LiteralExpression._("${raw ? 'r' : ''}'$escaped'");
+}
 
 /// Creates a literal list expression from [values].
 LiteralListExpression literalList(List<Object> values, [Reference type]) {

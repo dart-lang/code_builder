@@ -18,6 +18,14 @@ void main() {
     expect(literalString(r'$monkey', raw: true), equalsDart(r"r'$monkey'"));
   });
 
+  test('should escape single quotes in a String', () {
+    expect(literalString(r"don't"), equalsDart(r"'don\'t'"));
+  });
+
+  test('does not allow single quote in raw string', () {
+    expect(() => literalString(r"don't", raw: true), throwsArgumentError);
+  });
+
   test('should emit a && expression', () {
     expect(literalTrue.and(literalFalse), equalsDart('true && false'));
   });
