@@ -1,6 +1,18 @@
 ## 2.1.0
 
 * Added support for raw `String` literals.
+* Deprecated `File`, which is now a redirect to the preferred class, `Library`.
+
+This helps avoid symbol clashes when used with `dart:io`, a popular library. It
+is now safe to do the following and get full access to the `code_builder` API:
+
+```dart
+import 'dart:io';
+
+import 'package:code_builder/code_builder.dart' hide File;
+```
+
+We will remove `File` in `3.0.0`, so use `Library` instead.
 
 ## 2.0.0
 

@@ -13,7 +13,7 @@ import 'specs/constructor.dart';
 import 'specs/directive.dart';
 import 'specs/expression.dart';
 import 'specs/field.dart';
-import 'specs/file.dart';
+import 'specs/library.dart';
 import 'specs/method.dart';
 import 'specs/reference.dart';
 import 'specs/type_function.dart';
@@ -264,6 +264,11 @@ class DartEmitter extends Object
   }
 
   @override
+  visitLibrary(Library spec, [StringSink output]) => visitFile(spec, output);
+
+  @override
+  // TODO: Remove File in 3.0.0.
+  // ignore: deprecated_member_use
   visitFile(File spec, [StringSink output]) {
     output ??= new StringBuffer();
     // Process the body first in order to prime the allocators.

@@ -40,7 +40,7 @@ abstract class Expression implements Spec {
   /// The expression as a valid [Code] block with a trailing `;`.
   Code get statement => new ToCodeExpression(this, true);
 
-  /// Returns the result of [this] `&&` [other].
+  /// Returns the result of `this` `&&` [other].
   Expression and(Expression other) {
     return new BinaryExpression._(expression, other, '&&');
   }

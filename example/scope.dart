@@ -6,7 +6,7 @@ import 'package:code_builder/code_builder.dart';
 import 'package:dart_style/dart_style.dart';
 
 void main() {
-  final library = new File((b) => b.body.addAll([
+  final library = new Library((b) => b.body.addAll([
         new Method((b) => b
           ..body = const Code('')
           ..name = 'doThing'

@@ -11,7 +11,7 @@ void main() {
 
     test('should emit a source file with manual imports', () {
       expect(
-        new File((b) => b
+        new Library((b) => b
           ..directives.add(new Directive.import('dart:collection'))
           ..body.add(new Field((b) => b
             ..name = 'test'
@@ -27,7 +27,7 @@ void main() {
 
     test('should emit a source file with a deferred import', () {
       expect(
-        new File(
+        new Library(
           (b) => b
             ..directives.add(
               new Directive.importDeferredAs(
@@ -44,7 +44,7 @@ void main() {
 
     test('should emit a source file with a "show" combinator', () {
       expect(
-        new File(
+        new Library(
           (b) => b
             ..directives.add(
               new Directive.import(
@@ -61,7 +61,7 @@ void main() {
 
     test('should emit a source file with a "hide" combinator', () {
       expect(
-        new File(
+        new Library(
           (b) => b
             ..directives.add(
               new Directive.import(
@@ -78,7 +78,7 @@ void main() {
 
     test('should emit a source file with allocation', () {
       expect(
-        new File((b) => b
+        new Library((b) => b
           ..body.add(new Field((b) => b
             ..name = 'test'
             ..modifier = FieldModifier.final$
@@ -94,7 +94,7 @@ void main() {
 
     test('should emit a source file with allocation + prefixing', () {
       expect(
-        new File((b) => b
+        new Library((b) => b
           ..body.add(new Field((b) => b
             ..name = 'test'
             ..modifier = FieldModifier.final$
