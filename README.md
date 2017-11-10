@@ -83,9 +83,9 @@ void main() {
 
 Outputs:
 ```dart
-import 'package:a/a.dart' as _1;
-import 'package:b/b.dart' as _2;
+import 'package:a/a.dart' as _i1;
+import 'package:b/b.dart' as _i2;
 
-_1.Thing doThing() {}
-_2.Other doOther() {}
+_i1.Thing doThing() {}
+_i2.Other doOther() {}
 ```

@@ -81,7 +81,7 @@ class _PrefixedAllocator implements Allocator {
     if (reference.url == null || _doNotPrefix.contains(reference.url)) {
       return symbol;
     }
-    return '_${_imports.putIfAbsent(reference.url, _nextKey)}.$symbol';
+    return '_i${_imports.putIfAbsent(reference.url, _nextKey)}.$symbol';
   }
 
   int _nextKey() => _keys++;
@@ -89,7 +89,7 @@ class _PrefixedAllocator implements Allocator {
   @override
   Iterable<Directive> get imports {
     return _imports.keys.map(
-      (u) => new Directive.import(u, as: '_${_imports[u]}'),
+      (u) => new Directive.import(u, as: '_i${_imports[u]}'),
     );
   }
 }
