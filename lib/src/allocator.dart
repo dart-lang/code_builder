@@ -23,6 +23,9 @@ abstract class Allocator {
   /// style and instead takes a conservative approach of prefixing _every_
   /// import except references to `dart:core` (which are considered always
   /// imported).
+  ///
+  /// The prefixes are not guaranteed to be stable and cannot be expected to
+  /// have any particular value.
   factory Allocator.simplePrefixing() = _PrefixedAllocator;
 
   /// Returns a reference string given a [reference] object.
