@@ -101,9 +101,9 @@ void main() {
             ..assignment =
                 new Code.scope((a) => 'new ${a($LinkedHashMap)}()')))),
         equalsDart(r'''
-          import 'dart:collection' as _1;
+          import 'dart:collection' as _i1;
           
-          final test = new _1.LinkedHashMap();
+          final test = new _i1.LinkedHashMap();
         ''', new DartEmitter(new Allocator.simplePrefixing())),
       );
     });

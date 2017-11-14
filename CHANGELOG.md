@@ -1,3 +1,8 @@
+## 2.1.1-dev
+
+* Imports are prefixed with `_i1` rather than `_1` which satisfies the lint
+  `lowercase_with_underscores`.
+
 ## 2.1.0
 
 We now require the Dart 2.0-dev branch SDK (`>= 2.0.0-dev`).

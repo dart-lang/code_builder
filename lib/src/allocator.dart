@@ -23,6 +23,9 @@ abstract class Allocator {
   /// style and instead takes a conservative approach of prefixing _every_
   /// import except references to `dart:core` (which are considered always
   /// imported).
+  ///
+  /// The prefixes are not guaranteed to be stable and cannot be expected to
+  /// have any particular value.
   factory Allocator.simplePrefixing() = _PrefixedAllocator;
 
   /// Returns a reference string given a [reference] object.
@@ -81,7 +84,7 @@ class _PrefixedAllocator implements Allocator {
     if (reference.url == null || _doNotPrefix.contains(reference.url)) {
       return symbol;
     }
-    return '_${_imports.putIfAbsent(reference.url, _nextKey)}.$symbol';
+    return '_i${_imports.putIfAbsent(reference.url, _nextKey)}.$symbol';
   }
 
   int _nextKey() => _keys++;
@@ -89,7 +92,7 @@ class _PrefixedAllocator implements Allocator {
   @override
   Iterable<Directive> get imports {
     return _imports.keys.map(
-      (u) => new Directive.import(u, as: '_${_imports[u]}'),
+      (u) => new Directive.import(u, as: '_i${_imports[u]}'),
     );
   }
 }
