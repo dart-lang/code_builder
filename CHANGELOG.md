@@ -1,7 +1,32 @@
-## 2.1.1-dev
+## 2.2.0-dev
 
 * Imports are prefixed with `_i1` rather than `_1` which satisfies the lint
-  `lowercase_with_underscores`.
+  `lowercase_with_underscores`. While not a strictly breaking change you may
+  have to fix/regenerate golden file-like tests. We added documentation that
+  the specific prefix is not considered stable.
+* Added `Expression.index` for accessing the `[]` operator:
+
+```dart
+void main() {
+  test('should emit an index operator', () {
+    expect(
+      refer('bar').index(literalTrue).assignVar('foo').statement,
+      equalsDart('var foo = bar[true];'),
+    );
+}  );
+
+  test('should emit an index operator set', () {
+    expect(
+      refer('bar')
+        .index(literalTrue)
+        .assign(literalFalse)
+        .assignVar('foo')
+        .statement,
+      equalsDart('var foo = bar[true] = false;'),
+    );
+  });
+}
+```
 
 ## 2.1.0
 

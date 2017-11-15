@@ -45,6 +45,19 @@ abstract class Expression implements Spec {
     return new BinaryExpression._(expression, other, '&&');
   }
 
+  /// Returns accessing the index operator (`[]`) on `this`.
+  Expression index(Expression index) {
+    return new BinaryExpression._(
+      expression,
+      new CodeExpression(new Block.of([
+        const Code('['),
+        index.code,
+        const Code(']'),
+      ])),
+      '',
+    );
+  }
+
   /// This expression preceded by `await`.
   Expression get awaited {
     return new BinaryExpression._(

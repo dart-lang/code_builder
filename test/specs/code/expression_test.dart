@@ -266,6 +266,35 @@ void main() {
     );
   });
 
+  test('should emit an index operator', () {
+    expect(
+      refer('bar').index(literalTrue).assignVar('foo').statement,
+      equalsDart('var foo = bar[true];'),
+    );
+  });
+
+  test('should emit an index operator set', () {
+    expect(
+      refer('bar')
+          .index(literalTrue)
+          .assign(literalFalse)
+          .assignVar('foo')
+          .statement,
+      equalsDart('var foo = bar[true] = false;'),
+    );
+  });
+
+  test('should emit a null-aware index operator set', () {
+    expect(
+      refer('bar')
+          .index(literalTrue)
+          .assignNullAware(literalFalse)
+          .assignVar('foo')
+          .statement,
+      equalsDart('var foo = bar[true] ??= false;'),
+    );
+  });
+
   test('should emit assigning to a var', () {
     expect(
       literalTrue.assignVar('foo'),
