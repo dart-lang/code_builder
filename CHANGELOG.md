@@ -2,6 +2,7 @@
 
 * Imports are prefixed with `_i1` rather than `_1` which satisfies the lint
   `lowercase_with_underscores`.
+* `literalList` accepts an `Iterable` argument.
 
 ## 2.1.0
 

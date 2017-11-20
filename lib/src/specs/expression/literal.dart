@@ -60,8 +60,8 @@ Expression literalString(String value, {bool raw: false}) {
 }
 
 /// Creates a literal list expression from [values].
-LiteralListExpression literalList(List<Object> values, [Reference type]) {
-  return new LiteralListExpression._(false, values, type);
+LiteralListExpression literalList(Iterable<Object> values, [Reference type]) {
+  return new LiteralListExpression._(false, values.toList(), type);
 }
 
 /// Creates a literal `const` list expression from [values].
