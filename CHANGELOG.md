@@ -4,6 +4,7 @@
   `lowercase_with_underscores`. While not a strictly breaking change you may
   have to fix/regenerate golden file-like tests. We added documentation that
   the specific prefix is not considered stable.
+
 * Added `Expression.index` for accessing the `[]` operator:
 
 ```dart
@@ -27,6 +28,8 @@ void main() {
   });
 }
 ```
+
+* `literalList` accepts an `Iterable` argument.
 
 ## 2.1.0
 
