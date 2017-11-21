@@ -268,19 +268,19 @@ void main() {
 
   test('should emit an index operator', () {
     expect(
-      refer('bar').index(literalTrue).assignVar('foo').statement,
-      equalsDart('var foo = bar[true];'),
+      refer('bar').index(literalString('key')).assignVar('foo').statement,
+      equalsDart("var foo = bar['key'];"),
     );
   });
 
   test('should emit an index operator set', () {
     expect(
       refer('bar')
-          .index(literalTrue)
+          .index(literalString('key'))
           .assign(literalFalse)
           .assignVar('foo')
           .statement,
-      equalsDart('var foo = bar[true] = false;'),
+      equalsDart("var foo = bar['key'] = false;"),
     );
   });
 
