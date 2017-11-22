@@ -58,6 +58,24 @@ abstract class Expression implements Spec {
     );
   }
 
+  /// Returns the result of `this` `is` [other].
+  Expression isA(Expression other) {
+    return new BinaryExpression._(
+      expression,
+      other,
+      'is',
+    );
+  }
+
+  /// Returns the result of `this` `is!` [other].
+  Expression isNotA(Expression other) {
+    return new BinaryExpression._(
+      expression,
+      other,
+      'is!',
+    );
+  }
+
   /// This expression preceded by `await`.
   Expression get awaited {
     return new BinaryExpression._(
