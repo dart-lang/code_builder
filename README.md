@@ -1,8 +1,9 @@
 # code_builder
 
-[![pub package](https://img.shields.io/pub/v/code_builder.svg)](https://pub.dartlang.org/packages/code_builder)
-[![Build Status](https://travis-ci.org/dart-lang/code_builder.svg)](https://travis-ci.org/dart-lang/code_builder)
-[![Coverage Status](https://coveralls.io/repos/github/dart-lang/code_builder/badge.svg?branch=master)](https://coveralls.io/github/dart-lang/code_builder?branch=master)
+[![Pub package](https://img.shields.io/pub/v/code_builder.svg)](https://pub.dartlang.org/packages/code_builder)
+[![Build status](https://travis-ci.org/dart-lang/code_builder.svg)](https://travis-ci.org/dart-lang/code_builder)
+[![Latest docs](https://img.shields.io/badge/dartdocs-latest-blue.svg)](https://www.dartdocs.org/documentation/code_builder/latest)
+[![Gitter chat](https://badges.gitter.im/dart-lang/source_gen.svg)](https://gitter.im/dart-lang/source_gen)
 
 `code_builder` is a fluent Dart API for generating valid Dart source code.
 
@@ -18,10 +19,10 @@ will be on a best-effort basis.
 
 > **NOTE**: Due to the evolving Dart SDK the local `dartfmt` must be used to
 > format this repository. You can run it simply from the command-line:
-
-```sh
-$ pub run dart_style:format -w .
-```
+>
+> ```sh
+> $ pub run dart_style:format -w .
+> ```
 
 [wiki]: https://github.com/dart-lang/code_builder/wiki
 [issue]: https://github.com/dart-lang/code_builder/issues
