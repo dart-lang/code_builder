@@ -1,4 +1,4 @@
-## 2.2.1-dev
+## 2.3.0-dev
 
 * Added `Expression.isA` and `Expression.isNotA`:
 
