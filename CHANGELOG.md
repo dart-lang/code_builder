@@ -1,4 +1,4 @@
-## 2.2.0-dev
+## 2.2.0
 
 * Imports are prefixed with `_i1` rather than `_1` which satisfies the lint
   `lowercase_with_underscores`. While not a strictly breaking change you may
@@ -30,6 +30,27 @@ void main() {
 ```
 
 * `literalList` accepts an `Iterable` argument.
+
+* Fixed an NPE when a method had a return type of a `FunctionType`:
+
+```dart
+void main() {
+  test('should create a method with a function type return type', () {
+    expect(
+      new Method((b) => b
+        ..name = 'foo'
+        ..returns = new FunctionType((b) => b
+          ..returnType = refer('String')
+          ..requiredParameters.addAll([
+            refer('int'),
+          ]))),
+      equalsDart(r'''
+        String Function(int) foo();
+      '''),
+    );
+  });
+}
+```
 
 ## 2.1.0
 

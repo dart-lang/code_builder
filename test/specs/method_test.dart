@@ -99,6 +99,21 @@ void main() {
     );
   });
 
+  test('should create a method with a function type return type', () {
+    expect(
+      new Method((b) => b
+        ..name = 'foo'
+        ..returns = new FunctionType((b) => b
+          ..returnType = refer('String')
+          ..requiredParameters.addAll([
+            refer('int'),
+          ]))),
+      equalsDart(r'''
+        String Function(int) foo();
+      '''),
+    );
+  });
+
   test('should create a method with generic types', () {
     expect(
       new Method((b) => b
