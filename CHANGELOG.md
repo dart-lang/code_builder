@@ -1,3 +1,18 @@
+## 2.2.1-dev
+
+* Added `Expression.isA` and `Expression.isNotA`:
+
+```dart
+void main() {
+  test('should emit an is check', () {
+    expect(
+      refer('foo').isA(refer('String')),
+      equalsDart('foo is String'),
+    );
+  });
+}
+```
+
 ## 2.2.0
 
 * Imports are prefixed with `_i1` rather than `_1` which satisfies the lint
@@ -14,7 +29,7 @@ void main() {
       refer('bar').index(literalTrue).assignVar('foo').statement,
       equalsDart('var foo = bar[true];'),
     );
-}  );
+  });
 
   test('should emit an index operator set', () {
     expect(

@@ -336,4 +336,18 @@ void main() {
       equalsDart('return null'),
     );
   });
+
+  test('should emit an is check', () {
+    expect(
+      refer('foo').isA(refer('String')),
+      equalsDart('foo is String'),
+    );
+  });
+
+  test('should emit an is! check', () {
+    expect(
+      refer('foo').isNotA(refer('String')),
+      equalsDart('foo is! String'),
+    );
+  });
 }
