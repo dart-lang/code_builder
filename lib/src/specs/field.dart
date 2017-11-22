@@ -12,8 +12,8 @@ import '../base.dart';
 import '../mixins/annotations.dart';
 import '../mixins/dartdoc.dart';
 import '../visitors.dart';
-import 'annotation.dart';
 import 'code.dart';
+import 'expression.dart';
 import 'reference.dart';
 
 part 'field.g.dart';
@@ -27,7 +27,7 @@ abstract class Field extends Object
   Field._();
 
   @override
-  BuiltList<Annotation> get annotations;
+  BuiltList<Expression> get annotations;
 
   @override
   BuiltList<String> get docs;
@@ -71,7 +71,7 @@ abstract class FieldBuilder extends Object
   FieldBuilder._();
 
   @override
-  ListBuilder<Annotation> annotations = new ListBuilder<Annotation>();
+  ListBuilder<Expression> annotations = new ListBuilder<Expression>();
 
   @override
   ListBuilder<String> docs = new ListBuilder<String>();

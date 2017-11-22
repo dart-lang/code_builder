@@ -192,7 +192,7 @@ void main() {
     );
   });
 
-  test('should create a method with a paremter with an annotation', () {
+  test('should create a method with an annotated parameter [deprecated]', () {
     expect(
       new Method(
         (b) => b
@@ -202,6 +202,23 @@ void main() {
               ..name = 'i'
               ..annotations.add(
                   new Annotation((a) => a..code = const Code('deprecated')))),
+          ),
+      ),
+      equalsDart(r'''
+        fib(@deprecated i);
+      '''),
+    );
+  });
+
+  test('should create a method with an annotated parameter', () {
+    expect(
+      new Method(
+        (b) => b
+          ..name = 'fib'
+          ..requiredParameters.add(
+            new Parameter((b) => b
+              ..name = 'i'
+              ..annotations.add(refer('deprecated'))),
           ),
       ),
       equalsDart(r'''

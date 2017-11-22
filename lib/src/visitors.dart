@@ -5,10 +5,10 @@
 import 'package:meta/meta.dart';
 
 import 'base.dart';
-import 'specs/annotation.dart';
 import 'specs/class.dart';
 import 'specs/constructor.dart';
 import 'specs/directive.dart';
+import 'specs/expression.dart';
 import 'specs/field.dart';
 import 'specs/library.dart';
 import 'specs/method.dart';
@@ -20,7 +20,7 @@ import 'specs/type_reference.dart';
 abstract class SpecVisitor<T> {
   const SpecVisitor._();
 
-  T visitAnnotation(Annotation spec, [T context]);
+  T visitAnnotation(Expression spec, [T context]);
 
   T visitClass(Class spec, [T context]);
 

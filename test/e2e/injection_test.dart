@@ -31,8 +31,7 @@ void main() {
         ]).code
         ..lambda = true
         ..returns = $Thing
-        ..annotations
-            .add(new Annotation((b) => b..code = const Code('override')))));
+        ..annotations.add(refer('override'))));
 
     expect(
       clazz.build(),

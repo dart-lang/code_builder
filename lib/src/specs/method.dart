@@ -13,7 +13,6 @@ import '../mixins/annotations.dart';
 import '../mixins/dartdoc.dart';
 import '../mixins/generics.dart';
 import '../visitors.dart';
-import 'annotation.dart';
 import 'code.dart';
 import 'expression.dart';
 import 'reference.dart';
@@ -40,7 +39,7 @@ abstract class Method extends Object
   Method._();
 
   @override
-  BuiltList<Annotation> get annotations;
+  BuiltList<Expression> get annotations;
 
   @override
   BuiltList<String> get docs;
@@ -105,7 +104,7 @@ abstract class MethodBuilder extends Object
   MethodBuilder._();
 
   @override
-  ListBuilder<Annotation> annotations = new ListBuilder<Annotation>();
+  ListBuilder<Expression> annotations = new ListBuilder<Expression>();
 
   @override
   ListBuilder<String> docs = new ListBuilder<String>();
@@ -179,7 +178,7 @@ abstract class Parameter extends Object
   bool get toThis;
 
   @override
-  BuiltList<Annotation> get annotations;
+  BuiltList<Expression> get annotations;
 
   @override
   BuiltList<String> get docs;
@@ -214,7 +213,7 @@ abstract class ParameterBuilder extends Object
   bool toThis = false;
 
   @override
-  ListBuilder<Annotation> annotations = new ListBuilder<Annotation>();
+  ListBuilder<Expression> annotations = new ListBuilder<Expression>();
 
   @override
   ListBuilder<String> docs = new ListBuilder<String>();

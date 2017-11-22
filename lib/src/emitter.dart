@@ -65,9 +65,13 @@ class DartEmitter extends Object
   }
 
   @override
-  visitAnnotation(Annotation spec, [StringSink output]) {
+  visitAnnotation(Expression spec, [StringSink output]) {
     (output ??= new StringBuffer()).write('@');
-    spec.code.accept(this, output);
+    if (spec is Annotation) {
+      spec.code.accept(this, output);
+    } else {
+      spec.accept(this, output);
+    }
     output.write(' ');
     return output;
   }
@@ -334,9 +338,7 @@ class DartEmitter extends Object
   visitMethod(Method spec, [StringSink output]) {
     output ??= new StringBuffer();
     spec.docs.forEach(output.writeln);
-    for (final annotation in spec.annotations) {
-      annotation.accept(this, output);
-    }
+    spec.annotations.forEach((a) => visitAnnotation(a, output));
     if (spec.external) {
       output.write('external ');
     }
@@ -429,9 +431,7 @@ class DartEmitter extends Object
     bool named: false,
   }) {
     spec.docs.forEach(output.writeln);
-    for (final annotation in spec.annotations) {
-      annotation.accept(this, output);
-    }
+    spec.annotations.forEach((a) => visitAnnotation(a, output));
     if (spec.type != null) {
       spec.type.type.accept(this, output);
       output.write(' ');
