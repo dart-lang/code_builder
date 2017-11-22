@@ -344,7 +344,7 @@ class DartEmitter extends Object
       output.write('static ');
     }
     if (spec.returns != null) {
-      spec.returns.type.accept(this, output);
+      spec.returns.accept(this, output);
       output.write(' ');
     }
     if (spec.type == MethodType.getter) {
