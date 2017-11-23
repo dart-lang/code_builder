@@ -8,37 +8,53 @@ import 'package:matcher/matcher.dart';
 import 'base.dart';
 import 'emitter.dart';
 
-final _formatter = new DartFormatter();
-
-/// Runs dartfmt.
-String _dartfmt(String source) {
-  try {
-    source = _formatter.format(source);
-  } on FormatException catch (_) {
-    source = _formatter.formatStatement(source);
-  } catch (_) {
-    // Ignored on purpose, probably not exactly valid Dart code.
-    source = collapseWhitespace(source);
-  }
-  return source;
-}
-
 /// Encodes [spec] as Dart source code.
 String _dart(Spec spec, DartEmitter emitter) =>
-    _dartfmt(spec.accept<StringSink>(emitter).toString()).trim();
+    EqualsDart._format(spec.accept<StringSink>(emitter).toString());
 
 /// Returns a matcher for Dart source code.
 Matcher equalsDart(
   String source, [
   DartEmitter emitter,
 ]) =>
-    new _EqualsDart(_dartfmt(source).trim(), emitter ?? new DartEmitter());
+    new EqualsDart._(EqualsDart._format(source), emitter ?? new DartEmitter());
 
-class _EqualsDart extends Matcher {
+/// Implementation detail of using the [equalsDart] matcher.
+///
+/// See [EqualsDart.format] to specify the default source code formatter.
+class EqualsDart extends Matcher {
+  // TODO: Remove in 3.0.0.
+  static final _formatter = new DartFormatter();
+
+  /// May override to provide a function to format Dart on [equalsDart].
+  ///
+  /// As of `2.x.x`, this defaults to using `dartfmt`, but in an upcoming
+  /// release (`3.x.x`) it will default to [collapseWhitespace]. This is in
+  /// order to avoid a dependency on specific versions of `dartfmt` and the
+  /// `analyzer` package.
+  ///
+  /// To future proof, see an example in code_builder's `test/common.dart`.
+  static String Function(String) format = (String source) {
+    try {
+      return _formatter.format(source);
+    } on FormatException catch (_) {
+      return _formatter.formatStatement(source);
+    }
+  };
+
+  static String _format(String source) {
+    try {
+      return format(source).trim();
+    } catch (_) {
+      // Ignored on purpose, probably not exactly valid Dart code.
+      return collapseWhitespace(source).trim();
+    }
+  }
+
   final DartEmitter _emitter;
   final String _source;
 
-  const _EqualsDart(this._source, this._emitter);
+  const EqualsDart._(this._source, this._emitter);
 
   @override
   Description describe(Description description) => description.add(_source);
