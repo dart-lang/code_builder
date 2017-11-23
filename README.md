@@ -32,6 +32,8 @@ will be on a best-effort basis.
 
 `code_builder` has a narrow and user-friendly API.
 
+See the `example` and `test` folders for additional examples.
+
 For example creating a class with a method:
 
 ```dart
