@@ -31,6 +31,7 @@ abstract class Annotation extends Expression
   /// This property exists in order to keep compatibility with having a concrete
   /// [Annotation] class, but also allow migrating to using [Expression] instead
   /// to add annotations.
+  @protected
   Code get codeForAnnotation;
 
   @override
@@ -50,5 +51,6 @@ abstract class AnnotationBuilder
   Code get code => codeForAnnotation;
   set code(Code code) => codeForAnnotation = code;
 
+  @protected
   Code codeForAnnotation;
 }
