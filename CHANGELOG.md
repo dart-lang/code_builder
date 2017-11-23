@@ -40,6 +40,29 @@ void main() {
 }
 ```
 
+* Deprecated `Annotation`. It is now legal to simply pass any `Expression` as
+  a metadata annotation to `Class`, `Method`, `Field,` and `Parameter`. In
+  `3.0.0`, the `Annotation` class will be completely removed:
+
+```dart
+void main() {
+  test('should create a class with a annotated constructor', () {
+    expect(
+      new Class((b) => b
+        ..name = 'Foo'
+        ..constructors.add(
+          new Constructor((b) => b..annotations.add(refer('deprecated'))))),
+      equalsDart(r'''
+        class Foo {
+          @deprecated
+          Foo();
+        }
+      '''),
+    );
+  });
+}
+```
+
 ## 2.2.0
 
 * Imports are prefixed with `_i1` rather than `_1` which satisfies the lint

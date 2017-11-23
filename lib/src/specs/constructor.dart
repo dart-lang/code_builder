@@ -10,8 +10,8 @@ import 'package:meta/meta.dart';
 
 import '../mixins/annotations.dart';
 import '../mixins/dartdoc.dart';
-import 'annotation.dart';
 import 'code.dart';
+import 'expression.dart';
 import 'method.dart';
 import 'reference.dart';
 
@@ -26,7 +26,7 @@ abstract class Constructor extends Object
   Constructor._();
 
   @override
-  BuiltList<Annotation> get annotations;
+  BuiltList<Expression> get annotations;
 
   @override
   BuiltList<String> get docs;
@@ -73,7 +73,7 @@ abstract class ConstructorBuilder extends Object
   ConstructorBuilder._();
 
   @override
-  ListBuilder<Annotation> annotations = new ListBuilder<Annotation>();
+  ListBuilder<Expression> annotations = new ListBuilder<Expression>();
 
   @override
   ListBuilder<String> docs = new ListBuilder<String>();

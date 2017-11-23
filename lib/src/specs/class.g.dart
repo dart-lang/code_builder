@@ -18,7 +18,7 @@ class _$Class extends Class {
   @override
   final bool abstract;
   @override
-  final BuiltList<Annotation> annotations;
+  final BuiltList<Expression> annotations;
   @override
   final BuiltList<String> docs;
   @override
@@ -148,13 +148,13 @@ class _$ClassBuilder extends ClassBuilder {
   }
 
   @override
-  ListBuilder<Annotation> get annotations {
+  ListBuilder<Expression> get annotations {
     _$this;
-    return super.annotations ??= new ListBuilder<Annotation>();
+    return super.annotations ??= new ListBuilder<Expression>();
   }
 
   @override
-  set annotations(ListBuilder<Annotation> annotations) {
+  set annotations(ListBuilder<Expression> annotations) {
     _$this;
     super.annotations = annotations;
   }

@@ -16,13 +16,14 @@ part of code_builder.src.specs.annotation;
 
 class _$Annotation extends Annotation {
   @override
-  final Code code;
+  final Code codeForAnnotation;
 
   factory _$Annotation([void updates(AnnotationBuilder b)]) =>
       (new AnnotationBuilder()..update(updates)).build() as _$Annotation;
 
-  _$Annotation._({this.code}) : super._() {
-    if (code == null) throw new ArgumentError.notNull('code');
+  _$Annotation._({this.codeForAnnotation}) : super._() {
+    if (codeForAnnotation == null)
+      throw new ArgumentError.notNull('codeForAnnotation');
   }
 
   @override
@@ -36,17 +37,18 @@ class _$Annotation extends Annotation {
   bool operator ==(dynamic other) {
     if (identical(other, this)) return true;
     if (other is! Annotation) return false;
-    return code == other.code;
+    return codeForAnnotation == other.codeForAnnotation;
   }
 
   @override
   int get hashCode {
-    return $jf($jc(0, code.hashCode));
+    return $jf($jc(0, codeForAnnotation.hashCode));
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('Annotation')..add('code', code))
+    return (newBuiltValueToStringHelper('Annotation')
+          ..add('codeForAnnotation', codeForAnnotation))
         .toString();
   }
 }
@@ -55,22 +57,22 @@ class _$AnnotationBuilder extends AnnotationBuilder {
   _$Annotation _$v;
 
   @override
-  Code get code {
+  Code get codeForAnnotation {
     _$this;
-    return super.code;
+    return super.codeForAnnotation;
   }
 
   @override
-  set code(Code code) {
+  set codeForAnnotation(Code codeForAnnotation) {
     _$this;
-    super.code = code;
+    super.codeForAnnotation = codeForAnnotation;
   }
 
   _$AnnotationBuilder() : super._();
 
   AnnotationBuilder get _$this {
     if (_$v != null) {
-      super.code = _$v.code;
+      super.codeForAnnotation = _$v.codeForAnnotation;
       _$v = null;
     }
     return this;
@@ -89,7 +91,8 @@ class _$AnnotationBuilder extends AnnotationBuilder {
 
   @override
   _$Annotation build() {
-    final _$result = _$v ?? new _$Annotation._(code: code);
+    final _$result =
+        _$v ?? new _$Annotation._(codeForAnnotation: codeForAnnotation);
     replace(_$result);
     return _$result;
   }

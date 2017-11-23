@@ -4,12 +4,16 @@
 
 import 'package:built_collection/built_collection.dart';
 
-import '../specs/annotation.dart';
+import '../specs/expression.dart';
 
+/// A type of AST node that can have metadata [annotations].
 abstract class HasAnnotations {
-  BuiltList<Annotation> get annotations;
+  /// Annotations as metadata on the node.
+  BuiltList<Expression> get annotations;
 }
 
+/// Compliment to the [HasAnnotations] mixin for metadata [annotations].
 abstract class HasAnnotationsBuilder {
-  ListBuilder<Annotation> annotations;
+  /// Annotations as metadata on the node.
+  ListBuilder<Expression> annotations;
 }

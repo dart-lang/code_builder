@@ -16,7 +16,7 @@ part of code_builder.src.specs.field;
 
 class _$Field extends Field {
   @override
-  final BuiltList<Annotation> annotations;
+  final BuiltList<Expression> annotations;
   @override
   final BuiltList<String> docs;
   @override
@@ -101,13 +101,13 @@ class _$FieldBuilder extends FieldBuilder {
   _$Field _$v;
 
   @override
-  ListBuilder<Annotation> get annotations {
+  ListBuilder<Expression> get annotations {
     _$this;
-    return super.annotations ??= new ListBuilder<Annotation>();
+    return super.annotations ??= new ListBuilder<Expression>();
   }
 
   @override
-  set annotations(ListBuilder<Annotation> annotations) {
+  set annotations(ListBuilder<Expression> annotations) {
     _$this;
     super.annotations = annotations;
   }

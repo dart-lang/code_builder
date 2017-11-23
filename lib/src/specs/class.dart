@@ -13,8 +13,8 @@ import '../mixins/annotations.dart';
 import '../mixins/dartdoc.dart';
 import '../mixins/generics.dart';
 import '../visitors.dart';
-import 'annotation.dart';
 import 'constructor.dart';
+import 'expression.dart';
 import 'field.dart';
 import 'method.dart';
 import 'reference.dart';
@@ -33,7 +33,7 @@ abstract class Class extends Object
   bool get abstract;
 
   @override
-  BuiltList<Annotation> get annotations;
+  BuiltList<Expression> get annotations;
 
   @override
   BuiltList<String> get docs;
@@ -74,7 +74,7 @@ abstract class ClassBuilder extends Object
   bool abstract = false;
 
   @override
-  ListBuilder<Annotation> annotations = new ListBuilder<Annotation>();
+  ListBuilder<Expression> annotations = new ListBuilder<Expression>();
 
   @override
   ListBuilder<String> docs = new ListBuilder<String>();
