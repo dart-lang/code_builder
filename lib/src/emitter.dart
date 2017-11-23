@@ -64,14 +64,17 @@ class DartEmitter extends Object
     return new DartEmitter(new Allocator.simplePrefixing());
   }
 
+  static bool _isLambdaBody(Code code) =>
+      code is ToCodeExpression && !code.isStatement;
+
   /// Whether the provided [method] is considered a lambda method.
   static bool _isLambdaMethod(Method method) =>
-      method.lambda ?? method.body is ToCodeExpression;
+      method.lambda ?? _isLambdaBody(method.body);
 
   /// Whether the provided [constructor] is considered a lambda method.
   static bool _isLambdaConstructor(Constructor constructor) =>
       constructor.lambda ??
-      constructor.factory && constructor.body is ToCodeExpression;
+      constructor.factory && _isLambdaBody(constructor.body);
 
   @override
   visitAnnotation(Expression spec, [StringSink output]) {

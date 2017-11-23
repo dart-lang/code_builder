@@ -71,6 +71,20 @@ void main() {
     );
   });
 
+  test('should create a normal method implicitly', () {
+    expect(
+      new Method.returnsVoid((b) => b
+        ..name = 'assignTrue'
+        ..lambda = null
+        ..body = refer('topLevelFoo').assign(literalTrue).statement),
+      equalsDart(r'''
+        void assignTrue() {
+          topLevelFoo = true;
+        }
+      '''),
+    );
+  });
+
   test('should create a getter', () {
     expect(
       new Method((b) => b
