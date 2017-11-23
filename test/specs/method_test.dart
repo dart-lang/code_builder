@@ -25,7 +25,7 @@ void main() {
         ..name = 'foo'
         ..modifier = MethodModifier.async
         ..lambda = true
-        ..body = const Code('null')),
+        ..body = literalNull.code),
       equalsDart(r'''
         foo() async => null
       '''),
@@ -38,7 +38,7 @@ void main() {
         ..name = 'foo'
         ..modifier = MethodModifier.asyncStar
         ..lambda = true
-        ..body = const Code('null')),
+        ..body = literalNull.code),
       equalsDart(r'''
         foo() async* => null
       '''),
@@ -51,9 +51,36 @@ void main() {
         ..name = 'foo'
         ..modifier = MethodModifier.syncStar
         ..lambda = true
-        ..body = const Code('null')),
+        ..body = literalNull.code),
       equalsDart(r'''
         foo() sync* => null
+      '''),
+    );
+  });
+
+  test('should create a lambda method implicitly', () {
+    expect(
+      new Method((b) => b
+        ..name = 'returnsTrue'
+        ..lambda = null
+        ..returns = refer('bool')
+        ..body = literalTrue.code),
+      equalsDart(r'''
+        bool returnsTrue() => true
+      '''),
+    );
+  });
+
+  test('should create a normal method implicitly', () {
+    expect(
+      new Method.returnsVoid((b) => b
+        ..name = 'assignTrue'
+        ..lambda = null
+        ..body = refer('topLevelFoo').assign(literalTrue).statement),
+      equalsDart(r'''
+        void assignTrue() {
+          topLevelFoo = true;
+        }
       '''),
     );
   });

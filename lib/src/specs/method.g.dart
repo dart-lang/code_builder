@@ -68,7 +68,6 @@ class _$Method extends Method {
     if (requiredParameters == null)
       throw new ArgumentError.notNull('requiredParameters');
     if (external == null) throw new ArgumentError.notNull('external');
-    if (lambda == null) throw new ArgumentError.notNull('lambda');
     if (static == null) throw new ArgumentError.notNull('static');
   }
 

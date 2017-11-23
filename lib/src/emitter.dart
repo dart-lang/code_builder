@@ -64,6 +64,18 @@ class DartEmitter extends Object
     return new DartEmitter(new Allocator.simplePrefixing());
   }
 
+  static bool _isLambdaBody(Code code) =>
+      code is ToCodeExpression && !code.isStatement;
+
+  /// Whether the provided [method] is considered a lambda method.
+  static bool _isLambdaMethod(Method method) =>
+      method.lambda ?? _isLambdaBody(method.body);
+
+  /// Whether the provided [constructor] is considered a lambda method.
+  static bool _isLambdaConstructor(Constructor constructor) =>
+      constructor.lambda ??
+      constructor.factory && _isLambdaBody(constructor.body);
+
   @override
   visitAnnotation(Expression spec, [StringSink output]) {
     (output ??= new StringBuffer()).write('@');
@@ -112,7 +124,7 @@ class DartEmitter extends Object
     });
     spec.methods.forEach((m) {
       visitMethod(m, output);
-      if (m.lambda) {
+      if (_isLambdaMethod(m)) {
         output.write(';');
       }
       output.writeln();
@@ -189,7 +201,7 @@ class DartEmitter extends Object
       visitType(spec.redirect.type, output);
       output.write(';');
     } else if (spec.body != null) {
-      if (spec.lambda) {
+      if (_isLambdaConstructor(spec)) {
         output.write(' => ');
         spec.body.accept(this, output);
         output.write(';');
@@ -279,7 +291,7 @@ class DartEmitter extends Object
     final body = new StringBuffer();
     for (final spec in spec.body) {
       spec.accept(this, body);
-      if (spec is Method && spec.lambda) {
+      if (spec is Method && _isLambdaMethod(spec)) {
         body.write(';');
       }
     }
@@ -408,13 +420,13 @@ class DartEmitter extends Object
             break;
         }
       }
-      if (spec.lambda) {
+      if (_isLambdaMethod(spec)) {
         output.write(' => ');
       } else {
         output.write(' { ');
       }
       spec.body.accept(this, output);
-      if (!spec.lambda) {
+      if (!_isLambdaMethod(spec)) {
         output.write(' } ');
       }
     } else {
