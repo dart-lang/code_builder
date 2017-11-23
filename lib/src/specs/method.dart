@@ -61,6 +61,9 @@ abstract class Method extends Object
   bool get external;
 
   /// Whether this method is a simple lambda expression.
+  ///
+  /// May be `null` to be inferred based on the value of [body].
+  @nullable
   bool get lambda;
 
   /// Whether this method should be prefixed with `static`.

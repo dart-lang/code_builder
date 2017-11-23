@@ -63,6 +63,27 @@ void main() {
 }
 ```
 
+* Added inference support for `Method.lambda` and `Constructor.lambda`. If not
+  explicitly provided and the body of the function originated from an
+  `Expression` then `lambda` is inferred to be true. This is not a breaking
+  change yet, as it requires an explicit `null` value. In `3.0.0` this will be
+  the default:
+
+```dart
+void main() {
+  final animal = new Class((b) => b
+    ..name = 'Animal'
+    ..extend = refer('Organism')
+    ..methods.add(new Method.returnsVoid((b) => b
+      ..name = 'eat'
+      // In 3.0.0, this may be omitted and still is inferred.
+      ..lambda = null
+      ..body = refer('print').call([literalString('Yum!')]).code)));
+  final emitter = new DartEmitter();
+  print(new DartFormatter().format('${animal.accept(emitter)}'));
+}
+```
+
 ## 2.2.0
 
 * Imports are prefixed with `_i1` rather than `_1` which satisfies the lint
