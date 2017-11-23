@@ -5,7 +5,11 @@
 import 'package:code_builder/code_builder.dart';
 import 'package:test/test.dart';
 
+import '../common.dart';
+
 void main() {
+  useDartfmt();
+
   test('should generate a complex generated file', () {
     // Imports from an existing Dart library.
     final $App = refer('App', 'package:app/app.dart');

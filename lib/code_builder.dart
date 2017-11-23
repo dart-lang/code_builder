@@ -5,6 +5,7 @@
 export 'src/allocator.dart' show Allocator;
 export 'src/base.dart' show lazySpec, Spec;
 export 'src/emitter.dart' show DartEmitter;
+export 'src/matchers.dart' show equalsDart, EqualsDart;
 export 'src/matchers.dart' show equalsDart;
 // ignore: deprecated_member_use
 export 'src/specs/annotation.dart' show Annotation, AnnotationBuilder;

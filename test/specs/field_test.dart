@@ -5,7 +5,11 @@
 import 'package:code_builder/code_builder.dart';
 import 'package:test/test.dart';
 
+import '../common.dart';
+
 void main() {
+  useDartfmt();
+
   test('should create a field', () {
     expect(
       new Field((b) => b..name = 'foo'),
