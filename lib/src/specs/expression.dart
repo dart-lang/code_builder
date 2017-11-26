@@ -76,6 +76,14 @@ abstract class Expression implements Spec {
     );
   }
 
+  Expression conditional(Expression whenTrue, Expression whenFalse) {
+    return new BinaryExpression._(
+      expression,
+      new BinaryExpression._(whenTrue, whenFalse, ':'),
+      '?',
+    );
+  }
+
   /// This expression preceded by `await`.
   Expression get awaited {
     return new BinaryExpression._(

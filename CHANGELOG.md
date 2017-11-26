@@ -85,6 +85,7 @@ void main() {
 ```
 
 * Added `nullSafeProperty` to `Expression` to access properties with `?.`
+* Added `condditional` to `Expression` to use the ternary operator `? : `
 
 ## 2.2.0
 
