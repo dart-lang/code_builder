@@ -358,4 +358,11 @@ void main() {
       equalsDart('foo is! String'),
     );
   });
+
+  test('should emit a conditional', () {
+    expect(
+      refer('foo').conditional(literal(1), literal(2)),
+      equalsDart('foo ? 1 : 2'),
+    );
+  });
 }
