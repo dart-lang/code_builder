@@ -14,14 +14,13 @@ import '../visitors.dart';
 import 'code.dart';
 import 'expression.dart';
 import 'reference.dart';
-import 'type_reference.dart';
 
 part 'type_function.g.dart';
 
 @immutable
 abstract class FunctionType extends Expression
     with HasGenerics
-    implements Built<FunctionType, FunctionTypeBuilder>, TypeReference, Spec {
+    implements Built<FunctionType, FunctionTypeBuilder>, Reference, Spec {
   factory FunctionType([
     void updates(FunctionTypeBuilder b),
   ]) = _$FunctionType;
@@ -58,10 +57,7 @@ abstract class FunctionType extends Expression
   String get symbol => null;
 
   @override
-  Reference get bound => null;
-
-  @override
-  TypeReference get type => this;
+  Reference get type => this;
 
   @override
   Expression newInstance(

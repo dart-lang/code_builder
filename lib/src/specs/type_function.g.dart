@@ -164,7 +164,7 @@ class _$FunctionTypeBuilder extends FunctionTypeBuilder {
   }
 
   @override
-  void replace(covariant FunctionType other) {
+  void replace(FunctionType other) {
     if (other == null) throw new ArgumentError.notNull('other');
     _$v = other as _$FunctionType;
   }

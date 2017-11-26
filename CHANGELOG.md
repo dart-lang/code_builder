@@ -87,8 +87,8 @@ void main() {
 * Added `nullSafeProperty` to `Expression` to access properties with `?.`
 * Added `conditional` to `Expression` to use the ternary operator `? : `
 * Methods taking `positionalArguments` accept `Iterable<Expression>`
-* **BUG FIX**: Parameters can take a `FunctionType` as a `type`. `FunctionType`
-  now implements `TypeReference`.
+* **BUG FIX**: Parameters can take a `FunctionType` as a `type`.
+  `Reference.type` now returns a `Reference`.
 
 ## 2.2.0
 
