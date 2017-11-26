@@ -84,6 +84,8 @@ void main() {
 }
 ```
 
+* Added `nullSafeProperty` to `Expression` to access properties with `?.`
+
 ## 2.2.0
 
 * Imports are prefixed with `_i1` rather than `_1` which satisfies the lint
