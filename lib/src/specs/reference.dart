@@ -51,13 +51,13 @@ class Reference extends Expression implements Spec {
 
   /// Returns a new instance of this expression.
   Expression newInstance(
-    List<Expression> positionalArguments, [
+    Iterable<Expression> positionalArguments, [
     Map<String, Expression> namedArguments = const {},
     List<Reference> typeArguments = const [],
   ]) {
     return new InvokeExpression.newOf(
       this,
-      positionalArguments,
+      positionalArguments.toList(),
       namedArguments,
       typeArguments,
       null,
@@ -67,13 +67,13 @@ class Reference extends Expression implements Spec {
   /// Returns a new instance of this expression with a named constructor.
   Expression newInstanceNamed(
     String name,
-    List<Expression> positionalArguments, [
+    Iterable<Expression> positionalArguments, [
     Map<String, Expression> namedArguments = const {},
     List<Reference> typeArguments = const [],
   ]) {
     return new InvokeExpression.newOf(
       this,
-      positionalArguments,
+      positionalArguments.toList(),
       namedArguments,
       typeArguments,
       name,
@@ -82,13 +82,13 @@ class Reference extends Expression implements Spec {
 
   /// Returns a const instance of this expression.
   Expression constInstance(
-    List<Expression> positionalArguments, [
+    Iterable<Expression> positionalArguments, [
     Map<String, Expression> namedArguments = const {},
     List<Reference> typeArguments = const [],
   ]) {
     return new InvokeExpression.constOf(
       this,
-      positionalArguments,
+      positionalArguments.toList(),
       namedArguments,
       typeArguments,
       null,
@@ -98,13 +98,13 @@ class Reference extends Expression implements Spec {
   /// Returns a const instance of this expression with a named constructor.
   Expression constInstanceNamed(
     String name,
-    List<Expression> positionalArguments, [
+    Iterable<Expression> positionalArguments, [
     Map<String, Expression> namedArguments = const {},
     List<Reference> typeArguments = const [],
   ]) {
     return new InvokeExpression.constOf(
       this,
-      positionalArguments,
+      positionalArguments.toList(),
       namedArguments,
       typeArguments,
       name,

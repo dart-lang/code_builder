@@ -86,6 +86,7 @@ void main() {
 
 * Added `nullSafeProperty` to `Expression` to access properties with `?.`
 * Added `conditional` to `Expression` to use the ternary operator `? : `
+* Methods taking `positionalArguments` accept `Iterable<Expression>`
 
 ## 2.2.0
 
