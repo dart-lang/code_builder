@@ -158,13 +158,13 @@ abstract class Expression implements Spec {
 
   /// Call this expression as a method.
   Expression call(
-    List<Expression> positionalArguments, [
+    Iterable<Expression> positionalArguments, [
     Map<String, Expression> namedArguments = const {},
     List<Reference> typeArguments = const [],
   ]) {
     return new InvokeExpression._(
       this,
-      positionalArguments,
+      positionalArguments.toList(),
       namedArguments,
       typeArguments,
     );
@@ -193,7 +193,7 @@ abstract class Expression implements Spec {
   /// Returns an annotation as a result of calling this constructor.
   @Deprecated('Use "call" instead. Will be removed in 3.0.0.')
   Expression annotation([
-    List<Expression> positionalArguments,
+    Iterable<Expression> positionalArguments,
     Map<String, Expression> namedArguments = const {},
     List<Reference> typeArguments = const [],
   ]) {
@@ -205,7 +205,7 @@ abstract class Expression implements Spec {
     return new Annotation((b) {
       b.code = new InvokeExpression._(
         this,
-        positionalArguments,
+        positionalArguments.toList(),
         namedArguments,
         typeArguments,
       )
@@ -217,14 +217,14 @@ abstract class Expression implements Spec {
   @Deprecated('Use a combination of "property" and "call". Removing in 3.0.0.')
   Expression annotationNamed(
     String name,
-    List<Expression> positionalArguments, [
+    Iterable<Expression> positionalArguments, [
     Map<String, Expression> namedArguments = const {},
     List<Reference> typeArguments = const [],
   ]) {
     // ignore: deprecated_member_use
     return new Annotation((b) => b
-      ..code = new InvokeExpression._(
-              this, positionalArguments, namedArguments, typeArguments, name)
+      ..code = new InvokeExpression._(this, positionalArguments.toList(),
+              namedArguments, typeArguments, name)
           .code);
   }
 

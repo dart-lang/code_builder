@@ -58,13 +58,13 @@ abstract class TypeReference extends Expression
 
   @override
   Expression newInstance(
-    List<Expression> positionalArguments, [
+    Iterable<Expression> positionalArguments, [
     Map<String, Expression> namedArguments = const {},
     List<Reference> typeArguments = const [],
   ]) {
     return new InvokeExpression.newOf(
       this,
-      positionalArguments,
+      positionalArguments.toList(),
       namedArguments,
       typeArguments,
       null,
@@ -74,13 +74,13 @@ abstract class TypeReference extends Expression
   @override
   Expression newInstanceNamed(
     String name,
-    List<Expression> positionalArguments, [
+    Iterable<Expression> positionalArguments, [
     Map<String, Expression> namedArguments = const {},
     List<Reference> typeArguments = const [],
   ]) {
     return new InvokeExpression.newOf(
       this,
-      positionalArguments,
+      positionalArguments.toList(),
       namedArguments,
       typeArguments,
       name,
@@ -89,13 +89,13 @@ abstract class TypeReference extends Expression
 
   @override
   Expression constInstance(
-    List<Expression> positionalArguments, [
+    Iterable<Expression> positionalArguments, [
     Map<String, Expression> namedArguments = const {},
     List<Reference> typeArguments = const [],
   ]) {
     return new InvokeExpression.constOf(
       this,
-      positionalArguments,
+      positionalArguments.toList(),
       namedArguments,
       typeArguments,
       null,
@@ -105,13 +105,13 @@ abstract class TypeReference extends Expression
   @override
   Expression constInstanceNamed(
     String name,
-    List<Expression> positionalArguments, [
+    Iterable<Expression> positionalArguments, [
     Map<String, Expression> namedArguments = const {},
     List<Reference> typeArguments = const [],
   ]) {
     return new InvokeExpression.constOf(
       this,
-      positionalArguments,
+      positionalArguments.toList(),
       namedArguments,
       typeArguments,
       name,
