@@ -172,6 +172,16 @@ abstract class Expression implements Spec {
     );
   }
 
+  /// Returns an expression accessing `?.<name>` on this expression.
+  Expression nullSafeProperty(String name) {
+    return new BinaryExpression._(
+      this,
+      new LiteralExpression._(name),
+      '?.',
+      false,
+    );
+  }
+
   /// Returns an annotation as a result of calling this constructor.
   @Deprecated('Use "call" instead. Will be removed in 3.0.0.')
   Expression annotation([

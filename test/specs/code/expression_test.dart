@@ -116,6 +116,10 @@ void main() {
     expect(refer('foo').property('bar'), equalsDart('foo.bar'));
   });
 
+  test('should emit invoking a null safe property accessor', () {
+    expect(refer('foo').nullSafeProperty('bar'), equalsDart('foo?.bar'));
+  });
+
   test('should emit invoking a method with a single positional argument', () {
     expect(
       refer('foo').call([
