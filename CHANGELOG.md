@@ -88,7 +88,8 @@ void main() {
 * Added `conditional` to `Expression` to use the ternary operator `? : `
 * Methods taking `positionalArguments` accept `Iterable<Expression>`
 * **BUG FIX**: Parameters can take a `FunctionType` as a `type`.
-  `Reference.type` now returns a `Reference`.
+  `Reference.type` now returns a `Reference`. Note that this change is
+  technically breaking but should not impacts most clients.
 
 ## 2.2.0
 
