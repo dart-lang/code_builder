@@ -1,4 +1,4 @@
-## 2.3.0-dev
+## 2.3.0
 
 * Using `equalsDart` and expecting `dartfmt` by default is *deprecated*. This
   requires this package to have a direct dependency on specific versions of
