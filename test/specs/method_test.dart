@@ -145,6 +145,53 @@ void main() {
     );
   });
 
+  test('should create a method with a nested function type return type', () {
+    expect(
+      new Method((b) => b
+        ..name = 'foo'
+        ..returns = new FunctionType((b) => b
+          ..returnType = new FunctionType((b) => b
+            ..returnType = refer('String')
+            ..requiredParameters.add(refer('String')))
+          ..requiredParameters.addAll([
+            refer('int'),
+          ]))),
+      equalsDart(r'''
+        String Function(String) Function(int) foo();
+      '''),
+    );
+  });
+
+  test('should create a method with a function type argument', () {
+    expect(
+        new Method((b) => b
+          ..name = 'foo'
+          ..requiredParameters.add(new Parameter((b) => b
+            ..type = new FunctionType((b) => b
+              ..returnType = refer('String')
+              ..requiredParameters.add(refer('int')))
+            ..name = 'argument'))),
+        equalsDart(r'''
+          foo(String Function(int) argument);
+        '''));
+  });
+
+  test('should create a method with a nested function type argument', () {
+    expect(
+        new Method((b) => b
+          ..name = 'foo'
+          ..requiredParameters.add(new Parameter((b) => b
+            ..type = new FunctionType((b) => b
+              ..returnType = new FunctionType((b) => b
+                ..returnType = refer('String')
+                ..requiredParameters.add(refer('String')))
+              ..requiredParameters.add(refer('int')))
+            ..name = 'argument'))),
+        equalsDart(r'''
+          foo(String Function(String) Function(int) argument);
+        '''));
+  });
+
   test('should create a method with generic types', () {
     expect(
       new Method((b) => b

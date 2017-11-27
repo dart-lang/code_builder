@@ -123,7 +123,7 @@ class Reference extends Expression implements Spec {
       .toString();
 
   /// Returns as a [TypeReference], which allows adding generic type parameters.
-  TypeReference get type => new TypeReference((b) => b
+  Reference get type => new TypeReference((b) => b
     ..url = url
     ..symbol = symbol);
 }

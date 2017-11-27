@@ -45,5 +45,5 @@ abstract class SpecVisitor<T> {
 
   T visitType(TypeReference spec, [T context]);
 
-  T visitTypeParameters(Iterable<TypeReference> specs, [T context]);
+  T visitTypeParameters(Iterable<Reference> specs, [T context]);
 }

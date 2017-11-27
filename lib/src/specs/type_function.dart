@@ -14,7 +14,6 @@ import '../visitors.dart';
 import 'code.dart';
 import 'expression.dart';
 import 'reference.dart';
-import 'type_reference.dart';
 
 part 'type_function.g.dart';
 
@@ -58,7 +57,7 @@ abstract class FunctionType extends Expression
   String get symbol => null;
 
   @override
-  TypeReference get type => null;
+  Reference get type => this;
 
   @override
   Expression newInstance(

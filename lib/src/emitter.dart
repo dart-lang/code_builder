@@ -100,18 +100,19 @@ class DartEmitter extends Object
     visitTypeParameters(spec.types.map((r) => r.type), output);
     if (spec.extend != null) {
       output.write(' extends ');
-      visitType(spec.extend.type, output);
+      spec.extend.type.accept(this, output);
     }
     if (spec.mixins.isNotEmpty) {
       output
         ..write(' with ')
-        ..writeAll(spec.mixins.map<StringSink>((m) => visitType(m.type)), ',');
+        ..writeAll(
+            spec.mixins.map<StringSink>((m) => m.type.accept(this)), ',');
     }
     if (spec.implements.isNotEmpty) {
       output
         ..write(' implements ')
         ..writeAll(
-            spec.implements.map<StringSink>((m) => visitType(m.type)), ',');
+            spec.implements.map<StringSink>((m) => m.type.accept(this)), ',');
     }
     output.write(' {');
     spec.constructors.forEach((c) {
@@ -198,7 +199,7 @@ class DartEmitter extends Object
     }
     if (spec.redirect != null) {
       output.write(' = ');
-      visitType(spec.redirect.type, output);
+      spec.redirect.type.accept(this, output);
       output.write(';');
     } else if (spec.body != null) {
       if (_isLambdaConstructor(spec)) {
@@ -484,12 +485,12 @@ class DartEmitter extends Object
   }
 
   @override
-  visitTypeParameters(Iterable<TypeReference> specs, [StringSink output]) {
+  visitTypeParameters(Iterable<Reference> specs, [StringSink output]) {
     output ??= new StringBuffer();
     if (specs.isNotEmpty) {
       output
         ..write('<')
-        ..writeAll(specs.map<StringSink>(visitType), ',')
+        ..writeAll(specs.map<StringSink>((s) => s.accept(this)), ',')
         ..write('>');
     }
     return output;
