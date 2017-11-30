@@ -1,3 +1,8 @@
+## 2.4.0
+
+* Add `equalTo`, `notEqualTo`, `greaterThan`, `lessThan`, `greateOrEqualTo`, and
+  `lessOrEqualTo` to `Expression`.
+
 ## 2.3.0
 
 * Using `equalsDart` and expecting `dartfmt` by default is *deprecated*. This

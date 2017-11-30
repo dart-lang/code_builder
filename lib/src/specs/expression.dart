@@ -76,6 +76,60 @@ abstract class Expression implements Spec {
     );
   }
 
+  /// Returns the result of `this` `==` [other].
+  Expression equalTo(Expression other) {
+    return new BinaryExpression._(
+      expression,
+      other,
+      '==',
+    );
+  }
+
+  /// Returns the result of `this` `!=` [other].
+  Expression notEqualTo(Expression other) {
+    return new BinaryExpression._(
+      expression,
+      other,
+      '!=',
+    );
+  }
+
+  /// Returns the result of `this` `>` [other].
+  Expression greaterThan(Expression other) {
+    return new BinaryExpression._(
+      expression,
+      other,
+      '>',
+    );
+  }
+
+  /// Returns the result of `this` `<` [other].
+  Expression lessThan(Expression other) {
+    return new BinaryExpression._(
+      expression,
+      other,
+      '<',
+    );
+  }
+
+  /// Returns the result of `this` `>=` [other].
+  Expression greaterOrEqualTo(Expression other) {
+    return new BinaryExpression._(
+      expression,
+      other,
+      '>=',
+    );
+  }
+
+  /// Returns the result of `this` `<=` [other].
+  Expression lessOrEqualTo(Expression other) {
+    return new BinaryExpression._(
+      expression,
+      other,
+      '<=',
+    );
+  }
+
   Expression conditional(Expression whenTrue, Expression whenFalse) {
     return new BinaryExpression._(
       expression,
