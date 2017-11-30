@@ -359,6 +359,48 @@ void main() {
     );
   });
 
+  test('should emit an equality check', () {
+    expect(
+      refer('foo').equalTo(literalString('bar')),
+      equalsDart("foo == 'bar'"),
+    );
+  });
+
+  test('should emit an inequality check', () {
+    expect(
+      refer('foo').notEqualTo(literalString('bar')),
+      equalsDart("foo != 'bar'"),
+    );
+  });
+
+  test('should emit an greater than check', () {
+    expect(
+      refer('foo').greaterThan(literalString('bar')),
+      equalsDart("foo > 'bar'"),
+    );
+  });
+
+  test('should emit an less than check', () {
+    expect(
+      refer('foo').lessThan(literalString('bar')),
+      equalsDart("foo < 'bar'"),
+    );
+  });
+
+  test('should emit an greater or equals check', () {
+    expect(
+      refer('foo').greaterOrEqualTo(literalString('bar')),
+      equalsDart("foo >= 'bar'"),
+    );
+  });
+
+  test('should emit an less or equals check', () {
+    expect(
+      refer('foo').lessOrEqualTo(literalString('bar')),
+      equalsDart("foo <= 'bar'"),
+    );
+  });
+
   test('should emit a conditional', () {
     expect(
       refer('foo').conditional(literal(1), literal(2)),
