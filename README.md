@@ -7,27 +7,6 @@
 
 `code_builder` is a fluent Dart API for generating valid Dart source code.
 
-## Contributing
-
-* Read and help us document common patterns over [at the wiki][wiki].
-* Is there a *bug* in the code? [File an issue][issue].
-
-If a feature is missing (the Dart language is always evolving) or you'd like an
-easier or better way to do something, consider [opening a pull request][pull].
-You can always [file an issue][issue], but generally speaking feature requests
-will be on a best-effort basis.
-
-> **NOTE**: Due to the evolving Dart SDK the local `dartfmt` must be used to
-> format this repository. You can run it simply from the command-line:
->
-> ```sh
-> $ pub run dart_style:format -w .
-> ```
-
-[wiki]: https://github.com/dart-lang/code_builder/wiki
-[issue]: https://github.com/dart-lang/code_builder/issues
-[pull]: https://github.com/dart-lang/code_builder/pulls
-
 ## Usage
 
 `code_builder` has a narrow and user-friendly API.
@@ -92,3 +71,24 @@ import 'package:b/b.dart' as _i2;
 _i1.Thing doThing() {}
 _i2.Other doOther() {}
 ```
+
+## Contributing
+
+* Read and help us document common patterns over [at the wiki][wiki].
+* Is there a *bug* in the code? [File an issue][issue].
+
+If a feature is missing (the Dart language is always evolving) or you'd like an
+easier or better way to do something, consider [opening a pull request][pull].
+You can always [file an issue][issue], but generally speaking feature requests
+will be on a best-effort basis.
+
+> **NOTE**: Due to the evolving Dart SDK the local `dartfmt` must be used to
+> format this repository. You can run it simply from the command-line:
+>
+> ```sh
+> $ pub run dart_style:format -w .
+> ```
+
+[wiki]: https://github.com/dart-lang/code_builder/wiki
+[issue]: https://github.com/dart-lang/code_builder/issues
+[pull]: https://github.com/dart-lang/code_builder/pulls
