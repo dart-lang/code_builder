@@ -10,7 +10,7 @@ import 'package:source_gen/source_gen.dart';
 BuildAction buildAction() {
   return new BuildAction(
     new PartBuilder([
-      new BuiltValueGenerator(),
+      const BuiltValueGenerator(),
     ]),
     'code_builder',
     inputs: const ['lib/src/specs/**.dart'],

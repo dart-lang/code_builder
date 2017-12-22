@@ -7,8 +7,6 @@ export 'src/base.dart' show lazySpec, Spec;
 export 'src/emitter.dart' show DartEmitter;
 export 'src/matchers.dart' show equalsDart, EqualsDart;
 export 'src/matchers.dart' show equalsDart;
-// ignore: deprecated_member_use
-export 'src/specs/annotation.dart' show Annotation, AnnotationBuilder;
 export 'src/specs/class.dart' show Class, ClassBuilder;
 export 'src/specs/code.dart'
     show lazyCode, Block, BlockBuilder, Code, StaticCode, ScopedCode;
@@ -38,9 +36,7 @@ export 'src/specs/expression.dart'
         literalTrue,
         literalFalse;
 export 'src/specs/field.dart' show Field, FieldBuilder, FieldModifier;
-// TODO: Remove File, FileBuilder in 3.0.0.
-// ignore: deprecated_member_use
-export 'src/specs/library.dart' show File, FileBuilder, Library, LibraryBuilder;
+export 'src/specs/library.dart' show Library, LibraryBuilder;
 export 'src/specs/method.dart'
     show
         Method,

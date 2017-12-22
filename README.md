@@ -25,7 +25,6 @@ void main() {
     ..extend = refer('Organism')
     ..methods.add(new Method.returnsVoid((b) => b
       ..name = 'eat'
-      ..lambda = true
       ..body = const Code('print(\'Yum\')'))));
   final emitter = new DartEmitter();
   print(new DartFormatter().format('${animal.accept(emitter)}'));

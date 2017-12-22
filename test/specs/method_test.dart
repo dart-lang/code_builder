@@ -24,7 +24,6 @@ void main() {
       new Method((b) => b
         ..name = 'foo'
         ..modifier = MethodModifier.async
-        ..lambda = true
         ..body = literalNull.code),
       equalsDart(r'''
         foo() async => null
@@ -37,7 +36,6 @@ void main() {
       new Method((b) => b
         ..name = 'foo'
         ..modifier = MethodModifier.asyncStar
-        ..lambda = true
         ..body = literalNull.code),
       equalsDart(r'''
         foo() async* => null
@@ -50,7 +48,6 @@ void main() {
       new Method((b) => b
         ..name = 'foo'
         ..modifier = MethodModifier.syncStar
-        ..lambda = true
         ..body = literalNull.code),
       equalsDart(r'''
         foo() sync* => null
@@ -62,7 +59,6 @@ void main() {
     expect(
       new Method((b) => b
         ..name = 'returnsTrue'
-        ..lambda = null
         ..returns = refer('bool')
         ..body = literalTrue.code),
       equalsDart(r'''
@@ -75,7 +71,6 @@ void main() {
     expect(
       new Method.returnsVoid((b) => b
         ..name = 'assignTrue'
-        ..lambda = null
         ..body = refer('topLevelFoo').assign(literalTrue).statement),
       equalsDart(r'''
         void assignTrue() {
@@ -227,7 +222,7 @@ void main() {
     );
   });
 
-  test('should create a lambda method', () {
+  test('should create a lambda method (explicitly)', () {
     expect(
       new Method((b) => b
         ..name = 'foo'
@@ -266,24 +261,6 @@ void main() {
       ),
       equalsDart(r'''
         fib(i);
-      '''),
-    );
-  });
-
-  test('should create a method with an annotated parameter [deprecated]', () {
-    expect(
-      new Method(
-        (b) => b
-          ..name = 'fib'
-          ..requiredParameters.add(
-            new Parameter((b) => b
-              ..name = 'i'
-              ..annotations.add(
-                  new Annotation((a) => a..code = const Code('deprecated')))),
-          ),
-      ),
-      equalsDart(r'''
-        fib(@deprecated i);
       '''),
     );
   });

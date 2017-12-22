@@ -14,31 +14,31 @@ part of code_builder.src.specs.library;
 // ignore_for_file: prefer_expression_function_bodies
 // ignore_for_file: sort_constructors_first
 
-class _$File extends File {
+class _$Library extends Library {
   @override
   final BuiltList<Directive> directives;
   @override
   final BuiltList<Spec> body;
 
-  factory _$File([void updates(FileBuilder b)]) =>
-      (new FileBuilder()..update(updates)).build() as _$File;
+  factory _$Library([void updates(LibraryBuilder b)]) =>
+      (new LibraryBuilder()..update(updates)).build() as _$Library;
 
-  _$File._({this.directives, this.body}) : super._() {
+  _$Library._({this.directives, this.body}) : super._() {
     if (directives == null) throw new ArgumentError.notNull('directives');
     if (body == null) throw new ArgumentError.notNull('body');
   }
 
   @override
-  File rebuild(void updates(FileBuilder b)) =>
+  Library rebuild(void updates(LibraryBuilder b)) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  _$FileBuilder toBuilder() => new _$FileBuilder()..replace(this);
+  _$LibraryBuilder toBuilder() => new _$LibraryBuilder()..replace(this);
 
   @override
   bool operator ==(dynamic other) {
     if (identical(other, this)) return true;
-    if (other is! File) return false;
+    if (other is! Library) return false;
     return directives == other.directives && body == other.body;
   }
 
@@ -49,15 +49,15 @@ class _$File extends File {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('File')
+    return (newBuiltValueToStringHelper('Library')
           ..add('directives', directives)
           ..add('body', body))
         .toString();
   }
 }
 
-class _$FileBuilder extends FileBuilder {
-  _$File _$v;
+class _$LibraryBuilder extends LibraryBuilder {
+  _$Library _$v;
 
   @override
   ListBuilder<Directive> get directives {
@@ -83,9 +83,9 @@ class _$FileBuilder extends FileBuilder {
     super.body = body;
   }
 
-  _$FileBuilder() : super._();
+  _$LibraryBuilder() : super._();
 
-  FileBuilder get _$this {
+  LibraryBuilder get _$this {
     if (_$v != null) {
       super.directives = _$v.directives?.toBuilder();
       super.body = _$v.body?.toBuilder();
@@ -95,20 +95,20 @@ class _$FileBuilder extends FileBuilder {
   }
 
   @override
-  void replace(File other) {
+  void replace(Library other) {
     if (other == null) throw new ArgumentError.notNull('other');
-    _$v = other as _$File;
+    _$v = other as _$Library;
   }
 
   @override
-  void update(void updates(FileBuilder b)) {
+  void update(void updates(LibraryBuilder b)) {
     if (updates != null) updates(this);
   }
 
   @override
-  _$File build() {
+  _$Library build() {
     final _$result = _$v ??
-        new _$File._(directives: directives?.build(), body: body?.build());
+        new _$Library._(directives: directives?.build(), body: body?.build());
     replace(_$result);
     return _$result;
   }

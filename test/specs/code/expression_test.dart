@@ -252,9 +252,7 @@ void main() {
     expect(
       refer('map').property('putIfAbsent').call([
         literalString('foo'),
-        new Method((b) => b
-          ..lambda = true
-          ..body = literalTrue.code).closure,
+        new Method((b) => b..body = literalTrue.code).closure,
       ]),
       equalsDart("map.putIfAbsent('foo', () => true)"),
     );
