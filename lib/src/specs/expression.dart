@@ -9,7 +9,6 @@ import 'package:meta/meta.dart';
 import '../base.dart';
 import '../emitter.dart';
 import '../visitors.dart';
-import 'annotation.dart';
 import 'code.dart';
 import 'method.dart';
 import 'reference.dart';
@@ -242,44 +241,6 @@ abstract class Expression implements Spec {
       '?.',
       false,
     );
-  }
-
-  /// Returns an annotation as a result of calling this constructor.
-  @Deprecated('Use "call" instead. Will be removed in 3.0.0.')
-  Expression annotation([
-    Iterable<Expression> positionalArguments,
-    Map<String, Expression> namedArguments = const {},
-    List<Reference> typeArguments = const [],
-  ]) {
-    if (positionalArguments == null) {
-      return new Annotation((b) {
-        b.code = code;
-      });
-    }
-    return new Annotation((b) {
-      b.code = new InvokeExpression._(
-        this,
-        positionalArguments.toList(),
-        namedArguments,
-        typeArguments,
-      )
-          .code;
-    });
-  }
-
-  /// Returns an annotation as a result of calling a named constructor.
-  @Deprecated('Use a combination of "property" and "call". Removing in 3.0.0.')
-  Expression annotationNamed(
-    String name,
-    Iterable<Expression> positionalArguments, [
-    Map<String, Expression> namedArguments = const {},
-    List<Reference> typeArguments = const [],
-  ]) {
-    // ignore: deprecated_member_use
-    return new Annotation((b) => b
-      ..code = new InvokeExpression._(this, positionalArguments.toList(),
-              namedArguments, typeArguments, name)
-          .code);
   }
 
   /// This expression preceded by `return`.

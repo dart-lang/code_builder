@@ -179,23 +179,6 @@ void main() {
     );
   });
 
-  test('should create a class with an annotated constructor [deprecated]', () {
-    expect(
-      new Class((b) => b
-        ..name = 'Foo'
-        ..constructors.add(new Constructor((b) => b
-          ..annotations.add(
-            new Annotation((b) => b..code = const Code('deprecated')),
-          )))),
-      equalsDart(r'''
-        class Foo {
-          @deprecated
-          Foo();
-        }
-      '''),
-    );
-  });
-
   test('should create a class with a annotated constructor', () {
     expect(
       new Class((b) => b

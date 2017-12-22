@@ -33,7 +33,6 @@ void main() {
           refer('_module').property('get1').call([]),
           refer('_module').property('get2').call([]),
         ]).code
-        ..lambda = true
         ..returns = $Thing
         ..annotations.add(refer('override'))));
 

@@ -30,9 +30,6 @@ abstract class SpecVisitor<T> {
 
   T visitField(Field spec, [T context]);
 
-  @Deprecated('Replace with visitLibrary by 3.0.0')
-  T visitFile(File spec, [T context]);
-
   T visitLibrary(Library spec, [T context]);
 
   T visitFunctionType(FunctionType spec, [T context]);

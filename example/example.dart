@@ -25,7 +25,6 @@ String animalClass() {
     ..extend = refer('Organism')
     ..methods.add(new Method.returnsVoid((b) => b
       ..name = 'eat'
-      ..lambda = null
       ..body = refer('print').call([literalString('Yum!')]).code)));
   return _dartfmt.format('${animal.accept(new DartEmitter())}');
 }

@@ -2,7 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:dart_style/dart_style.dart';
 import 'package:matcher/matcher.dart';
 
 import 'base.dart';
@@ -23,23 +22,13 @@ Matcher equalsDart(
 ///
 /// See [EqualsDart.format] to specify the default source code formatter.
 class EqualsDart extends Matcher {
-  // TODO: Remove in 3.0.0.
-  static final _formatter = new DartFormatter();
-
   /// May override to provide a function to format Dart on [equalsDart].
   ///
-  /// As of `2.x.x`, this defaults to using `dartfmt`, but in an upcoming
-  /// release (`3.x.x`) it will default to [collapseWhitespace]. This is in
-  /// order to avoid a dependency on specific versions of `dartfmt` and the
-  /// `analyzer` package.
-  ///
-  /// To future proof, see an example in code_builder's `test/common.dart`.
+  /// By default, uses [collapseWhitespace], but it is recommended to instead
+  /// use `dart_style` (dartfmt) where possible. See `test/common.dart` for an
+  /// example.
   static String Function(String) format = (String source) {
-    try {
-      return _formatter.format(source);
-    } on FormatException catch (_) {
-      return _formatter.formatStatement(source);
-    }
+    return collapseWhitespace(source);
   };
 
   static String _format(String source) {

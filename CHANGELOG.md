@@ -1,3 +1,12 @@
+## 3.0.0-alpha
+
+* Using `equalsDart` no longer formats automatically with `dartfmt`.
+
+* Removed deprecated `Annotation` and `File` classes.
+
+* `Method.lambda` is inferred based on `Method.body` where possible and now
+  defaults to `null`.
+
 ## 2.4.0
 
 * Add `equalTo`, `notEqualTo`, `greaterThan`, `lessThan`, `greateOrEqualTo`, and

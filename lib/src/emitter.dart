@@ -6,7 +6,6 @@ import 'package:meta/meta.dart';
 
 import 'allocator.dart';
 import 'base.dart';
-import 'specs/annotation.dart';
 import 'specs/class.dart';
 import 'specs/code.dart';
 import 'specs/constructor.dart';
@@ -79,11 +78,7 @@ class DartEmitter extends Object
   @override
   visitAnnotation(Expression spec, [StringSink output]) {
     (output ??= new StringBuffer()).write('@');
-    if (spec is Annotation) {
-      spec.code.accept(this, output);
-    } else {
-      spec.accept(this, output);
-    }
+    spec.accept(this, output);
     output.write(' ');
     return output;
   }
@@ -281,12 +276,7 @@ class DartEmitter extends Object
   }
 
   @override
-  visitLibrary(Library spec, [StringSink output]) => visitFile(spec, output);
-
-  @override
-  // TODO: Remove File in 3.0.0.
-  // ignore: deprecated_member_use
-  visitFile(File spec, [StringSink output]) {
+  visitLibrary(Library spec, [StringSink output]) {
     output ??= new StringBuffer();
     // Process the body first in order to prime the allocators.
     final body = new StringBuffer();

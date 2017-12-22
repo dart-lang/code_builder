@@ -128,7 +128,9 @@ abstract class MethodBuilder extends Object
   bool external = false;
 
   /// Whether this method is a simple lambda expression.
-  bool lambda = false;
+  ///
+  /// If not specified this is inferred from the [body].
+  bool lambda;
 
   /// Whether this method should be prefixed with `static`.
   ///
