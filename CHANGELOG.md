@@ -1,3 +1,7 @@
+## 3.0.0-alpha+1
+
+* Also infer `Constructor.lambda` for `factory` constructors.
+
 ## 3.0.0-alpha
 
 * Using `equalsDart` no longer formats automatically with `dartfmt`.
