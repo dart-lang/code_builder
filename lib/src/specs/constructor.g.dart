@@ -67,7 +67,6 @@ class _$Constructor extends Constructor {
     if (external == null) throw new ArgumentError.notNull('external');
     if (constant == null) throw new ArgumentError.notNull('constant');
     if (factory == null) throw new ArgumentError.notNull('factory');
-    if (lambda == null) throw new ArgumentError.notNull('lambda');
   }
 
   @override

@@ -264,6 +264,21 @@ void main() {
     );
   });
 
+  test('should create a class with an implicit factory lambda constructor', () {
+    expect(
+      new Class((b) => b
+        ..name = 'Foo'
+        ..constructors.add(new Constructor((b) => b
+          ..factory = true
+          ..body = refer('_Foo').newInstance([]).code))),
+      equalsDart(r'''
+        class Foo {
+          factory Foo() => new _Foo();
+        }
+      '''),
+    );
+  });
+
   test('should create a class with a constructor with a body', () {
     expect(
       new Class((b) => b

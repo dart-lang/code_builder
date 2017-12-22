@@ -54,6 +54,7 @@ abstract class Constructor extends Object
   bool get factory;
 
   /// Whether this constructor is a simple lambda expression.
+  @nullable
   bool get lambda;
 
   /// Name of the constructor - optional.
@@ -100,7 +101,7 @@ abstract class ConstructorBuilder extends Object
   bool factory = false;
 
   /// Whether this constructor is a simple lambda expression.
-  bool lambda = false;
+  bool lambda;
 
   /// Name of the constructor - optional.
   String name;
