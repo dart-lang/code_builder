@@ -1,4 +1,4 @@
-## 3.0.0-alpha+1
+## 3.0.0
 
 * Also infer `Constructor.lambda` for `factory` constructors.
 
