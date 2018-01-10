@@ -42,11 +42,13 @@ class _$Field extends Field {
       this.type,
       this.modifier})
       : super._() {
-    if (annotations == null) throw new ArgumentError.notNull('annotations');
-    if (docs == null) throw new ArgumentError.notNull('docs');
-    if (static == null) throw new ArgumentError.notNull('static');
-    if (name == null) throw new ArgumentError.notNull('name');
-    if (modifier == null) throw new ArgumentError.notNull('modifier');
+    if (annotations == null)
+      throw new BuiltValueNullFieldError('Field', 'annotations');
+    if (docs == null) throw new BuiltValueNullFieldError('Field', 'docs');
+    if (static == null) throw new BuiltValueNullFieldError('Field', 'static');
+    if (name == null) throw new BuiltValueNullFieldError('Field', 'name');
+    if (modifier == null)
+      throw new BuiltValueNullFieldError('Field', 'modifier');
   }
 
   @override
@@ -213,15 +215,30 @@ class _$FieldBuilder extends FieldBuilder {
 
   @override
   _$Field build() {
-    final _$result = _$v ??
-        new _$Field._(
-            annotations: annotations?.build(),
-            docs: docs?.build(),
-            assignment: assignment,
-            static: static,
-            name: name,
-            type: type,
-            modifier: modifier);
+    _$Field _$result;
+    try {
+      _$result = _$v ??
+          new _$Field._(
+              annotations: annotations.build(),
+              docs: docs.build(),
+              assignment: assignment,
+              static: static,
+              name: name,
+              type: type,
+              modifier: modifier);
+    } catch (_) {
+      String _$failedField;
+      try {
+        _$failedField = 'annotations';
+        annotations.build();
+        _$failedField = 'docs';
+        docs.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'Field', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }

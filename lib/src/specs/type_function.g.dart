@@ -36,13 +36,14 @@ class _$FunctionType extends FunctionType {
       this.optionalParameters,
       this.namedParameters})
       : super._() {
-    if (types == null) throw new ArgumentError.notNull('types');
+    if (types == null)
+      throw new BuiltValueNullFieldError('FunctionType', 'types');
     if (requiredParameters == null)
-      throw new ArgumentError.notNull('requiredParameters');
+      throw new BuiltValueNullFieldError('FunctionType', 'requiredParameters');
     if (optionalParameters == null)
-      throw new ArgumentError.notNull('optionalParameters');
+      throw new BuiltValueNullFieldError('FunctionType', 'optionalParameters');
     if (namedParameters == null)
-      throw new ArgumentError.notNull('namedParameters');
+      throw new BuiltValueNullFieldError('FunctionType', 'namedParameters');
   }
 
   @override
@@ -176,13 +177,32 @@ class _$FunctionTypeBuilder extends FunctionTypeBuilder {
 
   @override
   _$FunctionType build() {
-    final _$result = _$v ??
-        new _$FunctionType._(
-            returnType: returnType,
-            types: types?.build(),
-            requiredParameters: requiredParameters?.build(),
-            optionalParameters: optionalParameters?.build(),
-            namedParameters: namedParameters?.build());
+    _$FunctionType _$result;
+    try {
+      _$result = _$v ??
+          new _$FunctionType._(
+              returnType: returnType,
+              types: types.build(),
+              requiredParameters: requiredParameters.build(),
+              optionalParameters: optionalParameters.build(),
+              namedParameters: namedParameters.build());
+    } catch (_) {
+      String _$failedField;
+      try {
+        _$failedField = 'types';
+        types.build();
+        _$failedField = 'requiredParameters';
+        requiredParameters.build();
+        _$failedField = 'optionalParameters';
+        optionalParameters.build();
+        _$failedField = 'namedParameters';
+        namedParameters.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'FunctionType', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }

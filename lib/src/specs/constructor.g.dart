@@ -57,16 +57,21 @@ class _$Constructor extends Constructor {
       this.name,
       this.redirect})
       : super._() {
-    if (annotations == null) throw new ArgumentError.notNull('annotations');
-    if (docs == null) throw new ArgumentError.notNull('docs');
+    if (annotations == null)
+      throw new BuiltValueNullFieldError('Constructor', 'annotations');
+    if (docs == null) throw new BuiltValueNullFieldError('Constructor', 'docs');
     if (optionalParameters == null)
-      throw new ArgumentError.notNull('optionalParameters');
+      throw new BuiltValueNullFieldError('Constructor', 'optionalParameters');
     if (requiredParameters == null)
-      throw new ArgumentError.notNull('requiredParameters');
-    if (initializers == null) throw new ArgumentError.notNull('initializers');
-    if (external == null) throw new ArgumentError.notNull('external');
-    if (constant == null) throw new ArgumentError.notNull('constant');
-    if (factory == null) throw new ArgumentError.notNull('factory');
+      throw new BuiltValueNullFieldError('Constructor', 'requiredParameters');
+    if (initializers == null)
+      throw new BuiltValueNullFieldError('Constructor', 'initializers');
+    if (external == null)
+      throw new BuiltValueNullFieldError('Constructor', 'external');
+    if (constant == null)
+      throw new BuiltValueNullFieldError('Constructor', 'constant');
+    if (factory == null)
+      throw new BuiltValueNullFieldError('Constructor', 'factory');
   }
 
   @override
@@ -320,20 +325,41 @@ class _$ConstructorBuilder extends ConstructorBuilder {
 
   @override
   _$Constructor build() {
-    final _$result = _$v ??
-        new _$Constructor._(
-            annotations: annotations?.build(),
-            docs: docs?.build(),
-            optionalParameters: optionalParameters?.build(),
-            requiredParameters: requiredParameters?.build(),
-            initializers: initializers?.build(),
-            body: body,
-            external: external,
-            constant: constant,
-            factory: factory,
-            lambda: lambda,
-            name: name,
-            redirect: redirect);
+    _$Constructor _$result;
+    try {
+      _$result = _$v ??
+          new _$Constructor._(
+              annotations: annotations.build(),
+              docs: docs.build(),
+              optionalParameters: optionalParameters.build(),
+              requiredParameters: requiredParameters.build(),
+              initializers: initializers.build(),
+              body: body,
+              external: external,
+              constant: constant,
+              factory: factory,
+              lambda: lambda,
+              name: name,
+              redirect: redirect);
+    } catch (_) {
+      String _$failedField;
+      try {
+        _$failedField = 'annotations';
+        annotations.build();
+        _$failedField = 'docs';
+        docs.build();
+        _$failedField = 'optionalParameters';
+        optionalParameters.build();
+        _$failedField = 'requiredParameters';
+        requiredParameters.build();
+        _$failedField = 'initializers';
+        initializers.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'Constructor', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }
