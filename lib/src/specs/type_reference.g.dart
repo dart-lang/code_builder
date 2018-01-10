@@ -29,8 +29,10 @@ class _$TypeReference extends TypeReference {
 
   _$TypeReference._({this.symbol, this.url, this.bound, this.types})
       : super._() {
-    if (symbol == null) throw new ArgumentError.notNull('symbol');
-    if (types == null) throw new ArgumentError.notNull('types');
+    if (symbol == null)
+      throw new BuiltValueNullFieldError('TypeReference', 'symbol');
+    if (types == null)
+      throw new BuiltValueNullFieldError('TypeReference', 'types');
   }
 
   @override
@@ -146,9 +148,22 @@ class _$TypeReferenceBuilder extends TypeReferenceBuilder {
 
   @override
   _$TypeReference build() {
-    final _$result = _$v ??
-        new _$TypeReference._(
-            symbol: symbol, url: url, bound: bound, types: types?.build());
+    _$TypeReference _$result;
+    try {
+      _$result = _$v ??
+          new _$TypeReference._(
+              symbol: symbol, url: url, bound: bound, types: types.build());
+    } catch (_) {
+      String _$failedField;
+      try {
+        _$failedField = 'types';
+        types.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'TypeReference', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }
