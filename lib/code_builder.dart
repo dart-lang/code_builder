@@ -27,6 +27,7 @@ export 'src/specs/expression.dart'
         LiteralListExpression,
         literal,
         literalNull,
+        literalNum,
         literalBool,
         literalList,
         literalConstList,

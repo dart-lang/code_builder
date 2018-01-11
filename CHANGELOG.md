@@ -1,3 +1,7 @@
+## 3.0.1
+
+* Export the `literalNum` function.
+
 ## 3.0.0
 
 * Also infer `Constructor.lambda` for `factory` constructors.
