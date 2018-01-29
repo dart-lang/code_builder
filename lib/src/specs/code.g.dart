@@ -22,7 +22,8 @@ class _$Block extends Block {
       (new BlockBuilder()..update(updates)).build() as _$Block;
 
   _$Block._({this.statements}) : super._() {
-    if (statements == null) throw new ArgumentError.notNull('statements');
+    if (statements == null)
+      throw new BuiltValueNullFieldError('Block', 'statements');
   }
 
   @override
@@ -89,7 +90,20 @@ class _$BlockBuilder extends BlockBuilder {
 
   @override
   _$Block build() {
-    final _$result = _$v ?? new _$Block._(statements: statements?.build());
+    _$Block _$result;
+    try {
+      _$result = _$v ?? new _$Block._(statements: statements.build());
+    } catch (_) {
+      String _$failedField;
+      try {
+        _$failedField = 'statements';
+        statements.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'Block', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }

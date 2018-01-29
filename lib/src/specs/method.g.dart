@@ -60,15 +60,17 @@ class _$Method extends Method {
       this.modifier,
       this.returns})
       : super._() {
-    if (annotations == null) throw new ArgumentError.notNull('annotations');
-    if (docs == null) throw new ArgumentError.notNull('docs');
-    if (types == null) throw new ArgumentError.notNull('types');
+    if (annotations == null)
+      throw new BuiltValueNullFieldError('Method', 'annotations');
+    if (docs == null) throw new BuiltValueNullFieldError('Method', 'docs');
+    if (types == null) throw new BuiltValueNullFieldError('Method', 'types');
     if (optionalParameters == null)
-      throw new ArgumentError.notNull('optionalParameters');
+      throw new BuiltValueNullFieldError('Method', 'optionalParameters');
     if (requiredParameters == null)
-      throw new ArgumentError.notNull('requiredParameters');
-    if (external == null) throw new ArgumentError.notNull('external');
-    if (static == null) throw new ArgumentError.notNull('static');
+      throw new BuiltValueNullFieldError('Method', 'requiredParameters');
+    if (external == null)
+      throw new BuiltValueNullFieldError('Method', 'external');
+    if (static == null) throw new BuiltValueNullFieldError('Method', 'static');
   }
 
   @override
@@ -341,21 +343,42 @@ class _$MethodBuilder extends MethodBuilder {
 
   @override
   _$Method build() {
-    final _$result = _$v ??
-        new _$Method._(
-            annotations: annotations?.build(),
-            docs: docs?.build(),
-            types: types?.build(),
-            optionalParameters: optionalParameters?.build(),
-            requiredParameters: requiredParameters?.build(),
-            body: body,
-            external: external,
-            lambda: lambda,
-            static: static,
-            name: name,
-            type: type,
-            modifier: modifier,
-            returns: returns);
+    _$Method _$result;
+    try {
+      _$result = _$v ??
+          new _$Method._(
+              annotations: annotations.build(),
+              docs: docs.build(),
+              types: types.build(),
+              optionalParameters: optionalParameters.build(),
+              requiredParameters: requiredParameters.build(),
+              body: body,
+              external: external,
+              lambda: lambda,
+              static: static,
+              name: name,
+              type: type,
+              modifier: modifier,
+              returns: returns);
+    } catch (_) {
+      String _$failedField;
+      try {
+        _$failedField = 'annotations';
+        annotations.build();
+        _$failedField = 'docs';
+        docs.build();
+        _$failedField = 'types';
+        types.build();
+        _$failedField = 'optionalParameters';
+        optionalParameters.build();
+        _$failedField = 'requiredParameters';
+        requiredParameters.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'Method', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }
@@ -392,12 +415,14 @@ class _$Parameter extends Parameter {
       this.types,
       this.type})
       : super._() {
-    if (name == null) throw new ArgumentError.notNull('name');
-    if (named == null) throw new ArgumentError.notNull('named');
-    if (toThis == null) throw new ArgumentError.notNull('toThis');
-    if (annotations == null) throw new ArgumentError.notNull('annotations');
-    if (docs == null) throw new ArgumentError.notNull('docs');
-    if (types == null) throw new ArgumentError.notNull('types');
+    if (name == null) throw new BuiltValueNullFieldError('Parameter', 'name');
+    if (named == null) throw new BuiltValueNullFieldError('Parameter', 'named');
+    if (toThis == null)
+      throw new BuiltValueNullFieldError('Parameter', 'toThis');
+    if (annotations == null)
+      throw new BuiltValueNullFieldError('Parameter', 'annotations');
+    if (docs == null) throw new BuiltValueNullFieldError('Parameter', 'docs');
+    if (types == null) throw new BuiltValueNullFieldError('Parameter', 'types');
   }
 
   @override
@@ -581,16 +606,33 @@ class _$ParameterBuilder extends ParameterBuilder {
 
   @override
   _$Parameter build() {
-    final _$result = _$v ??
-        new _$Parameter._(
-            defaultTo: defaultTo,
-            name: name,
-            named: named,
-            toThis: toThis,
-            annotations: annotations?.build(),
-            docs: docs?.build(),
-            types: types?.build(),
-            type: type);
+    _$Parameter _$result;
+    try {
+      _$result = _$v ??
+          new _$Parameter._(
+              defaultTo: defaultTo,
+              name: name,
+              named: named,
+              toThis: toThis,
+              annotations: annotations.build(),
+              docs: docs.build(),
+              types: types.build(),
+              type: type);
+    } catch (_) {
+      String _$failedField;
+      try {
+        _$failedField = 'annotations';
+        annotations.build();
+        _$failedField = 'docs';
+        docs.build();
+        _$failedField = 'types';
+        types.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'Parameter', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }
