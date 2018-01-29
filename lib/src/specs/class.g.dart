@@ -54,16 +54,20 @@ class _$Class extends Class {
       this.fields,
       this.name})
       : super._() {
-    if (abstract == null) throw new ArgumentError.notNull('abstract');
-    if (annotations == null) throw new ArgumentError.notNull('annotations');
-    if (docs == null) throw new ArgumentError.notNull('docs');
-    if (implements == null) throw new ArgumentError.notNull('implements');
-    if (mixins == null) throw new ArgumentError.notNull('mixins');
-    if (types == null) throw new ArgumentError.notNull('types');
-    if (constructors == null) throw new ArgumentError.notNull('constructors');
-    if (methods == null) throw new ArgumentError.notNull('methods');
-    if (fields == null) throw new ArgumentError.notNull('fields');
-    if (name == null) throw new ArgumentError.notNull('name');
+    if (abstract == null)
+      throw new BuiltValueNullFieldError('Class', 'abstract');
+    if (annotations == null)
+      throw new BuiltValueNullFieldError('Class', 'annotations');
+    if (docs == null) throw new BuiltValueNullFieldError('Class', 'docs');
+    if (implements == null)
+      throw new BuiltValueNullFieldError('Class', 'implements');
+    if (mixins == null) throw new BuiltValueNullFieldError('Class', 'mixins');
+    if (types == null) throw new BuiltValueNullFieldError('Class', 'types');
+    if (constructors == null)
+      throw new BuiltValueNullFieldError('Class', 'constructors');
+    if (methods == null) throw new BuiltValueNullFieldError('Class', 'methods');
+    if (fields == null) throw new BuiltValueNullFieldError('Class', 'fields');
+    if (name == null) throw new BuiltValueNullFieldError('Class', 'name');
   }
 
   @override
@@ -300,19 +304,47 @@ class _$ClassBuilder extends ClassBuilder {
 
   @override
   _$Class build() {
-    final _$result = _$v ??
-        new _$Class._(
-            abstract: abstract,
-            annotations: annotations?.build(),
-            docs: docs?.build(),
-            extend: extend,
-            implements: implements?.build(),
-            mixins: mixins?.build(),
-            types: types?.build(),
-            constructors: constructors?.build(),
-            methods: methods?.build(),
-            fields: fields?.build(),
-            name: name);
+    _$Class _$result;
+    try {
+      _$result = _$v ??
+          new _$Class._(
+              abstract: abstract,
+              annotations: annotations.build(),
+              docs: docs.build(),
+              extend: extend,
+              implements: implements.build(),
+              mixins: mixins.build(),
+              types: types.build(),
+              constructors: constructors.build(),
+              methods: methods.build(),
+              fields: fields.build(),
+              name: name);
+    } catch (_) {
+      String _$failedField;
+      try {
+        _$failedField = 'annotations';
+        annotations.build();
+        _$failedField = 'docs';
+        docs.build();
+
+        _$failedField = 'implements';
+        implements.build();
+        _$failedField = 'mixins';
+        mixins.build();
+        _$failedField = 'types';
+        types.build();
+        _$failedField = 'constructors';
+        constructors.build();
+        _$failedField = 'methods';
+        methods.build();
+        _$failedField = 'fields';
+        fields.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'Class', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }

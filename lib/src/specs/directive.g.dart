@@ -34,11 +34,12 @@ class _$Directive extends Directive {
   _$Directive._(
       {this.as, this.url, this.type, this.show, this.hide, this.deferred})
       : super._() {
-    if (url == null) throw new ArgumentError.notNull('url');
-    if (type == null) throw new ArgumentError.notNull('type');
-    if (show == null) throw new ArgumentError.notNull('show');
-    if (hide == null) throw new ArgumentError.notNull('hide');
-    if (deferred == null) throw new ArgumentError.notNull('deferred');
+    if (url == null) throw new BuiltValueNullFieldError('Directive', 'url');
+    if (type == null) throw new BuiltValueNullFieldError('Directive', 'type');
+    if (show == null) throw new BuiltValueNullFieldError('Directive', 'show');
+    if (hide == null) throw new BuiltValueNullFieldError('Directive', 'hide');
+    if (deferred == null)
+      throw new BuiltValueNullFieldError('Directive', 'deferred');
   }
 
   @override

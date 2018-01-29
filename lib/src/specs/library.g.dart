@@ -24,8 +24,9 @@ class _$Library extends Library {
       (new LibraryBuilder()..update(updates)).build() as _$Library;
 
   _$Library._({this.directives, this.body}) : super._() {
-    if (directives == null) throw new ArgumentError.notNull('directives');
-    if (body == null) throw new ArgumentError.notNull('body');
+    if (directives == null)
+      throw new BuiltValueNullFieldError('Library', 'directives');
+    if (body == null) throw new BuiltValueNullFieldError('Library', 'body');
   }
 
   @override
@@ -107,8 +108,23 @@ class _$LibraryBuilder extends LibraryBuilder {
 
   @override
   _$Library build() {
-    final _$result = _$v ??
-        new _$Library._(directives: directives?.build(), body: body?.build());
+    _$Library _$result;
+    try {
+      _$result = _$v ??
+          new _$Library._(directives: directives.build(), body: body.build());
+    } catch (_) {
+      String _$failedField;
+      try {
+        _$failedField = 'directives';
+        directives.build();
+        _$failedField = 'body';
+        body.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'Library', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }

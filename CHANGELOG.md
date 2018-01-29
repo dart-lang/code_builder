@@ -1,3 +1,7 @@
+## 3.0.2
+
+* Upgrade to `built_value` 5.1.0.
+
 ## 3.0.1
 
 * Export the `literalNum` function.
