@@ -20,6 +20,9 @@ Expression literal(Object literal, {Expression onError(Object value)}) {
   if (literal is List) {
     return literalList(literal);
   }
+  if (literal is Map) {
+    return literalMap(literal);
+  }
   if (literal == null) {
     return literalNull;
   }
