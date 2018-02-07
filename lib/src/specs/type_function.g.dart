@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of code_builder.src.specs.type_function;
+part of 'type_function.dart';
 
 // **************************************************************************
 // Generator: BuiltValueGenerator
