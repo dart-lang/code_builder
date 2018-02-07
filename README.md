@@ -91,3 +91,13 @@ will be on a best-effort basis.
 [wiki]: https://github.com/dart-lang/code_builder/wiki
 [issue]: https://github.com/dart-lang/code_builder/issues
 [pull]: https://github.com/dart-lang/code_builder/pulls
+
+### Updating generated (`.g.dart`) files
+
+Use [`build_runner`][build_runner]:
+
+```bash
+$ pub run build_runner build --delete-conflicting-outputs
+```
+
+[build_runner]: https://pub.dartlang.org/packages/build_runner

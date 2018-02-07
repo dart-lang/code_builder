@@ -2,17 +2,13 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:build_runner/build_runner.dart';
+import 'package:build/build.dart';
 import 'package:built_value_generator/built_value_generator.dart';
 import 'package:source_gen/source_gen.dart';
 
-/// Returns the [BuildAction] for both `build.dart` and `watch.dart`.
-BuildAction buildAction() {
-  return new BuildAction(
-    new PartBuilder([
-      const BuiltValueGenerator(),
-    ]),
-    'code_builder',
-    inputs: const ['lib/src/specs/**.dart'],
-  );
+/// Returns a [Builder] to generate `.g.dart` files for `built_value`.
+Builder builtValueBuilder(BuilderOptions _) {
+  return new PartBuilder([
+    const BuiltValueGenerator(),
+  ]);
 }
