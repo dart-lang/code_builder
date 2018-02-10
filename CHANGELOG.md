@@ -1,3 +1,9 @@
+## 3.0.3
+
+* Fix a bug that caused all downstream users of `code_builder` to crash due to
+  `build_runner` trying to import our private builder (in `tool/`). Sorry for
+  the inconvenience.
+
 ## 3.0.2
 
 * Require `source_gen: ^0.7.5`.

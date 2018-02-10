@@ -94,10 +94,16 @@ will be on a best-effort basis.
 
 ### Updating generated (`.g.dart`) files
 
+> **NOTE**: There is currently a limitation in `build_runner` that requires
+> a workaround for developing this package. We expect this to be unnecessary
+> in the future.
+
 Use [`build_runner`][build_runner]:
 
 ```bash
+$ mv build.disabled.yaml build.yaml
 $ pub run build_runner build --delete-conflicting-outputs
+$ mv build.yaml build.disabled.yaml
 ```
 
 [build_runner]: https://pub.dartlang.org/packages/build_runner
