@@ -1,3 +1,7 @@
+## 3.0.2
+
+* Require `source_gen: ^0.7.5`.
+
 ## 3.0.1
 
 * Upgrade to `built_value` 5.1.0.
