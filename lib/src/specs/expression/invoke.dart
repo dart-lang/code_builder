@@ -23,8 +23,7 @@ class InvokeExpression extends Expression {
     this.namedArguments = const {},
     this.typeArguments,
     this.name,
-  ])
-      : type = null;
+  ]) : type = null;
 
   @visibleForTesting
   const InvokeExpression.newOf(
@@ -33,8 +32,7 @@ class InvokeExpression extends Expression {
     this.namedArguments = const {},
     this.typeArguments,
     this.name,
-  ])
-      : type = InvokeExpressionType.newInstance;
+  ]) : type = InvokeExpressionType.newInstance;
 
   @visibleForTesting
   const InvokeExpression.constOf(
@@ -43,8 +41,7 @@ class InvokeExpression extends Expression {
     this.namedArguments = const {},
     this.typeArguments,
     this.name,
-  ])
-      : type = InvokeExpressionType.constInstance;
+  ]) : type = InvokeExpressionType.constInstance;
 
   @override
   R accept<R>(ExpressionVisitor<R> visitor, [R context]) {
