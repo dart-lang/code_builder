@@ -4,7 +4,6 @@
 
 part of code_builder.src.specs.expression;
 
-@visibleForTesting
 Expression toClosure(Method method) {
   final withoutTypes = method.rebuild((b) {
     b.returns = null;

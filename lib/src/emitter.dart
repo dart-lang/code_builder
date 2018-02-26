@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:meta/meta.dart';
-
 import 'allocator.dart';
 import 'base.dart';
 import 'specs/class.dart';
@@ -24,7 +22,6 @@ import 'visitors.dart';
 /// For every `Spec` in [elements], executing [visit].
 ///
 /// If [elements] is at least 2 elements, inserts [separator] delimiting them.
-@visibleForTesting
 StringSink visitAll<T>(
   Iterable<T> elements,
   StringSink output,
