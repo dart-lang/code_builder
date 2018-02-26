@@ -25,7 +25,6 @@ class InvokeExpression extends Expression {
     this.name,
   ]) : type = null;
 
-  @visibleForTesting
   const InvokeExpression.newOf(
     this.target,
     this.positionalArguments, [
@@ -34,7 +33,6 @@ class InvokeExpression extends Expression {
     this.name,
   ]) : type = InvokeExpressionType.newInstance;
 
-  @visibleForTesting
   const InvokeExpression.constOf(
     this.target,
     this.positionalArguments, [
