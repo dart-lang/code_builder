@@ -3,7 +3,7 @@
 [![Pub package](https://img.shields.io/pub/v/code_builder.svg)](https://pub.dartlang.org/packages/code_builder)
 [![Build status](https://travis-ci.org/dart-lang/code_builder.svg)](https://travis-ci.org/dart-lang/code_builder)
 [![Latest docs](https://img.shields.io/badge/dartdocs-latest-blue.svg)](https://www.dartdocs.org/documentation/code_builder/latest)
-[![Gitter chat](https://badges.gitter.im/dart-lang/source_gen.svg)](https://gitter.im/dart-lang/source_gen)
+[![Gitter chat](https://badges.gitter.im/dart-lang/build.svg)](https://gitter.im/dart-lang/build)
 
 `code_builder` is a fluent Dart API for generating valid Dart source code.
 
