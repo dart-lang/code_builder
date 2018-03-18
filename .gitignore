@@ -1,14 +1,5 @@
 # Files and directories created by pub
-.buildlog
+.dart_tool
 .packages
-.project
 .pub
-**/build
-**/packages
-
-# Directory created by dartdoc
-doc/api/
-
-# Don't commit pubspec lock file
-# (Library packages only! Remove pattern if developing an application package)
 pubspec.lock
