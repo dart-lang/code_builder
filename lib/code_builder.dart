@@ -6,7 +6,6 @@ export 'src/allocator.dart' show Allocator;
 export 'src/base.dart' show lazySpec, Spec;
 export 'src/emitter.dart' show DartEmitter;
 export 'src/matchers.dart' show equalsDart, EqualsDart;
-export 'src/matchers.dart' show equalsDart;
 export 'src/specs/class.dart' show Class, ClassBuilder;
 export 'src/specs/code.dart'
     show lazyCode, Block, BlockBuilder, Code, StaticCode, ScopedCode;
