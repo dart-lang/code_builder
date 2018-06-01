@@ -1,3 +1,18 @@
+## 3.0.4
+
+* Added `Expression.asA` for creating explicit casts:
+
+```dart
+void main() {
+  test('should emit an explicit cast', () {
+    expect(
+      refer('foo').asA(refer('String')),
+      equalsDart('foo as String'),
+    );
+  });
+}
+```
+
 ## 3.0.3
 
 * Fix a bug that caused all downstream users of `code_builder` to crash due to
@@ -314,7 +329,7 @@ are welcome!
   * `const Code.scope((allocate) => '')`
 
 * Removed `SimpleSpecVisitor` (it was unused).
-* Removed `implements Reference` from `Method` and `Field`; not a lot of value. 
+* Removed `implements Reference` from `Method` and `Field`; not a lot of value.
 
 * `SpecVisitor<T>`'s methods all have an optional `[T context]` parameter now.
   * This makes it much easier to avoid allocating extra `StringBuffer`s.
@@ -353,7 +368,7 @@ final animal = new Class((b) => b
 
 ```dart
 expect(
-  reference('foo').isInstanceOf(_barType), 
+  reference('foo').isInstanceOf(_barType),
   equalsSource('foo is Bar'),
 );
 ```
@@ -403,7 +418,7 @@ that the entire Dart language is buildable with our API, though.
 - Added `ConstructorBuilder.redirectTo` for a redirecting factory constructor.
 - Added a `name` getter to `ReferenceBuilder`.
 - Supplying an empty constructor name (`''`) is equivalent to `null` (default).
-- Automatically encodes string literals with multiple lines as `'''`. 
+- Automatically encodes string literals with multiple lines as `'''`.
 - Added `asThrow` to `ExpressionBuilder`.
 - Fixed a bug that prevented `FieldBuilder` from being used at the top-level.
 

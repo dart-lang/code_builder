@@ -44,6 +44,15 @@ abstract class Expression implements Spec {
     return new BinaryExpression._(expression, other, '&&');
   }
 
+  /// Returns the result of `this` `as` [other].
+  Expression asA(Expression other) {
+    return new BinaryExpression._(
+      expression,
+      other,
+      'as',
+    );
+  }
+
   /// Returns accessing the index operator (`[]`) on `this`.
   Expression index(Expression index) {
     return new BinaryExpression._(
