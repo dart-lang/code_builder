@@ -343,6 +343,13 @@ void main() {
     );
   });
 
+  test('should emit an explicit cast', () {
+    expect(
+      refer('foo').asA(refer('String')),
+      equalsDart('foo as String'),
+    );
+  });
+
   test('should emit an is check', () {
     expect(
       refer('foo').isA(refer('String')),
