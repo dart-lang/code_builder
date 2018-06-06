@@ -17,8 +17,8 @@ abstract class Directive implements Built<Directive, DirectiveBuilder>, Spec {
   factory Directive.import(
     String url, {
     String as,
-    List<String> show: const [],
-    List<String> hide: const [],
+    List<String> show = const [],
+    List<String> hide = const [],
   }) =>
       new Directive((builder) => builder
         ..as = as
@@ -30,8 +30,8 @@ abstract class Directive implements Built<Directive, DirectiveBuilder>, Spec {
   factory Directive.importDeferredAs(
     String url,
     String as, {
-    List<String> show: const [],
-    List<String> hide: const [],
+    List<String> show = const [],
+    List<String> hide = const [],
   }) =>
       new Directive((builder) => builder
         ..as = as
@@ -43,8 +43,8 @@ abstract class Directive implements Built<Directive, DirectiveBuilder>, Spec {
 
   factory Directive.export(
     String url, {
-    List<String> show: const [],
-    List<String> hide: const [],
+    List<String> show = const [],
+    List<String> hide = const [],
   }) =>
       new Directive((builder) => builder
         ..type = DirectiveType.export
