@@ -427,8 +427,8 @@ class DartEmitter extends Object
   void _visitParameter(
     Parameter spec,
     StringSink output, {
-    bool optional: false,
-    bool named: false,
+    bool optional = false,
+    bool named = false,
   }) {
     spec.docs.forEach(output.writeln);
     spec.annotations.forEach((a) => visitAnnotation(a, output));
