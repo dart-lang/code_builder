@@ -345,8 +345,8 @@ void main() {
 
   test('should emit an explicit cast', () {
     expect(
-      refer('foo').asA(refer('String')),
-      equalsDart('foo as String'),
+      refer('foo').asA(refer('String')).property('length'),
+      equalsDart('( foo as String ).length'),
     );
   });
 

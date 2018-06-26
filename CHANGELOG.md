@@ -1,3 +1,9 @@
+## 3.1.1
+
+* `Expression.asA` is now wrapped with parenthesis so that further calls may be
+  made on it as an expression.
+
+
 ## 3.1.0
 
 * Added `Expression.asA` for creating explicit casts:

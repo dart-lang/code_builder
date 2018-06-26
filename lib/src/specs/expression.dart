@@ -46,11 +46,15 @@ abstract class Expression implements Spec {
 
   /// Returns the result of `this` `as` [other].
   Expression asA(Expression other) {
-    return new BinaryExpression._(
-      expression,
-      other,
-      'as',
-    );
+    return new CodeExpression(new Block.of([
+      const Code('('),
+      new BinaryExpression._(
+        expression,
+        other,
+        'as',
+      ).code,
+      const Code(')')
+    ]));
   }
 
   /// Returns accessing the index operator (`[]`) on `this`.
