@@ -18,4 +18,4 @@ branches:
 dart_task:
   - test: --platform vm
   - dartanalyzer
-  - dartfmt: sdk
+  - dartfmt
