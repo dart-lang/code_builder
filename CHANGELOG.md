@@ -1,3 +1,7 @@
+## 3.1.2
+
+* Set max SDK version to `<3.0.0`.
+
 ## 3.1.1
 
 * `Expression.asA` is now wrapped with parenthesis so that further calls may be
