@@ -142,6 +142,51 @@ abstract class Expression implements Spec {
     );
   }
 
+  /// Returns the result of `this` `+` [other].
+  Expression operatorAdd(Expression other) {
+    return new BinaryExpression._(
+      expression,
+      other,
+      '+',
+    );
+  }
+
+  /// Returns the result of `this` `-` [other].
+  Expression operatorSubstract(Expression other) {
+    return new BinaryExpression._(
+      expression,
+      other,
+      '-',
+    );
+  }
+
+  /// Returns the result of `this` `/` [other].
+  Expression operatorDivide(Expression other) {
+    return new BinaryExpression._(
+      expression,
+      other,
+      '/',
+    );
+  }
+
+  /// Returns the result of `this` `*` [other].
+  Expression operatorMultiply(Expression other) {
+    return new BinaryExpression._(
+      expression,
+      other,
+      '*',
+    );
+  }
+
+  /// Returns the result of `this` `%` [other].
+  Expression operatorEuclideanModulo(Expression other) {
+    return new BinaryExpression._(
+      expression,
+      other,
+      '%',
+    );
+  }
+
   Expression conditional(Expression whenTrue, Expression whenFalse) {
     return new BinaryExpression._(
       expression,

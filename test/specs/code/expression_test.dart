@@ -412,4 +412,28 @@ void main() {
       equalsDart('foo ? 1 : 2'),
     );
   });
+
+  test('should emit an operator add call', () {
+    expect(refer('foo').operatorAdd(refer('foo2')), equalsDart('foo + foo2'));
+  });
+
+  test('should emit an operator substract call', () {
+    expect(refer('foo').operatorSubstract(refer('foo2')),
+        equalsDart('foo - foo2'));
+  });
+
+  test('should emit an operator divide call', () {
+    expect(
+        refer('foo').operatorDivide(refer('foo2')), equalsDart('foo / foo2'));
+  });
+
+  test('should emit an operator multiply call', () {
+    expect(
+        refer('foo').operatorMultiply(refer('foo2')), equalsDart('foo * foo2'));
+  });
+
+  test('should emit an euclidean modulo operator call', () {
+    expect(refer('foo').operatorEuclideanModulo(refer('foo2')),
+        equalsDart('foo % foo2'));
+  });
 }
