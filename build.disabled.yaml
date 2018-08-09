@@ -10,5 +10,5 @@ builders:
     builder_factories:
       - "builtValueBuilder"
     build_extensions:
-      ".dart": ".g.dart"
+      ".dart": [".g.dart"]
     build_to: "source"

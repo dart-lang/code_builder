@@ -10,5 +10,5 @@ import 'package:source_gen/source_gen.dart';
 Builder builtValueBuilder(BuilderOptions _) {
   return new PartBuilder([
     const BuiltValueGenerator(),
-  ]);
+  ], '.g.dart');
 }
