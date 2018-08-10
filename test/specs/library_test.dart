@@ -15,9 +15,9 @@ void main() {
 
     test('should emit a source file with manual imports', () {
       expect(
-        new Library((b) => b
-          ..directives.add(new Directive.import('dart:collection'))
-          ..body.add(new Field((b) => b
+        Library((b) => b
+          ..directives.add(Directive.import('dart:collection'))
+          ..body.add(Field((b) => b
             ..name = 'test'
             ..modifier = FieldModifier.final$
             ..assignment = $LinkedHashMap.newInstance([]).code))),
@@ -25,16 +25,16 @@ void main() {
             import 'dart:collection';
           
             final test = new LinkedHashMap();
-          ''', new DartEmitter()),
+          ''', DartEmitter()),
       );
     });
 
     test('should emit a source file with a deferred import', () {
       expect(
-        new Library(
+        Library(
           (b) => b
             ..directives.add(
-              new Directive.importDeferredAs(
+              Directive.importDeferredAs(
                 'package:foo/foo.dart',
                 'foo',
               ),
@@ -48,10 +48,10 @@ void main() {
 
     test('should emit a source file with a "show" combinator', () {
       expect(
-        new Library(
+        Library(
           (b) => b
             ..directives.add(
-              new Directive.import(
+              Directive.import(
                 'package:foo/foo.dart',
                 show: ['Foo', 'Bar'],
               ),
@@ -65,10 +65,10 @@ void main() {
 
     test('should emit a source file with a "hide" combinator', () {
       expect(
-        new Library(
+        Library(
           (b) => b
             ..directives.add(
-              new Directive.import(
+              Directive.import(
                 'package:foo/foo.dart',
                 hide: ['Foo', 'Bar'],
               ),
@@ -82,33 +82,31 @@ void main() {
 
     test('should emit a source file with allocation', () {
       expect(
-        new Library((b) => b
-          ..body.add(new Field((b) => b
+        Library((b) => b
+          ..body.add(Field((b) => b
             ..name = 'test'
             ..modifier = FieldModifier.final$
-            ..assignment =
-                new Code.scope((a) => 'new ${a($LinkedHashMap)}()')))),
+            ..assignment = Code.scope((a) => 'new ${a($LinkedHashMap)}()')))),
         equalsDart(r'''
           import 'dart:collection';
           
           final test = new LinkedHashMap();
-        ''', new DartEmitter(new Allocator())),
+        ''', DartEmitter(Allocator())),
       );
     });
 
     test('should emit a source file with allocation + prefixing', () {
       expect(
-        new Library((b) => b
-          ..body.add(new Field((b) => b
+        Library((b) => b
+          ..body.add(Field((b) => b
             ..name = 'test'
             ..modifier = FieldModifier.final$
-            ..assignment =
-                new Code.scope((a) => 'new ${a($LinkedHashMap)}()')))),
+            ..assignment = Code.scope((a) => 'new ${a($LinkedHashMap)}()')))),
         equalsDart(r'''
           import 'dart:collection' as _i1;
           
           final test = new _i1.LinkedHashMap();
-        ''', new DartEmitter(new Allocator.simplePrefixing())),
+        ''', DartEmitter(Allocator.simplePrefixing())),
       );
     });
   });

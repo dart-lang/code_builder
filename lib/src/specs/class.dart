@@ -72,22 +72,22 @@ abstract class ClassBuilder extends Object
   bool abstract = false;
 
   @override
-  ListBuilder<Expression> annotations = new ListBuilder<Expression>();
+  ListBuilder<Expression> annotations = ListBuilder<Expression>();
 
   @override
-  ListBuilder<String> docs = new ListBuilder<String>();
+  ListBuilder<String> docs = ListBuilder<String>();
 
   Reference extend;
 
-  ListBuilder<Reference> implements = new ListBuilder<Reference>();
-  ListBuilder<Reference> mixins = new ListBuilder<Reference>();
+  ListBuilder<Reference> implements = ListBuilder<Reference>();
+  ListBuilder<Reference> mixins = ListBuilder<Reference>();
 
   @override
-  ListBuilder<Reference> types = new ListBuilder<Reference>();
+  ListBuilder<Reference> types = ListBuilder<Reference>();
 
-  ListBuilder<Constructor> constructors = new ListBuilder<Constructor>();
-  ListBuilder<Method> methods = new ListBuilder<Method>();
-  ListBuilder<Field> fields = new ListBuilder<Field>();
+  ListBuilder<Constructor> constructors = ListBuilder<Constructor>();
+  ListBuilder<Method> methods = ListBuilder<Method>();
+  ListBuilder<Field> fields = ListBuilder<Field>();
 
   /// Name of the class.
   String name;

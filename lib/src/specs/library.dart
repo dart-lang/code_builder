@@ -32,6 +32,6 @@ abstract class LibraryBuilder implements Builder<Library, LibraryBuilder> {
   factory LibraryBuilder() = _$LibraryBuilder;
   LibraryBuilder._();
 
-  ListBuilder<Spec> body = new ListBuilder<Spec>();
-  ListBuilder<Directive> directives = new ListBuilder<Directive>();
+  ListBuilder<Spec> body = ListBuilder<Spec>();
+  ListBuilder<Directive> directives = ListBuilder<Directive>();
 }

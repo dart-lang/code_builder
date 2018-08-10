@@ -87,7 +87,7 @@ void main() {
   test('should emit a scoped type as an expression', () {
     expect(
       refer('Foo', 'package:foo/foo.dart'),
-      equalsDart('_i1.Foo', new DartEmitter(new Allocator.simplePrefixing())),
+      equalsDart('_i1.Foo', DartEmitter(Allocator.simplePrefixing())),
     );
   });
 
@@ -200,21 +200,21 @@ void main() {
 
   test('should emit a function type', () {
     expect(
-      new FunctionType((b) => b.returnType = refer('void')),
+      FunctionType((b) => b.returnType = refer('void')),
       equalsDart('void Function()'),
     );
   });
 
   test('should emit a typedef statement', () {
     expect(
-      new FunctionType((b) => b.returnType = refer('void')).toTypeDef('Void0'),
+      FunctionType((b) => b.returnType = refer('void')).toTypeDef('Void0'),
       equalsDart('typedef Void0 = void Function();'),
     );
   });
 
   test('should emit a function type with type parameters', () {
     expect(
-      new FunctionType((b) => b
+      FunctionType((b) => b
         ..returnType = refer('T')
         ..types.add(refer('T'))),
       equalsDart('T Function<T>()'),
@@ -223,14 +223,14 @@ void main() {
 
   test('should emit a function type a single parameter', () {
     expect(
-      new FunctionType((b) => b..requiredParameters.add(refer('String'))),
+      FunctionType((b) => b..requiredParameters.add(refer('String'))),
       equalsDart('Function(String)'),
     );
   });
 
   test('should emit a function type with parameters', () {
     expect(
-      new FunctionType((b) => b
+      FunctionType((b) => b
         ..requiredParameters.add(refer('String'))
         ..optionalParameters.add(refer('int'))),
       equalsDart('Function(String, [int])'),
@@ -239,7 +239,7 @@ void main() {
 
   test('should emit a function type with named parameters', () {
     expect(
-      new FunctionType((b) => b
+      FunctionType((b) => b
         ..namedParameters.addAll({
           'x': refer('int'),
           'y': refer('int'),
@@ -252,7 +252,7 @@ void main() {
     expect(
       refer('map').property('putIfAbsent').call([
         literalString('foo'),
-        new Method((b) => b..body = literalTrue.code).closure,
+        Method((b) => b..body = literalTrue.code).closure,
       ]),
       equalsDart("map.putIfAbsent('foo', () => true)"),
     );

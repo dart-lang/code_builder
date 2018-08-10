@@ -69,10 +69,10 @@ abstract class FieldBuilder extends Object
   FieldBuilder._();
 
   @override
-  ListBuilder<Expression> annotations = new ListBuilder<Expression>();
+  ListBuilder<Expression> annotations = ListBuilder<Expression>();
 
   @override
-  ListBuilder<String> docs = new ListBuilder<String>();
+  ListBuilder<String> docs = ListBuilder<String>();
 
   /// Field assignment, if any.
   Code assignment;

@@ -72,19 +72,19 @@ abstract class ConstructorBuilder extends Object
   ConstructorBuilder._();
 
   @override
-  ListBuilder<Expression> annotations = new ListBuilder<Expression>();
+  ListBuilder<Expression> annotations = ListBuilder<Expression>();
 
   @override
-  ListBuilder<String> docs = new ListBuilder<String>();
+  ListBuilder<String> docs = ListBuilder<String>();
 
   /// Optional parameters.
-  ListBuilder<Parameter> optionalParameters = new ListBuilder<Parameter>();
+  ListBuilder<Parameter> optionalParameters = ListBuilder<Parameter>();
 
   /// Required parameters.
-  ListBuilder<Parameter> requiredParameters = new ListBuilder<Parameter>();
+  ListBuilder<Parameter> requiredParameters = ListBuilder<Parameter>();
 
   /// Constructor initializer statements.
-  ListBuilder<Code> initializers = new ListBuilder<Code>();
+  ListBuilder<Code> initializers = ListBuilder<Code>();
 
   /// Body of the constructor.
   Code body;

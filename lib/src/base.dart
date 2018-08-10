@@ -9,7 +9,7 @@ abstract class Spec {
 }
 
 /// Returns a generic [Spec] that is lazily generated when visited.
-Spec lazySpec(Spec Function() generate) => new _LazySpec(generate);
+Spec lazySpec(Spec Function() generate) => _LazySpec(generate);
 
 class _LazySpec implements Spec {
   final Spec Function() generate;

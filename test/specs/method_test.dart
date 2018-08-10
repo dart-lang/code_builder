@@ -12,7 +12,7 @@ void main() {
 
   test('should create a method', () {
     expect(
-      new Method((b) => b..name = 'foo'),
+      Method((b) => b..name = 'foo'),
       equalsDart(r'''
         foo();
       '''),
@@ -21,7 +21,7 @@ void main() {
 
   test('should create an async method', () {
     expect(
-      new Method((b) => b
+      Method((b) => b
         ..name = 'foo'
         ..modifier = MethodModifier.async
         ..body = literalNull.code),
@@ -33,7 +33,7 @@ void main() {
 
   test('should create an async* method', () {
     expect(
-      new Method((b) => b
+      Method((b) => b
         ..name = 'foo'
         ..modifier = MethodModifier.asyncStar
         ..body = literalNull.code),
@@ -45,7 +45,7 @@ void main() {
 
   test('should create an sync* method', () {
     expect(
-      new Method((b) => b
+      Method((b) => b
         ..name = 'foo'
         ..modifier = MethodModifier.syncStar
         ..body = literalNull.code),
@@ -57,7 +57,7 @@ void main() {
 
   test('should create a lambda method implicitly', () {
     expect(
-      new Method((b) => b
+      Method((b) => b
         ..name = 'returnsTrue'
         ..returns = refer('bool')
         ..body = literalTrue.code),
@@ -69,7 +69,7 @@ void main() {
 
   test('should create a normal method implicitly', () {
     expect(
-      new Method.returnsVoid((b) => b
+      Method.returnsVoid((b) => b
         ..name = 'assignTrue'
         ..body = refer('topLevelFoo').assign(literalTrue).statement),
       equalsDart(r'''
@@ -82,7 +82,7 @@ void main() {
 
   test('should create a getter', () {
     expect(
-      new Method((b) => b
+      Method((b) => b
         ..name = 'foo'
         ..external = true
         ..type = MethodType.getter),
@@ -94,10 +94,10 @@ void main() {
 
   test('should create a setter', () {
     expect(
-      new Method((b) => b
+      Method((b) => b
         ..name = 'foo'
         ..external = true
-        ..requiredParameters.add((new Parameter((b) => b..name = 'foo')))
+        ..requiredParameters.add((Parameter((b) => b..name = 'foo')))
         ..type = MethodType.setter),
       equalsDart(r'''
         external set foo(foo);
@@ -107,7 +107,7 @@ void main() {
 
   test('should create a method with a return type', () {
     expect(
-      new Method((b) => b
+      Method((b) => b
         ..name = 'foo'
         ..returns = refer('String')),
       equalsDart(r'''
@@ -118,7 +118,7 @@ void main() {
 
   test('should create a method with a void return type', () {
     expect(
-      new Method.returnsVoid((b) => b..name = 'foo'),
+      Method.returnsVoid((b) => b..name = 'foo'),
       equalsDart(r'''
         void foo();
       '''),
@@ -127,9 +127,9 @@ void main() {
 
   test('should create a method with a function type return type', () {
     expect(
-      new Method((b) => b
+      Method((b) => b
         ..name = 'foo'
-        ..returns = new FunctionType((b) => b
+        ..returns = FunctionType((b) => b
           ..returnType = refer('String')
           ..requiredParameters.addAll([
             refer('int'),
@@ -142,10 +142,10 @@ void main() {
 
   test('should create a method with a nested function type return type', () {
     expect(
-      new Method((b) => b
+      Method((b) => b
         ..name = 'foo'
-        ..returns = new FunctionType((b) => b
-          ..returnType = new FunctionType((b) => b
+        ..returns = FunctionType((b) => b
+          ..returnType = FunctionType((b) => b
             ..returnType = refer('String')
             ..requiredParameters.add(refer('String')))
           ..requiredParameters.addAll([
@@ -159,10 +159,10 @@ void main() {
 
   test('should create a method with a function type argument', () {
     expect(
-        new Method((b) => b
+        Method((b) => b
           ..name = 'foo'
-          ..requiredParameters.add(new Parameter((b) => b
-            ..type = new FunctionType((b) => b
+          ..requiredParameters.add(Parameter((b) => b
+            ..type = FunctionType((b) => b
               ..returnType = refer('String')
               ..requiredParameters.add(refer('int')))
             ..name = 'argument'))),
@@ -173,11 +173,11 @@ void main() {
 
   test('should create a method with a nested function type argument', () {
     expect(
-        new Method((b) => b
+        Method((b) => b
           ..name = 'foo'
-          ..requiredParameters.add(new Parameter((b) => b
-            ..type = new FunctionType((b) => b
-              ..returnType = new FunctionType((b) => b
+          ..requiredParameters.add(Parameter((b) => b
+            ..type = FunctionType((b) => b
+              ..returnType = FunctionType((b) => b
                 ..returnType = refer('String')
                 ..requiredParameters.add(refer('String')))
               ..requiredParameters.add(refer('int')))
@@ -189,7 +189,7 @@ void main() {
 
   test('should create a method with generic types', () {
     expect(
-      new Method((b) => b
+      Method((b) => b
         ..name = 'foo'
         ..types.add(refer('T'))),
       equalsDart(r'''
@@ -200,7 +200,7 @@ void main() {
 
   test('should create an external method', () {
     expect(
-      new Method((b) => b
+      Method((b) => b
         ..name = 'foo'
         ..external = true),
       equalsDart(r'''
@@ -211,7 +211,7 @@ void main() {
 
   test('should create a method with a body', () {
     expect(
-      new Method((b) => b
+      Method((b) => b
         ..name = 'foo'
         ..body = const Code('return 1+ 2;')),
       equalsDart(r'''
@@ -224,7 +224,7 @@ void main() {
 
   test('should create a lambda method (explicitly)', () {
     expect(
-      new Method((b) => b
+      Method((b) => b
         ..name = 'foo'
         ..lambda = true
         ..body = const Code('1 + 2')),
@@ -237,9 +237,9 @@ void main() {
   test('should create a method with a body with references', () {
     final $LinkedHashMap = refer('LinkedHashMap', 'dart:collection');
     expect(
-      new Method((b) => b
+      Method((b) => b
         ..name = 'foo'
-        ..body = new Code.scope(
+        ..body = Code.scope(
           (a) => 'return new ${a($LinkedHashMap)}();',
         )),
       equalsDart(r'''
@@ -252,11 +252,11 @@ void main() {
 
   test('should create a method with a paremter', () {
     expect(
-      new Method(
+      Method(
         (b) => b
           ..name = 'fib'
           ..requiredParameters.add(
-            new Parameter((b) => b.name = 'i'),
+            Parameter((b) => b.name = 'i'),
           ),
       ),
       equalsDart(r'''
@@ -267,11 +267,11 @@ void main() {
 
   test('should create a method with an annotated parameter', () {
     expect(
-      new Method(
+      Method(
         (b) => b
           ..name = 'fib'
           ..requiredParameters.add(
-            new Parameter((b) => b
+            Parameter((b) => b
               ..name = 'i'
               ..annotations.add(refer('deprecated'))),
           ),
@@ -284,11 +284,11 @@ void main() {
 
   test('should create a method with a parameter with a type', () {
     expect(
-      new Method(
+      Method(
         (b) => b
           ..name = 'fib'
           ..requiredParameters.add(
-            new Parameter(
+            Parameter(
               (b) => b
                 ..name = 'i'
                 ..type = refer('int').type,
@@ -303,21 +303,21 @@ void main() {
 
   test('should create a method with a parameter with a generic type', () {
     expect(
-      new Method(
+      Method(
         (b) => b
           ..name = 'foo'
-          ..types.add(new TypeReference((b) => b
+          ..types.add(TypeReference((b) => b
             ..symbol = 'T'
             ..bound = refer('Iterable')))
           ..requiredParameters.addAll([
-            new Parameter(
+            Parameter(
               (b) => b
                 ..name = 't'
                 ..type = refer('T'),
             ),
-            new Parameter((b) => b
+            Parameter((b) => b
               ..name = 'x'
-              ..type = new TypeReference((b) => b
+              ..type = TypeReference((b) => b
                 ..symbol = 'X'
                 ..types.add(refer('T')))),
           ]),
@@ -330,11 +330,11 @@ void main() {
 
   test('should create a method with an optional parameter', () {
     expect(
-      new Method(
+      Method(
         (b) => b
           ..name = 'fib'
           ..optionalParameters.add(
-            new Parameter((b) => b.name = 'i'),
+            Parameter((b) => b.name = 'i'),
           ),
       ),
       equalsDart(r'''
@@ -345,12 +345,12 @@ void main() {
 
   test('should create a method with multiple optional parameters', () {
     expect(
-      new Method(
+      Method(
         (b) => b
           ..name = 'foo'
           ..optionalParameters.addAll([
-            new Parameter((b) => b.name = 'a'),
-            new Parameter((b) => b.name = 'b'),
+            Parameter((b) => b.name = 'a'),
+            Parameter((b) => b.name = 'b'),
           ]),
       ),
       equalsDart(r'''
@@ -361,11 +361,11 @@ void main() {
 
   test('should create a method with an optional parameter with a value', () {
     expect(
-      new Method(
+      Method(
         (b) => b
           ..name = 'fib'
           ..optionalParameters.add(
-            new Parameter((b) => b
+            Parameter((b) => b
               ..name = 'i'
               ..defaultTo = const Code('0')),
           ),
@@ -378,11 +378,11 @@ void main() {
 
   test('should create a method with a named optional parameter', () {
     expect(
-      new Method(
+      Method(
         (b) => b
           ..name = 'fib'
           ..optionalParameters.add(
-            new Parameter((b) => b
+            Parameter((b) => b
               ..named = true
               ..name = 'i'),
           ),
@@ -395,11 +395,11 @@ void main() {
 
   test('should create a method with a named optional parameter with value', () {
     expect(
-      new Method(
+      Method(
         (b) => b
           ..name = 'fib'
           ..optionalParameters.add(
-            new Parameter((b) => b
+            Parameter((b) => b
               ..named = true
               ..name = 'i'
               ..defaultTo = const Code('0')),
@@ -413,14 +413,14 @@ void main() {
 
   test('should create a method with a mix of parameters', () {
     expect(
-      new Method(
+      Method(
         (b) => b
           ..name = 'foo'
           ..requiredParameters.add(
-            new Parameter((b) => b..name = 'a'),
+            Parameter((b) => b..name = 'a'),
           )
           ..optionalParameters.add(
-            new Parameter((b) => b
+            Parameter((b) => b
               ..named = true
               ..name = 'b'),
           ),

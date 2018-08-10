@@ -16,18 +16,18 @@ void main() {
     final $Module = refer('Module', 'package:app/module.dart');
     final $Thing = refer('Thing', 'package:app/thing.dart');
 
-    final clazz = new ClassBuilder()
+    final clazz = ClassBuilder()
       ..name = 'Injector'
       ..implements.add($App)
-      ..fields.add(new Field((b) => b
+      ..fields.add(Field((b) => b
         ..modifier = FieldModifier.final$
         ..name = '_module'
         ..type = $Module.type))
-      ..constructors.add(new Constructor((b) => b
-        ..requiredParameters.add(new Parameter((b) => b
+      ..constructors.add(Constructor((b) => b
+        ..requiredParameters.add(Parameter((b) => b
           ..name = '_module'
           ..toThis = true))))
-      ..methods.add(new Method((b) => b
+      ..methods.add(Method((b) => b
         ..name = 'getThing'
         ..body = $Thing.newInstance([
           refer('_module').property('get1').call([]),
@@ -61,7 +61,7 @@ void main() {
           @override
           _i3.Thing getThing() => new _i3.Thing(_module.get1(), _module.get2());
         }
-      ''', new DartEmitter(new Allocator.simplePrefixing())),
+      ''', DartEmitter(Allocator.simplePrefixing())),
     );
   });
 }

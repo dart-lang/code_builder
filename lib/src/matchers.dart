@@ -16,7 +16,7 @@ Matcher equalsDart(
   String source, [
   DartEmitter emitter,
 ]) =>
-    new EqualsDart._(EqualsDart._format(source), emitter ?? new DartEmitter());
+    EqualsDart._(EqualsDart._format(source), emitter ?? DartEmitter());
 
 /// Implementation detail of using the [equalsDart] matcher.
 ///
