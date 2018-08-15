@@ -13,7 +13,7 @@ import 'code.dart';
 import 'expression.dart';
 import 'type_reference.dart';
 
-/// Short-hand for `new Reference(symbol, url)`.
+/// Short-hand for `Reference(symbol, url)`.
 Reference refer(String symbol, [String url]) {
   return Reference(symbol, url);
 }
