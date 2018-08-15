@@ -69,14 +69,14 @@ void main() {
         refer('three'): 3,
         refer('Map').newInstance([]): null,
       }),
-      equalsDart(r"{1: 'one', 2: two, three: 3, new Map(): null}"),
+      equalsDart(r"{1: 'one', 2: two, three: 3, Map(): null}"),
     );
   });
 
   test('should emit a list of other literals and expressions', () {
     expect(
       literalList([<dynamic>[], true, null, refer('Map').newInstance([])]),
-      equalsDart('[[], true, null, new Map()]'),
+      equalsDart('[[], true, null, Map()]'),
     );
   });
 
@@ -91,17 +91,17 @@ void main() {
     );
   });
 
-  test('should emit invoking new Type()', () {
+  test('should emit invoking Type()', () {
     expect(
       refer('Map').newInstance([]),
-      equalsDart('new Map()'),
+      equalsDart('Map()'),
     );
   });
 
-  test('should emit invoking new named constructor', () {
+  test('should emit invoking named constructor', () {
     expect(
       refer('Foo').newInstanceNamed('bar', []),
-      equalsDart('new Foo.bar()'),
+      equalsDart('Foo.bar()'),
     );
   });
 

@@ -240,11 +240,11 @@ void main() {
       Method((b) => b
         ..name = 'foo'
         ..body = Code.scope(
-          (a) => 'return new ${a($LinkedHashMap)}();',
+          (a) => 'return ${a($LinkedHashMap)}();',
         )),
       equalsDart(r'''
         foo() {
-          return new LinkedHashMap();
+          return LinkedHashMap();
         }
       '''),
     );

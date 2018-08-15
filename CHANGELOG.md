@@ -1,3 +1,7 @@
+## 3.1.3
+
+* The `new` keyword will not be used in generated code.
+
 ## 3.1.2
 
 * Set max SDK version to `<3.0.0`.
