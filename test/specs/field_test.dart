@@ -12,7 +12,7 @@ void main() {
 
   test('should create a field', () {
     expect(
-      new Field((b) => b..name = 'foo'),
+      Field((b) => b..name = 'foo'),
       equalsDart(r'''
         var foo;
       '''),
@@ -21,7 +21,7 @@ void main() {
 
   test('should create a typed field', () {
     expect(
-      new Field((b) => b
+      Field((b) => b
         ..name = 'foo'
         ..type = refer('String')),
       equalsDart(r'''
@@ -32,7 +32,7 @@ void main() {
 
   test('should create a final field', () {
     expect(
-      new Field((b) => b
+      Field((b) => b
         ..name = 'foo'
         ..modifier = FieldModifier.final$),
       equalsDart(r'''
@@ -43,7 +43,7 @@ void main() {
 
   test('should create a constant field', () {
     expect(
-      new Field((b) => b
+      Field((b) => b
         ..name = 'foo'
         ..modifier = FieldModifier.constant),
       equalsDart(r'''
@@ -54,7 +54,7 @@ void main() {
 
   test('should create a field with an assignment', () {
     expect(
-      new Field((b) => b
+      Field((b) => b
         ..name = 'foo'
         ..assignment = const Code('1')),
       equalsDart(r'''

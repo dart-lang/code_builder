@@ -50,7 +50,7 @@ abstract class Block implements Built<Block, BlockBuilder>, Code, Spec {
   factory Block([void updates(BlockBuilder b)]) = _$Block;
 
   factory Block.of(Iterable<Code> statements) {
-    return new Block((b) => b..statements.addAll(statements));
+    return Block((b) => b..statements.addAll(statements));
   }
 
   Block._();
@@ -75,7 +75,7 @@ abstract class BlockBuilder implements Builder<Block, BlockBuilder> {
     statements.add(expression.statement);
   }
 
-  ListBuilder<Code> statements = new ListBuilder<Code>();
+  ListBuilder<Code> statements = ListBuilder<Code>();
 }
 
 /// Knowledge of different types of blocks of code in Dart.
@@ -94,7 +94,7 @@ abstract class CodeEmitter implements CodeVisitor<StringSink> {
 
   @override
   visitBlock(Block block, [StringSink output]) {
-    output ??= new StringBuffer();
+    output ??= StringBuffer();
     return visitAll<Code>(block.statements, output, (statement) {
       statement.accept(this, output);
     }, '\n');
@@ -102,13 +102,13 @@ abstract class CodeEmitter implements CodeVisitor<StringSink> {
 
   @override
   visitStaticCode(StaticCode code, [StringSink output]) {
-    output ??= new StringBuffer();
+    output ??= StringBuffer();
     return output..write(code.code);
   }
 
   @override
   visitScopedCode(ScopedCode code, [StringSink output]) {
-    output ??= new StringBuffer();
+    output ??= StringBuffer();
     return output..write(code.code(allocator.allocate));
   }
 }
@@ -126,7 +126,7 @@ class LazyCode implements Code {
 }
 
 /// Returns a generic [Code] that is lazily generated when visited.
-Code lazyCode(Code Function() generate) => new _LazyCode(generate);
+Code lazyCode(Code Function() generate) => _LazyCode(generate);
 
 class _LazyCode implements Code {
   final Code Function() generate;

@@ -57,7 +57,7 @@ class DartEmitter extends Object
 
   /// Creates a new instance of [DartEmitter] with simple automatic imports.
   factory DartEmitter.scoped() {
-    return new DartEmitter(new Allocator.simplePrefixing());
+    return DartEmitter(Allocator.simplePrefixing());
   }
 
   static bool _isLambdaBody(Code code) =>
@@ -74,7 +74,7 @@ class DartEmitter extends Object
 
   @override
   visitAnnotation(Expression spec, [StringSink output]) {
-    (output ??= new StringBuffer()).write('@');
+    (output ??= StringBuffer()).write('@');
     spec.accept(this, output);
     output.write(' ');
     return output;
@@ -82,7 +82,7 @@ class DartEmitter extends Object
 
   @override
   visitClass(Class spec, [StringSink output]) {
-    output ??= new StringBuffer();
+    output ??= StringBuffer();
     spec.docs.forEach(output.writeln);
     spec.annotations.forEach((a) => visitAnnotation(a, output));
     if (spec.abstract) {
@@ -128,7 +128,7 @@ class DartEmitter extends Object
 
   @override
   visitConstructor(Constructor spec, String clazz, [StringSink output]) {
-    output ??= new StringBuffer();
+    output ??= StringBuffer();
     spec.docs.forEach(output.writeln);
     spec.annotations.forEach((a) => visitAnnotation(a, output));
     if (spec.external) {
@@ -212,7 +212,7 @@ class DartEmitter extends Object
 
   @override
   visitDirective(Directive spec, [StringSink output]) {
-    output ??= new StringBuffer();
+    output ??= StringBuffer();
     if (spec.type == DirectiveType.import) {
       output.write('import ');
     } else {
@@ -240,7 +240,7 @@ class DartEmitter extends Object
 
   @override
   visitField(Field spec, [StringSink output]) {
-    output ??= new StringBuffer();
+    output ??= StringBuffer();
     spec.docs.forEach(output.writeln);
     spec.annotations.forEach((a) => visitAnnotation(a, output));
     if (spec.static) {
@@ -274,9 +274,9 @@ class DartEmitter extends Object
 
   @override
   visitLibrary(Library spec, [StringSink output]) {
-    output ??= new StringBuffer();
+    output ??= StringBuffer();
     // Process the body first in order to prime the allocators.
-    final body = new StringBuffer();
+    final body = StringBuffer();
     for (final spec in spec.body) {
       spec.accept(this, body);
       if (spec is Method && _isLambdaMethod(spec)) {
@@ -296,7 +296,7 @@ class DartEmitter extends Object
 
   @override
   visitFunctionType(FunctionType spec, [StringSink output]) {
-    output ??= new StringBuffer();
+    output ??= StringBuffer();
     if (spec.returnType != null) {
       spec.returnType.accept(this, output);
       output.write(' ');
@@ -336,7 +336,7 @@ class DartEmitter extends Object
 
   @override
   visitMethod(Method spec, [StringSink output]) {
-    output ??= new StringBuffer();
+    output ??= StringBuffer();
     spec.docs.forEach(output.writeln);
     spec.annotations.forEach((a) => visitAnnotation(a, output));
     if (spec.external) {
@@ -452,7 +452,7 @@ class DartEmitter extends Object
 
   @override
   visitReference(Reference spec, [StringSink output]) {
-    return (output ??= new StringBuffer())..write(allocator.allocate(spec));
+    return (output ??= StringBuffer())..write(allocator.allocate(spec));
   }
 
   @override
@@ -460,7 +460,7 @@ class DartEmitter extends Object
 
   @override
   visitType(TypeReference spec, [StringSink output]) {
-    output ??= new StringBuffer();
+    output ??= StringBuffer();
     // Intentionally not .accept to avoid stack overflow.
     visitReference(spec, output);
     if (spec.bound != null) {
@@ -473,7 +473,7 @@ class DartEmitter extends Object
 
   @override
   visitTypeParameters(Iterable<Reference> specs, [StringSink output]) {
-    output ??= new StringBuffer();
+    output ??= StringBuffer();
     if (specs.isNotEmpty) {
       output
         ..write('<')

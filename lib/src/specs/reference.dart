@@ -15,7 +15,7 @@ import 'type_reference.dart';
 
 /// Short-hand for `new Reference(symbol, url)`.
 Reference refer(String symbol, [String url]) {
-  return new Reference(symbol, url);
+  return Reference(symbol, url);
 }
 
 /// A reference to [symbol], such as a class, or top-level method or field.
@@ -55,7 +55,7 @@ class Reference extends Expression implements Spec {
     Map<String, Expression> namedArguments = const {},
     List<Reference> typeArguments = const [],
   ]) {
-    return new InvokeExpression.newOf(
+    return InvokeExpression.newOf(
       this,
       positionalArguments.toList(),
       namedArguments,
@@ -71,7 +71,7 @@ class Reference extends Expression implements Spec {
     Map<String, Expression> namedArguments = const {},
     List<Reference> typeArguments = const [],
   ]) {
-    return new InvokeExpression.newOf(
+    return InvokeExpression.newOf(
       this,
       positionalArguments.toList(),
       namedArguments,
@@ -86,7 +86,7 @@ class Reference extends Expression implements Spec {
     Map<String, Expression> namedArguments = const {},
     List<Reference> typeArguments = const [],
   ]) {
-    return new InvokeExpression.constOf(
+    return InvokeExpression.constOf(
       this,
       positionalArguments.toList(),
       namedArguments,
@@ -102,7 +102,7 @@ class Reference extends Expression implements Spec {
     Map<String, Expression> namedArguments = const {},
     List<Reference> typeArguments = const [],
   ]) {
-    return new InvokeExpression.constOf(
+    return InvokeExpression.constOf(
       this,
       positionalArguments.toList(),
       namedArguments,
@@ -113,7 +113,7 @@ class Reference extends Expression implements Spec {
 
   @override
   Expression get expression {
-    return new CodeExpression(new Code.scope((a) => a(this)));
+    return CodeExpression(Code.scope((a) => a(this)));
   }
 
   @override
@@ -123,7 +123,7 @@ class Reference extends Expression implements Spec {
       .toString();
 
   /// Returns as a [TypeReference], which allows adding generic type parameters.
-  Reference get type => new TypeReference((b) => b
+  Reference get type => TypeReference((b) => b
     ..url = url
     ..symbol = symbol);
 }

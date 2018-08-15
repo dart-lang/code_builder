@@ -9,7 +9,7 @@ Expression toClosure(Method method) {
     b.returns = null;
     b.types.clear();
   });
-  return new ClosureExpression._(withoutTypes);
+  return ClosureExpression._(withoutTypes);
 }
 
 class ClosureExpression extends Expression {

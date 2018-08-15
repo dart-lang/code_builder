@@ -26,7 +26,7 @@ abstract class Method extends Object
   factory Method([void updates(MethodBuilder b)]) = _$Method;
 
   factory Method.returnsVoid([void updates(MethodBuilder b)]) {
-    return new Method((b) {
+    return Method((b) {
       if (updates != null) {
         updates(b);
       }
@@ -105,19 +105,19 @@ abstract class MethodBuilder extends Object
   MethodBuilder._();
 
   @override
-  ListBuilder<Expression> annotations = new ListBuilder<Expression>();
+  ListBuilder<Expression> annotations = ListBuilder<Expression>();
 
   @override
-  ListBuilder<String> docs = new ListBuilder<String>();
+  ListBuilder<String> docs = ListBuilder<String>();
 
   @override
-  ListBuilder<Reference> types = new ListBuilder<Reference>();
+  ListBuilder<Reference> types = ListBuilder<Reference>();
 
   /// Optional parameters.
-  ListBuilder<Parameter> optionalParameters = new ListBuilder<Parameter>();
+  ListBuilder<Parameter> optionalParameters = ListBuilder<Parameter>();
 
   /// Required parameters.
-  ListBuilder<Parameter> requiredParameters = new ListBuilder<Parameter>();
+  ListBuilder<Parameter> requiredParameters = ListBuilder<Parameter>();
 
   /// Body of the method.
   Code body;
@@ -216,13 +216,13 @@ abstract class ParameterBuilder extends Object
   bool toThis = false;
 
   @override
-  ListBuilder<Expression> annotations = new ListBuilder<Expression>();
+  ListBuilder<Expression> annotations = ListBuilder<Expression>();
 
   @override
-  ListBuilder<String> docs = new ListBuilder<String>();
+  ListBuilder<String> docs = ListBuilder<String>();
 
   @override
-  ListBuilder<Reference> types = new ListBuilder<Reference>();
+  ListBuilder<Reference> types = ListBuilder<Reference>();
 
   /// Type of the parameter;
   Reference type;

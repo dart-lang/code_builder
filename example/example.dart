@@ -5,7 +5,7 @@
 import 'package:code_builder/code_builder.dart';
 import 'package:dart_style/dart_style.dart';
 
-final _dartfmt = new DartFormatter();
+final _dartfmt = DartFormatter();
 
 void main() {
   print('animalClass():\n${'=' * 40}\n${animalClass()}');
@@ -20,13 +20,13 @@ void main() {
 /// }
 /// ```
 String animalClass() {
-  final animal = new Class((b) => b
+  final animal = Class((b) => b
     ..name = 'Animal'
     ..extend = refer('Organism')
-    ..methods.add(new Method.returnsVoid((b) => b
+    ..methods.add(Method.returnsVoid((b) => b
       ..name = 'eat'
       ..body = refer('print').call([literalString('Yum!')]).code)));
-  return _dartfmt.format('${animal.accept(new DartEmitter())}');
+  return _dartfmt.format('${animal.accept(DartEmitter())}');
 }
 
 /// Outputs:
@@ -40,15 +40,15 @@ String animalClass() {
 /// ```
 String scopedLibrary() {
   final methods = [
-    new Method((b) => b
+    Method((b) => b
       ..body = const Code('')
       ..name = 'doThing'
       ..returns = refer('Thing', 'package:a/a.dart')),
-    new Method((b) => b
+    Method((b) => b
       ..body = const Code('')
       ..name = 'doOther'
       ..returns = refer('Other', 'package:b/b.dart')),
   ];
-  final library = new Library((b) => b.body.addAll(methods));
-  return _dartfmt.format('${library.accept(new DartEmitter.scoped())}');
+  final library = Library((b) => b.body.addAll(methods));
+  return _dartfmt.format('${library.accept(DartEmitter.scoped())}');
 }

@@ -8,7 +8,7 @@ import 'package:source_gen/source_gen.dart';
 
 /// Returns a [Builder] to generate `.g.dart` files for `built_value`.
 Builder builtValueBuilder(BuilderOptions _) {
-  return new PartBuilder([
+  return PartBuilder([
     const BuiltValueGenerator(),
   ], '.g.dart');
 }

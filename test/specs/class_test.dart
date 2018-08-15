@@ -12,7 +12,7 @@ void main() {
 
   test('should create a class', () {
     expect(
-      new Class((b) => b..name = 'Foo'),
+      Class((b) => b..name = 'Foo'),
       equalsDart(r'''
         class Foo {}
       '''),
@@ -21,7 +21,7 @@ void main() {
 
   test('should create an abstract class', () {
     expect(
-      new Class((b) => b
+      Class((b) => b
         ..name = 'Foo'
         ..abstract = true),
       equalsDart(r'''
@@ -32,7 +32,7 @@ void main() {
 
   test('should create a class with documentations', () {
     expect(
-      new Class(
+      Class(
         (b) => b
           ..name = 'Foo'
           ..docs.addAll(
@@ -50,7 +50,7 @@ void main() {
 
   test('should create a class with annotations', () {
     expect(
-      new Class(
+      Class(
         (b) => b
           ..name = 'Foo'
           ..annotations.addAll([
@@ -68,7 +68,7 @@ void main() {
 
   test('should create a class with a generic type', () {
     expect(
-      new Class((b) => b
+      Class((b) => b
         ..name = 'List'
         ..types.add(refer('T'))),
       equalsDart(r'''
@@ -79,7 +79,7 @@ void main() {
 
   test('should create a class with multiple generic types', () {
     expect(
-      new Class(
+      Class(
         (b) => b
           ..name = 'Map'
           ..types.addAll([
@@ -95,11 +95,11 @@ void main() {
 
   test('should create a class with a bound generic type', () {
     expect(
-      new Class((b) => b
+      Class((b) => b
         ..name = 'Comparable'
-        ..types.add(new TypeReference((b) => b
+        ..types.add(TypeReference((b) => b
           ..symbol = 'T'
-          ..bound = new TypeReference((b) => b
+          ..bound = TypeReference((b) => b
             ..symbol = 'Comparable'
             ..types.add(refer('T').type))))),
       equalsDart(r'''
@@ -110,9 +110,9 @@ void main() {
 
   test('should create a class extending another class', () {
     expect(
-      new Class((b) => b
+      Class((b) => b
         ..name = 'Foo'
-        ..extend = new TypeReference((b) => b.symbol = 'Bar')),
+        ..extend = TypeReference((b) => b.symbol = 'Bar')),
       equalsDart(r'''
         class Foo extends Bar {}
       '''),
@@ -121,10 +121,10 @@ void main() {
 
   test('should create a class mixing in another class', () {
     expect(
-      new Class((b) => b
+      Class((b) => b
         ..name = 'Foo'
-        ..extend = new TypeReference((b) => b.symbol = 'Bar')
-        ..mixins.add(new TypeReference((b) => b.symbol = 'Foo'))),
+        ..extend = TypeReference((b) => b.symbol = 'Bar')
+        ..mixins.add(TypeReference((b) => b.symbol = 'Foo'))),
       equalsDart(r'''
         class Foo extends Bar with Foo {}
       '''),
@@ -133,10 +133,10 @@ void main() {
 
   test('should create a class implementing another class', () {
     expect(
-      new Class((b) => b
+      Class((b) => b
         ..name = 'Foo'
-        ..extend = new TypeReference((b) => b.symbol = 'Bar')
-        ..implements.add(new TypeReference((b) => b.symbol = 'Foo'))),
+        ..extend = TypeReference((b) => b.symbol = 'Bar')
+        ..implements.add(TypeReference((b) => b.symbol = 'Foo'))),
       equalsDart(r'''
         class Foo extends Bar implements Foo {}
       '''),
@@ -145,9 +145,9 @@ void main() {
 
   test('should create a class with a constructor', () {
     expect(
-      new Class((b) => b
+      Class((b) => b
         ..name = 'Foo'
-        ..constructors.add(new Constructor())),
+        ..constructors.add(Constructor())),
       equalsDart(r'''
         class Foo {
           Foo();
@@ -158,11 +158,11 @@ void main() {
 
   test('should create a class with a constructor with initializers', () {
     expect(
-      new Class(
+      Class(
         (b) => b
           ..name = 'Foo'
           ..constructors.add(
-            new Constructor(
+            Constructor(
               (b) => b
                 ..initializers.addAll([
                   const Code('a = 5'),
@@ -181,10 +181,10 @@ void main() {
 
   test('should create a class with a annotated constructor', () {
     expect(
-      new Class((b) => b
+      Class((b) => b
         ..name = 'Foo'
-        ..constructors.add(
-            new Constructor((b) => b..annotations.add(refer('deprecated'))))),
+        ..constructors
+            .add(Constructor((b) => b..annotations.add(refer('deprecated'))))),
       equalsDart(r'''
         class Foo {
           @deprecated
@@ -196,9 +196,9 @@ void main() {
 
   test('should create a class with a named constructor', () {
     expect(
-      new Class((b) => b
+      Class((b) => b
         ..name = 'Foo'
-        ..constructors.add(new Constructor((b) => b..name = 'named'))),
+        ..constructors.add(Constructor((b) => b..name = 'named'))),
       equalsDart(r'''
         class Foo {
           Foo.named();
@@ -209,9 +209,9 @@ void main() {
 
   test('should create a class with a const constructor', () {
     expect(
-      new Class((b) => b
+      Class((b) => b
         ..name = 'Foo'
-        ..constructors.add(new Constructor((b) => b..constant = true))),
+        ..constructors.add(Constructor((b) => b..constant = true))),
       equalsDart(r'''
         class Foo {
           const Foo();
@@ -222,9 +222,9 @@ void main() {
 
   test('should create a class with an external constructor', () {
     expect(
-      new Class((b) => b
+      Class((b) => b
         ..name = 'Foo'
-        ..constructors.add(new Constructor((b) => b..external = true))),
+        ..constructors.add(Constructor((b) => b..external = true))),
       equalsDart(r'''
         class Foo {
           external Foo();
@@ -235,9 +235,9 @@ void main() {
 
   test('should create a class with a factory constructor', () {
     expect(
-      new Class((b) => b
+      Class((b) => b
         ..name = 'Foo'
-        ..constructors.add(new Constructor((b) => b
+        ..constructors.add(Constructor((b) => b
           ..factory = true
           ..redirect = refer('_Foo')))),
       equalsDart(r'''
@@ -250,9 +250,9 @@ void main() {
 
   test('should create a class with a factory lambda constructor', () {
     expect(
-      new Class((b) => b
+      Class((b) => b
         ..name = 'Foo'
-        ..constructors.add(new Constructor((b) => b
+        ..constructors.add(Constructor((b) => b
           ..factory = true
           ..lambda = true
           ..body = const Code('new _Foo()')))),
@@ -266,9 +266,9 @@ void main() {
 
   test('should create a class with an implicit factory lambda constructor', () {
     expect(
-      new Class((b) => b
+      Class((b) => b
         ..name = 'Foo'
-        ..constructors.add(new Constructor((b) => b
+        ..constructors.add(Constructor((b) => b
           ..factory = true
           ..body = refer('_Foo').newInstance([]).code))),
       equalsDart(r'''
@@ -281,9 +281,9 @@ void main() {
 
   test('should create a class with a constructor with a body', () {
     expect(
-      new Class((b) => b
+      Class((b) => b
         ..name = 'Foo'
-        ..constructors.add(new Constructor((b) => b
+        ..constructors.add(Constructor((b) => b
           ..factory = true
           ..body = const Code('return new _Foo();')))),
       equalsDart(r'''
@@ -298,15 +298,15 @@ void main() {
 
   test('should create a class with method parameters', () {
     expect(
-      new Class((b) => b
+      Class((b) => b
         ..name = 'Foo'
-        ..constructors.add(new Constructor((b) => b
+        ..constructors.add(Constructor((b) => b
           ..requiredParameters.addAll([
-            new Parameter((b) => b..name = 'a'),
-            new Parameter((b) => b..name = 'b'),
+            Parameter((b) => b..name = 'a'),
+            Parameter((b) => b..name = 'b'),
           ])
           ..optionalParameters.addAll([
-            new Parameter((b) => b
+            Parameter((b) => b
               ..name = 'c'
               ..named = true),
           ])))),
@@ -320,19 +320,19 @@ void main() {
 
   test('should create a class with a constructor+field-formal parameters', () {
     expect(
-      new Class((b) => b
+      Class((b) => b
         ..name = 'Foo'
-        ..constructors.add(new Constructor((b) => b
+        ..constructors.add(Constructor((b) => b
           ..requiredParameters.addAll([
-            new Parameter((b) => b
+            Parameter((b) => b
               ..name = 'a'
               ..toThis = true),
-            new Parameter((b) => b
+            Parameter((b) => b
               ..name = 'b'
               ..toThis = true),
           ])
           ..optionalParameters.addAll([
-            new Parameter((b) => b
+            Parameter((b) => b
               ..name = 'c'
               ..named = true
               ..toThis = true),

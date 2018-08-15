@@ -12,7 +12,7 @@ import 'specs/reference.dart';
 /// to resolve all symbols in your generated code.
 abstract class Allocator {
   /// An allocator that does not prefix symbols nor collects imports.
-  static const Allocator none = const _NullAllocator();
+  static const Allocator none = _NullAllocator();
 
   /// Creates a new default allocator that applies no prefixing.
   factory Allocator() = _Allocator;
@@ -46,7 +46,7 @@ abstract class Allocator {
 }
 
 class _Allocator implements Allocator {
-  final _imports = new Set<String>();
+  final _imports = Set<String>();
 
   @override
   String allocate(Reference reference) {
@@ -58,7 +58,7 @@ class _Allocator implements Allocator {
 
   @override
   Iterable<Directive> get imports {
-    return _imports.map((u) => new Directive.import(u));
+    return _imports.map((u) => Directive.import(u));
   }
 }
 
@@ -73,7 +73,7 @@ class _NullAllocator implements Allocator {
 }
 
 class _PrefixedAllocator implements Allocator {
-  static const _doNotPrefix = const ['dart:core'];
+  static const _doNotPrefix = ['dart:core'];
 
   final _imports = <String, int>{};
   var _keys = 1;
@@ -92,7 +92,7 @@ class _PrefixedAllocator implements Allocator {
   @override
   Iterable<Directive> get imports {
     return _imports.keys.map(
-      (u) => new Directive.import(u, as: '_i${_imports[u]}'),
+      (u) => Directive.import(u, as: '_i${_imports[u]}'),
     );
   }
 }

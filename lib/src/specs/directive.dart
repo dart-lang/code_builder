@@ -20,7 +20,7 @@ abstract class Directive implements Built<Directive, DirectiveBuilder>, Spec {
     List<String> show = const [],
     List<String> hide = const [],
   }) =>
-      new Directive((builder) => builder
+      Directive((builder) => builder
         ..as = as
         ..type = DirectiveType.import
         ..url = url
@@ -33,7 +33,7 @@ abstract class Directive implements Built<Directive, DirectiveBuilder>, Spec {
     List<String> show = const [],
     List<String> hide = const [],
   }) =>
-      new Directive((builder) => builder
+      Directive((builder) => builder
         ..as = as
         ..type = DirectiveType.import
         ..url = url
@@ -46,7 +46,7 @@ abstract class Directive implements Built<Directive, DirectiveBuilder>, Spec {
     List<String> show = const [],
     List<String> hide = const [],
   }) =>
-      new Directive((builder) => builder
+      Directive((builder) => builder
         ..type = DirectiveType.export
         ..url = url
         ..show.addAll(show)

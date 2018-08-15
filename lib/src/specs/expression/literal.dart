@@ -29,23 +29,23 @@ Expression literal(Object literal, {Expression onError(Object value)}) {
   if (onError != null) {
     return onError(literal);
   }
-  throw new UnsupportedError('Not a supported literal type: $literal.');
+  throw UnsupportedError('Not a supported literal type: $literal.');
 }
 
 /// Represents the literal value `true`.
-const Expression literalTrue = const LiteralExpression._('true');
+const Expression literalTrue = LiteralExpression._('true');
 
 /// Represents the literal value `false`.
-const Expression literalFalse = const LiteralExpression._('false');
+const Expression literalFalse = LiteralExpression._('false');
 
 /// Create a literal expression from a boolean [value].
 Expression literalBool(bool value) => value ? literalTrue : literalFalse;
 
 /// Represents the literal value `null`.
-const Expression literalNull = const LiteralExpression._('null');
+const Expression literalNull = LiteralExpression._('null');
 
 /// Create a literal expression from a number [value].
-Expression literalNum(num value) => new LiteralExpression._('$value');
+Expression literalNum(num value) => LiteralExpression._('$value');
 
 /// Create a literal expression from a string [value].
 ///
@@ -56,20 +56,20 @@ Expression literalNum(num value) => new LiteralExpression._('$value');
 /// If [raw] is `false` escapes single quotes in the value.
 Expression literalString(String value, {bool raw = false}) {
   if (raw && value.contains('\'')) {
-    throw new ArgumentError('Cannot include a single quote in a raw string');
+    throw ArgumentError('Cannot include a single quote in a raw string');
   }
   final escaped = value.replaceAll('\'', '\\\'');
-  return new LiteralExpression._("${raw ? 'r' : ''}'$escaped'");
+  return LiteralExpression._("${raw ? 'r' : ''}'$escaped'");
 }
 
 /// Creates a literal list expression from [values].
 LiteralListExpression literalList(Iterable<Object> values, [Reference type]) {
-  return new LiteralListExpression._(false, values.toList(), type);
+  return LiteralListExpression._(false, values.toList(), type);
 }
 
 /// Creates a literal `const` list expression from [values].
 LiteralListExpression literalConstList(List<Object> values, [Reference type]) {
-  return new LiteralListExpression._(true, values, type);
+  return LiteralListExpression._(true, values, type);
 }
 
 /// Create a literal map expression from [values].
@@ -78,7 +78,7 @@ LiteralMapExpression literalMap(
   Reference keyType,
   Reference valueType,
 ]) {
-  return new LiteralMapExpression._(false, values, keyType, valueType);
+  return LiteralMapExpression._(false, values, keyType, valueType);
 }
 
 /// Create a literal `const` map expression from [values].
@@ -87,7 +87,7 @@ LiteralMapExpression literalConstMap(
   Reference keyType,
   Reference valueType,
 ]) {
-  return new LiteralMapExpression._(true, values, keyType, valueType);
+  return LiteralMapExpression._(true, values, keyType, valueType);
 }
 
 /// Represents a literal value in Dart source code.

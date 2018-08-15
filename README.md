@@ -20,14 +20,14 @@ import 'package:code_builder/code_builder.dart';
 import 'package:dart_style/dart_style.dart';
 
 void main() {
-  final animal = new Class((b) => b
+  final animal = Class((b) => b
     ..name = 'Animal'
     ..extend = refer('Organism')
-    ..methods.add(new Method.returnsVoid((b) => b
+    ..methods.add(Method.returnsVoid((b) => b
       ..name = 'eat'
       ..body = const Code('print(\'Yum\')'))));
-  final emitter = new DartEmitter();
-  print(new DartFormatter().format('${animal.accept(emitter)}'));
+  final emitter = DartEmitter();
+  print(DartFormatter().format('${animal.accept(emitter)}'));
 }
 ```
 
@@ -47,18 +47,18 @@ import 'package:code_builder/code_builder.dart';
 import 'package:dart_style/dart_style.dart';
 
 void main() {
-  final library = new Library((b) => b.body.addAll([
-        new Method((b) => b
+  final library = Library((b) => b.body.addAll([
+        Method((b) => b
           ..body = const Code('')
           ..name = 'doThing'
           ..returns = refer('Thing', 'package:a/a.dart')),
-        new Method((b) => b
+        Method((b) => b
           ..body = const Code('')
           ..name = 'doOther'
           ..returns = refer('Other', 'package:b/b.dart')),
       ]));
-  final emitter = new DartEmitter(new Allocator.simplePrefixing());
-  print(new DartFormatter().format('${library.accept(emitter)}'));
+  final emitter = DartEmitter(Allocator.simplePrefixing());
+  print(DartFormatter().format('${library.accept(emitter)}'));
 }
 ```
 

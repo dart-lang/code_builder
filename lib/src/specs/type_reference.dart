@@ -48,7 +48,7 @@ abstract class TypeReference extends Expression
 
   @override
   Expression get expression {
-    return new CodeExpression(new Code.scope((a) => a(this)));
+    return CodeExpression(Code.scope((a) => a(this)));
   }
 
   @override
@@ -60,7 +60,7 @@ abstract class TypeReference extends Expression
     Map<String, Expression> namedArguments = const {},
     List<Reference> typeArguments = const [],
   ]) {
-    return new InvokeExpression.newOf(
+    return InvokeExpression.newOf(
       this,
       positionalArguments.toList(),
       namedArguments,
@@ -76,7 +76,7 @@ abstract class TypeReference extends Expression
     Map<String, Expression> namedArguments = const {},
     List<Reference> typeArguments = const [],
   ]) {
-    return new InvokeExpression.newOf(
+    return InvokeExpression.newOf(
       this,
       positionalArguments.toList(),
       namedArguments,
@@ -91,7 +91,7 @@ abstract class TypeReference extends Expression
     Map<String, Expression> namedArguments = const {},
     List<Reference> typeArguments = const [],
   ]) {
-    return new InvokeExpression.constOf(
+    return InvokeExpression.constOf(
       this,
       positionalArguments.toList(),
       namedArguments,
@@ -107,7 +107,7 @@ abstract class TypeReference extends Expression
     Map<String, Expression> namedArguments = const {},
     List<Reference> typeArguments = const [],
   ]) {
-    return new InvokeExpression.constOf(
+    return InvokeExpression.constOf(
       this,
       positionalArguments.toList(),
       namedArguments,
@@ -132,5 +132,5 @@ abstract class TypeReferenceBuilder extends Object
   Reference bound;
 
   @override
-  ListBuilder<Reference> types = new ListBuilder<Reference>();
+  ListBuilder<Reference> types = ListBuilder<Reference>();
 }

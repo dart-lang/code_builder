@@ -63,7 +63,7 @@ abstract class FunctionType extends Expression
     Map<String, Expression> namedArguments = const {},
     List<Reference> typeArguments = const [],
   ]) =>
-      throw new UnsupportedError('Cannot "new" a function type.');
+      throw UnsupportedError('Cannot "new" a function type.');
 
   @override
   Expression newInstanceNamed(
@@ -72,7 +72,7 @@ abstract class FunctionType extends Expression
     Map<String, Expression> namedArguments = const {},
     List<Reference> typeArguments = const [],
   ]) =>
-      throw new UnsupportedError('Cannot "new" a function type.');
+      throw UnsupportedError('Cannot "new" a function type.');
 
   @override
   Expression constInstance(
@@ -80,7 +80,7 @@ abstract class FunctionType extends Expression
     Map<String, Expression> namedArguments = const {},
     List<Reference> typeArguments = const [],
   ]) =>
-      throw new UnsupportedError('Cannot "const" a function type.');
+      throw UnsupportedError('Cannot "const" a function type.');
 
   @override
   Expression constInstanceNamed(
@@ -89,7 +89,7 @@ abstract class FunctionType extends Expression
     Map<String, Expression> namedArguments = const {},
     List<Reference> typeArguments = const [],
   ]) =>
-      throw new UnsupportedError('Cannot "const" a function type.');
+      throw UnsupportedError('Cannot "const" a function type.');
 
   /// A typedef assignment to this type.
   Code toTypeDef(String name) => createTypeDef(name, this);
@@ -105,12 +105,12 @@ abstract class FunctionTypeBuilder extends Object
   Reference returnType;
 
   @override
-  ListBuilder<Reference> types = new ListBuilder<Reference>();
+  ListBuilder<Reference> types = ListBuilder<Reference>();
 
-  ListBuilder<Reference> requiredParameters = new ListBuilder<Reference>();
+  ListBuilder<Reference> requiredParameters = ListBuilder<Reference>();
 
-  ListBuilder<Reference> optionalParameters = new ListBuilder<Reference>();
+  ListBuilder<Reference> optionalParameters = ListBuilder<Reference>();
 
   MapBuilder<String, Reference> namedParameters =
-      new MapBuilder<String, Reference>();
+      MapBuilder<String, Reference>();
 }

@@ -12,7 +12,7 @@ void main() {
 
   test('should emit a block of code', () {
     expect(
-      new Block.of([
+      Block.of([
         const Code('if (foo) {'),
         const Code('  print(true);'),
         const Code('}'),
@@ -27,7 +27,7 @@ void main() {
 
   test('should emit a block of code including expressions', () {
     expect(
-      new Block.of([
+      Block.of([
         const Code('if (foo) {'),
         refer('print')([literalTrue]).statement,
         const Code('}'),
@@ -42,9 +42,9 @@ void main() {
 
   test('should emit a block of code with lazyily invoked generators', () {
     expect(
-      new Method((b) => b
+      Method((b) => b
         ..name = 'main'
-        ..body = new Block.of([
+        ..body = Block.of([
           const Code('if ('),
           lazyCode(() => refer('foo').code),
           const Code(') {'),

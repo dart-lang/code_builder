@@ -34,21 +34,21 @@ abstract class Expression implements Spec {
   /// The expression as a valid [Code] block.
   ///
   /// Also see [statement].
-  Code get code => new ToCodeExpression(this, false);
+  Code get code => ToCodeExpression(this, false);
 
   /// The expression as a valid [Code] block with a trailing `;`.
-  Code get statement => new ToCodeExpression(this, true);
+  Code get statement => ToCodeExpression(this, true);
 
   /// Returns the result of `this` `&&` [other].
   Expression and(Expression other) {
-    return new BinaryExpression._(expression, other, '&&');
+    return BinaryExpression._(expression, other, '&&');
   }
 
   /// Returns the result of `this` `as` [other].
   Expression asA(Expression other) {
-    return new CodeExpression(new Block.of([
+    return CodeExpression(Block.of([
       const Code('('),
-      new BinaryExpression._(
+      BinaryExpression._(
         expression,
         other,
         'as',
@@ -59,9 +59,9 @@ abstract class Expression implements Spec {
 
   /// Returns accessing the index operator (`[]`) on `this`.
   Expression index(Expression index) {
-    return new BinaryExpression._(
+    return BinaryExpression._(
       expression,
-      new CodeExpression(new Block.of([
+      CodeExpression(Block.of([
         const Code('['),
         index.code,
         const Code(']'),
@@ -72,7 +72,7 @@ abstract class Expression implements Spec {
 
   /// Returns the result of `this` `is` [other].
   Expression isA(Expression other) {
-    return new BinaryExpression._(
+    return BinaryExpression._(
       expression,
       other,
       'is',
@@ -81,7 +81,7 @@ abstract class Expression implements Spec {
 
   /// Returns the result of `this` `is!` [other].
   Expression isNotA(Expression other) {
-    return new BinaryExpression._(
+    return BinaryExpression._(
       expression,
       other,
       'is!',
@@ -90,7 +90,7 @@ abstract class Expression implements Spec {
 
   /// Returns the result of `this` `==` [other].
   Expression equalTo(Expression other) {
-    return new BinaryExpression._(
+    return BinaryExpression._(
       expression,
       other,
       '==',
@@ -99,7 +99,7 @@ abstract class Expression implements Spec {
 
   /// Returns the result of `this` `!=` [other].
   Expression notEqualTo(Expression other) {
-    return new BinaryExpression._(
+    return BinaryExpression._(
       expression,
       other,
       '!=',
@@ -108,7 +108,7 @@ abstract class Expression implements Spec {
 
   /// Returns the result of `this` `>` [other].
   Expression greaterThan(Expression other) {
-    return new BinaryExpression._(
+    return BinaryExpression._(
       expression,
       other,
       '>',
@@ -117,7 +117,7 @@ abstract class Expression implements Spec {
 
   /// Returns the result of `this` `<` [other].
   Expression lessThan(Expression other) {
-    return new BinaryExpression._(
+    return BinaryExpression._(
       expression,
       other,
       '<',
@@ -126,7 +126,7 @@ abstract class Expression implements Spec {
 
   /// Returns the result of `this` `>=` [other].
   Expression greaterOrEqualTo(Expression other) {
-    return new BinaryExpression._(
+    return BinaryExpression._(
       expression,
       other,
       '>=',
@@ -135,7 +135,7 @@ abstract class Expression implements Spec {
 
   /// Returns the result of `this` `<=` [other].
   Expression lessOrEqualTo(Expression other) {
-    return new BinaryExpression._(
+    return BinaryExpression._(
       expression,
       other,
       '<=',
@@ -144,7 +144,7 @@ abstract class Expression implements Spec {
 
   /// Returns the result of `this` `+` [other].
   Expression operatorAdd(Expression other) {
-    return new BinaryExpression._(
+    return BinaryExpression._(
       expression,
       other,
       '+',
@@ -153,7 +153,7 @@ abstract class Expression implements Spec {
 
   /// Returns the result of `this` `-` [other].
   Expression operatorSubstract(Expression other) {
-    return new BinaryExpression._(
+    return BinaryExpression._(
       expression,
       other,
       '-',
@@ -162,7 +162,7 @@ abstract class Expression implements Spec {
 
   /// Returns the result of `this` `/` [other].
   Expression operatorDivide(Expression other) {
-    return new BinaryExpression._(
+    return BinaryExpression._(
       expression,
       other,
       '/',
@@ -171,7 +171,7 @@ abstract class Expression implements Spec {
 
   /// Returns the result of `this` `*` [other].
   Expression operatorMultiply(Expression other) {
-    return new BinaryExpression._(
+    return BinaryExpression._(
       expression,
       other,
       '*',
@@ -180,7 +180,7 @@ abstract class Expression implements Spec {
 
   /// Returns the result of `this` `%` [other].
   Expression operatorEuclideanModulo(Expression other) {
-    return new BinaryExpression._(
+    return BinaryExpression._(
       expression,
       other,
       '%',
@@ -188,16 +188,16 @@ abstract class Expression implements Spec {
   }
 
   Expression conditional(Expression whenTrue, Expression whenFalse) {
-    return new BinaryExpression._(
+    return BinaryExpression._(
       expression,
-      new BinaryExpression._(whenTrue, whenFalse, ':'),
+      BinaryExpression._(whenTrue, whenFalse, ':'),
       '?',
     );
   }
 
   /// This expression preceded by `await`.
   Expression get awaited {
-    return new BinaryExpression._(
+    return BinaryExpression._(
       const LiteralExpression._('await'),
       this,
       '',
@@ -206,7 +206,7 @@ abstract class Expression implements Spec {
 
   /// Return `{other} = {this}`.
   Expression assign(Expression other) {
-    return new BinaryExpression._(
+    return BinaryExpression._(
       this,
       other,
       '=',
@@ -215,7 +215,7 @@ abstract class Expression implements Spec {
 
   /// Return `{other} ??= {this}`.
   Expression assignNullAware(Expression other) {
-    return new BinaryExpression._(
+    return BinaryExpression._(
       this,
       other,
       '??=',
@@ -224,12 +224,12 @@ abstract class Expression implements Spec {
 
   /// Return `var {name} = {this}`.
   Expression assignVar(String name, [Reference type]) {
-    return new BinaryExpression._(
+    return BinaryExpression._(
       type == null
-          ? new LiteralExpression._('var $name')
-          : new BinaryExpression._(
+          ? LiteralExpression._('var $name')
+          : BinaryExpression._(
               type.expression,
-              new LiteralExpression._(name),
+              LiteralExpression._(name),
               '',
             ),
       this,
@@ -239,10 +239,10 @@ abstract class Expression implements Spec {
 
   /// Return `final {name} = {this}`.
   Expression assignFinal(String name, [Reference type]) {
-    return new BinaryExpression._(
+    return BinaryExpression._(
       type == null
           ? const LiteralExpression._('final')
-          : new BinaryExpression._(
+          : BinaryExpression._(
               const LiteralExpression._('final'),
               type.expression,
               '',
@@ -254,10 +254,10 @@ abstract class Expression implements Spec {
 
   /// Return `const {name} = {this}`.
   Expression assignConst(String name, [Reference type]) {
-    return new BinaryExpression._(
+    return BinaryExpression._(
       type == null
           ? const LiteralExpression._('const')
-          : new BinaryExpression._(
+          : BinaryExpression._(
               const LiteralExpression._('const'),
               type.expression,
               '',
@@ -273,7 +273,7 @@ abstract class Expression implements Spec {
     Map<String, Expression> namedArguments = const {},
     List<Reference> typeArguments = const [],
   ]) {
-    return new InvokeExpression._(
+    return InvokeExpression._(
       this,
       positionalArguments.toList(),
       namedArguments,
@@ -283,9 +283,9 @@ abstract class Expression implements Spec {
 
   /// Returns an expression accessing `.<name>` on this expression.
   Expression property(String name) {
-    return new BinaryExpression._(
+    return BinaryExpression._(
       this,
-      new LiteralExpression._(name),
+      LiteralExpression._(name),
       '.',
       false,
     );
@@ -293,9 +293,9 @@ abstract class Expression implements Spec {
 
   /// Returns an expression accessing `?.<name>` on this expression.
   Expression nullSafeProperty(String name) {
-    return new BinaryExpression._(
+    return BinaryExpression._(
       this,
-      new LiteralExpression._(name),
+      LiteralExpression._(name),
       '?.',
       false,
     );
@@ -303,7 +303,7 @@ abstract class Expression implements Spec {
 
   /// This expression preceded by `return`.
   Expression get returned {
-    return new BinaryExpression._(
+    return BinaryExpression._(
       const LiteralExpression._('return'),
       this,
       '',
@@ -316,8 +316,8 @@ abstract class Expression implements Spec {
 }
 
 /// Creates `typedef {name} =`.
-Code createTypeDef(String name, FunctionType type) => new BinaryExpression._(
-        new LiteralExpression._('typedef $name'), type.expression, '=')
+Code createTypeDef(String name, FunctionType type) => BinaryExpression._(
+        LiteralExpression._('typedef $name'), type.expression, '=')
     .statement;
 
 class ToCodeExpression implements Code {
@@ -359,7 +359,7 @@ abstract class ExpressionVisitor<T> implements SpecVisitor<T> {
 abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
   @override
   visitToCodeExpression(ToCodeExpression expression, [StringSink output]) {
-    output ??= new StringBuffer();
+    output ??= StringBuffer();
     expression.code.accept(this, output);
     if (expression.isStatement) {
       output.write(';');
@@ -369,7 +369,7 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
 
   @override
   visitBinaryExpression(BinaryExpression expression, [StringSink output]) {
-    output ??= new StringBuffer();
+    output ??= StringBuffer();
     expression.left.accept(this, output);
     if (expression.addSpace) {
       output.write(' ');
@@ -384,20 +384,20 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
 
   @override
   visitClosureExpression(ClosureExpression expression, [StringSink output]) {
-    output ??= new StringBuffer();
+    output ??= StringBuffer();
     return expression.method.accept(this, output);
   }
 
   @override
   visitCodeExpression(CodeExpression expression, [StringSink output]) {
-    output ??= new StringBuffer();
+    output ??= StringBuffer();
     final visitor = this as CodeVisitor<StringSink>;
     return expression.code.accept(visitor, output);
   }
 
   @override
   visitInvokeExpression(InvokeExpression expression, [StringSink output]) {
-    output ??= new StringBuffer();
+    output ??= StringBuffer();
     switch (expression.type) {
       case InvokeExpressionType.newInstance:
         output.write('new ');
@@ -434,7 +434,7 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
 
   @override
   visitLiteralExpression(LiteralExpression expression, [StringSink output]) {
-    output ??= new StringBuffer();
+    output ??= StringBuffer();
     return output..write(expression.literal);
   }
 
@@ -451,7 +451,7 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
     LiteralListExpression expression, [
     StringSink output,
   ]) {
-    output ??= new StringBuffer();
+    output ??= StringBuffer();
     if (expression.isConst) {
       output.write('const ');
     }
@@ -472,7 +472,7 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
     LiteralMapExpression expression, [
     StringSink output,
   ]) {
-    output ??= new StringBuffer();
+    output ??= StringBuffer();
     if (expression.isConst) {
       output.write('const ');
     }

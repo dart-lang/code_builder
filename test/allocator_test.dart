@@ -14,12 +14,12 @@ void main() {
     Allocator allocator;
 
     test('should return the exact (non-prefixed) symbol', () {
-      allocator = new Allocator();
+      allocator = Allocator();
       expect(allocator.allocate(refer('Foo', 'package:foo')), 'Foo');
     });
 
     test('should collect import URLs', () {
-      allocator = new Allocator()
+      allocator = Allocator()
         ..allocate(refer('List', 'dart:core'))
         ..allocate(refer('LinkedHashMap', 'dart:collection'))
         ..allocate(refer('someSymbol'));
@@ -36,7 +36,7 @@ void main() {
     });
 
     test('.simplePrefixing should add import prefixes', () {
-      allocator = new Allocator.simplePrefixing();
+      allocator = Allocator.simplePrefixing();
       expect(
         allocator.allocate(refer('List', 'dart:core')),
         'List',
