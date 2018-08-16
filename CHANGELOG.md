@@ -1,4 +1,4 @@
-## 3.1.3
+## 3.1.3-dev.1
 
 * The `new` keyword will not be used in generated code.
 
