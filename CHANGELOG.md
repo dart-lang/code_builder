@@ -1,3 +1,7 @@
+## 3.1.3-dev
+
+* Bump dependency on built_collection to include v4.0.0.
+
 ## 3.1.2
 
 * Set max SDK version to `<3.0.0`.
