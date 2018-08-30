@@ -1,4 +1,4 @@
-## 3.1.3-dev
+## 3.1.3
 
 * Bump dependency on built_collection to include v4.0.0.
 
