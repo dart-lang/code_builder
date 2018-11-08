@@ -313,8 +313,9 @@ class DartEmitter extends Object
     visitAll<Reference>(spec.requiredParameters, output, (spec) {
       spec.accept(this, output);
     });
-    if (spec.optionalParameters.isNotEmpty ||
-        spec.namedParameters.isNotEmpty && spec.requiredParameters.isNotEmpty) {
+    if (spec.requiredParameters.isNotEmpty &&
+        (spec.optionalParameters.isNotEmpty ||
+            spec.namedParameters.isNotEmpty)) {
       output.write(', ');
     }
     if (spec.optionalParameters.isNotEmpty) {
