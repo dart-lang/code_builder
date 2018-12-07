@@ -1,3 +1,7 @@
+## 3.2.0
+
+* Emit `=` instead of `:` for named parameter default values.
+
 ## 3.1.3
 
 * Bump dependency on built_collection to include v4.0.0.
