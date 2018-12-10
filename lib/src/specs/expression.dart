@@ -400,7 +400,6 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
     output ??= StringBuffer();
     switch (expression.type) {
       case InvokeExpressionType.newInstance:
-        output.write('new ');
         break;
       case InvokeExpressionType.constInstance:
         output.write('const ');

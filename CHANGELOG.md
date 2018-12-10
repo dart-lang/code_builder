@@ -1,3 +1,12 @@
+## 3.2.0-alpha
+
+* Emit `=` instead of `:` for named parameter default values.
+* The `new` keyword will not be used in generated code.
+
+## 3.1.3
+
+* Bump dependency on built_collection to include v4.0.0.
+
 ## 3.1.2
 
 * Set max SDK version to `<3.0.0`.
