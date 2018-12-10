@@ -24,7 +24,7 @@ void main() {
         equalsDart(r'''
             import 'dart:collection';
           
-            final test = new LinkedHashMap();
+            final test = LinkedHashMap();
           ''', DartEmitter()),
       );
     });
@@ -86,11 +86,11 @@ void main() {
           ..body.add(Field((b) => b
             ..name = 'test'
             ..modifier = FieldModifier.final$
-            ..assignment = Code.scope((a) => 'new ${a($LinkedHashMap)}()')))),
+            ..assignment = Code.scope((a) => '${a($LinkedHashMap)}()')))),
         equalsDart(r'''
           import 'dart:collection';
           
-          final test = new LinkedHashMap();
+          final test = LinkedHashMap();
         ''', DartEmitter(Allocator())),
       );
     });
@@ -101,11 +101,11 @@ void main() {
           ..body.add(Field((b) => b
             ..name = 'test'
             ..modifier = FieldModifier.final$
-            ..assignment = Code.scope((a) => 'new ${a($LinkedHashMap)}()')))),
+            ..assignment = Code.scope((a) => '${a($LinkedHashMap)}()')))),
         equalsDart(r'''
           import 'dart:collection' as _i1;
           
-          final test = new _i1.LinkedHashMap();
+          final test = _i1.LinkedHashMap();
         ''', DartEmitter(Allocator.simplePrefixing())),
       );
     });

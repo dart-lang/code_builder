@@ -255,10 +255,10 @@ void main() {
         ..constructors.add(Constructor((b) => b
           ..factory = true
           ..lambda = true
-          ..body = const Code('new _Foo()')))),
+          ..body = const Code('_Foo()')))),
       equalsDart(r'''
         class Foo {
-          factory Foo() => new _Foo();
+          factory Foo() => _Foo();
         }
       '''),
     );
@@ -273,7 +273,7 @@ void main() {
           ..body = refer('_Foo').newInstance([]).code))),
       equalsDart(r'''
         class Foo {
-          factory Foo() => new _Foo();
+          factory Foo() => _Foo();
         }
       '''),
     );
@@ -285,11 +285,11 @@ void main() {
         ..name = 'Foo'
         ..constructors.add(Constructor((b) => b
           ..factory = true
-          ..body = const Code('return new _Foo();')))),
+          ..body = const Code('return _Foo();')))),
       equalsDart(r'''
         class Foo {
           factory Foo() {
-            return new _Foo();
+            return _Foo();
           }
         }
       '''),

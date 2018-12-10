@@ -1,6 +1,7 @@
-## 3.2.0
+## 3.2.0-alpha
 
 * Emit `=` instead of `:` for named parameter default values.
+* The `new` keyword will not be used in generated code.
 
 ## 3.1.3
 
