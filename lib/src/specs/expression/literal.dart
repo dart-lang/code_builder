@@ -92,7 +92,7 @@ LiteralMapExpression literalConstMap(
 
 /// Represents a literal value in Dart source code.
 ///
-/// For example, `new LiteralExpression('null')` should emit `null`.
+/// For example, `LiteralExpression('null')` should emit `null`.
 ///
 /// Some common literals and helpers are available as methods/fields:
 /// * [literal]

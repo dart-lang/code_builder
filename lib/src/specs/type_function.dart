@@ -63,7 +63,7 @@ abstract class FunctionType extends Expression
     Map<String, Expression> namedArguments = const {},
     List<Reference> typeArguments = const [],
   ]) =>
-      throw UnsupportedError('Cannot "new" a function type.');
+      throw UnsupportedError('Cannot instantiate a function type.');
 
   @override
   Expression newInstanceNamed(
@@ -72,7 +72,7 @@ abstract class FunctionType extends Expression
     Map<String, Expression> namedArguments = const {},
     List<Reference> typeArguments = const [],
   ]) =>
-      throw UnsupportedError('Cannot "new" a function type.');
+      throw UnsupportedError('Cannot instantiate a function type.');
 
   @override
   Expression constInstance(
