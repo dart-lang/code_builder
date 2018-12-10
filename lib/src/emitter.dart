@@ -441,11 +441,7 @@ class DartEmitter extends Object
     }
     output.write(spec.name);
     if (optional && spec.defaultTo != null) {
-      if (spec.named) {
-        output.write(': ');
-      } else {
-        output.write(' = ');
-      }
+      output.write(' = ');
       spec.defaultTo.accept(this, output);
     }
   }

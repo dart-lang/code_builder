@@ -406,7 +406,7 @@ void main() {
           ),
       ),
       equalsDart(r'''
-        fib({i: 0});
+        fib({i = 0});
       '''),
     );
   });
