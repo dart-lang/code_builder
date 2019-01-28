@@ -50,14 +50,21 @@ class DartEmitter extends Object
   @override
   final Allocator allocator;
 
+  /// If directives should be ordered while emitting.
+  ///
+  /// Ordering rules follow the guidance in
+  /// [Effective Dart](https://www.dartlang.org/guides/language/effective-dart/style#ordering).
+  final bool orderDirectives;
+
   /// Creates a new instance of [DartEmitter].
   ///
   /// May specify an [Allocator] to use for symbols, otherwise uses a no-op.
-  DartEmitter([this.allocator = Allocator.none]);
+  DartEmitter([this.allocator = Allocator.none, bool orderDirectives = false])
+      : orderDirectives = orderDirectives ?? false;
 
   /// Creates a new instance of [DartEmitter] with simple automatic imports.
-  factory DartEmitter.scoped() {
-    return DartEmitter(Allocator.simplePrefixing());
+  factory DartEmitter.scoped({bool orderDirectives}) {
+    return DartEmitter(Allocator.simplePrefixing(), orderDirectives);
   }
 
   static bool _isLambdaBody(Code code) =>
@@ -283,12 +290,22 @@ class DartEmitter extends Object
         body.write(';');
       }
     }
-    // TODO: Allow some sort of logical ordering.
-    for (final directive in spec.directives) {
-      directive.accept(this, output);
+
+    final directives = <Directive>[]
+      ..addAll(spec.directives)
+      ..addAll(allocator.imports);
+
+    if (orderDirectives) {
+      directives.sort();
     }
-    for (final directive in allocator.imports) {
+
+    Directive previous;
+    for (final directive in directives) {
+      if (_newLineBetween(orderDirectives, previous, directive)) {
+        output..writeln()..writeln();
+      }
       directive.accept(this, output);
+      previous = directive;
     }
     output.write(body);
     return output;
@@ -478,4 +495,28 @@ class DartEmitter extends Object
     }
     return output;
   }
+}
+
+/// Returns `true` if:
+///
+/// * [ordered] is `true`
+/// * [a] is non-`null`
+/// * If there should be an empty line before [b] if it's emitted after [a].
+bool _newLineBetween(bool ordered, Directive a, Directive b) {
+  if (!ordered) return false;
+  if (a == null) return false;
+
+  assert(b != null);
+
+  // Put a line between imports and exports
+  if (a.type != b.type) return true;
+
+  // Within exports, don't put in extra blank lines
+  if (a.type == DirectiveType.export ) {
+    assert(b.type == DirectiveType.export);
+    return false;
+  }
+
+  // Return `true` if the schemes for [a] and [b] are different
+  return !Uri.parse(a.url).isScheme(Uri.parse(b.url).scheme);
 }
