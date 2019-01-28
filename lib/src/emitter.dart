@@ -53,7 +53,10 @@ class DartEmitter extends Object
   /// If directives should be ordered while emitting.
   ///
   /// Ordering rules follow the guidance in
-  /// [Effective Dart](https://www.dartlang.org/guides/language/effective-dart/style#ordering).
+  /// [Effective Dart](https://www.dartlang.org/guides/language/effective-dart/style#ordering)
+  /// and the
+  /// [directives_ordering](http://dart-lang.github.io/linter/lints/directives_ordering.html)
+  /// lint.
   final bool orderDirectives;
 
   /// Creates a new instance of [DartEmitter].
@@ -63,7 +66,7 @@ class DartEmitter extends Object
       : orderDirectives = orderDirectives ?? false;
 
   /// Creates a new instance of [DartEmitter] with simple automatic imports.
-  factory DartEmitter.scoped({bool orderDirectives}) {
+  factory DartEmitter.scoped({bool orderDirectives = false}) {
     return DartEmitter(Allocator.simplePrefixing(), orderDirectives);
   }
 
@@ -512,7 +515,7 @@ bool _newLineBetween(bool ordered, Directive a, Directive b) {
   if (a.type != b.type) return true;
 
   // Within exports, don't put in extra blank lines
-  if (a.type == DirectiveType.export ) {
+  if (a.type == DirectiveType.export) {
     assert(b.type == DirectiveType.export);
     return false;
   }
