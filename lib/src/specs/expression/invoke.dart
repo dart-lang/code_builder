@@ -9,9 +9,6 @@ class InvokeExpression extends Expression {
   /// Target of the method invocation.
   final Expression target;
 
-  @override
-  bool get isConst => type == InvokeExpressionType.constInstance;
-
   /// Optional; type of invocation.
   final InvokeExpressionType type;
 

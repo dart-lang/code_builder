@@ -24,9 +24,6 @@ abstract class Field extends Object
 
   Field._();
 
-  /// Returns `true` if this represents a constant field.
-  bool get isConst => modifier == FieldModifier.constant;
-
   @override
   BuiltList<Expression> get annotations;
 

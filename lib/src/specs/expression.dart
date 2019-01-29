@@ -28,9 +28,6 @@ part 'expression/literal.dart';
 abstract class Expression implements Spec {
   const Expression();
 
-  /// Returns `true` if this represents a constant expression.
-  bool get isConst => false;
-
   @override
   R accept<R>(covariant ExpressionVisitor<R> visitor, [R context]);
 
@@ -404,7 +401,7 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
   @override
   visitInvokeExpression(InvokeExpression expression, [StringSink output]) {
     output ??= StringBuffer();
-    return _writeConstExpression(output, expression, () {
+    return _writeConstExpression(output, expression.type == InvokeExpressionType.constInstance, () {
       expression.target.accept(this, output);
       if (expression.name != null) {
         output..write('.')..write(expression.name);
@@ -455,7 +452,7 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
   ]) {
     output ??= StringBuffer();
 
-    return _writeConstExpression(output, expression, () {
+    return _writeConstExpression(output, expression.isConst, () {
       if (expression.type != null) {
         output.write('<');
         expression.type.accept(this, output);
@@ -475,7 +472,7 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
     StringSink output,
   ]) {
     output ??= StringBuffer();
-    return _writeConstExpression(output, expression, () {
+    return _writeConstExpression(output, expression.isConst, () {
       if (expression.keyType != null) {
         output.write('<');
         expression.keyType.accept(this, output);
@@ -516,15 +513,16 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
     _withInConstExpression = previousConstContext;
   }
 
-  /// Similar to [startConstCode], but handles writing `"const "` before
-  /// [expression] if it is the root of constant expression tree.
+  /// Similar to [startConstCode], but handles writing `"const "` if [isConst]
+  /// is `true` and the invocation is not nested under other invocations where
+  /// [isConst] is true.
   StringSink _writeConstExpression(
     StringSink sink,
-    Expression expression,
+    bool isConst,
     StringSink Function() visitExpression,
   ) {
     final previousConstContext = _withInConstExpression;
-    if (expression.isConst) {
+    if (isConst) {
       if (!_withInConstExpression) {
         sink.write('const ');
       }

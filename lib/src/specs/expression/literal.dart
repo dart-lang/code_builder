@@ -114,7 +114,6 @@ class LiteralExpression extends Expression {
 }
 
 class LiteralListExpression extends Expression {
-  @override
   final bool isConst;
   final List<Object> values;
   final Reference type;
@@ -131,7 +130,6 @@ class LiteralListExpression extends Expression {
 }
 
 class LiteralMapExpression extends Expression {
-  @override
   final bool isConst;
   final Map<Object, Object> values;
   final Reference keyType;
