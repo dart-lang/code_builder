@@ -2,6 +2,7 @@
 
 * Emit `=` instead of `:` for named parameter default values.
 * The `new` keyword will not be used in generated code.
+* The `const` keyword will be omitted when it can be inferred.
 * Add an option in `DartEmitter` to order directives.
 
 ## 3.1.3
