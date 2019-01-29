@@ -4,6 +4,9 @@
 * The `new` keyword will not be used in generated code.
 * The `const` keyword will be omitted when it can be inferred.
 * Add an option in `DartEmitter` to order directives.
+* `DartEmitter` added a `startConstCode` function to track the creation of
+  constant expression trees.
+* `BinaryExpression` added the `final bool isConst` field.
 
 ## 3.1.3
 
