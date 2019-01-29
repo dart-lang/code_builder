@@ -305,6 +305,9 @@ class DartEmitter extends Object
     Directive previous;
     for (final directive in directives) {
       if (_newLineBetween(orderDirectives, previous, directive)) {
+        // Note: dartfmt handles creating new lines between directives.
+        // 2 lines are written here. The first one comes after the previous
+        // directive `;`, the second is the empty line.
         output..writeln()..writeln();
       }
       directive.accept(this, output);

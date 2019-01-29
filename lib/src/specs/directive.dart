@@ -113,6 +113,8 @@ enum DirectiveType {
 /// 3. `package:`
 /// 4. relative
 int _compareDirectives(Directive a, Directive b) {
+  // NOTE: using the fact that `import` is before `export` in the
+  // `DirectiveType` enum – which allows us to compare using `indexOf`.
   var value = DirectiveType.values
       .indexOf(a.type)
       .compareTo(DirectiveType.values.indexOf(b.type));
