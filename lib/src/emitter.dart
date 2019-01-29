@@ -276,7 +276,9 @@ class DartEmitter extends Object
     output.write(spec.name);
     if (spec.assignment != null) {
       output.write(' = ');
-      spec.assignment.accept(this, output);
+      startConstCode(spec.isConst, () {
+        spec.assignment.accept(this, output);
+      });
     }
     output.writeln(';');
     return output;

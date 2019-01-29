@@ -11,11 +11,15 @@ class BinaryExpression extends Expression {
   final String operator;
   final bool addSpace;
 
+  @override
+  final bool isConst;
+
   const BinaryExpression._(
     this.left,
     this.right,
     this.operator, {
     this.addSpace = true,
+    this.isConst = false,
   });
 
   @override
