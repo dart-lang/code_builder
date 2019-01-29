@@ -287,7 +287,7 @@ abstract class Expression implements Spec {
       this,
       LiteralExpression._(name),
       '.',
-      false,
+      addSpace: false,
     );
   }
 
@@ -297,7 +297,7 @@ abstract class Expression implements Spec {
       this,
       LiteralExpression._(name),
       '?.',
-      false,
+      addSpace: false,
     );
   }
 

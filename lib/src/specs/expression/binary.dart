@@ -14,9 +14,9 @@ class BinaryExpression extends Expression {
   const BinaryExpression._(
     this.left,
     this.right,
-    this.operator, [
+    this.operator, {
     this.addSpace = true,
-  ]);
+  });
 
   @override
   R accept<R>(ExpressionVisitor<R> visitor, [R context]) {
