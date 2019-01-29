@@ -401,7 +401,8 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
   @override
   visitInvokeExpression(InvokeExpression expression, [StringSink output]) {
     output ??= StringBuffer();
-    return _writeConstExpression(output, expression.type == InvokeExpressionType.constInstance, () {
+    return _writeConstExpression(
+        output, expression.type == InvokeExpressionType.constInstance, () {
       expression.target.accept(this, output);
       if (expression.name != null) {
         output..write('.')..write(expression.name);
