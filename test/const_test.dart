@@ -45,7 +45,7 @@ void main() {
       library,
       equalsDart(r'''
         const val1 = ConstClass();
-        const val2 = ConstClass.other();''', DartEmitter.scoped()),
+        const val2 = ConstClass.other();'''),
     );
   });
 }
