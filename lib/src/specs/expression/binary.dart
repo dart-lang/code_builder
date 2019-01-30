@@ -10,13 +10,15 @@ class BinaryExpression extends Expression {
   final Expression right;
   final String operator;
   final bool addSpace;
+  final bool isConst;
 
   const BinaryExpression._(
     this.left,
     this.right,
-    this.operator, [
+    this.operator, {
     this.addSpace = true,
-  ]);
+    this.isConst = false,
+  });
 
   @override
   R accept<R>(ExpressionVisitor<R> visitor, [R context]) {

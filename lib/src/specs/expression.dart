@@ -264,6 +264,7 @@ abstract class Expression implements Spec {
             ),
       this,
       '$name =',
+      isConst: true,
     );
   }
 
@@ -287,7 +288,7 @@ abstract class Expression implements Spec {
       this,
       LiteralExpression._(name),
       '.',
-      false,
+      addSpace: false,
     );
   }
 
@@ -297,7 +298,7 @@ abstract class Expression implements Spec {
       this,
       LiteralExpression._(name),
       '?.',
-      false,
+      addSpace: false,
     );
   }
 
@@ -378,7 +379,9 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
     if (expression.addSpace) {
       output.write(' ');
     }
-    expression.right.accept(this, output);
+    startConstCode(expression.isConst, () {
+      expression.right.accept(this, output);
+    });
     return output;
   }
 
@@ -398,37 +401,33 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
   @override
   visitInvokeExpression(InvokeExpression expression, [StringSink output]) {
     output ??= StringBuffer();
-    switch (expression.type) {
-      case InvokeExpressionType.newInstance:
-        break;
-      case InvokeExpressionType.constInstance:
-        output.write('const ');
-        break;
-    }
-    expression.target.accept(this, output);
-    if (expression.name != null) {
-      output..write('.')..write(expression.name);
-    }
-    if (expression.typeArguments.isNotEmpty) {
-      output.write('<');
-      visitAll<Reference>(expression.typeArguments, output, (type) {
-        type.accept(this, output);
+    return _writeConstExpression(
+        output, expression.type == InvokeExpressionType.constInstance, () {
+      expression.target.accept(this, output);
+      if (expression.name != null) {
+        output..write('.')..write(expression.name);
+      }
+      if (expression.typeArguments.isNotEmpty) {
+        output.write('<');
+        visitAll<Reference>(expression.typeArguments, output, (type) {
+          type.accept(this, output);
+        });
+        output.write('>');
+      }
+      output.write('(');
+      visitAll<Spec>(expression.positionalArguments, output, (spec) {
+        spec.accept(this, output);
       });
-      output.write('>');
-    }
-    output.write('(');
-    visitAll<Spec>(expression.positionalArguments, output, (spec) {
-      spec.accept(this, output);
+      if (expression.positionalArguments.isNotEmpty &&
+          expression.namedArguments.isNotEmpty) {
+        output.write(', ');
+      }
+      visitAll<String>(expression.namedArguments.keys, output, (name) {
+        output..write(name)..write(': ');
+        expression.namedArguments[name].accept(this, output);
+      });
+      return output..write(')');
     });
-    if (expression.positionalArguments.isNotEmpty &&
-        expression.namedArguments.isNotEmpty) {
-      output.write(', ');
-    }
-    visitAll<String>(expression.namedArguments.keys, output, (name) {
-      output..write(name)..write(': ');
-      expression.namedArguments[name].accept(this, output);
-    });
-    return output..write(')');
   }
 
   @override
@@ -445,25 +444,27 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
     literal(literalOrSpec).accept(this, output);
   }
 
+  bool _withInConstExpression = false;
+
   @override
   visitLiteralListExpression(
     LiteralListExpression expression, [
     StringSink output,
   ]) {
     output ??= StringBuffer();
-    if (expression.isConst) {
-      output.write('const ');
-    }
-    if (expression.type != null) {
-      output.write('<');
-      expression.type.accept(this, output);
-      output.write('>');
-    }
-    output.write('[');
-    visitAll<Object>(expression.values, output, (value) {
-      _acceptLiteral(value, output);
+
+    return _writeConstExpression(output, expression.isConst, () {
+      if (expression.type != null) {
+        output.write('<');
+        expression.type.accept(this, output);
+        output.write('>');
+      }
+      output.write('[');
+      visitAll<Object>(expression.values, output, (value) {
+        _acceptLiteral(value, output);
+      });
+      return output..write(']');
     });
-    return output..write(']');
   }
 
   @override
@@ -472,27 +473,66 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
     StringSink output,
   ]) {
     output ??= StringBuffer();
-    if (expression.isConst) {
-      output.write('const ');
-    }
-    if (expression.keyType != null) {
-      output.write('<');
-      expression.keyType.accept(this, output);
-      output.write(', ');
-      if (expression.valueType == null) {
-        const Reference('dynamic', 'dart:core').accept(this, output);
-      } else {
-        expression.valueType.accept(this, output);
+    return _writeConstExpression(output, expression.isConst, () {
+      if (expression.keyType != null) {
+        output.write('<');
+        expression.keyType.accept(this, output);
+        output.write(', ');
+        if (expression.valueType == null) {
+          const Reference('dynamic', 'dart:core').accept(this, output);
+        } else {
+          expression.valueType.accept(this, output);
+        }
+        output.write('>');
       }
-      output.write('>');
-    }
-    output.write('{');
-    visitAll<Object>(expression.values.keys, output, (key) {
-      final value = expression.values[key];
-      _acceptLiteral(key, output);
-      output.write(': ');
-      _acceptLiteral(value, output);
+      output.write('{');
+      visitAll<Object>(expression.values.keys, output, (key) {
+        final value = expression.values[key];
+        _acceptLiteral(key, output);
+        output.write(': ');
+        _acceptLiteral(value, output);
+      });
+      return output..write('}');
     });
-    return output..write('}');
+  }
+
+  /// Executes [visit] within a context which may alter the output if [isConst]
+  /// is `true`.
+  ///
+  /// This allows constant expressions to omit the `const` keyword if they
+  /// are already within a constant expression.
+  void startConstCode(
+    bool isConst,
+    Null Function() visit,
+  ) {
+    final previousConstContext = _withInConstExpression;
+    if (isConst) {
+      _withInConstExpression = true;
+    }
+
+    visit();
+    _withInConstExpression = previousConstContext;
+  }
+
+  /// Similar to [startConstCode], but handles writing `"const "` if [isConst]
+  /// is `true` and the invocation is not nested under other invocations where
+  /// [isConst] is true.
+  StringSink _writeConstExpression(
+    StringSink sink,
+    bool isConst,
+    StringSink Function() visitExpression,
+  ) {
+    final previousConstContext = _withInConstExpression;
+    if (isConst) {
+      if (!_withInConstExpression) {
+        sink.write('const ');
+      }
+      _withInConstExpression = true;
+    }
+
+    final returnedSink = visitExpression();
+    assert(identical(returnedSink, sink));
+    _withInConstExpression = previousConstContext;
+    return sink;
   }
 }
