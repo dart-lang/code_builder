@@ -1,6 +1,8 @@
 language: dart
 dart:
   - dev
+  - 2.0.0
+
 cache:
   directories:
     - $HOME/.pub-cache
