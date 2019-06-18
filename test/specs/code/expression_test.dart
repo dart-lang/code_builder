@@ -30,6 +30,10 @@ void main() {
     expect(() => literalString(r"don't", raw: true), throwsArgumentError);
   });
 
+  test('should escape a newline in a string', () {
+    expect(literalString('some\nthing'), equalsDart(r"'some\nthing'"));
+  });
+
   test('should emit a && expression', () {
     expect(literalTrue.and(literalFalse), equalsDart('true && false'));
   });
