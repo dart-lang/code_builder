@@ -1,3 +1,7 @@
+## 3.2.1
+
+* Escape newlines in String literals.
+
 ## 3.2.0
 
 * Emit `=` instead of `:` for named parameter default values.

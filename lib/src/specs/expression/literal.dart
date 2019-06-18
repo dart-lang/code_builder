@@ -53,12 +53,12 @@ Expression literalNum(num value) => LiteralExpression._('$value');
 ///
 /// If [raw] is `true`, creates a raw String formatted `r'<value>'` and the
 /// value may not contain a single quote.
-/// If [raw] is `false` escapes single quotes in the value.
+/// Escapes single quotes and newlines in the value.
 Expression literalString(String value, {bool raw = false}) {
   if (raw && value.contains('\'')) {
     throw ArgumentError('Cannot include a single quote in a raw string');
   }
-  final escaped = value.replaceAll('\'', '\\\'');
+  final escaped = value.replaceAll('\'', '\\\'').replaceAll('\n', '\\n');
   return LiteralExpression._("${raw ? 'r' : ''}'$escaped'");
 }
 
