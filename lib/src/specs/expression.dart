@@ -19,6 +19,7 @@ part 'expression/closure.dart';
 part 'expression/code.dart';
 part 'expression/invoke.dart';
 part 'expression/literal.dart';
+part 'expression/unary.dart';
 
 /// Represents a [code] block that wraps an [Expression].
 
@@ -47,6 +48,11 @@ abstract class Expression implements Spec {
   /// Returns the result of `this` `||` [other].
   Expression or(Expression other) {
     return BinaryExpression._(expression, other, '||');
+  }
+
+  /// Returns the result of `!` `this`.
+  Expression not() {
+    return UnaryExpression._(expression, '!');
   }
 
   /// Returns the result of `this` `as` [other].
@@ -190,6 +196,11 @@ abstract class Expression implements Spec {
       other,
       '%',
     );
+  }
+
+  /// Returns the result of `-` `this`.
+  Expression neg() {
+    return UnaryExpression._(expression, '-');
   }
 
   Expression conditional(Expression whenTrue, Expression whenFalse) {
@@ -357,6 +368,7 @@ abstract class ExpressionVisitor<T> implements SpecVisitor<T> {
   T visitLiteralExpression(LiteralExpression expression, [T context]);
   T visitLiteralListExpression(LiteralListExpression expression, [T context]);
   T visitLiteralMapExpression(LiteralMapExpression expression, [T context]);
+  T visitUnaryExpression(UnaryExpression expression, [T context]);
 }
 
 /// Knowledge of how to write valid Dart code from [ExpressionVisitor].
@@ -439,6 +451,17 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
   visitLiteralExpression(LiteralExpression expression, [StringSink output]) {
     output ??= StringBuffer();
     return output..write(expression.literal);
+  }
+
+  @override
+  visitUnaryExpression(UnaryExpression expression, [StringSink output]) {
+    output ??= StringBuffer();
+    output.write(expression.operator);
+    if (expression.addSpace) {
+      output.write(' ');
+    }
+    expression.target.accept(this, output);
+    return output;
   }
 
   void _acceptLiteral(Object literalOrSpec, StringSink output) {

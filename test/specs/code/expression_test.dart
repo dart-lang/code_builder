@@ -42,6 +42,10 @@ void main() {
     expect(literalFalse.or(literalTrue), equalsDart('false || true'));
   });
 
+  test('should emit a ! expression', () {
+    expect(literalFalse.not(), equalsDart('!false'));
+  });
+
   test('should emit a list', () {
     expect(literalList([]), equalsDart('[]'));
   });
@@ -443,5 +447,10 @@ void main() {
   test('should emit an euclidean modulo operator call', () {
     expect(refer('foo').operatorEuclideanModulo(refer('foo2')),
         equalsDart('foo % foo2'));
+  });
+
+  test('should emit an negate operator call', () {
+    expect(refer('foo').neg(),
+        equalsDart('-foo'));
   });
 }
