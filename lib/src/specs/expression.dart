@@ -44,6 +44,11 @@ abstract class Expression implements Spec {
     return BinaryExpression._(expression, other, '&&');
   }
 
+  /// Returns the result of `this` `||` [other].
+  Expression or(Expression other) {
+    return BinaryExpression._(expression, other, '||');
+  }
+
   /// Returns the result of `this` `as` [other].
   Expression asA(Expression other) {
     return CodeExpression(Block.of([
