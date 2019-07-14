@@ -38,6 +38,10 @@ void main() {
     expect(literalTrue.and(literalFalse), equalsDart('true && false'));
   });
 
+  test('should emit a || expression', () {
+    expect(literalFalse.or(literalTrue), equalsDart('false || true'));
+  });
+
   test('should emit a list', () {
     expect(literalList([]), equalsDart('[]'));
   });
