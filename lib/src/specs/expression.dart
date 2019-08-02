@@ -351,6 +351,7 @@ abstract class ExpressionVisitor<T> implements SpecVisitor<T> {
   T visitInvokeExpression(InvokeExpression expression, [T context]);
   T visitLiteralExpression(LiteralExpression expression, [T context]);
   T visitLiteralListExpression(LiteralListExpression expression, [T context]);
+  T visitLiteralSetExpression(LiteralSetExpression expression, [T context]);
   T visitLiteralMapExpression(LiteralMapExpression expression, [T context]);
 }
 
@@ -464,6 +465,27 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
         _acceptLiteral(value, output);
       });
       return output..write(']');
+    });
+  }
+
+  @override
+  visitLiteralSetExpression(
+    LiteralSetExpression expression, [
+    StringSink output,
+  ]) {
+    output ??= StringBuffer();
+
+    return _writeConstExpression(output, expression.isConst, () {
+      if (expression.type != null) {
+        output.write('<');
+        expression.type.accept(this, output);
+        output.write('>');
+      }
+      output.write('{');
+      visitAll<Object>(expression.values, output, (value) {
+        _acceptLiteral(value, output);
+      });
+      return output..write('}');
     });
   }
 

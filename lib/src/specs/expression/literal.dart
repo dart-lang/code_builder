@@ -20,6 +20,9 @@ Expression literal(Object literal, {Expression onError(Object value)}) {
   if (literal is List) {
     return literalList(literal);
   }
+  if (literal is Set) {
+    return literalSet(literal);
+  }
   if (literal is Map) {
     return literalMap(literal);
   }
@@ -72,6 +75,16 @@ LiteralListExpression literalConstList(List<Object> values, [Reference type]) {
   return LiteralListExpression._(true, values, type);
 }
 
+/// Creates a literal set expression from [values].
+LiteralSetExpression literalSet(Iterable<Object> values, [Reference type]) {
+  return LiteralSetExpression._(false, values.toSet(), type);
+}
+
+/// Creates a literal `const` set expression from [values].
+LiteralSetExpression literalConstSet(Set<Object> values, [Reference type]) {
+  return LiteralSetExpression._(true, values, type);
+}
+
 /// Create a literal map expression from [values].
 LiteralMapExpression literalMap(
   Map<Object, Object> values, [
@@ -99,6 +112,7 @@ LiteralMapExpression literalConstMap(
 /// * [literalBool] and [literalTrue], [literalFalse]
 /// * [literalNull]
 /// * [literalList] and [literalConstList]
+/// * [literalSet] and [literalConstSet]
 class LiteralExpression extends Expression {
   final String literal;
 
@@ -127,6 +141,22 @@ class LiteralListExpression extends Expression {
 
   @override
   String toString() => '[${values.map(literal).join(', ')}]';
+}
+
+class LiteralSetExpression extends Expression {
+  final bool isConst;
+  final Set<Object> values;
+  final Reference type;
+
+  const LiteralSetExpression._(this.isConst, this.values, this.type);
+
+  @override
+  R accept<R>(ExpressionVisitor<R> visitor, [R context]) {
+    return visitor.visitLiteralSetExpression(this, context);
+  }
+
+  @override
+  String toString() => '{${values.map(literal).join(', ')}}';
 }
 
 class LiteralMapExpression extends Expression {

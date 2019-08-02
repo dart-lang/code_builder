@@ -50,6 +50,21 @@ void main() {
     expect(literalList([], refer('int')), equalsDart('<int>[]'));
   });
 
+  test('should emit a set', () {
+    // ignore: prefer_collection_literals
+    expect(literalSet(Set()), equalsDart('{}'));
+  });
+
+  test('should emit a const set', () {
+    // ignore: prefer_collection_literals
+    expect(literalConstSet(Set()), equalsDart('const {}'));
+  });
+
+  test('should emit an explicitly typed set', () {
+    // ignore: prefer_collection_literals
+    expect(literalSet(Set(), refer('int')), equalsDart('<int>{}'));
+  });
+
   test('should emit a map', () {
     expect(literalMap({}), equalsDart('{}'));
   });
@@ -79,8 +94,30 @@ void main() {
 
   test('should emit a list of other literals and expressions', () {
     expect(
-      literalList([<dynamic>[], true, null, refer('Map').newInstance([])]),
-      equalsDart('[[], true, null, Map()]'),
+      literalList([
+        <dynamic>[],
+        // ignore: prefer_collection_literals
+        Set<dynamic>(),
+        true,
+        null,
+        refer('Map').newInstance([])
+      ]),
+      equalsDart('[[], {}, true, null, Map()]'),
+    );
+  });
+
+  test('should emit a set of other literals and expressions', () {
+    expect(
+      // ignore: prefer_collection_literals
+      literalSet([
+        <dynamic>[],
+        // ignore: prefer_collection_literals
+        Set<dynamic>(),
+        true,
+        null,
+        refer('Map').newInstance([])
+      ]),
+      equalsDart('{[], {}, true, null, Map()}'),
     );
   });
 
