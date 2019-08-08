@@ -30,6 +30,8 @@ export 'src/specs/expression.dart'
         literalBool,
         literalList,
         literalConstList,
+        literalSet,
+        literalConstSet,
         literalMap,
         literalConstMap,
         literalString,
