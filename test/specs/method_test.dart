@@ -140,6 +140,66 @@ void main() {
     );
   });
 
+  test('should create a function type with an optional positional parameter',
+      () {
+    expect(
+      FunctionType((b) => b
+        ..returnType = refer('String')
+        ..optionalParameters.add(refer('int'))),
+      equalsDart(r'''
+        String Function([int])
+      '''),
+    );
+  });
+
+  test(
+      'should create a function type with a required '
+      'and an optional positional parameter', () {
+    expect(
+      FunctionType((b) => b
+        ..returnType = refer('String')
+        ..requiredParameters.add(refer('int'))
+        ..optionalParameters.add(refer('int'))),
+      equalsDart(r'''
+        String Function(int, [int])
+      '''),
+    );
+  });
+
+  test('should create a function type without parameters', () {
+    expect(
+      FunctionType((b) => b..returnType = refer('String')),
+      equalsDart(r'''
+        String Function()
+      '''),
+    );
+  });
+
+  test('should create a function type with an optional named parameter', () {
+    expect(
+      FunctionType((b) => b
+        ..returnType = refer('String')
+        ..namedParameters['named'] = refer('int')),
+      equalsDart(r'''
+        String Function({int named})
+      '''),
+    );
+  });
+
+  test(
+      'should create a function type with a required '
+      'and an optional named parameter', () {
+    expect(
+      FunctionType((b) => b
+        ..returnType = refer('String')
+        ..requiredParameters.add(refer('int'))
+        ..namedParameters['named'] = refer('int')),
+      equalsDart(r'''
+        String Function(int, {int named})
+      '''),
+    );
+  });
+
   test('should create a method with a nested function type return type', () {
     expect(
       Method((b) => b
