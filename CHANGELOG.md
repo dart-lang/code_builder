@@ -1,3 +1,6 @@
+* No longer emits redundant `,`s in `FunctionType`s.
+* Added support for `literalSet` and `literalConstSet`.
+
 ## 3.2.1
 
 * Escape newlines in String literals.
