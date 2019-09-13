@@ -10,7 +10,6 @@ class CodeExpression extends Expression {
   final Code code;
 
   /// **INTERNAL ONLY**: Used to wrap [Code] as an [Expression].
-  @visibleForTesting
   const CodeExpression(this.code);
 
   @override
