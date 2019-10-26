@@ -211,9 +211,9 @@ abstract class Expression implements Spec {
   /// This expression preceded by `await`.
   Expression get awaited {
     return BinaryExpression._(
-      const LiteralExpression._('await'),
+      _empty,
       this,
-      '',
+      'await',
     );
   }
 
