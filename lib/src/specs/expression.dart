@@ -54,7 +54,7 @@ abstract class Expression implements Spec {
 
   /// Returns the result of `!this`.
   Expression negate() {
-    return BinaryExpression._(_empty, expression, '!');
+    return BinaryExpression._(_empty, expression, '!', addSpace: false);
   }
 
   /// Returns the result of `this` `as` [other].
