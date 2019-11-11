@@ -28,6 +28,9 @@ part 'expression/literal.dart';
 abstract class Expression implements Spec {
   const Expression();
 
+  /// An empty expression.
+  static const _empty = CodeExpression(Code(''));
+
   @override
   R accept<R>(covariant ExpressionVisitor<R> visitor, [R context]);
 
@@ -42,6 +45,16 @@ abstract class Expression implements Spec {
   /// Returns the result of `this` `&&` [other].
   Expression and(Expression other) {
     return BinaryExpression._(expression, other, '&&');
+  }
+
+  /// Returns the result of `this` `||` [other].
+  Expression or(Expression other) {
+    return BinaryExpression._(expression, other, '||');
+  }
+
+  /// Returns the result of `!this`.
+  Expression negate() {
+    return BinaryExpression._(_empty, expression, '!', addSpace: false);
   }
 
   /// Returns the result of `this` `as` [other].
@@ -198,9 +211,9 @@ abstract class Expression implements Spec {
   /// This expression preceded by `await`.
   Expression get awaited {
     return BinaryExpression._(
-      const LiteralExpression._('await'),
+      _empty,
       this,
-      '',
+      'await',
     );
   }
 
