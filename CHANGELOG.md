@@ -1,17 +1,11 @@
-# 3.2.3
-
-* No longer emits redundant `,`s in `FunctionType`s.
-* Added support for `literalSet` and `literalConstSet`.
-* Depend on the latest `package:built_value`.
-
-## 3.2.2
-
-* Introduce `Expression.or` for boolean OR.
-* Introduce `Expression.negate` for boolean NOT.
-
 ## 3.2.1
 
 * Escape newlines in String literals.
+* Introduce `Expression.or` for boolean OR.
+* Introduce `Expression.negate` for boolean NOT.
+* No longer emits redundant `,`s in `FunctionType`s.
+* Added support for `literalSet` and `literalConstSet`.
+* Depend on the latest `package:built_value`.
 
 ## 3.2.0
 
