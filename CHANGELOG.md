@@ -1,5 +1,8 @@
+# 3.2.3
+
 * No longer emits redundant `,`s in `FunctionType`s.
 * Added support for `literalSet` and `literalConstSet`.
+* Depend on the latest `package:built_value`.
 
 ## 3.2.2
 
