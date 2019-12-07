@@ -46,7 +46,7 @@ abstract class Allocator {
 }
 
 class _Allocator implements Allocator {
-  final _imports = Set<String>();
+  final _imports = <String>{};
 
   @override
   String allocate(Reference reference) {

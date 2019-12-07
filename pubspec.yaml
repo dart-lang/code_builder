@@ -1,5 +1,5 @@
 name: code_builder
-version: 3.2.1
+version: 3.2.2-dev
 
 description: >-
   A fluent, builder-based library for generating valid Dart code
@@ -7,7 +7,7 @@ author: Dart Team <misc@dartlang.org>
 homepage: https://github.com/dart-lang/code_builder
 
 environment:
-  sdk: '>=2.1.0 <3.0.0'
+  sdk: '>=2.2.0 <3.0.0'
 
 dependencies:
   built_collection: '>=3.0.0 <5.0.0'
