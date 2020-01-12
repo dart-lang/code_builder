@@ -10,6 +10,7 @@ final _dartfmt = DartFormatter();
 void main() {
   print('animalClass():\n${'=' * 40}\n${animalClass()}');
   print('scopedLibrary():\n${'=' * 40}\n${scopedLibrary()}');
+  print('classWithMixin():\n${'=' * 40}\n${classWithMixin()}');
 }
 
 /// Outputs:
@@ -50,5 +51,42 @@ String scopedLibrary() {
       ..returns = refer('Other', 'package:b/b.dart')),
   ];
   final library = Library((b) => b.body.addAll(methods));
+  return _dartfmt.format('${library.accept(DartEmitter.scoped())}');
+}
+
+/// Outputs:
+///
+/// ```dart
+/// import 'package:food/food.dart' as _i1;
+///
+/// mixin Eat {
+///   void eat(_i1.Food food) => print('Yum!');
+/// }
+///
+/// class Animal with Eat {
+///   void feed(_i1.Food food) => eat(food);
+/// }
+/// ```
+String classWithMixin() {
+  final foodRefer = refer('Food', 'package:food/food.dart');
+  final mixinRefer = refer('Eat');
+  final mixin = Mixin((b) => b
+    ..name = mixinRefer.symbol
+    ..methods.add(Method.returnsVoid((b) => b
+      ..name = 'eat'
+      ..requiredParameters.add(Parameter((b) => b
+        ..type = foodRefer
+        ..name = 'food'))
+      ..body = refer('print').call([literalString('Yum!')]).code)));
+  final animal = Class((b) => b
+    ..name = 'Animal'
+    ..mixins.add(mixinRefer)
+    ..methods.add(Method.returnsVoid((b) => b
+      ..name = 'feed'
+      ..requiredParameters.add(Parameter((b) => b
+        ..type = foodRefer
+        ..name = 'food'))
+      ..body = refer('eat').call([refer('food')]).code)));
+  final library = Library((b) => b..body.addAll([mixin, animal]));
   return _dartfmt.format('${library.accept(DartEmitter.scoped())}');
 }
