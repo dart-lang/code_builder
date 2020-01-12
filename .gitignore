@@ -3,3 +3,7 @@
 .packages
 .pub
 pubspec.lock
+
+# IntelliJ stuff
+.idea/
+*.iml
