@@ -6,43 +6,37 @@ part of 'library.dart';
 // BuiltValueGenerator
 // **************************************************************************
 
-// ignore_for_file: always_put_control_body_on_new_line
-// ignore_for_file: annotate_overrides
-// ignore_for_file: avoid_annotating_with_dynamic
-// ignore_for_file: avoid_catches_without_on_clauses
-// ignore_for_file: avoid_returning_this
-// ignore_for_file: lines_longer_than_80_chars
-// ignore_for_file: omit_local_variable_types
-// ignore_for_file: prefer_expression_function_bodies
-// ignore_for_file: sort_constructors_first
-
 class _$Library extends Library {
   @override
   final BuiltList<Directive> directives;
   @override
   final BuiltList<Spec> body;
 
-  factory _$Library([void updates(LibraryBuilder b)]) =>
+  factory _$Library([void Function(LibraryBuilder) updates]) =>
       (new LibraryBuilder()..update(updates)).build() as _$Library;
 
   _$Library._({this.directives, this.body}) : super._() {
-    if (directives == null)
+    if (directives == null) {
       throw new BuiltValueNullFieldError('Library', 'directives');
-    if (body == null) throw new BuiltValueNullFieldError('Library', 'body');
+    }
+    if (body == null) {
+      throw new BuiltValueNullFieldError('Library', 'body');
+    }
   }
 
   @override
-  Library rebuild(void updates(LibraryBuilder b)) =>
+  Library rebuild(void Function(LibraryBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
   _$LibraryBuilder toBuilder() => new _$LibraryBuilder()..replace(this);
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    if (other is! Library) return false;
-    return directives == other.directives && body == other.body;
+    return other is Library &&
+        directives == other.directives &&
+        body == other.body;
   }
 
   @override
@@ -99,12 +93,14 @@ class _$LibraryBuilder extends LibraryBuilder {
 
   @override
   void replace(Library other) {
-    if (other == null) throw new ArgumentError.notNull('other');
+    if (other == null) {
+      throw new ArgumentError.notNull('other');
+    }
     _$v = other as _$Library;
   }
 
   @override
-  void update(void updates(LibraryBuilder b)) {
+  void update(void Function(LibraryBuilder) updates) {
     if (updates != null) updates(this);
   }
 
@@ -131,3 +127,5 @@ class _$LibraryBuilder extends LibraryBuilder {
     return _$result;
   }
 }
+
+// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,lines_longer_than_80_chars,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new

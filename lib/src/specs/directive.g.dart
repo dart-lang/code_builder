@@ -6,16 +6,6 @@ part of 'directive.dart';
 // BuiltValueGenerator
 // **************************************************************************
 
-// ignore_for_file: always_put_control_body_on_new_line
-// ignore_for_file: annotate_overrides
-// ignore_for_file: avoid_annotating_with_dynamic
-// ignore_for_file: avoid_catches_without_on_clauses
-// ignore_for_file: avoid_returning_this
-// ignore_for_file: lines_longer_than_80_chars
-// ignore_for_file: omit_local_variable_types
-// ignore_for_file: prefer_expression_function_bodies
-// ignore_for_file: sort_constructors_first
-
 class _$Directive extends Directive {
   @override
   final String as;
@@ -30,32 +20,41 @@ class _$Directive extends Directive {
   @override
   final bool deferred;
 
-  factory _$Directive([void updates(DirectiveBuilder b)]) =>
+  factory _$Directive([void Function(DirectiveBuilder) updates]) =>
       (new DirectiveBuilder()..update(updates)).build() as _$Directive;
 
   _$Directive._(
       {this.as, this.url, this.type, this.show, this.hide, this.deferred})
       : super._() {
-    if (url == null) throw new BuiltValueNullFieldError('Directive', 'url');
-    if (type == null) throw new BuiltValueNullFieldError('Directive', 'type');
-    if (show == null) throw new BuiltValueNullFieldError('Directive', 'show');
-    if (hide == null) throw new BuiltValueNullFieldError('Directive', 'hide');
-    if (deferred == null)
+    if (url == null) {
+      throw new BuiltValueNullFieldError('Directive', 'url');
+    }
+    if (type == null) {
+      throw new BuiltValueNullFieldError('Directive', 'type');
+    }
+    if (show == null) {
+      throw new BuiltValueNullFieldError('Directive', 'show');
+    }
+    if (hide == null) {
+      throw new BuiltValueNullFieldError('Directive', 'hide');
+    }
+    if (deferred == null) {
       throw new BuiltValueNullFieldError('Directive', 'deferred');
+    }
   }
 
   @override
-  Directive rebuild(void updates(DirectiveBuilder b)) =>
+  Directive rebuild(void Function(DirectiveBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
   _$DirectiveBuilder toBuilder() => new _$DirectiveBuilder()..replace(this);
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    if (other is! Directive) return false;
-    return as == other.as &&
+    return other is Directive &&
+        as == other.as &&
         url == other.url &&
         type == other.type &&
         show == other.show &&
@@ -178,12 +177,14 @@ class _$DirectiveBuilder extends DirectiveBuilder {
 
   @override
   void replace(Directive other) {
-    if (other == null) throw new ArgumentError.notNull('other');
+    if (other == null) {
+      throw new ArgumentError.notNull('other');
+    }
     _$v = other as _$Directive;
   }
 
   @override
-  void update(void updates(DirectiveBuilder b)) {
+  void update(void Function(DirectiveBuilder) updates) {
     if (updates != null) updates(this);
   }
 
@@ -201,3 +202,5 @@ class _$DirectiveBuilder extends DirectiveBuilder {
     return _$result;
   }
 }
+
+// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,lines_longer_than_80_chars,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new

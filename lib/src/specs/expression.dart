@@ -373,7 +373,8 @@ abstract class ExpressionVisitor<T> implements SpecVisitor<T> {
 /// **INTERNAL ONLY**.
 abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
   @override
-  visitToCodeExpression(ToCodeExpression expression, [StringSink output]) {
+  StringSink visitToCodeExpression(ToCodeExpression expression,
+      [StringSink output]) {
     output ??= StringBuffer();
     expression.code.accept(this, output);
     if (expression.isStatement) {
@@ -383,7 +384,8 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
   }
 
   @override
-  visitBinaryExpression(BinaryExpression expression, [StringSink output]) {
+  StringSink visitBinaryExpression(BinaryExpression expression,
+      [StringSink output]) {
     output ??= StringBuffer();
     expression.left.accept(this, output);
     if (expression.addSpace) {
@@ -400,20 +402,23 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
   }
 
   @override
-  visitClosureExpression(ClosureExpression expression, [StringSink output]) {
+  StringSink visitClosureExpression(ClosureExpression expression,
+      [StringSink output]) {
     output ??= StringBuffer();
     return expression.method.accept(this, output);
   }
 
   @override
-  visitCodeExpression(CodeExpression expression, [StringSink output]) {
+  StringSink visitCodeExpression(CodeExpression expression,
+      [StringSink output]) {
     output ??= StringBuffer();
     final visitor = this as CodeVisitor<StringSink>;
     return expression.code.accept(visitor, output);
   }
 
   @override
-  visitInvokeExpression(InvokeExpression expression, [StringSink output]) {
+  StringSink visitInvokeExpression(InvokeExpression expression,
+      [StringSink output]) {
     output ??= StringBuffer();
     return _writeConstExpression(
         output, expression.type == InvokeExpressionType.constInstance, () {
@@ -445,7 +450,8 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
   }
 
   @override
-  visitLiteralExpression(LiteralExpression expression, [StringSink output]) {
+  StringSink visitLiteralExpression(LiteralExpression expression,
+      [StringSink output]) {
     output ??= StringBuffer();
     return output..write(expression.literal);
   }
@@ -461,7 +467,7 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
   bool _withInConstExpression = false;
 
   @override
-  visitLiteralListExpression(
+  StringSink visitLiteralListExpression(
     LiteralListExpression expression, [
     StringSink output,
   ]) {
@@ -482,7 +488,7 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
   }
 
   @override
-  visitLiteralSetExpression(
+  StringSink visitLiteralSetExpression(
     LiteralSetExpression expression, [
     StringSink output,
   ]) {
@@ -503,7 +509,7 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
   }
 
   @override
-  visitLiteralMapExpression(
+  StringSink visitLiteralMapExpression(
     LiteralMapExpression expression, [
     StringSink output,
   ]) {

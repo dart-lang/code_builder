@@ -20,7 +20,7 @@ abstract class FunctionType extends Expression
     with HasGenerics
     implements Built<FunctionType, FunctionTypeBuilder>, Reference, Spec {
   factory FunctionType([
-    void updates(FunctionTypeBuilder b),
+    void Function(FunctionTypeBuilder) updates,
   ]) = _$FunctionType;
 
   FunctionType._();

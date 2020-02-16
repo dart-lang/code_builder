@@ -25,7 +25,7 @@ import 'visitors.dart';
 StringSink visitAll<T>(
   Iterable<T> elements,
   StringSink output,
-  void visit(T element), [
+  void Function(T) visit, [
   String separator = ', ',
 ]) {
   // Basically, this whole method is an improvement on
@@ -83,7 +83,7 @@ class DartEmitter extends Object
       constructor.factory && _isLambdaBody(constructor.body);
 
   @override
-  visitAnnotation(Expression spec, [StringSink output]) {
+  StringSink visitAnnotation(Expression spec, [StringSink output]) {
     (output ??= StringBuffer()).write('@');
     spec.accept(this, output);
     output.write(' ');
@@ -91,7 +91,7 @@ class DartEmitter extends Object
   }
 
   @override
-  visitClass(Class spec, [StringSink output]) {
+  StringSink visitClass(Class spec, [StringSink output]) {
     output ??= StringBuffer();
     spec.docs.forEach(output.writeln);
     spec.annotations.forEach((a) => visitAnnotation(a, output));
@@ -137,7 +137,8 @@ class DartEmitter extends Object
   }
 
   @override
-  visitConstructor(Constructor spec, String clazz, [StringSink output]) {
+  StringSink visitConstructor(Constructor spec, String clazz,
+      [StringSink output]) {
     output ??= StringBuffer();
     spec.docs.forEach(output.writeln);
     spec.annotations.forEach((a) => visitAnnotation(a, output));
@@ -221,7 +222,7 @@ class DartEmitter extends Object
   }
 
   @override
-  visitDirective(Directive spec, [StringSink output]) {
+  StringSink visitDirective(Directive spec, [StringSink output]) {
     output ??= StringBuffer();
     if (spec.type == DirectiveType.import) {
       output.write('import ');
@@ -249,7 +250,7 @@ class DartEmitter extends Object
   }
 
   @override
-  visitField(Field spec, [StringSink output]) {
+  StringSink visitField(Field spec, [StringSink output]) {
     output ??= StringBuffer();
     spec.docs.forEach(output.writeln);
     spec.annotations.forEach((a) => visitAnnotation(a, output));
@@ -285,7 +286,7 @@ class DartEmitter extends Object
   }
 
   @override
-  visitLibrary(Library spec, [StringSink output]) {
+  StringSink visitLibrary(Library spec, [StringSink output]) {
     output ??= StringBuffer();
     // Process the body first in order to prime the allocators.
     final body = StringBuffer();
@@ -296,9 +297,7 @@ class DartEmitter extends Object
       }
     }
 
-    final directives = <Directive>[]
-      ..addAll(spec.directives)
-      ..addAll(allocator.imports);
+    final directives = <Directive>[...spec.directives, ...allocator.imports];
 
     if (orderDirectives) {
       directives.sort();
@@ -320,7 +319,7 @@ class DartEmitter extends Object
   }
 
   @override
-  visitFunctionType(FunctionType spec, [StringSink output]) {
+  StringSink visitFunctionType(FunctionType spec, [StringSink output]) {
     output ??= StringBuffer();
     if (spec.returnType != null) {
       spec.returnType.accept(this, output);
@@ -361,7 +360,7 @@ class DartEmitter extends Object
   }
 
   @override
-  visitMethod(Method spec, [StringSink output]) {
+  StringSink visitMethod(Method spec, [StringSink output]) {
     output ??= StringBuffer();
     spec.docs.forEach(output.writeln);
     spec.annotations.forEach((a) => visitAnnotation(a, output));
@@ -473,15 +472,16 @@ class DartEmitter extends Object
   }
 
   @override
-  visitReference(Reference spec, [StringSink output]) {
+  StringSink visitReference(Reference spec, [StringSink output]) {
     return (output ??= StringBuffer())..write(allocator.allocate(spec));
   }
 
   @override
-  visitSpec(Spec spec, [StringSink output]) => spec.accept(this, output);
+  StringSink visitSpec(Spec spec, [StringSink output]) =>
+      spec.accept(this, output);
 
   @override
-  visitType(TypeReference spec, [StringSink output]) {
+  StringSink visitType(TypeReference spec, [StringSink output]) {
     output ??= StringBuffer();
     // Intentionally not .accept to avoid stack overflow.
     visitReference(spec, output);
@@ -494,7 +494,8 @@ class DartEmitter extends Object
   }
 
   @override
-  visitTypeParameters(Iterable<Reference> specs, [StringSink output]) {
+  StringSink visitTypeParameters(Iterable<Reference> specs,
+      [StringSink output]) {
     output ??= StringBuffer();
     if (specs.isNotEmpty) {
       output

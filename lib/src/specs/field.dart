@@ -20,7 +20,7 @@ part 'field.g.dart';
 abstract class Field extends Object
     with HasAnnotations, HasDartDocs
     implements Built<Field, FieldBuilder>, Spec {
-  factory Field([void updates(FieldBuilder b)]) = _$Field;
+  factory Field([void Function(FieldBuilder) updates]) = _$Field;
 
   Field._();
 

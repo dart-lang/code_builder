@@ -6,16 +6,6 @@ part of 'type_reference.dart';
 // BuiltValueGenerator
 // **************************************************************************
 
-// ignore_for_file: always_put_control_body_on_new_line
-// ignore_for_file: annotate_overrides
-// ignore_for_file: avoid_annotating_with_dynamic
-// ignore_for_file: avoid_catches_without_on_clauses
-// ignore_for_file: avoid_returning_this
-// ignore_for_file: lines_longer_than_80_chars
-// ignore_for_file: omit_local_variable_types
-// ignore_for_file: prefer_expression_function_bodies
-// ignore_for_file: sort_constructors_first
-
 class _$TypeReference extends TypeReference {
   @override
   final String symbol;
@@ -26,19 +16,21 @@ class _$TypeReference extends TypeReference {
   @override
   final BuiltList<Reference> types;
 
-  factory _$TypeReference([void updates(TypeReferenceBuilder b)]) =>
+  factory _$TypeReference([void Function(TypeReferenceBuilder) updates]) =>
       (new TypeReferenceBuilder()..update(updates)).build() as _$TypeReference;
 
   _$TypeReference._({this.symbol, this.url, this.bound, this.types})
       : super._() {
-    if (symbol == null)
+    if (symbol == null) {
       throw new BuiltValueNullFieldError('TypeReference', 'symbol');
-    if (types == null)
+    }
+    if (types == null) {
       throw new BuiltValueNullFieldError('TypeReference', 'types');
+    }
   }
 
   @override
-  TypeReference rebuild(void updates(TypeReferenceBuilder b)) =>
+  TypeReference rebuild(void Function(TypeReferenceBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
@@ -46,10 +38,10 @@ class _$TypeReference extends TypeReference {
       new _$TypeReferenceBuilder()..replace(this);
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    if (other is! TypeReference) return false;
-    return symbol == other.symbol &&
+    return other is TypeReference &&
+        symbol == other.symbol &&
         url == other.url &&
         bound == other.bound &&
         types == other.types;
@@ -139,12 +131,14 @@ class _$TypeReferenceBuilder extends TypeReferenceBuilder {
 
   @override
   void replace(TypeReference other) {
-    if (other == null) throw new ArgumentError.notNull('other');
+    if (other == null) {
+      throw new ArgumentError.notNull('other');
+    }
     _$v = other as _$TypeReference;
   }
 
   @override
-  void update(void updates(TypeReferenceBuilder b)) {
+  void update(void Function(TypeReferenceBuilder) updates) {
     if (updates != null) updates(this);
   }
 
@@ -170,3 +164,5 @@ class _$TypeReferenceBuilder extends TypeReferenceBuilder {
     return _$result;
   }
 }
+
+// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,lines_longer_than_80_chars,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new
