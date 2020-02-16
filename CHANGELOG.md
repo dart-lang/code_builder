@@ -1,6 +1,6 @@
 ## 3.2.2
 
-* Require minimum Dart SDK of `2.3.0`.
+* Require minimum Dart SDK of `2.6.0`.
 
 ## 3.2.1
 
