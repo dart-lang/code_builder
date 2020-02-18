@@ -7,7 +7,7 @@ part of code_builder.src.specs.expression;
 /// Converts a runtime Dart [literal] value into an [Expression].
 ///
 /// Unsupported inputs invoke the [onError] callback.
-Expression literal(Object literal, {Expression onError(Object value)}) {
+Expression literal(Object literal, {Expression Function(Object) onError}) {
   if (literal is bool) {
     return literalBool(literal);
   }

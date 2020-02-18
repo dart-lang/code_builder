@@ -23,9 +23,9 @@ final Reference _$void = const Reference('void');
 abstract class Method extends Object
     with HasAnnotations, HasGenerics, HasDartDocs
     implements Built<Method, MethodBuilder>, Spec {
-  factory Method([void updates(MethodBuilder b)]) = _$Method;
+  factory Method([void Function(MethodBuilder) updates]) = _$Method;
 
-  factory Method.returnsVoid([void updates(MethodBuilder b)]) {
+  factory Method.returnsVoid([void Function(MethodBuilder) updates]) {
     return Method((b) {
       if (updates != null) {
         updates(b);
@@ -161,7 +161,7 @@ enum MethodModifier {
 abstract class Parameter extends Object
     with HasAnnotations, HasGenerics, HasDartDocs
     implements Built<Parameter, ParameterBuilder> {
-  factory Parameter([void updates(ParameterBuilder b)]) = _$Parameter;
+  factory Parameter([void Function(ParameterBuilder) updates]) = _$Parameter;
 
   Parameter._();
 

@@ -14,7 +14,7 @@ part 'directive.g.dart';
 @immutable
 abstract class Directive
     implements Built<Directive, DirectiveBuilder>, Spec, Comparable<Directive> {
-  factory Directive([void updates(DirectiveBuilder b)]) = _$Directive;
+  factory Directive([void Function(DirectiveBuilder) updates]) = _$Directive;
 
   factory Directive.import(
     String url, {

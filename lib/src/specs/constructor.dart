@@ -19,7 +19,8 @@ part 'constructor.g.dart';
 abstract class Constructor extends Object
     with HasAnnotations, HasDartDocs
     implements Built<Constructor, ConstructorBuilder> {
-  factory Constructor([void updates(ConstructorBuilder b)]) = _$Constructor;
+  factory Constructor([void Function(ConstructorBuilder) updates]) =
+      _$Constructor;
 
   Constructor._();
 

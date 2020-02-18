@@ -6,16 +6,6 @@ part of 'class.dart';
 // BuiltValueGenerator
 // **************************************************************************
 
-// ignore_for_file: always_put_control_body_on_new_line
-// ignore_for_file: annotate_overrides
-// ignore_for_file: avoid_annotating_with_dynamic
-// ignore_for_file: avoid_catches_without_on_clauses
-// ignore_for_file: avoid_returning_this
-// ignore_for_file: lines_longer_than_80_chars
-// ignore_for_file: omit_local_variable_types
-// ignore_for_file: prefer_expression_function_bodies
-// ignore_for_file: sort_constructors_first
-
 class _$Class extends Class {
   @override
   final bool abstract;
@@ -40,7 +30,7 @@ class _$Class extends Class {
   @override
   final String name;
 
-  factory _$Class([void updates(ClassBuilder b)]) =>
+  factory _$Class([void Function(ClassBuilder) updates]) =>
       (new ClassBuilder()..update(updates)).build() as _$Class;
 
   _$Class._(
@@ -56,34 +46,50 @@ class _$Class extends Class {
       this.fields,
       this.name})
       : super._() {
-    if (abstract == null)
+    if (abstract == null) {
       throw new BuiltValueNullFieldError('Class', 'abstract');
-    if (annotations == null)
+    }
+    if (annotations == null) {
       throw new BuiltValueNullFieldError('Class', 'annotations');
-    if (docs == null) throw new BuiltValueNullFieldError('Class', 'docs');
-    if (implements == null)
+    }
+    if (docs == null) {
+      throw new BuiltValueNullFieldError('Class', 'docs');
+    }
+    if (implements == null) {
       throw new BuiltValueNullFieldError('Class', 'implements');
-    if (mixins == null) throw new BuiltValueNullFieldError('Class', 'mixins');
-    if (types == null) throw new BuiltValueNullFieldError('Class', 'types');
-    if (constructors == null)
+    }
+    if (mixins == null) {
+      throw new BuiltValueNullFieldError('Class', 'mixins');
+    }
+    if (types == null) {
+      throw new BuiltValueNullFieldError('Class', 'types');
+    }
+    if (constructors == null) {
       throw new BuiltValueNullFieldError('Class', 'constructors');
-    if (methods == null) throw new BuiltValueNullFieldError('Class', 'methods');
-    if (fields == null) throw new BuiltValueNullFieldError('Class', 'fields');
-    if (name == null) throw new BuiltValueNullFieldError('Class', 'name');
+    }
+    if (methods == null) {
+      throw new BuiltValueNullFieldError('Class', 'methods');
+    }
+    if (fields == null) {
+      throw new BuiltValueNullFieldError('Class', 'fields');
+    }
+    if (name == null) {
+      throw new BuiltValueNullFieldError('Class', 'name');
+    }
   }
 
   @override
-  Class rebuild(void updates(ClassBuilder b)) =>
+  Class rebuild(void Function(ClassBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
   _$ClassBuilder toBuilder() => new _$ClassBuilder()..replace(this);
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    if (other is! Class) return false;
-    return abstract == other.abstract &&
+    return other is Class &&
+        abstract == other.abstract &&
         annotations == other.annotations &&
         docs == other.docs &&
         extend == other.extend &&
@@ -295,12 +301,14 @@ class _$ClassBuilder extends ClassBuilder {
 
   @override
   void replace(Class other) {
-    if (other == null) throw new ArgumentError.notNull('other');
+    if (other == null) {
+      throw new ArgumentError.notNull('other');
+    }
     _$v = other as _$Class;
   }
 
   @override
-  void update(void updates(ClassBuilder b)) {
+  void update(void Function(ClassBuilder) updates) {
     if (updates != null) updates(this);
   }
 
@@ -351,3 +359,5 @@ class _$ClassBuilder extends ClassBuilder {
     return _$result;
   }
 }
+
+// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,lines_longer_than_80_chars,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new

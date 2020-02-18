@@ -20,7 +20,7 @@ abstract class TypeReference extends Expression
     with HasGenerics
     implements Built<TypeReference, TypeReferenceBuilder>, Reference, Spec {
   factory TypeReference([
-    void updates(TypeReferenceBuilder b),
+    void Function(TypeReferenceBuilder) updates,
   ]) = _$TypeReference;
 
   TypeReference._();
