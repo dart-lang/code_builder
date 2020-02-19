@@ -21,7 +21,7 @@ part 'mixin.g.dart';
 abstract class Mixin extends Object
     with HasAnnotations, HasDartDocs, HasGenerics
     implements Built<Mixin, MixinBuilder>, Spec {
-  factory Mixin([void updates(MixinBuilder b)]) = _$Mixin;
+  factory Mixin([void Function(MixinBuilder) updates]) = _$Mixin;
 
   Mixin._();
 
