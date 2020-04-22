@@ -139,6 +139,5 @@ abstract class TypeReferenceBuilder extends Object
   ListBuilder<Reference> types = ListBuilder<Reference>();
 
   /// Optional nullability.
-  @override
   bool isNullable;
 }
