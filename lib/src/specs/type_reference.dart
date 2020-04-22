@@ -39,6 +39,10 @@ abstract class TypeReference extends Expression
   @override
   BuiltList<Reference> get types;
 
+  /// Optional nullability.
+  @nullable
+  bool get isNullable;
+
   @override
   R accept<R>(
     SpecVisitor<R> visitor, [
@@ -133,4 +137,8 @@ abstract class TypeReferenceBuilder extends Object
 
   @override
   ListBuilder<Reference> types = ListBuilder<Reference>();
+
+  /// Optional nullability.
+  @override
+  bool isNullable;
 }

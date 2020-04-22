@@ -15,11 +15,14 @@ class _$TypeReference extends TypeReference {
   final Reference bound;
   @override
   final BuiltList<Reference> types;
+  @override
+  final bool isNullable;
 
   factory _$TypeReference([void Function(TypeReferenceBuilder) updates]) =>
       (new TypeReferenceBuilder()..update(updates)).build() as _$TypeReference;
 
-  _$TypeReference._({this.symbol, this.url, this.bound, this.types})
+  _$TypeReference._(
+      {this.symbol, this.url, this.bound, this.types, this.isNullable})
       : super._() {
     if (symbol == null) {
       throw new BuiltValueNullFieldError('TypeReference', 'symbol');
@@ -44,14 +47,16 @@ class _$TypeReference extends TypeReference {
         symbol == other.symbol &&
         url == other.url &&
         bound == other.bound &&
-        types == other.types;
+        types == other.types &&
+        isNullable == other.isNullable;
   }
 
   @override
   int get hashCode {
     return $jf($jc(
-        $jc($jc($jc(0, symbol.hashCode), url.hashCode), bound.hashCode),
-        types.hashCode));
+        $jc($jc($jc($jc(0, symbol.hashCode), url.hashCode), bound.hashCode),
+            types.hashCode),
+        isNullable.hashCode));
   }
 
   @override
@@ -60,7 +65,8 @@ class _$TypeReference extends TypeReference {
           ..add('symbol', symbol)
           ..add('url', url)
           ..add('bound', bound)
-          ..add('types', types))
+          ..add('types', types)
+          ..add('isNullable', isNullable))
         .toString();
   }
 }
@@ -116,6 +122,18 @@ class _$TypeReferenceBuilder extends TypeReferenceBuilder {
     super.types = types;
   }
 
+  @override
+  bool get isNullable {
+    _$this;
+    return super.isNullable;
+  }
+
+  @override
+  set isNullable(bool isNullable) {
+    _$this;
+    super.isNullable = isNullable;
+  }
+
   _$TypeReferenceBuilder() : super._();
 
   TypeReferenceBuilder get _$this {
@@ -124,6 +142,7 @@ class _$TypeReferenceBuilder extends TypeReferenceBuilder {
       super.url = _$v.url;
       super.bound = _$v.bound;
       super.types = _$v.types?.toBuilder();
+      super.isNullable = _$v.isNullable;
       _$v = null;
     }
     return this;
@@ -148,7 +167,11 @@ class _$TypeReferenceBuilder extends TypeReferenceBuilder {
     try {
       _$result = _$v ??
           new _$TypeReference._(
-              symbol: symbol, url: url, bound: bound, types: types.build());
+              symbol: symbol,
+              url: url,
+              bound: bound,
+              types: types.build(),
+              isNullable: isNullable);
     } catch (_) {
       String _$failedField;
       try {

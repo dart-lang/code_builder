@@ -59,15 +59,24 @@ class DartEmitter extends Object
   /// lint.
   final bool orderDirectives;
 
+  /// If nullable types should be emitted with the nullable suffix ("?").
+  final bool _isNullSafety;
+
   /// Creates a new instance of [DartEmitter].
   ///
   /// May specify an [Allocator] to use for symbols, otherwise uses a no-op.
-  DartEmitter([this.allocator = Allocator.none, bool orderDirectives = false])
-      : orderDirectives = orderDirectives ?? false;
+  DartEmitter(
+      [this.allocator = Allocator.none,
+      bool orderDirectives = false,
+      bool isNullSafety = false])
+      : orderDirectives = orderDirectives ?? false,
+        _isNullSafety = isNullSafety ?? false;
 
   /// Creates a new instance of [DartEmitter] with simple automatic imports.
-  factory DartEmitter.scoped({bool orderDirectives = false}) {
-    return DartEmitter(Allocator.simplePrefixing(), orderDirectives);
+  factory DartEmitter.scoped(
+      {bool orderDirectives = false, bool isNullSafety = false}) {
+    return DartEmitter(
+        Allocator.simplePrefixing(), orderDirectives, isNullSafety);
   }
 
   static bool _isLambdaBody(Code code) =>
@@ -490,6 +499,9 @@ class DartEmitter extends Object
       spec.bound.type.accept(this, output);
     }
     visitTypeParameters(spec.types.map((r) => r.type), output);
+    if (_isNullSafety && (spec.isNullable ?? false)) {
+      output.write('?');
+    }
     return output;
   }
 
