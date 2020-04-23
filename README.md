@@ -99,8 +99,9 @@ will be on a best-effort basis.
 Use [`build_runner`][build_runner]:
 
 ```bash
+$ pub global activate build_runner
 $ mv build.disabled.yaml build.yaml
-$ pub run build_runner build --delete-conflicting-outputs
+$ pub global run build_runner build --delete-conflicting-outputs
 $ mv build.yaml build.disabled.yaml
 ```
 
