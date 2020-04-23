@@ -39,6 +39,13 @@ abstract class TypeReference extends Expression
   @override
   BuiltList<Reference> get types;
 
+  /// Optional nullability.
+  ///
+  /// An emitter may ignore this if the output is not targeting a Dart language
+  /// version that supports null safety.
+  @nullable
+  bool get isNullable;
+
   @override
   R accept<R>(
     SpecVisitor<R> visitor, [
@@ -133,4 +140,10 @@ abstract class TypeReferenceBuilder extends Object
 
   @override
   ListBuilder<Reference> types = ListBuilder<Reference>();
+
+  /// Optional nullability.
+  ///
+  /// An emitter may ignore this if the output is not targeting a Dart language
+  /// version that supports null safety.
+  bool isNullable;
 }
