@@ -192,6 +192,19 @@ abstract class Parameter extends Object
   /// Type of the parameter;
   @nullable
   Reference get type;
+
+  /// Whether this parameter should be annotated with the `required` keyword.
+  ///
+  /// This is only valid on named parameters.
+  ///
+  /// This is only valid when the output is targeting a Dart language version
+  /// that supports null safety.
+  bool get required;
+
+  /// Whether this parameter should be annotated with the `covariant` keyword.
+  ///
+  /// This is only valid on instance methods.
+  bool get covariant;
 }
 
 abstract class ParameterBuilder extends Object
@@ -226,4 +239,17 @@ abstract class ParameterBuilder extends Object
 
   /// Type of the parameter;
   Reference type;
+
+  /// Whether this parameter should be annotated with the `required` keyword.
+  ///
+  /// This is only valid on named parameters.
+  ///
+  /// This is only valid when the output is targeting a Dart language version
+  /// that supports null safety.
+  bool required = false;
+
+  /// Whether this parameter should be annotated with the `covariant` keyword.
+  ///
+  /// This is only valid on instance methods.
+  bool covariant = false;
 }

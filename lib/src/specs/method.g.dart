@@ -405,6 +405,10 @@ class _$Parameter extends Parameter {
   final BuiltList<Reference> types;
   @override
   final Reference type;
+  @override
+  final bool required;
+  @override
+  final bool covariant;
 
   factory _$Parameter([void Function(ParameterBuilder) updates]) =>
       (new ParameterBuilder()..update(updates)).build() as _$Parameter;
@@ -417,7 +421,9 @@ class _$Parameter extends Parameter {
       this.annotations,
       this.docs,
       this.types,
-      this.type})
+      this.type,
+      this.required,
+      this.covariant})
       : super._() {
     if (name == null) {
       throw new BuiltValueNullFieldError('Parameter', 'name');
@@ -436,6 +442,12 @@ class _$Parameter extends Parameter {
     }
     if (types == null) {
       throw new BuiltValueNullFieldError('Parameter', 'types');
+    }
+    if (required == null) {
+      throw new BuiltValueNullFieldError('Parameter', 'required');
+    }
+    if (covariant == null) {
+      throw new BuiltValueNullFieldError('Parameter', 'covariant');
     }
   }
 
@@ -457,7 +469,9 @@ class _$Parameter extends Parameter {
         annotations == other.annotations &&
         docs == other.docs &&
         types == other.types &&
-        type == other.type;
+        type == other.type &&
+        required == other.required &&
+        covariant == other.covariant;
   }
 
   @override
@@ -467,13 +481,19 @@ class _$Parameter extends Parameter {
             $jc(
                 $jc(
                     $jc(
-                        $jc($jc($jc(0, defaultTo.hashCode), name.hashCode),
-                            named.hashCode),
-                        toThis.hashCode),
-                    annotations.hashCode),
-                docs.hashCode),
-            types.hashCode),
-        type.hashCode));
+                        $jc(
+                            $jc(
+                                $jc(
+                                    $jc($jc(0, defaultTo.hashCode),
+                                        name.hashCode),
+                                    named.hashCode),
+                                toThis.hashCode),
+                            annotations.hashCode),
+                        docs.hashCode),
+                    types.hashCode),
+                type.hashCode),
+            required.hashCode),
+        covariant.hashCode));
   }
 
   @override
@@ -486,7 +506,9 @@ class _$Parameter extends Parameter {
           ..add('annotations', annotations)
           ..add('docs', docs)
           ..add('types', types)
-          ..add('type', type))
+          ..add('type', type)
+          ..add('required', required)
+          ..add('covariant', covariant))
         .toString();
   }
 }
@@ -590,6 +612,30 @@ class _$ParameterBuilder extends ParameterBuilder {
     super.type = type;
   }
 
+  @override
+  bool get required {
+    _$this;
+    return super.required;
+  }
+
+  @override
+  set required(bool required) {
+    _$this;
+    super.required = required;
+  }
+
+  @override
+  bool get covariant {
+    _$this;
+    return super.covariant;
+  }
+
+  @override
+  set covariant(bool covariant) {
+    _$this;
+    super.covariant = covariant;
+  }
+
   _$ParameterBuilder() : super._();
 
   ParameterBuilder get _$this {
@@ -602,6 +648,8 @@ class _$ParameterBuilder extends ParameterBuilder {
       super.docs = _$v.docs?.toBuilder();
       super.types = _$v.types?.toBuilder();
       super.type = _$v.type;
+      super.required = _$v.required;
+      super.covariant = _$v.covariant;
       _$v = null;
     }
     return this;
@@ -633,7 +681,9 @@ class _$ParameterBuilder extends ParameterBuilder {
               annotations: annotations.build(),
               docs: docs.build(),
               types: types.build(),
-              type: type);
+              type: type,
+              required: required,
+              covariant: covariant);
     } catch (_) {
       String _$failedField;
       try {

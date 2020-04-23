@@ -469,6 +469,13 @@ class DartEmitter extends Object
   }) {
     spec.docs.forEach(output.writeln);
     spec.annotations.forEach((a) => visitAnnotation(a, output));
+    // The `required` keyword must precede the `covariant` keyword.
+    if (spec.required) {
+      output.write('required ');
+    }
+    if (spec.covariant) {
+      output.write('covariant ');
+    }
     if (spec.type != null) {
       spec.type.type.accept(this, output);
       output.write(' ');
