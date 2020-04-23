@@ -24,7 +24,7 @@ void main() {
   group('in a Null Safety library', () {
     DartEmitter emitter;
 
-    setUp(() => emitter = DartEmitter.scoped(isNullSafety: true));
+    setUp(() => emitter = DartEmitter.scoped(useNullSafetySyntax: true));
 
     test('should create a nullable type', () {
       expect(

@@ -40,6 +40,9 @@ abstract class TypeReference extends Expression
   BuiltList<Reference> get types;
 
   /// Optional nullability.
+  ///
+  /// An emitter may ignore this if the output is not targeting a Dart language
+  /// version that supports null safety.
   @nullable
   bool get isNullable;
 
@@ -139,5 +142,8 @@ abstract class TypeReferenceBuilder extends Object
   ListBuilder<Reference> types = ListBuilder<Reference>();
 
   /// Optional nullability.
+  ///
+  /// An emitter may ignore this if the output is not targeting a Dart language
+  /// version that supports null safety.
   bool isNullable;
 }

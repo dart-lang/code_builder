@@ -60,7 +60,10 @@ class DartEmitter extends Object
   final bool orderDirectives;
 
   /// If nullable types should be emitted with the nullable suffix ("?").
-  final bool _isNullSafety;
+  ///
+  /// Null safety syntax should only be enabled if the output will be used with
+  /// a Dart language version which supports it.
+  final bool _useNullSafetySyntax;
 
   /// Creates a new instance of [DartEmitter].
   ///
@@ -68,15 +71,15 @@ class DartEmitter extends Object
   DartEmitter(
       [this.allocator = Allocator.none,
       bool orderDirectives = false,
-      bool isNullSafety = false])
+      bool useNullSafetySyntax = false])
       : orderDirectives = orderDirectives ?? false,
-        _isNullSafety = isNullSafety ?? false;
+        _useNullSafetySyntax = useNullSafetySyntax ?? false;
 
   /// Creates a new instance of [DartEmitter] with simple automatic imports.
   factory DartEmitter.scoped(
-      {bool orderDirectives = false, bool isNullSafety = false}) {
+      {bool orderDirectives = false, bool useNullSafetySyntax = false}) {
     return DartEmitter(
-        Allocator.simplePrefixing(), orderDirectives, isNullSafety);
+        Allocator.simplePrefixing(), orderDirectives, useNullSafetySyntax);
   }
 
   static bool _isLambdaBody(Code code) =>
@@ -499,7 +502,7 @@ class DartEmitter extends Object
       spec.bound.type.accept(this, output);
     }
     visitTypeParameters(spec.types.map((r) => r.type), output);
-    if (_isNullSafety && (spec.isNullable ?? false)) {
+    if (_useNullSafetySyntax && (spec.isNullable ?? false)) {
       output.write('?');
     }
     return output;
