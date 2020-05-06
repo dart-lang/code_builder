@@ -54,6 +54,10 @@ abstract class Directive
         ..show.addAll(show)
         ..hide.addAll(hide));
 
+  factory Directive.part(String url) => Directive((builder) => builder
+    ..type = DirectiveType.part
+    ..url = url);
+
   Directive._();
 
   @nullable
@@ -102,6 +106,7 @@ abstract class DirectiveBuilder
 enum DirectiveType {
   import,
   export,
+  part,
 }
 
 /// Sort import URIs represented by [a] and [b] to honor the
@@ -112,6 +117,7 @@ enum DirectiveType {
 /// 2. `dart:`
 /// 3. `package:`
 /// 4. relative
+/// 5. `part`s
 int _compareDirectives(Directive a, Directive b) {
   // NOTE: using the fact that `import` is before `export` in the
   // `DirectiveType` enum – which allows us to compare using `indexOf`.

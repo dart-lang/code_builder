@@ -238,8 +238,10 @@ class DartEmitter extends Object
     output ??= StringBuffer();
     if (spec.type == DirectiveType.import) {
       output.write('import ');
-    } else {
+    } else if (spec.type == DirectiveType.export) {
       output.write('export ');
+    } else {
+      output.write('part ');
     }
     output.write("'${spec.url}'");
     if (spec.as != null) {
