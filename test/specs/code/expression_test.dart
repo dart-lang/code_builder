@@ -314,6 +314,24 @@ void main() {
     );
   });
 
+  test('should emit an if null assignment', () {
+    expect(
+      refer('foo').ifNullThen(literalTrue),
+      equalsDart('foo ?? true'),
+    );
+  });
+
+  test('should emit an if null index operator set', () {
+    expect(
+      refer('bar')
+          .index(literalTrue)
+          .ifNullThen(literalFalse)
+          .assignVar('foo')
+          .statement,
+      equalsDart('var foo = bar[true] ?? false;'),
+    );
+  });
+
   test('should emit a null-aware assignment', () {
     expect(
       refer('foo').assignNullAware(literalTrue),
