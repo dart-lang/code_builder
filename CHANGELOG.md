@@ -1,3 +1,7 @@
+## 3.2.3
+
+* Add `??` null-aware operator.
+
 ## 3.2.2
 
 * Require minimum Dart SDK of `2.6.0`.
