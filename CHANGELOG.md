@@ -1,6 +1,7 @@
 ## 3.2.3
 
 * Add `??` null-aware operator.
+* Add `..` cascade assignment operator.
 
 ## 3.2.2
 
