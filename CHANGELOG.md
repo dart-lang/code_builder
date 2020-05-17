@@ -1,3 +1,7 @@
+## 3.2.4
+
+* Add `part` directive.
+
 ## 3.2.3
 
 * Add `??` null-aware operator.
