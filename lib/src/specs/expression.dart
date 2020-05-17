@@ -314,6 +314,16 @@ abstract class Expression implements Spec {
     );
   }
 
+  /// Returns an expression accessing `..<name>` on this expression.
+  Expression cascade(String name) {
+    return BinaryExpression._(
+      this,
+      LiteralExpression._(name),
+      '..',
+      addSpace: false,
+    );
+  }
+
   /// Returns an expression accessing `?.<name>` on this expression.
   Expression nullSafeProperty(String name) {
     return BinaryExpression._(
