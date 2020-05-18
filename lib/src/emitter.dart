@@ -236,12 +236,16 @@ class DartEmitter extends Object
   @override
   StringSink visitDirective(Directive spec, [StringSink output]) {
     output ??= StringBuffer();
-    if (spec.type == DirectiveType.import) {
-      output.write('import ');
-    } else if (spec.type == DirectiveType.export) {
-      output.write('export ');
-    } else {
-      output.write('part ');
+    switch (spec.type) {
+      case DirectiveType.import:
+        output.write('import ');
+        break;
+      case DirectiveType.export:
+        output.write('export ');
+        break;
+      case DirectiveType.part:
+        output.write('part ');
+        break;
     }
     output.write("'${spec.url}'");
     if (spec.as != null) {
