@@ -38,20 +38,20 @@ void main() {
     expect(
       library,
       equalsDart(r'''
-          export '../relative.dart';
-          export 'package:foo/foo.dart';
-          part 'lib.g.dart';
           import '../relative.dart' as _i1;
           import 'package:foo/foo.dart' as _i2;
           import 'package:foo/bar.dart' as _i3;
           import 'dart:collection' as _i4;
+          export '../relative.dart';
+          export 'package:foo/foo.dart';
+          part 'lib.g.dart';
 
           final relativeRef = _i1.Relative();
           final pkgRefFoo = _i2.Foo();
           final pkgRefBar = _i3.Bar();
           final collectionRef = _i4.LinkedHashMap();''', DartEmitter.scoped()),
     );
-  }, skip: 'failing due to whitespace issue in equalsDart');
+  });
 
   test('should emit a source file with ordered', () {
     expect(

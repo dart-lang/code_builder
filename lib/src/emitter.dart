@@ -315,7 +315,7 @@ class DartEmitter extends Object
       }
     }
 
-    final directives = <Directive>[...spec.directives, ...allocator.imports];
+    final directives = <Directive>[...allocator.imports, ...spec.directives];
 
     if (orderDirectives) {
       directives.sort();
