@@ -165,6 +165,10 @@ void main() {
     expect(refer('foo').property('bar'), equalsDart('foo.bar'));
   });
 
+  test('should emit invoking a cascade property accessor', () {
+    expect(refer('foo').cascade('bar'), equalsDart('foo..bar'));
+  });
+
   test('should emit invoking a null safe property accessor', () {
     expect(refer('foo').nullSafeProperty('bar'), equalsDart('foo?.bar'));
   });
@@ -311,6 +315,24 @@ void main() {
     expect(
       refer('foo').assign(literalTrue),
       equalsDart('foo = true'),
+    );
+  });
+
+  test('should emit an if null assignment', () {
+    expect(
+      refer('foo').ifNullThen(literalTrue),
+      equalsDart('foo ?? true'),
+    );
+  });
+
+  test('should emit an if null index operator set', () {
+    expect(
+      refer('bar')
+          .index(literalTrue)
+          .ifNullThen(literalFalse)
+          .assignVar('foo')
+          .statement,
+      equalsDart('var foo = bar[true] ?? false;'),
     );
   });
 

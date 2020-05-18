@@ -226,6 +226,15 @@ abstract class Expression implements Spec {
     );
   }
 
+  /// Return `{other} ?? {this}`.
+  Expression ifNullThen(Expression other) {
+    return BinaryExpression._(
+      this,
+      other,
+      '??',
+    );
+  }
+
   /// Return `{other} ??= {this}`.
   Expression assignNullAware(Expression other) {
     return BinaryExpression._(
@@ -301,6 +310,16 @@ abstract class Expression implements Spec {
       this,
       LiteralExpression._(name),
       '.',
+      addSpace: false,
+    );
+  }
+
+  /// Returns an expression accessing `..<name>` on this expression.
+  Expression cascade(String name) {
+    return BinaryExpression._(
+      this,
+      LiteralExpression._(name),
+      '..',
       addSpace: false,
     );
   }
