@@ -1,4 +1,4 @@
-## 3.3.0-dev
+## 3.3.0
 
 * Add `??` null-aware operator.
 * Add `..` cascade assignment operator.
