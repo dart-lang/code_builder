@@ -77,10 +77,9 @@ class DartEmitter extends Object
 
   /// Creates a new instance of [DartEmitter] with simple automatic imports.
   factory DartEmitter.scoped(
-      {bool orderDirectives = false, bool useNullSafetySyntax = false}) {
-    return DartEmitter(
-        Allocator.simplePrefixing(), orderDirectives, useNullSafetySyntax);
-  }
+          {bool orderDirectives = false, bool useNullSafetySyntax = false}) =>
+      DartEmitter(
+          Allocator.simplePrefixing(), orderDirectives, useNullSafetySyntax);
 
   static bool _isLambdaBody(Code code) =>
       code is ToCodeExpression && !code.isStatement;
@@ -497,9 +496,8 @@ class DartEmitter extends Object
   }
 
   @override
-  StringSink visitReference(Reference spec, [StringSink output]) {
-    return (output ??= StringBuffer())..write(allocator.allocate(spec));
-  }
+  StringSink visitReference(Reference spec, [StringSink output]) =>
+      (output ??= StringBuffer())..write(allocator.allocate(spec));
 
   @override
   StringSink visitSpec(Spec spec, [StringSink output]) =>

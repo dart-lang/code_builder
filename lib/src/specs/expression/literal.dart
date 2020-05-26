@@ -66,42 +66,36 @@ Expression literalString(String value, {bool raw = false}) {
 }
 
 /// Creates a literal list expression from [values].
-LiteralListExpression literalList(Iterable<Object> values, [Reference type]) {
-  return LiteralListExpression._(false, values.toList(), type);
-}
+LiteralListExpression literalList(Iterable<Object> values, [Reference type]) =>
+    LiteralListExpression._(false, values.toList(), type);
 
 /// Creates a literal `const` list expression from [values].
-LiteralListExpression literalConstList(List<Object> values, [Reference type]) {
-  return LiteralListExpression._(true, values, type);
-}
+LiteralListExpression literalConstList(List<Object> values, [Reference type]) =>
+    LiteralListExpression._(true, values, type);
 
 /// Creates a literal set expression from [values].
-LiteralSetExpression literalSet(Iterable<Object> values, [Reference type]) {
-  return LiteralSetExpression._(false, values.toSet(), type);
-}
+LiteralSetExpression literalSet(Iterable<Object> values, [Reference type]) =>
+    LiteralSetExpression._(false, values.toSet(), type);
 
 /// Creates a literal `const` set expression from [values].
-LiteralSetExpression literalConstSet(Set<Object> values, [Reference type]) {
-  return LiteralSetExpression._(true, values, type);
-}
+LiteralSetExpression literalConstSet(Set<Object> values, [Reference type]) =>
+    LiteralSetExpression._(true, values, type);
 
 /// Create a literal map expression from [values].
 LiteralMapExpression literalMap(
   Map<Object, Object> values, [
   Reference keyType,
   Reference valueType,
-]) {
-  return LiteralMapExpression._(false, values, keyType, valueType);
-}
+]) =>
+    LiteralMapExpression._(false, values, keyType, valueType);
 
 /// Create a literal `const` map expression from [values].
 LiteralMapExpression literalConstMap(
   Map<Object, Object> values, [
   Reference keyType,
   Reference valueType,
-]) {
-  return LiteralMapExpression._(true, values, keyType, valueType);
-}
+]) =>
+    LiteralMapExpression._(true, values, keyType, valueType);
 
 /// Represents a literal value in Dart source code.
 ///
@@ -119,9 +113,8 @@ class LiteralExpression extends Expression {
   const LiteralExpression._(this.literal);
 
   @override
-  R accept<R>(ExpressionVisitor<R> visitor, [R context]) {
-    return visitor.visitLiteralExpression(this, context);
-  }
+  R accept<R>(ExpressionVisitor<R> visitor, [R context]) =>
+      visitor.visitLiteralExpression(this, context);
 
   @override
   String toString() => literal;
@@ -135,9 +128,8 @@ class LiteralListExpression extends Expression {
   const LiteralListExpression._(this.isConst, this.values, this.type);
 
   @override
-  R accept<R>(ExpressionVisitor<R> visitor, [R context]) {
-    return visitor.visitLiteralListExpression(this, context);
-  }
+  R accept<R>(ExpressionVisitor<R> visitor, [R context]) =>
+      visitor.visitLiteralListExpression(this, context);
 
   @override
   String toString() => '[${values.map(literal).join(', ')}]';
@@ -151,9 +143,8 @@ class LiteralSetExpression extends Expression {
   const LiteralSetExpression._(this.isConst, this.values, this.type);
 
   @override
-  R accept<R>(ExpressionVisitor<R> visitor, [R context]) {
-    return visitor.visitLiteralSetExpression(this, context);
-  }
+  R accept<R>(ExpressionVisitor<R> visitor, [R context]) =>
+      visitor.visitLiteralSetExpression(this, context);
 
   @override
   String toString() => '{${values.map(literal).join(', ')}}';
@@ -173,9 +164,8 @@ class LiteralMapExpression extends Expression {
   );
 
   @override
-  R accept<R>(ExpressionVisitor<R> visitor, [R context]) {
-    return visitor.visitLiteralMapExpression(this, context);
-  }
+  R accept<R>(ExpressionVisitor<R> visitor, [R context]) =>
+      visitor.visitLiteralMapExpression(this, context);
 
   @override
   String toString() => '{$values}';

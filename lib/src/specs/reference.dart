@@ -14,9 +14,7 @@ import 'expression.dart';
 import 'type_reference.dart';
 
 /// Short-hand for `Reference(symbol, url)`.
-Reference refer(String symbol, [String url]) {
-  return Reference(symbol, url);
-}
+Reference refer(String symbol, [String url]) => Reference(symbol, url);
 
 /// A reference to [symbol], such as a class, or top-level method or field.
 ///
@@ -46,23 +44,22 @@ class Reference extends Expression implements Spec {
   int get hashCode => '$url#$symbol'.hashCode;
 
   @override
-  bool operator ==(Object o) =>
-      o is Reference && o.url == url && o.symbol == symbol;
+  bool operator ==(Object other) =>
+      other is Reference && other.url == url && other.symbol == symbol;
 
   /// Returns a new instance of this expression.
   Expression newInstance(
     Iterable<Expression> positionalArguments, [
     Map<String, Expression> namedArguments = const {},
     List<Reference> typeArguments = const [],
-  ]) {
-    return InvokeExpression.newOf(
-      this,
-      positionalArguments.toList(),
-      namedArguments,
-      typeArguments,
-      null,
-    );
-  }
+  ]) =>
+      InvokeExpression.newOf(
+        this,
+        positionalArguments.toList(),
+        namedArguments,
+        typeArguments,
+        null,
+      );
 
   /// Returns a new instance of this expression with a named constructor.
   Expression newInstanceNamed(
@@ -70,30 +67,28 @@ class Reference extends Expression implements Spec {
     Iterable<Expression> positionalArguments, [
     Map<String, Expression> namedArguments = const {},
     List<Reference> typeArguments = const [],
-  ]) {
-    return InvokeExpression.newOf(
-      this,
-      positionalArguments.toList(),
-      namedArguments,
-      typeArguments,
-      name,
-    );
-  }
+  ]) =>
+      InvokeExpression.newOf(
+        this,
+        positionalArguments.toList(),
+        namedArguments,
+        typeArguments,
+        name,
+      );
 
   /// Returns a const instance of this expression.
   Expression constInstance(
     Iterable<Expression> positionalArguments, [
     Map<String, Expression> namedArguments = const {},
     List<Reference> typeArguments = const [],
-  ]) {
-    return InvokeExpression.constOf(
-      this,
-      positionalArguments.toList(),
-      namedArguments,
-      typeArguments,
-      null,
-    );
-  }
+  ]) =>
+      InvokeExpression.constOf(
+        this,
+        positionalArguments.toList(),
+        namedArguments,
+        typeArguments,
+        null,
+      );
 
   /// Returns a const instance of this expression with a named constructor.
   Expression constInstanceNamed(
@@ -101,20 +96,17 @@ class Reference extends Expression implements Spec {
     Iterable<Expression> positionalArguments, [
     Map<String, Expression> namedArguments = const {},
     List<Reference> typeArguments = const [],
-  ]) {
-    return InvokeExpression.constOf(
-      this,
-      positionalArguments.toList(),
-      namedArguments,
-      typeArguments,
-      name,
-    );
-  }
+  ]) =>
+      InvokeExpression.constOf(
+        this,
+        positionalArguments.toList(),
+        namedArguments,
+        typeArguments,
+        name,
+      );
 
   @override
-  Expression get expression {
-    return CodeExpression(Code.scope((a) => a(this)));
-  }
+  Expression get expression => CodeExpression(Code.scope((a) => a(this)));
 
   @override
   String toString() => (newBuiltValueToStringHelper('Reference')

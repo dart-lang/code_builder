@@ -17,7 +17,7 @@ import 'reference.dart';
 
 part 'method.g.dart';
 
-final Reference _$void = const Reference('void');
+const _$void = Reference('void');
 
 @immutable
 abstract class Method extends Object
@@ -25,14 +25,13 @@ abstract class Method extends Object
     implements Built<Method, MethodBuilder>, Spec {
   factory Method([void Function(MethodBuilder) updates]) = _$Method;
 
-  factory Method.returnsVoid([void Function(MethodBuilder) updates]) {
-    return Method((b) {
-      if (updates != null) {
-        updates(b);
-      }
-      b.returns = _$void;
-    });
-  }
+  factory Method.returnsVoid([void Function(MethodBuilder) updates]) =>
+      Method((b) {
+        if (updates != null) {
+          updates(b);
+        }
+        b.returns = _$void;
+      });
 
   Method._();
 
