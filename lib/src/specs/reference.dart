@@ -58,7 +58,6 @@ class Reference extends Expression implements Spec {
         positionalArguments.toList(),
         namedArguments,
         typeArguments,
-        null,
       );
 
   /// Returns a new instance of this expression with a named constructor.
@@ -87,7 +86,6 @@ class Reference extends Expression implements Spec {
         positionalArguments.toList(),
         namedArguments,
         typeArguments,
-        null,
       );
 
   /// Returns a const instance of this expression with a named constructor.
