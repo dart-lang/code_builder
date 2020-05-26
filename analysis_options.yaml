@@ -26,7 +26,6 @@ linter:
     - avoid_renaming_method_parameters
     - avoid_returning_null_for_void
     - avoid_unused_constructor_parameters
-    - avoid_void_async
     - await_only_futures
     - camel_case_types
     - cascade_invocations
