@@ -7,8 +7,6 @@ import 'package:built_value_generator/built_value_generator.dart';
 import 'package:source_gen/source_gen.dart';
 
 /// Returns a [Builder] to generate `.g.dart` files for `built_value`.
-Builder builtValueBuilder(BuilderOptions _) {
-  return PartBuilder([
-    const BuiltValueGenerator(),
-  ], '.g.dart');
-}
+Builder builtValueBuilder(BuilderOptions _) => PartBuilder([
+      const BuiltValueGenerator(),
+    ], '.g.dart');

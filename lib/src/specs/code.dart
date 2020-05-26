@@ -48,16 +48,14 @@ abstract class Code implements Spec {
 abstract class Block implements Built<Block, BlockBuilder>, Code, Spec {
   factory Block([void Function(BlockBuilder) updates]) = _$Block;
 
-  factory Block.of(Iterable<Code> statements) {
-    return Block((b) => b..statements.addAll(statements));
-  }
+  factory Block.of(Iterable<Code> statements) =>
+      Block((b) => b..statements.addAll(statements));
 
   Block._();
 
   @override
-  R accept<R>(covariant CodeVisitor<R> visitor, [R context]) {
-    return visitor.visitBlock(this, context);
-  }
+  R accept<R>(covariant CodeVisitor<R> visitor, [R context]) =>
+      visitor.visitBlock(this, context);
 
   BuiltList<Code> get statements;
 }
@@ -121,9 +119,8 @@ class LazyCode implements Code {
   const LazyCode._(this.generate);
 
   @override
-  R accept<R>(CodeVisitor<R> visitor, [R context]) {
-    return generate(visitor).accept(visitor, context);
-  }
+  R accept<R>(CodeVisitor<R> visitor, [R context]) =>
+      generate(visitor).accept(visitor, context);
 }
 
 /// Returns a generic [Code] that is lazily generated when visited.
@@ -135,9 +132,8 @@ class _LazyCode implements Code {
   const _LazyCode(this.generate);
 
   @override
-  R accept<R>(CodeVisitor<R> visitor, [R context]) {
-    return generate().accept(visitor, context);
-  }
+  R accept<R>(CodeVisitor<R> visitor, [R context]) =>
+      generate().accept(visitor, context);
 }
 
 /// Represents a simple, literal code block to be inserted as-is.
@@ -147,9 +143,8 @@ class StaticCode implements Code {
   const StaticCode._(this.code);
 
   @override
-  R accept<R>(CodeVisitor<R> visitor, [R context]) {
-    return visitor.visitStaticCode(this, context);
-  }
+  R accept<R>(CodeVisitor<R> visitor, [R context]) =>
+      visitor.visitStaticCode(this, context);
 
   @override
   String toString() => code;
@@ -162,9 +157,8 @@ class ScopedCode implements Code {
   const ScopedCode._(this.code);
 
   @override
-  R accept<R>(CodeVisitor<R> visitor, [R context]) {
-    return visitor.visitScopedCode(this, context);
-  }
+  R accept<R>(CodeVisitor<R> visitor, [R context]) =>
+      visitor.visitScopedCode(this, context);
 
   @override
   String toString() => code((ref) => ref.symbol);

@@ -27,9 +27,7 @@ class EqualsDart extends Matcher {
   /// By default, uses [collapseWhitespace], but it is recommended to instead
   /// use `dart_style` (dartfmt) where possible. See `test/common.dart` for an
   /// example.
-  static String Function(String) format = (String source) {
-    return collapseWhitespace(source);
-  };
+  static String Function(String) format = collapseWhitespace;
 
   static String _format(String source) {
     try {
@@ -52,18 +50,19 @@ class EqualsDart extends Matcher {
   Description describeMismatch(
     covariant Spec item,
     Description mismatchDescription,
-    state,
+    matchState,
     verbose,
   ) {
     final result = _dart(item, _emitter);
     return equals(result).describeMismatch(
       _source,
       mismatchDescription.add(result),
-      state,
+      matchState,
       verbose,
     );
   }
 
   @override
-  bool matches(covariant Spec item, _) => _dart(item, _emitter) == _source;
+  bool matches(covariant Spec item, matchState) =>
+      _dart(item, _emitter) == _source;
 }
