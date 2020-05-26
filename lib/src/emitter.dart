@@ -53,9 +53,9 @@ class DartEmitter extends Object
   /// If directives should be ordered while emitting.
   ///
   /// Ordering rules follow the guidance in
-  /// [Effective Dart](https://www.dartlang.org/guides/language/effective-dart/style#ordering)
+  /// [Effective Dart](https://dart.dev/guides/language/effective-dart/style#ordering)
   /// and the
-  /// [directives_ordering](http://dart-lang.github.io/linter/lints/directives_ordering.html)
+  /// [directives_ordering](https://dart-lang.github.io/linter/lints/directives_ordering.html)
   /// lint.
   final bool orderDirectives;
 

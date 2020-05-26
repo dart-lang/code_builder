@@ -1,6 +1,5 @@
-[![Pub package](https://img.shields.io/pub/v/code_builder.svg)](https://pub.dartlang.org/packages/code_builder)
+[![Pub package](https://img.shields.io/pub/v/code_builder.svg)](https://pub.dev/packages/code_builder)
 [![Build status](https://travis-ci.org/dart-lang/code_builder.svg)](https://travis-ci.org/dart-lang/code_builder)
-[![Latest docs](https://img.shields.io/badge/dartdocs-latest-blue.svg)](https://www.dartdocs.org/documentation/code_builder/latest)
 [![Gitter chat](https://badges.gitter.im/dart-lang/build.svg)](https://gitter.im/dart-lang/build)
 
 A fluent, builder-based library for generating valid Dart code.
@@ -105,4 +104,4 @@ $ pub global run build_runner build --delete-conflicting-outputs
 $ mv build.yaml build.disabled.yaml
 ```
 
-[build_runner]: https://pub.dartlang.org/packages/build_runner
+[build_runner]: https://pub.dev/packages/build_runner
