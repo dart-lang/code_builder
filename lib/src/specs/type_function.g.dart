@@ -17,6 +17,8 @@ class _$FunctionType extends FunctionType {
   final BuiltList<Reference> optionalParameters;
   @override
   final BuiltMap<String, Reference> namedParameters;
+  @override
+  final bool isNullable;
 
   factory _$FunctionType([void Function(FunctionTypeBuilder) updates]) =>
       (new FunctionTypeBuilder()..update(updates)).build() as _$FunctionType;
@@ -26,7 +28,8 @@ class _$FunctionType extends FunctionType {
       this.types,
       this.requiredParameters,
       this.optionalParameters,
-      this.namedParameters})
+      this.namedParameters,
+      this.isNullable})
       : super._() {
     if (types == null) {
       throw new BuiltValueNullFieldError('FunctionType', 'types');
@@ -58,17 +61,20 @@ class _$FunctionType extends FunctionType {
         types == other.types &&
         requiredParameters == other.requiredParameters &&
         optionalParameters == other.optionalParameters &&
-        namedParameters == other.namedParameters;
+        namedParameters == other.namedParameters &&
+        isNullable == other.isNullable;
   }
 
   @override
   int get hashCode {
     return $jf($jc(
         $jc(
-            $jc($jc($jc(0, returnType.hashCode), types.hashCode),
-                requiredParameters.hashCode),
-            optionalParameters.hashCode),
-        namedParameters.hashCode));
+            $jc(
+                $jc($jc($jc(0, returnType.hashCode), types.hashCode),
+                    requiredParameters.hashCode),
+                optionalParameters.hashCode),
+            namedParameters.hashCode),
+        isNullable.hashCode));
   }
 
   @override
@@ -78,7 +84,8 @@ class _$FunctionType extends FunctionType {
           ..add('types', types)
           ..add('requiredParameters', requiredParameters)
           ..add('optionalParameters', optionalParameters)
-          ..add('namedParameters', namedParameters))
+          ..add('namedParameters', namedParameters)
+          ..add('isNullable', isNullable))
         .toString();
   }
 }
@@ -146,6 +153,18 @@ class _$FunctionTypeBuilder extends FunctionTypeBuilder {
     super.namedParameters = namedParameters;
   }
 
+  @override
+  bool get isNullable {
+    _$this;
+    return super.isNullable;
+  }
+
+  @override
+  set isNullable(bool isNullable) {
+    _$this;
+    super.isNullable = isNullable;
+  }
+
   _$FunctionTypeBuilder() : super._();
 
   FunctionTypeBuilder get _$this {
@@ -155,6 +174,7 @@ class _$FunctionTypeBuilder extends FunctionTypeBuilder {
       super.requiredParameters = _$v.requiredParameters?.toBuilder();
       super.optionalParameters = _$v.optionalParameters?.toBuilder();
       super.namedParameters = _$v.namedParameters?.toBuilder();
+      super.isNullable = _$v.isNullable;
       _$v = null;
     }
     return this;
@@ -183,7 +203,8 @@ class _$FunctionTypeBuilder extends FunctionTypeBuilder {
               types: types.build(),
               requiredParameters: requiredParameters.build(),
               optionalParameters: optionalParameters.build(),
-              namedParameters: namedParameters.build());
+              namedParameters: namedParameters.build(),
+              isNullable: isNullable);
     } catch (_) {
       String _$failedField;
       try {

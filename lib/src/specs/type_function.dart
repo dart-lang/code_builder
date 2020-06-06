@@ -57,6 +57,13 @@ abstract class FunctionType extends Expression
   @override
   Reference get type => this;
 
+  /// Optional nullability.
+  ///
+  /// An emitter may ignore this if the output is not targeting a Dart language
+  /// version that supports null safety.
+  @nullable
+  bool get isNullable;
+
   @override
   Expression newInstance(
     Iterable<Expression> positionalArguments, [
@@ -113,4 +120,6 @@ abstract class FunctionTypeBuilder extends Object
 
   MapBuilder<String, Reference> namedParameters =
       MapBuilder<String, Reference>();
+
+  bool isNullable;
 }
