@@ -373,7 +373,11 @@ class DartEmitter extends Object
       });
       output.write('}');
     }
-    return output..write(')');
+    output.write(')');
+    if (_useNullSafetySyntax && (spec.isNullable ?? false)) {
+      output.write('?');
+    }
+    return output;
   }
 
   @override

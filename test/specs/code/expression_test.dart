@@ -301,6 +301,45 @@ void main() {
     );
   });
 
+  test('should emit a nullable function type in a Null Safety library', () {
+    final emitter = DartEmitter.scoped(useNullSafetySyntax: true);
+    expect(
+      FunctionType((b) => b
+        ..requiredParameters.add(refer('String'))
+        ..isNullable = true),
+      equalsDart('Function(String)?', emitter),
+    );
+  });
+
+  test('should emit a nullable function type in pre-Null Safety library', () {
+    expect(
+      FunctionType((b) => b
+        ..requiredParameters.add(refer('String'))
+        ..isNullable = true),
+      equalsDart('Function(String)'),
+    );
+  });
+
+  test('should emit a non-nullable function type in a Null Safety library', () {
+    final emitter = DartEmitter.scoped(useNullSafetySyntax: true);
+    expect(
+      FunctionType((b) => b
+        ..requiredParameters.add(refer('String'))
+        ..isNullable = false),
+      equalsDart('Function(String)', emitter),
+    );
+  });
+
+  test('should emit a non-nullable function type in pre-Null Safety library',
+      () {
+    expect(
+      FunctionType((b) => b
+        ..requiredParameters.add(refer('String'))
+        ..isNullable = false),
+      equalsDart('Function(String)'),
+    );
+  });
+
   test('should emit a closure', () {
     expect(
       refer('map').property('putIfAbsent').call([
