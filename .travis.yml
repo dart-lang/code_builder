@@ -7,7 +7,7 @@ dart:
 dart_task:
 - test
 - dartanalyzer: --fatal-infos --fatal-warnings .
-- dartfmt
+- dartfmt: sdk
 
 branches:
   only: [master]
