@@ -286,6 +286,13 @@ abstract class Expression implements Spec {
         '',
       );
 
+  /// This expression preceded by `throw`.
+  Expression get thrown => BinaryExpression._(
+        const LiteralExpression._('throw'),
+        this,
+        '',
+      );
+
   /// May be overridden to support other types implementing [Expression].
   @visibleForOverriding
   Expression get expression => this;

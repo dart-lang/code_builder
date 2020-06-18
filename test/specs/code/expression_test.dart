@@ -453,6 +453,13 @@ void main() {
     );
   });
 
+  test('should emit throw', () {
+    expect(
+      literalNull.thrown,
+      equalsDart('throw null'),
+    );
+  });
+
   test('should emit an explicit cast', () {
     expect(
       refer('foo').asA(refer('String')).property('length'),

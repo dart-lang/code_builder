@@ -1,3 +1,7 @@
+## 3.4.0-dev
+
+* Introduce `Expression.thrown` for throwing an expression.
+
 ## 3.3.0
 
 * Add `??` null-aware operator.
