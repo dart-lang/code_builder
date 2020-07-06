@@ -6,7 +6,7 @@ description: >-
 homepage: https://github.com/dart-lang/code_builder
 
 environment:
-  sdk: '>=2.6.0 <3.0.0'
+  sdk: '>=2.7.0 <3.0.0'
 
 dependencies:
   built_collection: '>=3.0.0 <5.0.0'

@@ -2,7 +2,7 @@ language: dart
 
 dart:
   - dev
-  - 2.6.0
+  - 2.7.0
 
 dart_task:
 - test
