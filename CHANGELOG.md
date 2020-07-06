@@ -1,6 +1,7 @@
 ## 3.4.0-dev
 
 * Introduce `Expression.thrown` for throwing an expression.
+* Update SDK requirement to `>=2.7.0 <3.0.0`.
 
 ## 3.3.0
 
