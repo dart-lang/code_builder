@@ -1,6 +1,7 @@
-## 3.4.0-dev
+## 3.4.0
 
 * Introduce `Expression.thrown` for throwing an expression.
+* Introduce `FunctionType.isNullable`.
 * Update SDK requirement to `>=2.7.0 <3.0.0`.
 
 ## 3.3.0
@@ -8,6 +9,9 @@
 * Add `??` null-aware operator.
 * Add `..` cascade assignment operator.
 * Add `part` directive.
+* Introduce `TypeReference.isNullable`.
+* Add an option in `DartEmitter` to emit nullable types with trailing `?`
+  characters.
 
 ## 3.2.2
 
