@@ -2,14 +2,13 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:code_builder/src/specs/enum.dart';
-
 import 'allocator.dart';
 import 'base.dart';
 import 'specs/class.dart';
 import 'specs/code.dart';
 import 'specs/constructor.dart';
 import 'specs/directive.dart';
+import 'specs/enum.dart';
 import 'specs/expression.dart';
 import 'specs/field.dart';
 import 'specs/library.dart';
