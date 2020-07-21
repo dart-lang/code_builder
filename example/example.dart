@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:code_builder/code_builder.dart';
+import 'package:code_builder/src/specs/enum.dart';
 import 'package:dart_style/dart_style.dart';
 
 final _dartfmt = DartFormatter();
@@ -10,6 +11,7 @@ final _dartfmt = DartFormatter();
 void main() {
   print('animalClass():\n${'=' * 40}\n${animalClass()}');
   print('scopedLibrary():\n${'=' * 40}\n${scopedLibrary()}');
+  print('jsonEnum():\n${'=' * 40}\n${jsonEnum()}');
 }
 
 /// Outputs:
@@ -51,4 +53,33 @@ String scopedLibrary() {
   ];
   final library = Library((b) => b.body.addAll(methods));
   return _dartfmt.format('${library.accept(DartEmitter.scoped())}');
+}
+
+/// Outputs:
+///
+/// ```dart
+/// enum Unit {
+///  @JsonKey('m')
+///  Metric,
+///  @JsonKey('i')
+///  Imperial
+/// }
+/// ```
+String jsonEnum() {
+  final values = <EnumValue>[
+    EnumValue((b) => b
+      ..name = 'Metric'
+      ..annotations.addAll([
+        refer('JsonKey').call([literalString('m')])
+      ])),
+    EnumValue((b) => b
+      ..name = 'Imperial'
+      ..annotations.addAll([
+        refer('JsonKey').call([literalString('i')])
+      ])),
+  ];
+  final e = Enum((b) => b
+    ..name = 'Unit'
+    ..values.addAll(values));
+  return _dartfmt.format('${e.accept(DartEmitter())}');
 }

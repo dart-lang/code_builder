@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:code_builder/src/specs/enum.dart';
+
 import 'allocator.dart';
 import 'base.dart';
 import 'specs/class.dart';
@@ -533,6 +535,24 @@ class DartEmitter extends Object
         ..writeAll(specs.map<StringSink>((s) => s.accept(this)), ',')
         ..write('>');
     }
+    return output;
+  }
+
+  @override
+  StringSink visitEnum(Enum spec, [StringSink output]) {
+    output ??= StringBuffer();
+    spec.docs.forEach(output.writeln);
+    spec.annotations.forEach((a) => visitAnnotation(a, output));
+    output.writeln('enum ${spec.name} {');
+    spec.values.forEach((v) {
+      v.docs.forEach(output.writeln);
+      v.annotations.forEach((a) => visitAnnotation(a, output));
+      output.write(v.name);
+      if (v != spec.values.last) {
+        output.writeln(',');
+      }
+    });
+    output.writeln('}');
     return output;
   }
 }

@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:code_builder/src/specs/enum.dart';
 import 'package:meta/meta.dart';
 
 import 'base.dart';
@@ -23,6 +24,8 @@ abstract class SpecVisitor<T> {
   T visitAnnotation(Expression spec, [T context]);
 
   T visitClass(Class spec, [T context]);
+
+  T visitEnum(Enum spec, [T context]);
 
   T visitConstructor(Constructor spec, String clazz, [T context]);
 
