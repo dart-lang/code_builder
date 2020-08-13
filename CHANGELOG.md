@@ -2,6 +2,11 @@
 
 * Add support for defining enums.
 
+## 3.4.1
+
+* Fix confusing mismatch description from `equalsDart`.
+  https://github.com/dart-lang/code_builder/issues/293
+
 ## 3.4.0
 
 * Introduce `Expression.thrown` for throwing an expression.
