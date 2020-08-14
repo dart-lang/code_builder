@@ -1,4 +1,4 @@
-## 3.4.1-dev
+## 3.4.1
 
 * Fix confusing mismatch description from `equalsDart`.
   https://github.com/dart-lang/code_builder/issues/293
