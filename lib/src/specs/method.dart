@@ -17,22 +17,21 @@ import 'reference.dart';
 
 part 'method.g.dart';
 
-final Reference _$void = const Reference('void');
+const _$void = Reference('void');
 
 @immutable
 abstract class Method extends Object
     with HasAnnotations, HasGenerics, HasDartDocs
     implements Built<Method, MethodBuilder>, Spec {
-  factory Method([void updates(MethodBuilder b)]) = _$Method;
+  factory Method([void Function(MethodBuilder) updates]) = _$Method;
 
-  factory Method.returnsVoid([void updates(MethodBuilder b)]) {
-    return Method((b) {
-      if (updates != null) {
-        updates(b);
-      }
-      b.returns = _$void;
-    });
-  }
+  factory Method.returnsVoid([void Function(MethodBuilder) updates]) =>
+      Method((b) {
+        if (updates != null) {
+          updates(b);
+        }
+        b.returns = _$void;
+      });
 
   Method._();
 
@@ -161,7 +160,7 @@ enum MethodModifier {
 abstract class Parameter extends Object
     with HasAnnotations, HasGenerics, HasDartDocs
     implements Built<Parameter, ParameterBuilder> {
-  factory Parameter([void updates(ParameterBuilder b)]) = _$Parameter;
+  factory Parameter([void Function(ParameterBuilder) updates]) = _$Parameter;
 
   Parameter._();
 
@@ -192,6 +191,19 @@ abstract class Parameter extends Object
   /// Type of the parameter;
   @nullable
   Reference get type;
+
+  /// Whether this parameter should be annotated with the `required` keyword.
+  ///
+  /// This is only valid on named parameters.
+  ///
+  /// This is only valid when the output is targeting a Dart language version
+  /// that supports null safety.
+  bool get required;
+
+  /// Whether this parameter should be annotated with the `covariant` keyword.
+  ///
+  /// This is only valid on instance methods.
+  bool get covariant;
 }
 
 abstract class ParameterBuilder extends Object
@@ -226,4 +238,17 @@ abstract class ParameterBuilder extends Object
 
   /// Type of the parameter;
   Reference type;
+
+  /// Whether this parameter should be annotated with the `required` keyword.
+  ///
+  /// This is only valid on named parameters.
+  ///
+  /// This is only valid when the output is targeting a Dart language version
+  /// that supports null safety.
+  bool required = false;
+
+  /// Whether this parameter should be annotated with the `covariant` keyword.
+  ///
+  /// This is only valid on instance methods.
+  bool covariant = false;
 }

@@ -14,7 +14,7 @@ part 'library.g.dart';
 
 @immutable
 abstract class Library implements Built<Library, LibraryBuilder>, Spec {
-  factory Library([void updates(LibraryBuilder b)]) = _$Library;
+  factory Library([void Function(LibraryBuilder) updates]) = _$Library;
   Library._();
 
   BuiltList<Directive> get directives;

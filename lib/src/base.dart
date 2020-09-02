@@ -17,7 +17,6 @@ class _LazySpec implements Spec {
   const _LazySpec(this.generate);
 
   @override
-  R accept<R>(SpecVisitor<R> visitor, [R context]) {
-    return generate().accept(visitor, context);
-  }
+  R accept<R>(SpecVisitor<R> visitor, [R context]) =>
+      generate().accept(visitor, context);
 }

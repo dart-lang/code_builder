@@ -6,16 +6,6 @@ part of 'constructor.dart';
 // BuiltValueGenerator
 // **************************************************************************
 
-// ignore_for_file: always_put_control_body_on_new_line
-// ignore_for_file: annotate_overrides
-// ignore_for_file: avoid_annotating_with_dynamic
-// ignore_for_file: avoid_catches_without_on_clauses
-// ignore_for_file: avoid_returning_this
-// ignore_for_file: lines_longer_than_80_chars
-// ignore_for_file: omit_local_variable_types
-// ignore_for_file: prefer_expression_function_bodies
-// ignore_for_file: sort_constructors_first
-
 class _$Constructor extends Constructor {
   @override
   final BuiltList<Expression> annotations;
@@ -42,7 +32,7 @@ class _$Constructor extends Constructor {
   @override
   final Reference redirect;
 
-  factory _$Constructor([void updates(ConstructorBuilder b)]) =>
+  factory _$Constructor([void Function(ConstructorBuilder) updates]) =>
       (new ConstructorBuilder()..update(updates)).build() as _$Constructor;
 
   _$Constructor._(
@@ -59,35 +49,44 @@ class _$Constructor extends Constructor {
       this.name,
       this.redirect})
       : super._() {
-    if (annotations == null)
+    if (annotations == null) {
       throw new BuiltValueNullFieldError('Constructor', 'annotations');
-    if (docs == null) throw new BuiltValueNullFieldError('Constructor', 'docs');
-    if (optionalParameters == null)
+    }
+    if (docs == null) {
+      throw new BuiltValueNullFieldError('Constructor', 'docs');
+    }
+    if (optionalParameters == null) {
       throw new BuiltValueNullFieldError('Constructor', 'optionalParameters');
-    if (requiredParameters == null)
+    }
+    if (requiredParameters == null) {
       throw new BuiltValueNullFieldError('Constructor', 'requiredParameters');
-    if (initializers == null)
+    }
+    if (initializers == null) {
       throw new BuiltValueNullFieldError('Constructor', 'initializers');
-    if (external == null)
+    }
+    if (external == null) {
       throw new BuiltValueNullFieldError('Constructor', 'external');
-    if (constant == null)
+    }
+    if (constant == null) {
       throw new BuiltValueNullFieldError('Constructor', 'constant');
-    if (factory == null)
+    }
+    if (factory == null) {
       throw new BuiltValueNullFieldError('Constructor', 'factory');
+    }
   }
 
   @override
-  Constructor rebuild(void updates(ConstructorBuilder b)) =>
+  Constructor rebuild(void Function(ConstructorBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
   _$ConstructorBuilder toBuilder() => new _$ConstructorBuilder()..replace(this);
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    if (other is! Constructor) return false;
-    return annotations == other.annotations &&
+    return other is Constructor &&
+        annotations == other.annotations &&
         docs == other.docs &&
         optionalParameters == other.optionalParameters &&
         requiredParameters == other.requiredParameters &&
@@ -316,12 +315,14 @@ class _$ConstructorBuilder extends ConstructorBuilder {
 
   @override
   void replace(Constructor other) {
-    if (other == null) throw new ArgumentError.notNull('other');
+    if (other == null) {
+      throw new ArgumentError.notNull('other');
+    }
     _$v = other as _$Constructor;
   }
 
   @override
-  void update(void updates(ConstructorBuilder b)) {
+  void update(void Function(ConstructorBuilder) updates) {
     if (updates != null) updates(this);
   }
 
@@ -366,3 +367,5 @@ class _$ConstructorBuilder extends ConstructorBuilder {
     return _$result;
   }
 }
+
+// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,lines_longer_than_80_chars,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new

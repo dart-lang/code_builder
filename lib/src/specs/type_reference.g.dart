@@ -6,16 +6,6 @@ part of 'type_reference.dart';
 // BuiltValueGenerator
 // **************************************************************************
 
-// ignore_for_file: always_put_control_body_on_new_line
-// ignore_for_file: annotate_overrides
-// ignore_for_file: avoid_annotating_with_dynamic
-// ignore_for_file: avoid_catches_without_on_clauses
-// ignore_for_file: avoid_returning_this
-// ignore_for_file: lines_longer_than_80_chars
-// ignore_for_file: omit_local_variable_types
-// ignore_for_file: prefer_expression_function_bodies
-// ignore_for_file: sort_constructors_first
-
 class _$TypeReference extends TypeReference {
   @override
   final String symbol;
@@ -25,20 +15,25 @@ class _$TypeReference extends TypeReference {
   final Reference bound;
   @override
   final BuiltList<Reference> types;
+  @override
+  final bool isNullable;
 
-  factory _$TypeReference([void updates(TypeReferenceBuilder b)]) =>
+  factory _$TypeReference([void Function(TypeReferenceBuilder) updates]) =>
       (new TypeReferenceBuilder()..update(updates)).build() as _$TypeReference;
 
-  _$TypeReference._({this.symbol, this.url, this.bound, this.types})
+  _$TypeReference._(
+      {this.symbol, this.url, this.bound, this.types, this.isNullable})
       : super._() {
-    if (symbol == null)
+    if (symbol == null) {
       throw new BuiltValueNullFieldError('TypeReference', 'symbol');
-    if (types == null)
+    }
+    if (types == null) {
       throw new BuiltValueNullFieldError('TypeReference', 'types');
+    }
   }
 
   @override
-  TypeReference rebuild(void updates(TypeReferenceBuilder b)) =>
+  TypeReference rebuild(void Function(TypeReferenceBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
@@ -46,20 +41,22 @@ class _$TypeReference extends TypeReference {
       new _$TypeReferenceBuilder()..replace(this);
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    if (other is! TypeReference) return false;
-    return symbol == other.symbol &&
+    return other is TypeReference &&
+        symbol == other.symbol &&
         url == other.url &&
         bound == other.bound &&
-        types == other.types;
+        types == other.types &&
+        isNullable == other.isNullable;
   }
 
   @override
   int get hashCode {
     return $jf($jc(
-        $jc($jc($jc(0, symbol.hashCode), url.hashCode), bound.hashCode),
-        types.hashCode));
+        $jc($jc($jc($jc(0, symbol.hashCode), url.hashCode), bound.hashCode),
+            types.hashCode),
+        isNullable.hashCode));
   }
 
   @override
@@ -68,7 +65,8 @@ class _$TypeReference extends TypeReference {
           ..add('symbol', symbol)
           ..add('url', url)
           ..add('bound', bound)
-          ..add('types', types))
+          ..add('types', types)
+          ..add('isNullable', isNullable))
         .toString();
   }
 }
@@ -124,6 +122,18 @@ class _$TypeReferenceBuilder extends TypeReferenceBuilder {
     super.types = types;
   }
 
+  @override
+  bool get isNullable {
+    _$this;
+    return super.isNullable;
+  }
+
+  @override
+  set isNullable(bool isNullable) {
+    _$this;
+    super.isNullable = isNullable;
+  }
+
   _$TypeReferenceBuilder() : super._();
 
   TypeReferenceBuilder get _$this {
@@ -132,6 +142,7 @@ class _$TypeReferenceBuilder extends TypeReferenceBuilder {
       super.url = _$v.url;
       super.bound = _$v.bound;
       super.types = _$v.types?.toBuilder();
+      super.isNullable = _$v.isNullable;
       _$v = null;
     }
     return this;
@@ -139,12 +150,14 @@ class _$TypeReferenceBuilder extends TypeReferenceBuilder {
 
   @override
   void replace(TypeReference other) {
-    if (other == null) throw new ArgumentError.notNull('other');
+    if (other == null) {
+      throw new ArgumentError.notNull('other');
+    }
     _$v = other as _$TypeReference;
   }
 
   @override
-  void update(void updates(TypeReferenceBuilder b)) {
+  void update(void Function(TypeReferenceBuilder) updates) {
     if (updates != null) updates(this);
   }
 
@@ -154,7 +167,11 @@ class _$TypeReferenceBuilder extends TypeReferenceBuilder {
     try {
       _$result = _$v ??
           new _$TypeReference._(
-              symbol: symbol, url: url, bound: bound, types: types.build());
+              symbol: symbol,
+              url: url,
+              bound: bound,
+              types: types.build(),
+              isNullable: isNullable);
     } catch (_) {
       String _$failedField;
       try {
@@ -170,3 +187,5 @@ class _$TypeReferenceBuilder extends TypeReferenceBuilder {
     return _$result;
   }
 }
+
+// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,lines_longer_than_80_chars,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new

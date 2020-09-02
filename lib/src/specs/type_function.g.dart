@@ -6,16 +6,6 @@ part of 'type_function.dart';
 // BuiltValueGenerator
 // **************************************************************************
 
-// ignore_for_file: always_put_control_body_on_new_line
-// ignore_for_file: annotate_overrides
-// ignore_for_file: avoid_annotating_with_dynamic
-// ignore_for_file: avoid_catches_without_on_clauses
-// ignore_for_file: avoid_returning_this
-// ignore_for_file: lines_longer_than_80_chars
-// ignore_for_file: omit_local_variable_types
-// ignore_for_file: prefer_expression_function_bodies
-// ignore_for_file: sort_constructors_first
-
 class _$FunctionType extends FunctionType {
   @override
   final Reference returnType;
@@ -27,8 +17,10 @@ class _$FunctionType extends FunctionType {
   final BuiltList<Reference> optionalParameters;
   @override
   final BuiltMap<String, Reference> namedParameters;
+  @override
+  final bool isNullable;
 
-  factory _$FunctionType([void updates(FunctionTypeBuilder b)]) =>
+  factory _$FunctionType([void Function(FunctionTypeBuilder) updates]) =>
       (new FunctionTypeBuilder()..update(updates)).build() as _$FunctionType;
 
   _$FunctionType._(
@@ -36,20 +28,25 @@ class _$FunctionType extends FunctionType {
       this.types,
       this.requiredParameters,
       this.optionalParameters,
-      this.namedParameters})
+      this.namedParameters,
+      this.isNullable})
       : super._() {
-    if (types == null)
+    if (types == null) {
       throw new BuiltValueNullFieldError('FunctionType', 'types');
-    if (requiredParameters == null)
+    }
+    if (requiredParameters == null) {
       throw new BuiltValueNullFieldError('FunctionType', 'requiredParameters');
-    if (optionalParameters == null)
+    }
+    if (optionalParameters == null) {
       throw new BuiltValueNullFieldError('FunctionType', 'optionalParameters');
-    if (namedParameters == null)
+    }
+    if (namedParameters == null) {
       throw new BuiltValueNullFieldError('FunctionType', 'namedParameters');
+    }
   }
 
   @override
-  FunctionType rebuild(void updates(FunctionTypeBuilder b)) =>
+  FunctionType rebuild(void Function(FunctionTypeBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
@@ -57,24 +54,27 @@ class _$FunctionType extends FunctionType {
       new _$FunctionTypeBuilder()..replace(this);
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    if (other is! FunctionType) return false;
-    return returnType == other.returnType &&
+    return other is FunctionType &&
+        returnType == other.returnType &&
         types == other.types &&
         requiredParameters == other.requiredParameters &&
         optionalParameters == other.optionalParameters &&
-        namedParameters == other.namedParameters;
+        namedParameters == other.namedParameters &&
+        isNullable == other.isNullable;
   }
 
   @override
   int get hashCode {
     return $jf($jc(
         $jc(
-            $jc($jc($jc(0, returnType.hashCode), types.hashCode),
-                requiredParameters.hashCode),
-            optionalParameters.hashCode),
-        namedParameters.hashCode));
+            $jc(
+                $jc($jc($jc(0, returnType.hashCode), types.hashCode),
+                    requiredParameters.hashCode),
+                optionalParameters.hashCode),
+            namedParameters.hashCode),
+        isNullable.hashCode));
   }
 
   @override
@@ -84,7 +84,8 @@ class _$FunctionType extends FunctionType {
           ..add('types', types)
           ..add('requiredParameters', requiredParameters)
           ..add('optionalParameters', optionalParameters)
-          ..add('namedParameters', namedParameters))
+          ..add('namedParameters', namedParameters)
+          ..add('isNullable', isNullable))
         .toString();
   }
 }
@@ -152,6 +153,18 @@ class _$FunctionTypeBuilder extends FunctionTypeBuilder {
     super.namedParameters = namedParameters;
   }
 
+  @override
+  bool get isNullable {
+    _$this;
+    return super.isNullable;
+  }
+
+  @override
+  set isNullable(bool isNullable) {
+    _$this;
+    super.isNullable = isNullable;
+  }
+
   _$FunctionTypeBuilder() : super._();
 
   FunctionTypeBuilder get _$this {
@@ -161,6 +174,7 @@ class _$FunctionTypeBuilder extends FunctionTypeBuilder {
       super.requiredParameters = _$v.requiredParameters?.toBuilder();
       super.optionalParameters = _$v.optionalParameters?.toBuilder();
       super.namedParameters = _$v.namedParameters?.toBuilder();
+      super.isNullable = _$v.isNullable;
       _$v = null;
     }
     return this;
@@ -168,12 +182,14 @@ class _$FunctionTypeBuilder extends FunctionTypeBuilder {
 
   @override
   void replace(FunctionType other) {
-    if (other == null) throw new ArgumentError.notNull('other');
+    if (other == null) {
+      throw new ArgumentError.notNull('other');
+    }
     _$v = other as _$FunctionType;
   }
 
   @override
-  void update(void updates(FunctionTypeBuilder b)) {
+  void update(void Function(FunctionTypeBuilder) updates) {
     if (updates != null) updates(this);
   }
 
@@ -187,7 +203,8 @@ class _$FunctionTypeBuilder extends FunctionTypeBuilder {
               types: types.build(),
               requiredParameters: requiredParameters.build(),
               optionalParameters: optionalParameters.build(),
-              namedParameters: namedParameters.build());
+              namedParameters: namedParameters.build(),
+              isNullable: isNullable);
     } catch (_) {
       String _$failedField;
       try {
@@ -209,3 +226,5 @@ class _$FunctionTypeBuilder extends FunctionTypeBuilder {
     return _$result;
   }
 }
+
+// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,lines_longer_than_80_chars,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new

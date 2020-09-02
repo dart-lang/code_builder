@@ -6,16 +6,6 @@ part of 'method.dart';
 // BuiltValueGenerator
 // **************************************************************************
 
-// ignore_for_file: always_put_control_body_on_new_line
-// ignore_for_file: annotate_overrides
-// ignore_for_file: avoid_annotating_with_dynamic
-// ignore_for_file: avoid_catches_without_on_clauses
-// ignore_for_file: avoid_returning_this
-// ignore_for_file: lines_longer_than_80_chars
-// ignore_for_file: omit_local_variable_types
-// ignore_for_file: prefer_expression_function_bodies
-// ignore_for_file: sort_constructors_first
-
 class _$Method extends Method {
   @override
   final BuiltList<Expression> annotations;
@@ -44,7 +34,7 @@ class _$Method extends Method {
   @override
   final Reference returns;
 
-  factory _$Method([void updates(MethodBuilder b)]) =>
+  factory _$Method([void Function(MethodBuilder) updates]) =>
       (new MethodBuilder()..update(updates)).build() as _$Method;
 
   _$Method._(
@@ -62,31 +52,41 @@ class _$Method extends Method {
       this.modifier,
       this.returns})
       : super._() {
-    if (annotations == null)
+    if (annotations == null) {
       throw new BuiltValueNullFieldError('Method', 'annotations');
-    if (docs == null) throw new BuiltValueNullFieldError('Method', 'docs');
-    if (types == null) throw new BuiltValueNullFieldError('Method', 'types');
-    if (optionalParameters == null)
+    }
+    if (docs == null) {
+      throw new BuiltValueNullFieldError('Method', 'docs');
+    }
+    if (types == null) {
+      throw new BuiltValueNullFieldError('Method', 'types');
+    }
+    if (optionalParameters == null) {
       throw new BuiltValueNullFieldError('Method', 'optionalParameters');
-    if (requiredParameters == null)
+    }
+    if (requiredParameters == null) {
       throw new BuiltValueNullFieldError('Method', 'requiredParameters');
-    if (external == null)
+    }
+    if (external == null) {
       throw new BuiltValueNullFieldError('Method', 'external');
-    if (static == null) throw new BuiltValueNullFieldError('Method', 'static');
+    }
+    if (static == null) {
+      throw new BuiltValueNullFieldError('Method', 'static');
+    }
   }
 
   @override
-  Method rebuild(void updates(MethodBuilder b)) =>
+  Method rebuild(void Function(MethodBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
   _$MethodBuilder toBuilder() => new _$MethodBuilder()..replace(this);
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    if (other is! Method) return false;
-    return annotations == other.annotations &&
+    return other is Method &&
+        annotations == other.annotations &&
         docs == other.docs &&
         types == other.types &&
         optionalParameters == other.optionalParameters &&
@@ -334,12 +334,14 @@ class _$MethodBuilder extends MethodBuilder {
 
   @override
   void replace(Method other) {
-    if (other == null) throw new ArgumentError.notNull('other');
+    if (other == null) {
+      throw new ArgumentError.notNull('other');
+    }
     _$v = other as _$Method;
   }
 
   @override
-  void update(void updates(MethodBuilder b)) {
+  void update(void Function(MethodBuilder) updates) {
     if (updates != null) updates(this);
   }
 
@@ -403,8 +405,12 @@ class _$Parameter extends Parameter {
   final BuiltList<Reference> types;
   @override
   final Reference type;
+  @override
+  final bool required;
+  @override
+  final bool covariant;
 
-  factory _$Parameter([void updates(ParameterBuilder b)]) =>
+  factory _$Parameter([void Function(ParameterBuilder) updates]) =>
       (new ParameterBuilder()..update(updates)).build() as _$Parameter;
 
   _$Parameter._(
@@ -415,37 +421,57 @@ class _$Parameter extends Parameter {
       this.annotations,
       this.docs,
       this.types,
-      this.type})
+      this.type,
+      this.required,
+      this.covariant})
       : super._() {
-    if (name == null) throw new BuiltValueNullFieldError('Parameter', 'name');
-    if (named == null) throw new BuiltValueNullFieldError('Parameter', 'named');
-    if (toThis == null)
+    if (name == null) {
+      throw new BuiltValueNullFieldError('Parameter', 'name');
+    }
+    if (named == null) {
+      throw new BuiltValueNullFieldError('Parameter', 'named');
+    }
+    if (toThis == null) {
       throw new BuiltValueNullFieldError('Parameter', 'toThis');
-    if (annotations == null)
+    }
+    if (annotations == null) {
       throw new BuiltValueNullFieldError('Parameter', 'annotations');
-    if (docs == null) throw new BuiltValueNullFieldError('Parameter', 'docs');
-    if (types == null) throw new BuiltValueNullFieldError('Parameter', 'types');
+    }
+    if (docs == null) {
+      throw new BuiltValueNullFieldError('Parameter', 'docs');
+    }
+    if (types == null) {
+      throw new BuiltValueNullFieldError('Parameter', 'types');
+    }
+    if (required == null) {
+      throw new BuiltValueNullFieldError('Parameter', 'required');
+    }
+    if (covariant == null) {
+      throw new BuiltValueNullFieldError('Parameter', 'covariant');
+    }
   }
 
   @override
-  Parameter rebuild(void updates(ParameterBuilder b)) =>
+  Parameter rebuild(void Function(ParameterBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
   _$ParameterBuilder toBuilder() => new _$ParameterBuilder()..replace(this);
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    if (other is! Parameter) return false;
-    return defaultTo == other.defaultTo &&
+    return other is Parameter &&
+        defaultTo == other.defaultTo &&
         name == other.name &&
         named == other.named &&
         toThis == other.toThis &&
         annotations == other.annotations &&
         docs == other.docs &&
         types == other.types &&
-        type == other.type;
+        type == other.type &&
+        required == other.required &&
+        covariant == other.covariant;
   }
 
   @override
@@ -455,13 +481,19 @@ class _$Parameter extends Parameter {
             $jc(
                 $jc(
                     $jc(
-                        $jc($jc($jc(0, defaultTo.hashCode), name.hashCode),
-                            named.hashCode),
-                        toThis.hashCode),
-                    annotations.hashCode),
-                docs.hashCode),
-            types.hashCode),
-        type.hashCode));
+                        $jc(
+                            $jc(
+                                $jc(
+                                    $jc($jc(0, defaultTo.hashCode),
+                                        name.hashCode),
+                                    named.hashCode),
+                                toThis.hashCode),
+                            annotations.hashCode),
+                        docs.hashCode),
+                    types.hashCode),
+                type.hashCode),
+            required.hashCode),
+        covariant.hashCode));
   }
 
   @override
@@ -474,7 +506,9 @@ class _$Parameter extends Parameter {
           ..add('annotations', annotations)
           ..add('docs', docs)
           ..add('types', types)
-          ..add('type', type))
+          ..add('type', type)
+          ..add('required', required)
+          ..add('covariant', covariant))
         .toString();
   }
 }
@@ -578,6 +612,30 @@ class _$ParameterBuilder extends ParameterBuilder {
     super.type = type;
   }
 
+  @override
+  bool get required {
+    _$this;
+    return super.required;
+  }
+
+  @override
+  set required(bool required) {
+    _$this;
+    super.required = required;
+  }
+
+  @override
+  bool get covariant {
+    _$this;
+    return super.covariant;
+  }
+
+  @override
+  set covariant(bool covariant) {
+    _$this;
+    super.covariant = covariant;
+  }
+
   _$ParameterBuilder() : super._();
 
   ParameterBuilder get _$this {
@@ -590,6 +648,8 @@ class _$ParameterBuilder extends ParameterBuilder {
       super.docs = _$v.docs?.toBuilder();
       super.types = _$v.types?.toBuilder();
       super.type = _$v.type;
+      super.required = _$v.required;
+      super.covariant = _$v.covariant;
       _$v = null;
     }
     return this;
@@ -597,12 +657,14 @@ class _$ParameterBuilder extends ParameterBuilder {
 
   @override
   void replace(Parameter other) {
-    if (other == null) throw new ArgumentError.notNull('other');
+    if (other == null) {
+      throw new ArgumentError.notNull('other');
+    }
     _$v = other as _$Parameter;
   }
 
   @override
-  void update(void updates(ParameterBuilder b)) {
+  void update(void Function(ParameterBuilder) updates) {
     if (updates != null) updates(this);
   }
 
@@ -619,7 +681,9 @@ class _$ParameterBuilder extends ParameterBuilder {
               annotations: annotations.build(),
               docs: docs.build(),
               types: types.build(),
-              type: type);
+              type: type,
+              required: required,
+              covariant: covariant);
     } catch (_) {
       String _$failedField;
       try {
@@ -639,3 +703,5 @@ class _$ParameterBuilder extends ParameterBuilder {
     return _$result;
   }
 }
+
+// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,lines_longer_than_80_chars,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new

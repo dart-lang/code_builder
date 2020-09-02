@@ -361,6 +361,26 @@ void main() {
     );
   });
 
+  test('should create a method with a covariant parameter with a type', () {
+    expect(
+      Method(
+        (b) => b
+          ..name = 'fib'
+          ..requiredParameters.add(
+            Parameter(
+              (b) => b
+                ..name = 'i'
+                ..covariant = true
+                ..type = refer('int').type,
+            ),
+          ),
+      ),
+      equalsDart(r'''
+        fib(covariant int i);
+      '''),
+    );
+  });
+
   test('should create a method with a parameter with a generic type', () {
     expect(
       Method(
@@ -432,6 +452,49 @@ void main() {
       ),
       equalsDart(r'''
         fib([i = 0]);
+      '''),
+    );
+  });
+
+  test('should create a method with a named required parameter', () {
+    expect(
+      Method(
+        (b) => b
+          ..name = 'fib'
+          ..optionalParameters.add(
+            Parameter(
+              (b) => b
+                ..name = 'i'
+                ..named = true
+                ..required = true
+                ..type = refer('int').type,
+            ),
+          ),
+      ),
+      equalsDart(r'''
+        fib({required int i});
+      '''),
+    );
+  });
+
+  test('should create a method with a named required covariant parameter', () {
+    expect(
+      Method(
+        (b) => b
+          ..name = 'fib'
+          ..optionalParameters.add(
+            Parameter(
+              (b) => b
+                ..name = 'i'
+                ..named = true
+                ..required = true
+                ..covariant = true
+                ..type = refer('int').type,
+            ),
+          ),
+      ),
+      equalsDart(r'''
+        fib({required covariant int i});
       '''),
     );
   });

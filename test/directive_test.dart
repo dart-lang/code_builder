@@ -15,6 +15,7 @@ void main() {
   final library = Library((b) => b
     ..directives.add((Directive.export('../relative.dart')))
     ..directives.add((Directive.export('package:foo/foo.dart')))
+    ..directives.add((Directive.part('lib.g.dart')))
     ..body.add(Field((b) => b
       ..name = 'relativeRef'
       ..modifier = FieldModifier.final$
@@ -37,12 +38,13 @@ void main() {
     expect(
       library,
       equalsDart(r'''
-          export '../relative.dart';
-          export 'package:foo/foo.dart';
           import '../relative.dart' as _i1;
           import 'package:foo/foo.dart' as _i2;
           import 'package:foo/bar.dart' as _i3;
           import 'dart:collection' as _i4;
+          export '../relative.dart';
+          export 'package:foo/foo.dart';
+          part 'lib.g.dart';
 
           final relativeRef = _i1.Relative();
           final pkgRefFoo = _i2.Foo();
@@ -64,6 +66,8 @@ void main() {
 
           export 'package:foo/foo.dart';
           export '../relative.dart';
+
+          part 'lib.g.dart';
 
           final relativeRef = _i1.Relative();
           final pkgRefFoo = _i2.Foo();

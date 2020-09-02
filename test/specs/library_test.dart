@@ -109,5 +109,19 @@ void main() {
         ''', DartEmitter(Allocator.simplePrefixing())),
       );
     });
+
+    test('should emit a source file with part directives', () {
+      expect(
+        Library(
+          (b) => b
+            ..directives.add(
+              Directive.part('test.g.dart'),
+            ),
+        ),
+        equalsDart(r'''
+            part 'test.g.dart';
+          ''', DartEmitter()),
+      );
+    });
   });
 }

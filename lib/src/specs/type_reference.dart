@@ -20,7 +20,7 @@ abstract class TypeReference extends Expression
     with HasGenerics
     implements Built<TypeReference, TypeReferenceBuilder>, Reference, Spec {
   factory TypeReference([
-    void updates(TypeReferenceBuilder b),
+    void Function(TypeReferenceBuilder) updates,
   ]) = _$TypeReference;
 
   TypeReference._();
@@ -39,6 +39,13 @@ abstract class TypeReference extends Expression
   @override
   BuiltList<Reference> get types;
 
+  /// Optional nullability.
+  ///
+  /// An emitter may ignore this if the output is not targeting a Dart language
+  /// version that supports null safety.
+  @nullable
+  bool get isNullable;
+
   @override
   R accept<R>(
     SpecVisitor<R> visitor, [
@@ -47,9 +54,7 @@ abstract class TypeReference extends Expression
       visitor.visitType(this, context);
 
   @override
-  Expression get expression {
-    return CodeExpression(Code.scope((a) => a(this)));
-  }
+  Expression get expression => CodeExpression(Code.scope((a) => a(this)));
 
   @override
   TypeReference get type => this;
@@ -59,15 +64,13 @@ abstract class TypeReference extends Expression
     Iterable<Expression> positionalArguments, [
     Map<String, Expression> namedArguments = const {},
     List<Reference> typeArguments = const [],
-  ]) {
-    return InvokeExpression.newOf(
-      this,
-      positionalArguments.toList(),
-      namedArguments,
-      typeArguments,
-      null,
-    );
-  }
+  ]) =>
+      InvokeExpression.newOf(
+        this,
+        positionalArguments.toList(),
+        namedArguments,
+        typeArguments,
+      );
 
   @override
   Expression newInstanceNamed(
@@ -75,30 +78,27 @@ abstract class TypeReference extends Expression
     Iterable<Expression> positionalArguments, [
     Map<String, Expression> namedArguments = const {},
     List<Reference> typeArguments = const [],
-  ]) {
-    return InvokeExpression.newOf(
-      this,
-      positionalArguments.toList(),
-      namedArguments,
-      typeArguments,
-      name,
-    );
-  }
+  ]) =>
+      InvokeExpression.newOf(
+        this,
+        positionalArguments.toList(),
+        namedArguments,
+        typeArguments,
+        name,
+      );
 
   @override
   Expression constInstance(
     Iterable<Expression> positionalArguments, [
     Map<String, Expression> namedArguments = const {},
     List<Reference> typeArguments = const [],
-  ]) {
-    return InvokeExpression.constOf(
-      this,
-      positionalArguments.toList(),
-      namedArguments,
-      typeArguments,
-      null,
-    );
-  }
+  ]) =>
+      InvokeExpression.constOf(
+        this,
+        positionalArguments.toList(),
+        namedArguments,
+        typeArguments,
+      );
 
   @override
   Expression constInstanceNamed(
@@ -106,15 +106,14 @@ abstract class TypeReference extends Expression
     Iterable<Expression> positionalArguments, [
     Map<String, Expression> namedArguments = const {},
     List<Reference> typeArguments = const [],
-  ]) {
-    return InvokeExpression.constOf(
-      this,
-      positionalArguments.toList(),
-      namedArguments,
-      typeArguments,
-      name,
-    );
-  }
+  ]) =>
+      InvokeExpression.constOf(
+        this,
+        positionalArguments.toList(),
+        namedArguments,
+        typeArguments,
+        name,
+      );
 }
 
 abstract class TypeReferenceBuilder extends Object
@@ -133,4 +132,10 @@ abstract class TypeReferenceBuilder extends Object
 
   @override
   ListBuilder<Reference> types = ListBuilder<Reference>();
+
+  /// Optional nullability.
+  ///
+  /// An emitter may ignore this if the output is not targeting a Dart language
+  /// version that supports null safety.
+  bool isNullable;
 }

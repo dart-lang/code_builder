@@ -18,7 +18,6 @@ class ClosureExpression extends Expression {
   const ClosureExpression._(this.method);
 
   @override
-  R accept<R>(ExpressionVisitor<R> visitor, [R context]) {
-    return visitor.visitClosureExpression(this, context);
-  }
+  R accept<R>(ExpressionVisitor<R> visitor, [R context]) =>
+      visitor.visitClosureExpression(this, context);
 }

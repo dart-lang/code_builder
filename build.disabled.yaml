@@ -6,7 +6,7 @@ targets:
 builders:
   _built_value:
     target: ":code_builder"
-    import: "../../../tool/src/builder.dart"
+    import: "tool/src/builder.dart"
     builder_factories:
       - "builtValueBuilder"
     build_extensions:

@@ -42,9 +42,8 @@ class InvokeExpression extends Expression {
   ]) : type = InvokeExpressionType.constInstance;
 
   @override
-  R accept<R>(ExpressionVisitor<R> visitor, [R context]) {
-    return visitor.visitInvokeExpression(this, context);
-  }
+  R accept<R>(ExpressionVisitor<R> visitor, [R context]) =>
+      visitor.visitInvokeExpression(this, context);
 
   @override
   String toString() =>

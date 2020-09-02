@@ -11,7 +11,11 @@ import 'emitter.dart';
 String _dart(Spec spec, DartEmitter emitter) =>
     EqualsDart._format(spec.accept<StringSink>(emitter).toString());
 
-/// Returns a matcher for Dart source code.
+/// Returns a matcher for [Spec] objects that emit code matching [source].
+///
+/// Both [source] and the result emitted from the compared [Spec] are formatted
+/// with [EqualsDart.format]. A plain [DartEmitter] is used by default and may
+/// be overridden with [emitter].
 Matcher equalsDart(
   String source, [
   DartEmitter emitter,
@@ -27,9 +31,7 @@ class EqualsDart extends Matcher {
   /// By default, uses [collapseWhitespace], but it is recommended to instead
   /// use `dart_style` (dartfmt) where possible. See `test/common.dart` for an
   /// example.
-  static String Function(String) format = (String source) {
-    return collapseWhitespace(source);
-  };
+  static String Function(String) format = collapseWhitespace;
 
   static String _format(String source) {
     try {
@@ -41,29 +43,31 @@ class EqualsDart extends Matcher {
   }
 
   final DartEmitter _emitter;
-  final String _source;
+  final String _expectedSource;
 
-  const EqualsDart._(this._source, this._emitter);
+  const EqualsDart._(this._expectedSource, this._emitter);
 
   @override
-  Description describe(Description description) => description.add(_source);
+  Description describe(Description description) =>
+      description.add(_expectedSource);
 
   @override
   Description describeMismatch(
     covariant Spec item,
     Description mismatchDescription,
-    state,
+    matchState,
     verbose,
   ) {
-    final result = _dart(item, _emitter);
-    return equals(result).describeMismatch(
-      _source,
-      mismatchDescription.add(result),
-      state,
+    final actualSource = _dart(item, _emitter);
+    return equals(_expectedSource).describeMismatch(
+      actualSource,
+      mismatchDescription,
+      matchState,
       verbose,
     );
   }
 
   @override
-  bool matches(covariant Spec item, _) => _dart(item, _emitter) == _source;
+  bool matches(covariant Spec item, matchState) =>
+      _dart(item, _emitter) == _expectedSource;
 }

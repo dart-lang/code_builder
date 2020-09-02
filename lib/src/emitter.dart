@@ -26,7 +26,7 @@ import 'visitors.dart';
 StringSink visitAll<T>(
   Iterable<T> elements,
   StringSink output,
-  void visit(T element), [
+  void Function(T) visit, [
   String separator = ', ',
 ]) {
   // Basically, this whole method is an improvement on
@@ -54,22 +54,33 @@ class DartEmitter extends Object
   /// If directives should be ordered while emitting.
   ///
   /// Ordering rules follow the guidance in
-  /// [Effective Dart](https://www.dartlang.org/guides/language/effective-dart/style#ordering)
+  /// [Effective Dart](https://dart.dev/guides/language/effective-dart/style#ordering)
   /// and the
-  /// [directives_ordering](http://dart-lang.github.io/linter/lints/directives_ordering.html)
+  /// [directives_ordering](https://dart-lang.github.io/linter/lints/directives_ordering.html)
   /// lint.
   final bool orderDirectives;
+
+  /// If nullable types should be emitted with the nullable suffix ("?").
+  ///
+  /// Null safety syntax should only be enabled if the output will be used with
+  /// a Dart language version which supports it.
+  final bool _useNullSafetySyntax;
 
   /// Creates a new instance of [DartEmitter].
   ///
   /// May specify an [Allocator] to use for symbols, otherwise uses a no-op.
-  DartEmitter([this.allocator = Allocator.none, bool orderDirectives = false])
-      : orderDirectives = orderDirectives ?? false;
+  DartEmitter(
+      [this.allocator = Allocator.none,
+      bool orderDirectives = false,
+      bool useNullSafetySyntax = false])
+      : orderDirectives = orderDirectives ?? false,
+        _useNullSafetySyntax = useNullSafetySyntax ?? false;
 
   /// Creates a new instance of [DartEmitter] with simple automatic imports.
-  factory DartEmitter.scoped({bool orderDirectives = false}) {
-    return DartEmitter(Allocator.simplePrefixing(), orderDirectives);
-  }
+  factory DartEmitter.scoped(
+          {bool orderDirectives = false, bool useNullSafetySyntax = false}) =>
+      DartEmitter(
+          Allocator.simplePrefixing(), orderDirectives, useNullSafetySyntax);
 
   static bool _isLambdaBody(Code code) =>
       code is ToCodeExpression && !code.isStatement;
@@ -84,7 +95,7 @@ class DartEmitter extends Object
       constructor.factory && _isLambdaBody(constructor.body);
 
   @override
-  visitAnnotation(Expression spec, [StringSink output]) {
+  StringSink visitAnnotation(Expression spec, [StringSink output]) {
     (output ??= StringBuffer()).write('@');
     spec.accept(this, output);
     output.write(' ');
@@ -92,7 +103,7 @@ class DartEmitter extends Object
   }
 
   @override
-  visitClass(Class spec, [StringSink output]) {
+  StringSink visitClass(Class spec, [StringSink output]) {
     output ??= StringBuffer();
     spec.docs.forEach(output.writeln);
     spec.annotations.forEach((a) => visitAnnotation(a, output));
@@ -138,7 +149,8 @@ class DartEmitter extends Object
   }
 
   @override
-  visitConstructor(Constructor spec, String clazz, [StringSink output]) {
+  StringSink visitConstructor(Constructor spec, String clazz,
+      [StringSink output]) {
     output ??= StringBuffer();
     spec.docs.forEach(output.writeln);
     spec.annotations.forEach((a) => visitAnnotation(a, output));
@@ -222,6 +234,7 @@ class DartEmitter extends Object
   }
 
   @override
+<<<<<<< HEAD
   visitExtension(Extension spec, [StringSink output]) {
     output ??= StringBuffer();
     spec.docs.forEach(output.writeln);
@@ -255,10 +268,16 @@ class DartEmitter extends Object
   @override
   visitDirective(Directive spec, [StringSink output]) {
     output ??= StringBuffer();
-    if (spec.type == DirectiveType.import) {
-      output.write('import ');
-    } else {
-      output.write('export ');
+    switch (spec.type) {
+      case DirectiveType.import:
+        output.write('import ');
+        break;
+      case DirectiveType.export:
+        output.write('export ');
+        break;
+      case DirectiveType.part:
+        output.write('part ');
+        break;
     }
     output.write("'${spec.url}'");
     if (spec.as != null) {
@@ -281,7 +300,7 @@ class DartEmitter extends Object
   }
 
   @override
-  visitField(Field spec, [StringSink output]) {
+  StringSink visitField(Field spec, [StringSink output]) {
     output ??= StringBuffer();
     spec.docs.forEach(output.writeln);
     spec.annotations.forEach((a) => visitAnnotation(a, output));
@@ -317,7 +336,7 @@ class DartEmitter extends Object
   }
 
   @override
-  visitLibrary(Library spec, [StringSink output]) {
+  StringSink visitLibrary(Library spec, [StringSink output]) {
     output ??= StringBuffer();
     // Process the body first in order to prime the allocators.
     final body = StringBuffer();
@@ -328,9 +347,7 @@ class DartEmitter extends Object
       }
     }
 
-    final directives = <Directive>[]
-      ..addAll(spec.directives)
-      ..addAll(allocator.imports);
+    final directives = <Directive>[...allocator.imports, ...spec.directives];
 
     if (orderDirectives) {
       directives.sort();
@@ -352,7 +369,7 @@ class DartEmitter extends Object
   }
 
   @override
-  visitFunctionType(FunctionType spec, [StringSink output]) {
+  StringSink visitFunctionType(FunctionType spec, [StringSink output]) {
     output ??= StringBuffer();
     if (spec.returnType != null) {
       spec.returnType.accept(this, output);
@@ -389,11 +406,15 @@ class DartEmitter extends Object
       });
       output.write('}');
     }
-    return output..write(')');
+    output.write(')');
+    if (_useNullSafetySyntax && (spec.isNullable ?? false)) {
+      output.write('?');
+    }
+    return output;
   }
 
   @override
-  visitMethod(Method spec, [StringSink output]) {
+  StringSink visitMethod(Method spec, [StringSink output]) {
     output ??= StringBuffer();
     spec.docs.forEach(output.writeln);
     spec.annotations.forEach((a) => visitAnnotation(a, output));
@@ -490,6 +511,13 @@ class DartEmitter extends Object
   }) {
     spec.docs.forEach(output.writeln);
     spec.annotations.forEach((a) => visitAnnotation(a, output));
+    // The `required` keyword must precede the `covariant` keyword.
+    if (spec.required) {
+      output.write('required ');
+    }
+    if (spec.covariant) {
+      output.write('covariant ');
+    }
     if (spec.type != null) {
       spec.type.type.accept(this, output);
       output.write(' ');
@@ -505,15 +533,15 @@ class DartEmitter extends Object
   }
 
   @override
-  visitReference(Reference spec, [StringSink output]) {
-    return (output ??= StringBuffer())..write(allocator.allocate(spec));
-  }
+  StringSink visitReference(Reference spec, [StringSink output]) =>
+      (output ??= StringBuffer())..write(allocator.allocate(spec));
 
   @override
-  visitSpec(Spec spec, [StringSink output]) => spec.accept(this, output);
+  StringSink visitSpec(Spec spec, [StringSink output]) =>
+      spec.accept(this, output);
 
   @override
-  visitType(TypeReference spec, [StringSink output]) {
+  StringSink visitType(TypeReference spec, [StringSink output]) {
     output ??= StringBuffer();
     // Intentionally not .accept to avoid stack overflow.
     visitReference(spec, output);
@@ -522,11 +550,15 @@ class DartEmitter extends Object
       spec.bound.type.accept(this, output);
     }
     visitTypeParameters(spec.types.map((r) => r.type), output);
+    if (_useNullSafetySyntax && (spec.isNullable ?? false)) {
+      output.write('?');
+    }
     return output;
   }
 
   @override
-  visitTypeParameters(Iterable<Reference> specs, [StringSink output]) {
+  StringSink visitTypeParameters(Iterable<Reference> specs,
+      [StringSink output]) {
     output ??= StringBuffer();
     if (specs.isNotEmpty) {
       output

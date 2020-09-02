@@ -23,7 +23,7 @@ part 'class.g.dart';
 abstract class Class extends Object
     with HasAnnotations, HasDartDocs, HasGenerics
     implements Built<Class, ClassBuilder>, Spec {
-  factory Class([void updates(ClassBuilder b)]) = _$Class;
+  factory Class([void Function(ClassBuilder) updates]) = _$Class;
 
   Class._();
 

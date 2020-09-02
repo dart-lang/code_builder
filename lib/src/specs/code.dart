@@ -2,15 +2,14 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:built_value/built_value.dart';
 import 'package:built_collection/built_collection.dart';
+import 'package:built_value/built_value.dart';
 import 'package:meta/meta.dart';
 
 import '../allocator.dart';
 import '../base.dart';
 import '../emitter.dart';
 import '../visitors.dart';
-
 import 'expression.dart';
 import 'reference.dart';
 
@@ -19,7 +18,7 @@ part 'code.g.dart';
 /// Returns a scoped symbol to [Reference], with an import prefix if needed.
 ///
 /// This is short-hand for [Allocator.allocate] in most implementations.
-typedef String Allocate(Reference reference);
+typedef Allocate = String Function(Reference);
 
 /// Represents arbitrary Dart code (either expressions or statements).
 ///
@@ -38,7 +37,7 @@ abstract class Code implements Spec {
   /// });
   /// ```
   const factory Code.scope(
-    String Function(Allocate allocate) scope,
+    String Function(Allocate) scope,
   ) = ScopedCode._;
 
   @override
@@ -47,18 +46,16 @@ abstract class Code implements Spec {
 
 /// Represents blocks of statements of Dart code.
 abstract class Block implements Built<Block, BlockBuilder>, Code, Spec {
-  factory Block([void updates(BlockBuilder b)]) = _$Block;
+  factory Block([void Function(BlockBuilder) updates]) = _$Block;
 
-  factory Block.of(Iterable<Code> statements) {
-    return Block((b) => b..statements.addAll(statements));
-  }
+  factory Block.of(Iterable<Code> statements) =>
+      Block((b) => b..statements.addAll(statements));
 
   Block._();
 
   @override
-  R accept<R>(covariant CodeVisitor<R> visitor, [R context]) {
-    return visitor.visitBlock(this, context);
-  }
+  R accept<R>(covariant CodeVisitor<R> visitor, [R context]) =>
+      visitor.visitBlock(this, context);
 
   BuiltList<Code> get statements;
 }
@@ -83,7 +80,9 @@ abstract class BlockBuilder implements Builder<Block, BlockBuilder> {
 /// **INTERNAL ONLY**.
 abstract class CodeVisitor<T> implements SpecVisitor<T> {
   T visitBlock(Block code, [T context]);
+
   T visitStaticCode(StaticCode code, [T context]);
+
   T visitScopedCode(ScopedCode code, [T context]);
 }
 
@@ -93,7 +92,7 @@ abstract class CodeEmitter implements CodeVisitor<StringSink> {
   Allocator get allocator;
 
   @override
-  visitBlock(Block block, [StringSink output]) {
+  StringSink visitBlock(Block block, [StringSink output]) {
     output ??= StringBuffer();
     return visitAll<Code>(block.statements, output, (statement) {
       statement.accept(this, output);
@@ -101,13 +100,13 @@ abstract class CodeEmitter implements CodeVisitor<StringSink> {
   }
 
   @override
-  visitStaticCode(StaticCode code, [StringSink output]) {
+  StringSink visitStaticCode(StaticCode code, [StringSink output]) {
     output ??= StringBuffer();
     return output..write(code.code);
   }
 
   @override
-  visitScopedCode(ScopedCode code, [StringSink output]) {
+  StringSink visitScopedCode(ScopedCode code, [StringSink output]) {
     output ??= StringBuffer();
     return output..write(code.code(allocator.allocate));
   }
@@ -120,9 +119,8 @@ class LazyCode implements Code {
   const LazyCode._(this.generate);
 
   @override
-  R accept<R>(CodeVisitor<R> visitor, [R context]) {
-    return generate(visitor).accept(visitor, context);
-  }
+  R accept<R>(CodeVisitor<R> visitor, [R context]) =>
+      generate(visitor).accept(visitor, context);
 }
 
 /// Returns a generic [Code] that is lazily generated when visited.
@@ -134,9 +132,8 @@ class _LazyCode implements Code {
   const _LazyCode(this.generate);
 
   @override
-  R accept<R>(CodeVisitor<R> visitor, [R context]) {
-    return generate().accept(visitor, context);
-  }
+  R accept<R>(CodeVisitor<R> visitor, [R context]) =>
+      generate().accept(visitor, context);
 }
 
 /// Represents a simple, literal code block to be inserted as-is.
@@ -146,9 +143,8 @@ class StaticCode implements Code {
   const StaticCode._(this.code);
 
   @override
-  R accept<R>(CodeVisitor<R> visitor, [R context]) {
-    return visitor.visitStaticCode(this, context);
-  }
+  R accept<R>(CodeVisitor<R> visitor, [R context]) =>
+      visitor.visitStaticCode(this, context);
 
   @override
   String toString() => code;
@@ -161,9 +157,8 @@ class ScopedCode implements Code {
   const ScopedCode._(this.code);
 
   @override
-  R accept<R>(CodeVisitor<R> visitor, [R context]) {
-    return visitor.visitScopedCode(this, context);
-  }
+  R accept<R>(CodeVisitor<R> visitor, [R context]) =>
+      visitor.visitScopedCode(this, context);
 
   @override
   String toString() => code((ref) => ref.symbol);

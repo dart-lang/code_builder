@@ -6,40 +6,30 @@ part of 'code.dart';
 // BuiltValueGenerator
 // **************************************************************************
 
-// ignore_for_file: always_put_control_body_on_new_line
-// ignore_for_file: annotate_overrides
-// ignore_for_file: avoid_annotating_with_dynamic
-// ignore_for_file: avoid_catches_without_on_clauses
-// ignore_for_file: avoid_returning_this
-// ignore_for_file: lines_longer_than_80_chars
-// ignore_for_file: omit_local_variable_types
-// ignore_for_file: prefer_expression_function_bodies
-// ignore_for_file: sort_constructors_first
-
 class _$Block extends Block {
   @override
   final BuiltList<Code> statements;
 
-  factory _$Block([void updates(BlockBuilder b)]) =>
+  factory _$Block([void Function(BlockBuilder) updates]) =>
       (new BlockBuilder()..update(updates)).build() as _$Block;
 
   _$Block._({this.statements}) : super._() {
-    if (statements == null)
+    if (statements == null) {
       throw new BuiltValueNullFieldError('Block', 'statements');
+    }
   }
 
   @override
-  Block rebuild(void updates(BlockBuilder b)) =>
+  Block rebuild(void Function(BlockBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
   _$BlockBuilder toBuilder() => new _$BlockBuilder()..replace(this);
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    if (other is! Block) return false;
-    return statements == other.statements;
+    return other is Block && statements == other.statements;
   }
 
   @override
@@ -81,12 +71,14 @@ class _$BlockBuilder extends BlockBuilder {
 
   @override
   void replace(Block other) {
-    if (other == null) throw new ArgumentError.notNull('other');
+    if (other == null) {
+      throw new ArgumentError.notNull('other');
+    }
     _$v = other as _$Block;
   }
 
   @override
-  void update(void updates(BlockBuilder b)) {
+  void update(void Function(BlockBuilder) updates) {
     if (updates != null) updates(this);
   }
 
@@ -110,3 +102,5 @@ class _$BlockBuilder extends BlockBuilder {
     return _$result;
   }
 }
+
+// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,lines_longer_than_80_chars,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new

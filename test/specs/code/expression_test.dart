@@ -165,6 +165,10 @@ void main() {
     expect(refer('foo').property('bar'), equalsDart('foo.bar'));
   });
 
+  test('should emit invoking a cascade property accessor', () {
+    expect(refer('foo').cascade('bar'), equalsDart('foo..bar'));
+  });
+
   test('should emit invoking a null safe property accessor', () {
     expect(refer('foo').nullSafeProperty('bar'), equalsDart('foo?.bar'));
   });
@@ -297,6 +301,45 @@ void main() {
     );
   });
 
+  test('should emit a nullable function type in a Null Safety library', () {
+    final emitter = DartEmitter.scoped(useNullSafetySyntax: true);
+    expect(
+      FunctionType((b) => b
+        ..requiredParameters.add(refer('String'))
+        ..isNullable = true),
+      equalsDart('Function(String)?', emitter),
+    );
+  });
+
+  test('should emit a nullable function type in pre-Null Safety library', () {
+    expect(
+      FunctionType((b) => b
+        ..requiredParameters.add(refer('String'))
+        ..isNullable = true),
+      equalsDart('Function(String)'),
+    );
+  });
+
+  test('should emit a non-nullable function type in a Null Safety library', () {
+    final emitter = DartEmitter.scoped(useNullSafetySyntax: true);
+    expect(
+      FunctionType((b) => b
+        ..requiredParameters.add(refer('String'))
+        ..isNullable = false),
+      equalsDart('Function(String)', emitter),
+    );
+  });
+
+  test('should emit a non-nullable function type in pre-Null Safety library',
+      () {
+    expect(
+      FunctionType((b) => b
+        ..requiredParameters.add(refer('String'))
+        ..isNullable = false),
+      equalsDart('Function(String)'),
+    );
+  });
+
   test('should emit a closure', () {
     expect(
       refer('map').property('putIfAbsent').call([
@@ -311,6 +354,24 @@ void main() {
     expect(
       refer('foo').assign(literalTrue),
       equalsDart('foo = true'),
+    );
+  });
+
+  test('should emit an if null assignment', () {
+    expect(
+      refer('foo').ifNullThen(literalTrue),
+      equalsDart('foo ?? true'),
+    );
+  });
+
+  test('should emit an if null index operator set', () {
+    expect(
+      refer('bar')
+          .index(literalTrue)
+          .ifNullThen(literalFalse)
+          .assignVar('foo')
+          .statement,
+      equalsDart('var foo = bar[true] ?? false;'),
     );
   });
 
@@ -389,6 +450,13 @@ void main() {
     expect(
       literalNull.returned,
       equalsDart('return null'),
+    );
+  });
+
+  test('should emit throw', () {
+    expect(
+      literalNull.thrown,
+      equalsDart('throw null'),
     );
   });
 

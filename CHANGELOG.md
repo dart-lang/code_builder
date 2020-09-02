@@ -1,3 +1,27 @@
+## 3.4.1
+
+* Fix confusing mismatch description from `equalsDart`.
+  https://github.com/dart-lang/code_builder/issues/293
+
+## 3.4.0
+
+* Introduce `Expression.thrown` for throwing an expression.
+* Introduce `FunctionType.isNullable`.
+* Update SDK requirement to `>=2.7.0 <3.0.0`.
+
+## 3.3.0
+
+* Add `??` null-aware operator.
+* Add `..` cascade assignment operator.
+* Add `part` directive.
+* Introduce `TypeReference.isNullable`.
+* Add an option in `DartEmitter` to emit nullable types with trailing `?`
+  characters.
+
+## 3.2.2
+
+* Require minimum Dart SDK of `2.6.0`.
+
 ## 3.2.1
 
 * Escape newlines in String literals.
