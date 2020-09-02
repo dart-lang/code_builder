@@ -234,7 +234,6 @@ class DartEmitter extends Object
   }
 
   @override
-<<<<<<< HEAD
   visitExtension(Extension spec, [StringSink output]) {
     output ??= StringBuffer();
     spec.docs.forEach(output.writeln);
