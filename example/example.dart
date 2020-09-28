@@ -67,12 +67,12 @@ String scopedLibrary() {
 String jsonEnum() {
   final values = <EnumValue>[
     EnumValue((b) => b
-      ..name = 'Metric'
+      ..name = 'metric'
       ..annotations.addAll([
         refer('JsonKey').call([literalString('m')])
       ])),
     EnumValue((b) => b
-      ..name = 'Imperial'
+      ..name = 'imperial'
       ..annotations.addAll([
         refer('JsonKey').call([literalString('i')])
       ])),
