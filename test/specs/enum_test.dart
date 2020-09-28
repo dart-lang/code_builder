@@ -1,4 +1,4 @@
-// Copyright (c) 2017, the Dart project authors.  Please see the AUTHORS file
+// Copyright (c) 2020, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
@@ -15,13 +15,13 @@ void main() {
         Enum((b) => b
           ..name = 'E'
           ..values.addAll([
-            EnumValue((b) => b..name = 'A'),
-            EnumValue((b) => b..name = 'B'),
+            EnumValue((b) => b..name = 'a'),
+            EnumValue((b) => b..name = 'b'),
           ])),
         equalsDart(r'''
       enum E {
-        A,
-        B
+        a,
+        b
       }
     '''));
   });
@@ -35,13 +35,13 @@ void main() {
           ])
           ..name = 'V'
           ..values.addAll([
-            EnumValue((b) => b..name = 'X'),
+            EnumValue((b) => b..name = 'x'),
           ])),
         equalsDart(r'''
       @deprecated
       @Deprecated('This is an old enum')
       enum V {
-        X
+        x
       }
     '''));
   });
@@ -52,13 +52,13 @@ void main() {
           ..name = 'Status'
           ..values.addAll([
             EnumValue((b) => b
-              ..name = 'Okay'
+              ..name = 'okay'
               ..annotations.addAll([
                 refer('deprecated'),
                 refer('Deprecated').call([literalString('use Good insted')]),
               ])),
             EnumValue((b) => b
-              ..name = 'Good'
+              ..name = 'good'
               ..annotations.addAll([
                 refer('JsonKey').call([literalString('good')])
               ])),
@@ -67,9 +67,9 @@ void main() {
       enum Status {
         @deprecated
         @Deprecated('use Good insted')
-        Okay,
+        okay,
         @JsonKey('good')
-        Good
+        good
       }
     '''));
   });

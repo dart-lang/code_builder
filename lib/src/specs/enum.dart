@@ -21,10 +21,8 @@ abstract class Enum extends Object
 
   Enum._();
 
-  /// Name of the enum.
   String get name;
 
-  /// Values of the enum.
   BuiltList<EnumValue> get values;
 
   @override
@@ -48,10 +46,8 @@ abstract class EnumBuilder extends Object
 
   EnumBuilder._();
 
-  /// Name of the enum.
   String name;
 
-  /// Values of the enum.
   ListBuilder<EnumValue> values = ListBuilder<EnumValue>();
 
   @override
@@ -69,7 +65,6 @@ abstract class EnumValue extends Object
 
   EnumValue._();
 
-  /// Name of the enum value.
   String get name;
 
   @override
@@ -86,7 +81,6 @@ abstract class EnumValueBuilder extends Object
 
   EnumValueBuilder._();
 
-  /// Name of the enum.
   String name;
 
   @override
