@@ -1,3 +1,7 @@
+## 3.5.0
+
+* Add support for defining enums.
+
 ## 3.4.0
 
 * Introduce `Expression.thrown` for throwing an expression.
