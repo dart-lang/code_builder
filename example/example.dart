@@ -59,9 +59,9 @@ String scopedLibrary() {
 /// ```dart
 /// enum Unit {
 ///  @JsonKey('m')
-///  Metric,
+///  metric,
 ///  @JsonKey('i')
-///  Imperial
+///  imperial
 /// }
 /// ```
 String jsonEnum() {
