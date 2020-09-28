@@ -8,6 +8,7 @@ import 'specs/class.dart';
 import 'specs/code.dart';
 import 'specs/constructor.dart';
 import 'specs/directive.dart';
+import 'specs/enum.dart';
 import 'specs/expression.dart';
 import 'specs/field.dart';
 import 'specs/library.dart';
@@ -533,6 +534,24 @@ class DartEmitter extends Object
         ..writeAll(specs.map<StringSink>((s) => s.accept(this)), ',')
         ..write('>');
     }
+    return output;
+  }
+
+  @override
+  StringSink visitEnum(Enum spec, [StringSink output]) {
+    output ??= StringBuffer();
+    spec.docs.forEach(output.writeln);
+    spec.annotations.forEach((a) => visitAnnotation(a, output));
+    output.writeln('enum ${spec.name} {');
+    spec.values.forEach((v) {
+      v.docs.forEach(output.writeln);
+      v.annotations.forEach((a) => visitAnnotation(a, output));
+      output.write(v.name);
+      if (v != spec.values.last) {
+        output.writeln(',');
+      }
+    });
+    output.writeln('}');
     return output;
   }
 }
