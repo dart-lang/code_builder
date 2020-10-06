@@ -157,11 +157,11 @@ class DartEmitter extends Object
     if (spec.external) {
       output.write('external ');
     }
-    if (spec.factory) {
-      output.write('factory ');
-    }
     if (spec.constant) {
       output.write('const ');
+    }
+    if (spec.factory) {
+      output.write('factory ');
     }
     output.write(clazz);
     if (spec.name != null) {
