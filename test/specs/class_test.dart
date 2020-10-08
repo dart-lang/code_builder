@@ -248,6 +248,22 @@ void main() {
     );
   });
 
+  test('should create a class with a const factory constructor', () {
+    expect(
+      Class((b) => b
+        ..name = 'Foo'
+        ..constructors.add(Constructor((b) => b
+          ..factory = true
+          ..constant = true
+          ..redirect = refer('_Foo')))),
+      equalsDart(r'''
+        class Foo {
+          const factory Foo() = _Foo;
+        }
+      '''),
+    );
+  });
+
   test('should create a class with a factory lambda constructor', () {
     expect(
       Class((b) => b
