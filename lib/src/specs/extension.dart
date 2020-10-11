@@ -23,7 +23,7 @@ part 'extension.g.dart';
 abstract class Extension extends Object
     with HasAnnotations, HasDartDocs, HasGenerics
     implements Built<Extension, ExtensionBuilder>, Spec {
-  factory Extension([void updates(ExtensionBuilder b)]) = _$Extension;
+  factory Extension([void Function(ExtensionBuilder b) updates]) = _$Extension;
 
   Extension._();
 

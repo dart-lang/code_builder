@@ -234,7 +234,7 @@ class DartEmitter extends Object
   }
 
   @override
-  visitExtension(Extension spec, [StringSink output]) {
+  StringSink visitExtension(Extension spec, [StringSink output]) {
     output ??= StringBuffer();
     spec.docs.forEach(output.writeln);
     spec.annotations.forEach((a) => visitAnnotation(a, output));
@@ -265,7 +265,7 @@ class DartEmitter extends Object
   }
 
   @override
-  visitDirective(Directive spec, [StringSink output]) {
+  StringSink visitDirective(Directive spec, [StringSink output]) {
     output ??= StringBuffer();
     switch (spec.type) {
       case DirectiveType.import:

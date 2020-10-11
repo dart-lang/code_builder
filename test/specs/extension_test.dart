@@ -121,7 +121,7 @@ void main() {
         ..name = 'Foo'
         ..on = TypeReference((b) => b.symbol = 'Bar')
         ..methods.add(Method((b) => b
-          ..name = "parseInt"
+          ..name = 'parseInt'
           ..returns = refer('int')
           ..body = Code.scope(
             (a) => 'return int.parse(this);',
@@ -142,7 +142,7 @@ void main() {
         ..name = 'Foo'
         ..on = TypeReference((b) => b.symbol = 'Bar')
         ..methods.add(Method((b) => b
-          ..name = "parseInt"
+          ..name = 'parseInt'
           ..returns = refer('int')
           ..body = Code.scope(
             (a) => 'return int.parse(this);',

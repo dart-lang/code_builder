@@ -6,16 +6,6 @@ part of 'extension.dart';
 // BuiltValueGenerator
 // **************************************************************************
 
-// ignore_for_file: always_put_control_body_on_new_line
-// ignore_for_file: annotate_overrides
-// ignore_for_file: avoid_annotating_with_dynamic
-// ignore_for_file: avoid_catches_without_on_clauses
-// ignore_for_file: avoid_returning_this
-// ignore_for_file: lines_longer_than_80_chars
-// ignore_for_file: omit_local_variable_types
-// ignore_for_file: prefer_expression_function_bodies
-// ignore_for_file: sort_constructors_first
-
 class _$Extension extends Extension {
   @override
   final BuiltList<Expression> annotations;
@@ -32,7 +22,7 @@ class _$Extension extends Extension {
   @override
   final String name;
 
-  factory _$Extension([void updates(ExtensionBuilder b)]) =>
+  factory _$Extension([void Function(ExtensionBuilder) updates]) =>
       (new ExtensionBuilder()..update(updates)).build() as _$Extension;
 
   _$Extension._(
@@ -44,29 +34,38 @@ class _$Extension extends Extension {
       this.fields,
       this.name})
       : super._() {
-    if (annotations == null)
+    if (annotations == null) {
       throw new BuiltValueNullFieldError('Extension', 'annotations');
-    if (docs == null) throw new BuiltValueNullFieldError('Extension', 'docs');
-    if (types == null) throw new BuiltValueNullFieldError('Extension', 'types');
-    if (methods == null)
+    }
+    if (docs == null) {
+      throw new BuiltValueNullFieldError('Extension', 'docs');
+    }
+    if (types == null) {
+      throw new BuiltValueNullFieldError('Extension', 'types');
+    }
+    if (methods == null) {
       throw new BuiltValueNullFieldError('Extension', 'methods');
-    if (fields == null)
+    }
+    if (fields == null) {
       throw new BuiltValueNullFieldError('Extension', 'fields');
-    if (on == null) throw new BuiltValueNullFieldError('Extension', 'on');
+    }
+    if (name == null) {
+      throw new BuiltValueNullFieldError('Extension', 'name');
+    }
   }
 
   @override
-  Extension rebuild(void updates(ExtensionBuilder b)) =>
+  Extension rebuild(void Function(ExtensionBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
   _$ExtensionBuilder toBuilder() => new _$ExtensionBuilder()..replace(this);
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    if (other is! Extension) return false;
-    return annotations == other.annotations &&
+    return other is Extension &&
+        annotations == other.annotations &&
         docs == other.docs &&
         on == other.on &&
         types == other.types &&
@@ -208,12 +207,14 @@ class _$ExtensionBuilder extends ExtensionBuilder {
 
   @override
   void replace(Extension other) {
-    if (other == null) throw new ArgumentError.notNull('other');
+    if (other == null) {
+      throw new ArgumentError.notNull('other');
+    }
     _$v = other as _$Extension;
   }
 
   @override
-  void update(void updates(ExtensionBuilder b)) {
+  void update(void Function(ExtensionBuilder) updates) {
     if (updates != null) updates(this);
   }
 
@@ -254,3 +255,5 @@ class _$ExtensionBuilder extends ExtensionBuilder {
     return _$result;
   }
 }
+
+// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,lines_longer_than_80_chars,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new
