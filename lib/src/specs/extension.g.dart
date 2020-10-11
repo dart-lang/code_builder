@@ -49,9 +49,6 @@ class _$Extension extends Extension {
     if (fields == null) {
       throw new BuiltValueNullFieldError('Extension', 'fields');
     }
-    if (name == null) {
-      throw new BuiltValueNullFieldError('Extension', 'name');
-    }
   }
 
   @override

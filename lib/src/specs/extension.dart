@@ -42,6 +42,8 @@ abstract class Extension extends Object
   BuiltList<Method> get methods;
   BuiltList<Field> get fields;
 
+  /// Name of the extension - optional.
+  @nullable
   String get name;
 
   @override
@@ -73,6 +75,6 @@ abstract class ExtensionBuilder extends Object
   ListBuilder<Method> methods = ListBuilder<Method>();
   ListBuilder<Field> fields = ListBuilder<Field>();
 
-  /// Name of the extension.
+  /// Name of the extension - optional.
   String name;
 }
