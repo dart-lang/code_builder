@@ -1,3 +1,8 @@
+## 3.5.0
+
+* Add support for defining enums.
+* Fix keyword ordering for `const factory` constructors.
+
 ## 3.4.1
 
 * Fix confusing mismatch description from `equalsDart`.

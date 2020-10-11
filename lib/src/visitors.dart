@@ -8,6 +8,7 @@ import 'base.dart';
 import 'specs/class.dart';
 import 'specs/constructor.dart';
 import 'specs/directive.dart';
+import 'specs/enum.dart';
 import 'specs/expression.dart';
 import 'specs/extension.dart';
 import 'specs/field.dart';
@@ -26,6 +27,8 @@ abstract class SpecVisitor<T> {
   T visitClass(Class spec, [T context]);
 
   T visitExtension(Extension spec, [T context]);
+
+  T visitEnum(Enum spec, [T context]);
 
   T visitConstructor(Constructor spec, String clazz, [T context]);
 

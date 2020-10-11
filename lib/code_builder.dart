@@ -12,6 +12,8 @@ export 'src/specs/code.dart'
 export 'src/specs/constructor.dart' show Constructor, ConstructorBuilder;
 export 'src/specs/directive.dart'
     show Directive, DirectiveType, DirectiveBuilder;
+export 'src/specs/enum.dart'
+    show Enum, EnumBuilder, EnumValue, EnumValueBuilder;
 export 'src/specs/expression.dart'
     show
         ToCodeExpression,

@@ -10,6 +10,7 @@ final _dartfmt = DartFormatter();
 void main() {
   print('animalClass():\n${'=' * 40}\n${animalClass()}');
   print('scopedLibrary():\n${'=' * 40}\n${scopedLibrary()}');
+  print('jsonEnum():\n${'=' * 40}\n${jsonEnum()}');
 }
 
 /// Outputs:
@@ -51,4 +52,33 @@ String scopedLibrary() {
   ];
   final library = Library((b) => b.body.addAll(methods));
   return _dartfmt.format('${library.accept(DartEmitter.scoped())}');
+}
+
+/// Outputs:
+///
+/// ```dart
+/// enum Unit {
+///  @JsonKey('m')
+///  metric,
+///  @JsonKey('i')
+///  imperial
+/// }
+/// ```
+String jsonEnum() {
+  final values = <EnumValue>[
+    EnumValue((b) => b
+      ..name = 'metric'
+      ..annotations.addAll([
+        refer('JsonKey').call([literalString('m')])
+      ])),
+    EnumValue((b) => b
+      ..name = 'imperial'
+      ..annotations.addAll([
+        refer('JsonKey').call([literalString('i')])
+      ])),
+  ];
+  final e = Enum((b) => b
+    ..name = 'Unit'
+    ..values.addAll(values));
+  return _dartfmt.format('${e.accept(DartEmitter())}');
 }
