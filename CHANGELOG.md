@@ -1,3 +1,5 @@
+* Added support for `extension` methods.
+
 ## 3.5.0
 
 * Add support for defining enums.
