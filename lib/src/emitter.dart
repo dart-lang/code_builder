@@ -10,6 +10,7 @@ import 'specs/constructor.dart';
 import 'specs/directive.dart';
 import 'specs/enum.dart';
 import 'specs/expression.dart';
+import 'specs/extension.dart';
 import 'specs/field.dart';
 import 'specs/library.dart';
 import 'specs/method.dart';
@@ -230,6 +231,37 @@ class DartEmitter extends Object
       output.write(';');
     }
     output.writeln();
+    return output;
+  }
+
+  @override
+  StringSink visitExtension(Extension spec, [StringSink output]) {
+    output ??= StringBuffer();
+    spec.docs.forEach(output.writeln);
+    spec.annotations.forEach((a) => visitAnnotation(a, output));
+
+    output.write('extension');
+    if (spec.name != null) {
+      output.write(' ${spec.name}');
+    }
+    visitTypeParameters(spec.types.map((r) => r.type), output);
+    if (spec.on != null) {
+      output.write(' on ');
+      spec.on.type.accept(this, output);
+    }
+    output.write(' {');
+    spec.fields.forEach((f) {
+      visitField(f, output);
+      output.writeln();
+    });
+    spec.methods.forEach((m) {
+      visitMethod(m, output);
+      if (_isLambdaMethod(m)) {
+        output.write(';');
+      }
+      output.writeln();
+    });
+    output.writeln(' }');
     return output;
   }
 
