@@ -35,7 +35,7 @@ jobs:
         name: Install dependencies
         run: pub get
       - name: Check formatting
-        run: dartfmt --output=none --set-exit-if-changed .
+        run: dartfmt --dry-run --set-exit-if-changed .
         if: always() && steps.install.outcome == 'success'
       - name: Analyze code
         run: dartanalyzer --fatal-infos --fatal-warnings .
