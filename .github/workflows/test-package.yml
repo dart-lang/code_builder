@@ -38,7 +38,7 @@ jobs:
         run: dartfmt --output=none --set-exit-if-changed .
         if: always() && steps.install.outcome == 'success'
       - name: Analyze code
-        run: dartanalyzer .
+        run: dartanalyzer --fatal-infos --fatal-warnings .
         if: always() && steps.install.outcome == 'success'
 
   # Run tests on a matrix consisting of two dimensions:
