@@ -1,5 +1,5 @@
 name: code_builder
-version: 3.5.0
+version: 3.6.0
 
 description: >-
   A fluent, builder-based library for generating valid Dart code
