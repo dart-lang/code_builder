@@ -1,4 +1,7 @@
-* Added support for `extension` methods.
+## 3.6.0
+
+* Add support for creating `extension` methods.
+* Expand constraint on `built_value` to allow null safe migrated version.
 
 ## 3.5.0
 
