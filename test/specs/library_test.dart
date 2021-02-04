@@ -127,7 +127,7 @@ void main() {
     test('should emit a source file with part of directives', () {
       expect(
         Library(
-              (b) => b
+          (b) => b
             ..directives.add(
               Directive.partOf('test.dart'),
             ),
