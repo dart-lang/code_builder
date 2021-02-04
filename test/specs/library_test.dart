@@ -123,5 +123,19 @@ void main() {
           ''', DartEmitter()),
       );
     });
+
+    test('should emit a source file with part of directives', () {
+      expect(
+        Library(
+              (b) => b
+            ..directives.add(
+              Directive.partOf('test.dart'),
+            ),
+        ),
+        equalsDart(r'''
+            part of 'test.dart';
+          ''', DartEmitter()),
+      );
+    });
   });
 }
