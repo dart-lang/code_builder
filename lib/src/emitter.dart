@@ -278,6 +278,9 @@ class DartEmitter extends Object
       case DirectiveType.part:
         output.write('part ');
         break;
+      case DirectiveType.partOf:
+        output.write('part of ');
+        break;
     }
     output.write("'${spec.url}'");
     if (spec.as != null) {
