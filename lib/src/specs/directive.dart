@@ -58,6 +58,10 @@ abstract class Directive
     ..type = DirectiveType.part
     ..url = url);
 
+  factory Directive.partOf(String url) => Directive((builder) => builder
+    ..type = DirectiveType.partOf
+    ..url = url);
+
   Directive._();
 
   @nullable
@@ -107,6 +111,7 @@ enum DirectiveType {
   import,
   export,
   part,
+  partOf,
 }
 
 /// Sort import URIs represented by [a] and [b] to honor the
