@@ -16,6 +16,8 @@ class _$Field extends Field {
   @override
   final bool static;
   @override
+  final bool lated;
+  @override
   final String name;
   @override
   final Reference type;
@@ -30,6 +32,7 @@ class _$Field extends Field {
       this.docs,
       this.assignment,
       this.static,
+      this.lated,
       this.name,
       this.type,
       this.modifier})
@@ -42,6 +45,9 @@ class _$Field extends Field {
     }
     if (static == null) {
       throw new BuiltValueNullFieldError('Field', 'static');
+    }
+    if (lated == null) {
+      throw new BuiltValueNullFieldError('Field', 'late');
     }
     if (name == null) {
       throw new BuiltValueNullFieldError('Field', 'name');
@@ -66,6 +72,7 @@ class _$Field extends Field {
         docs == other.docs &&
         assignment == other.assignment &&
         static == other.static &&
+        lated == other.lated &&
         name == other.name &&
         type == other.type &&
         modifier == other.modifier;
@@ -77,10 +84,12 @@ class _$Field extends Field {
         $jc(
             $jc(
                 $jc(
-                    $jc($jc($jc(0, annotations.hashCode), docs.hashCode),
-                        assignment.hashCode),
-                    static.hashCode),
-                name.hashCode),
+                    $jc(
+                        $jc($jc($jc(0, annotations.hashCode), docs.hashCode),
+                            assignment.hashCode),
+                        static.hashCode),
+                    name.hashCode),
+                lated.hashCode),
             type.hashCode),
         modifier.hashCode));
   }
@@ -92,6 +101,7 @@ class _$Field extends Field {
           ..add('docs', docs)
           ..add('assignment', assignment)
           ..add('static', static)
+          ..add('lated', lated)
           ..add('name', name)
           ..add('type', type)
           ..add('modifier', modifier))
@@ -151,6 +161,18 @@ class _$FieldBuilder extends FieldBuilder {
   }
 
   @override
+  bool get lated {
+    _$this;
+    return super.lated;
+  }
+
+  @override
+  set lated(bool lated) {
+    _$this;
+    super.lated = lated;
+  }
+
+  @override
   String get name {
     _$this;
     return super.name;
@@ -194,6 +216,7 @@ class _$FieldBuilder extends FieldBuilder {
       super.docs = _$v.docs?.toBuilder();
       super.assignment = _$v.assignment;
       super.static = _$v.static;
+      super.lated = _$v.lated;
       super.name = _$v.name;
       super.type = _$v.type;
       super.modifier = _$v.modifier;
@@ -225,6 +248,7 @@ class _$FieldBuilder extends FieldBuilder {
               docs: docs.build(),
               assignment: assignment,
               static: static,
+              lated: lated,
               name: name,
               type: type,
               modifier: modifier);
