@@ -1,3 +1,7 @@
+## 3.6.1
+
+Added support 'late' field modifier
+
 ## 3.6.0
 
 * Add support for creating `extension` methods.
