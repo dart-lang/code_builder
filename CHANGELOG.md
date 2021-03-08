@@ -1,3 +1,8 @@
+## 3.7.0-dev
+
+* Add support for converting a Method to a generic closure, with
+  `Method.genericClosure`.
+
 ## 3.6.0
 
 * Add support for creating `extension` methods.
