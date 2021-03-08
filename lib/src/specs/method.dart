@@ -94,6 +94,9 @@ abstract class Method extends Object
 
   /// This method as a closure.
   Expression get closure => toClosure(this);
+
+  /// This method as a (possibly) generic closure.
+  Expression get genericClosure => toGenericClosure(this);
 }
 
 abstract class MethodBuilder extends Object
