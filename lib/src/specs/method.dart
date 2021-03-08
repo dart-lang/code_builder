@@ -39,7 +39,7 @@ abstract class Method extends Object
   BuiltList<Expression> get annotations;
 
   @override
-  BuiltList<String> get docs;
+  BuiltList<Object> get docs;
 
   @override
   BuiltList<Reference> get types;
@@ -107,7 +107,7 @@ abstract class MethodBuilder extends Object
   ListBuilder<Expression> annotations = ListBuilder<Expression>();
 
   @override
-  ListBuilder<String> docs = ListBuilder<String>();
+  ListBuilder<Object> docs = ListBuilder<Object>();
 
   @override
   ListBuilder<Reference> types = ListBuilder<Reference>();
@@ -183,7 +183,7 @@ abstract class Parameter extends Object
   BuiltList<Expression> get annotations;
 
   @override
-  BuiltList<String> get docs;
+  BuiltList<Object> get docs;
 
   @override
   BuiltList<Reference> get types;
@@ -231,7 +231,7 @@ abstract class ParameterBuilder extends Object
   ListBuilder<Expression> annotations = ListBuilder<Expression>();
 
   @override
-  ListBuilder<String> docs = ListBuilder<String>();
+  ListBuilder<Object> docs = ListBuilder<Object>();
 
   @override
   ListBuilder<Reference> types = ListBuilder<Reference>();

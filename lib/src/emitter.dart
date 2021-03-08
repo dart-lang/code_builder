@@ -106,7 +106,7 @@ class DartEmitter extends Object
   @override
   StringSink visitClass(Class spec, [StringSink output]) {
     output ??= StringBuffer();
-    spec.docs.forEach(output.writeln);
+    _visitDocs(spec.docs, output);
     spec.annotations.forEach((a) => visitAnnotation(a, output));
     if (spec.abstract) {
       output.write('abstract ');
@@ -153,7 +153,7 @@ class DartEmitter extends Object
   StringSink visitConstructor(Constructor spec, String clazz,
       [StringSink output]) {
     output ??= StringBuffer();
-    spec.docs.forEach(output.writeln);
+    _visitDocs(spec.docs, output);
     spec.annotations.forEach((a) => visitAnnotation(a, output));
     if (spec.external) {
       output.write('external ');
@@ -237,7 +237,7 @@ class DartEmitter extends Object
   @override
   StringSink visitExtension(Extension spec, [StringSink output]) {
     output ??= StringBuffer();
-    spec.docs.forEach(output.writeln);
+    _visitDocs(spec.docs, output);
     spec.annotations.forEach((a) => visitAnnotation(a, output));
 
     output.write('extension');
@@ -305,7 +305,7 @@ class DartEmitter extends Object
   @override
   StringSink visitField(Field spec, [StringSink output]) {
     output ??= StringBuffer();
-    spec.docs.forEach(output.writeln);
+    _visitDocs(spec.docs, output);
     spec.annotations.forEach((a) => visitAnnotation(a, output));
     if (spec.static) {
       output.write('static ');
@@ -419,7 +419,7 @@ class DartEmitter extends Object
   @override
   StringSink visitMethod(Method spec, [StringSink output]) {
     output ??= StringBuffer();
-    spec.docs.forEach(output.writeln);
+    _visitDocs(spec.docs, output);
     spec.annotations.forEach((a) => visitAnnotation(a, output));
     if (spec.external) {
       output.write('external ');
@@ -512,7 +512,8 @@ class DartEmitter extends Object
     bool optional = false,
     bool named = false,
   }) {
-    spec.docs.forEach(output.writeln);
+    output ??= StringBuffer();
+    _visitDocs(spec.docs, output);
     spec.annotations.forEach((a) => visitAnnotation(a, output));
     // The `required` keyword must precede the `covariant` keyword.
     if (spec.required) {
@@ -575,7 +576,7 @@ class DartEmitter extends Object
   @override
   StringSink visitEnum(Enum spec, [StringSink output]) {
     output ??= StringBuffer();
-    spec.docs.forEach(output.writeln);
+    _visitDocs(spec.docs, output);
     spec.annotations.forEach((a) => visitAnnotation(a, output));
     output.writeln('enum ${spec.name} {');
     spec.values.forEach((v) {
@@ -587,6 +588,24 @@ class DartEmitter extends Object
       }
     });
     output.writeln('}');
+    return output;
+  }
+
+  StringSink _visitDocs(Iterable<Object> docs, [StringSink output]) {
+    output ??= StringBuffer();
+    for (var doc in docs) {
+      if (doc is Reference) {
+        output.write('[');
+        visitReference(doc, output);
+        output.writeln(']');
+      } else if (doc is String) {
+        output.writeln(doc);
+      } else {
+        throw ArgumentError(
+            "doc is expected to be a String or a Reference, but '$doc' is a "
+            "'${doc.runtimeType}'");
+      }
+    }
     return output;
   }
 }

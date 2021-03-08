@@ -28,7 +28,7 @@ abstract class Field extends Object
   BuiltList<Expression> get annotations;
 
   @override
-  BuiltList<String> get docs;
+  BuiltList<Object> get docs;
 
   /// Field assignment, if any.
   @nullable
@@ -72,7 +72,7 @@ abstract class FieldBuilder extends Object
   ListBuilder<Expression> annotations = ListBuilder<Expression>();
 
   @override
-  ListBuilder<String> docs = ListBuilder<String>();
+  ListBuilder<Object> docs = ListBuilder<Object>();
 
   /// Field assignment, if any.
   Code assignment;

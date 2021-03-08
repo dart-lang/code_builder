@@ -29,7 +29,7 @@ abstract class Enum extends Object
   BuiltList<Expression> get annotations;
 
   @override
-  BuiltList<String> get docs;
+  BuiltList<Object> get docs;
 
   @override
   R accept<R>(
@@ -54,7 +54,7 @@ abstract class EnumBuilder extends Object
   ListBuilder<Expression> annotations = ListBuilder<Expression>();
 
   @override
-  ListBuilder<String> docs = ListBuilder<String>();
+  ListBuilder<Object> docs = ListBuilder<Object>();
 }
 
 @immutable
@@ -71,7 +71,7 @@ abstract class EnumValue extends Object
   BuiltList<Expression> get annotations;
 
   @override
-  BuiltList<String> get docs;
+  BuiltList<Object> get docs;
 }
 
 abstract class EnumValueBuilder extends Object
@@ -87,5 +87,5 @@ abstract class EnumValueBuilder extends Object
   ListBuilder<Expression> annotations = ListBuilder<Expression>();
 
   @override
-  ListBuilder<String> docs = ListBuilder<String>();
+  ListBuilder<Object> docs = ListBuilder<Object>();
 }

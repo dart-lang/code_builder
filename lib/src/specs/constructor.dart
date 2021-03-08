@@ -28,7 +28,7 @@ abstract class Constructor extends Object
   BuiltList<Expression> get annotations;
 
   @override
-  BuiltList<String> get docs;
+  BuiltList<Object> get docs;
 
   /// Optional parameters.
   BuiltList<Parameter> get optionalParameters;
@@ -76,7 +76,7 @@ abstract class ConstructorBuilder extends Object
   ListBuilder<Expression> annotations = ListBuilder<Expression>();
 
   @override
-  ListBuilder<String> docs = ListBuilder<String>();
+  ListBuilder<Object> docs = ListBuilder<Object>();
 
   /// Optional parameters.
   ListBuilder<Parameter> optionalParameters = ListBuilder<Parameter>();

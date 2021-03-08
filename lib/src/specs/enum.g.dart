@@ -14,7 +14,7 @@ class _$Enum extends Enum {
   @override
   final BuiltList<Expression> annotations;
   @override
-  final BuiltList<String> docs;
+  final BuiltList<Object> docs;
 
   factory _$Enum([void Function(EnumBuilder) updates]) =>
       (new EnumBuilder()..update(updates)).build() as _$Enum;
@@ -109,13 +109,13 @@ class _$EnumBuilder extends EnumBuilder {
   }
 
   @override
-  ListBuilder<String> get docs {
+  ListBuilder<Object> get docs {
     _$this;
-    return super.docs ??= new ListBuilder<String>();
+    return super.docs ??= new ListBuilder<Object>();
   }
 
   @override
-  set docs(ListBuilder<String> docs) {
+  set docs(ListBuilder<Object> docs) {
     _$this;
     super.docs = docs;
   }
@@ -182,7 +182,7 @@ class _$EnumValue extends EnumValue {
   @override
   final BuiltList<Expression> annotations;
   @override
-  final BuiltList<String> docs;
+  final BuiltList<Object> docs;
 
   factory _$EnumValue([void Function(EnumValueBuilder) updates]) =>
       (new EnumValueBuilder()..update(updates)).build() as _$EnumValue;
@@ -259,13 +259,13 @@ class _$EnumValueBuilder extends EnumValueBuilder {
   }
 
   @override
-  ListBuilder<String> get docs {
+  ListBuilder<Object> get docs {
     _$this;
-    return super.docs ??= new ListBuilder<String>();
+    return super.docs ??= new ListBuilder<Object>();
   }
 
   @override
-  set docs(ListBuilder<String> docs) {
+  set docs(ListBuilder<Object> docs) {
     _$this;
     super.docs = docs;
   }

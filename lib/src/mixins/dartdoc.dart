@@ -6,10 +6,10 @@ import 'package:built_collection/built_collection.dart';
 
 abstract class HasDartDocs {
   /// Dart docs.
-  BuiltList<String> get docs;
+  BuiltList<Object> get docs;
 }
 
 abstract class HasDartDocsBuilder {
   /// Dart docs.
-  ListBuilder<String> docs;
+  ListBuilder<Object> docs;
 }

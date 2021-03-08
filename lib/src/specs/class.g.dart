@@ -12,7 +12,7 @@ class _$Class extends Class {
   @override
   final BuiltList<Expression> annotations;
   @override
-  final BuiltList<String> docs;
+  final BuiltList<Object> docs;
   @override
   final Reference extend;
   @override
@@ -172,13 +172,13 @@ class _$ClassBuilder extends ClassBuilder {
   }
 
   @override
-  ListBuilder<String> get docs {
+  ListBuilder<Object> get docs {
     _$this;
-    return super.docs ??= new ListBuilder<String>();
+    return super.docs ??= new ListBuilder<Object>();
   }
 
   @override
-  set docs(ListBuilder<String> docs) {
+  set docs(ListBuilder<Object> docs) {
     _$this;
     super.docs = docs;
   }

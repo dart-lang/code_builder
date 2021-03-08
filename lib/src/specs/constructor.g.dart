@@ -10,7 +10,7 @@ class _$Constructor extends Constructor {
   @override
   final BuiltList<Expression> annotations;
   @override
-  final BuiltList<String> docs;
+  final BuiltList<Object> docs;
   @override
   final BuiltList<Parameter> optionalParameters;
   @override
@@ -161,13 +161,13 @@ class _$ConstructorBuilder extends ConstructorBuilder {
   }
 
   @override
-  ListBuilder<String> get docs {
+  ListBuilder<Object> get docs {
     _$this;
-    return super.docs ??= new ListBuilder<String>();
+    return super.docs ??= new ListBuilder<Object>();
   }
 
   @override
-  set docs(ListBuilder<String> docs) {
+  set docs(ListBuilder<Object> docs) {
     _$this;
     super.docs = docs;
   }

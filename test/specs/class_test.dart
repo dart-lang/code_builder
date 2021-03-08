@@ -30,7 +30,7 @@ void main() {
     );
   });
 
-  test('should create a class with documentations', () {
+  test('should create a class with documentation', () {
     expect(
       Class(
         (b) => b
@@ -43,6 +43,26 @@ void main() {
       ),
       equalsDart(r'''
         /// My favorite class.
+        class Foo {}
+      '''),
+    );
+  });
+
+  test('should create a class with documentation with references', () {
+    expect(
+      Class(
+        (b) => b
+          ..name = 'Foo'
+          ..docs.addAll(
+            [
+              '/// My favorite class is ',
+              refer('Queue', 'dart:collection'),
+              '.',
+            ],
+          ),
+      ),
+      equalsDart(r'''
+        /// My favorite class is [Queue].
         class Foo {}
       '''),
     );

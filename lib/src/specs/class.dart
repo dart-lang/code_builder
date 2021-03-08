@@ -34,7 +34,7 @@ abstract class Class extends Object
   BuiltList<Expression> get annotations;
 
   @override
-  BuiltList<String> get docs;
+  BuiltList<Object> get docs;
 
   @nullable
   Reference get extend;
@@ -75,7 +75,7 @@ abstract class ClassBuilder extends Object
   ListBuilder<Expression> annotations = ListBuilder<Expression>();
 
   @override
-  ListBuilder<String> docs = ListBuilder<String>();
+  ListBuilder<Object> docs = ListBuilder<Object>();
 
   Reference extend;
 

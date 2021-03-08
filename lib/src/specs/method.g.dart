@@ -10,7 +10,7 @@ class _$Method extends Method {
   @override
   final BuiltList<Expression> annotations;
   @override
-  final BuiltList<String> docs;
+  final BuiltList<Object> docs;
   @override
   final BuiltList<Reference> types;
   @override
@@ -167,13 +167,13 @@ class _$MethodBuilder extends MethodBuilder {
   }
 
   @override
-  ListBuilder<String> get docs {
+  ListBuilder<Object> get docs {
     _$this;
-    return super.docs ??= new ListBuilder<String>();
+    return super.docs ??= new ListBuilder<Object>();
   }
 
   @override
-  set docs(ListBuilder<String> docs) {
+  set docs(ListBuilder<Object> docs) {
     _$this;
     super.docs = docs;
   }
@@ -400,7 +400,7 @@ class _$Parameter extends Parameter {
   @override
   final BuiltList<Expression> annotations;
   @override
-  final BuiltList<String> docs;
+  final BuiltList<Object> docs;
   @override
   final BuiltList<Reference> types;
   @override
@@ -577,13 +577,13 @@ class _$ParameterBuilder extends ParameterBuilder {
   }
 
   @override
-  ListBuilder<String> get docs {
+  ListBuilder<Object> get docs {
     _$this;
-    return super.docs ??= new ListBuilder<String>();
+    return super.docs ??= new ListBuilder<Object>();
   }
 
   @override
-  set docs(ListBuilder<String> docs) {
+  set docs(ListBuilder<Object> docs) {
     _$this;
     super.docs = docs;
   }
