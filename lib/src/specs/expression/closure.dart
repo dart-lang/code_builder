@@ -4,12 +4,21 @@
 
 part of code_builder.src.specs.expression;
 
+/// Returns [method] as closure, removing its return type and type parameters.
 Expression toClosure(Method method) {
   final withoutTypes = method.rebuild((b) {
     b.returns = null;
     b.types.clear();
   });
   return ClosureExpression._(withoutTypes);
+}
+
+/// Returns [method] as a (possibly) generic closure, removing its return type.
+Expression toGenericClosure(Method method) {
+  final withoutReturnType = method.rebuild((b) {
+    b.returns = null;
+  });
+  return ClosureExpression._(withoutReturnType);
 }
 
 class ClosureExpression extends Expression {

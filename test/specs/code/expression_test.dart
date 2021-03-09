@@ -350,6 +350,18 @@ void main() {
     );
   });
 
+  test('should emit a generic closure', () {
+    expect(
+      refer('map').property('putIfAbsent').call([
+        literalString('foo'),
+        Method((b) => b
+          ..types.add(refer('T'))
+          ..body = literalTrue.code).genericClosure,
+      ]),
+      equalsDart("map.putIfAbsent('foo', <T>() => true)"),
+    );
+  });
+
   test('should emit an assignment', () {
     expect(
       refer('foo').assign(literalTrue),
