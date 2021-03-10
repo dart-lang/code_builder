@@ -1,4 +1,4 @@
-## 3.7.0-dev
+## 3.7.0
 
 * Add support for converting a Method to a generic closure, with
   `Method.genericClosure`.
