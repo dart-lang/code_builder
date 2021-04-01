@@ -1,3 +1,7 @@
+## 4.0.0
+
+* Migrate to null safety.
+
 ## 3.7.0
 
 * Add support for converting a Method to a generic closure, with
