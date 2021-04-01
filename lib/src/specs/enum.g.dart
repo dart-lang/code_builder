@@ -70,13 +70,13 @@ class _$EnumBuilder extends EnumBuilder {
   _$Enum? _$v;
 
   @override
-  String get name {
+  String? get name {
     _$this;
     return super.name;
   }
 
   @override
-  set name(String name) {
+  set name(String? name) {
     _$this;
     super.name = name;
   }
@@ -228,13 +228,13 @@ class _$EnumValueBuilder extends EnumValueBuilder {
   _$EnumValue? _$v;
 
   @override
-  String get name {
+  String? get name {
     _$this;
     return super.name;
   }
 
   @override
-  set name(String name) {
+  set name(String? name) {
     _$this;
     super.name = name;
   }

@@ -18,7 +18,7 @@ abstract class Directive
 
   factory Directive.import(
     String url, {
-    String as,
+    String? as,
     List<String> show = const [],
     List<String> hide = const [],
   }) =>
@@ -79,7 +79,7 @@ abstract class Directive
   @override
   R accept<R>(
     SpecVisitor<R> visitor, [
-    R context,
+    R? context,
   ]) =>
       visitor.visitDirective(this, context);
 
@@ -95,15 +95,15 @@ abstract class DirectiveBuilder
 
   bool deferred = false;
 
-  String as;
+  String? as;
 
-  String url;
+  String? url;
 
   List<String> show = <String>[];
 
   List<String> hide = <String>[];
 
-  DirectiveType type;
+  DirectiveType? type;
 }
 
 enum DirectiveType {

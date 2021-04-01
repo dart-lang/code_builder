@@ -197,13 +197,13 @@ class _$ConstructorBuilder extends ConstructorBuilder {
   }
 
   @override
-  Code get body {
+  Code? get body {
     _$this;
     return super.body;
   }
 
   @override
-  set body(Code body) {
+  set body(Code? body) {
     _$this;
     super.body = body;
   }
@@ -245,25 +245,25 @@ class _$ConstructorBuilder extends ConstructorBuilder {
   }
 
   @override
-  bool get lambda {
+  bool? get lambda {
     _$this;
     return super.lambda;
   }
 
   @override
-  set lambda(bool lambda) {
+  set lambda(bool? lambda) {
     _$this;
     super.lambda = lambda;
   }
 
   @override
-  String get name {
+  String? get name {
     _$this;
     return super.name;
   }
 
   @override
-  set name(String name) {
+  set name(String? name) {
     _$this;
     super.name = name;
   }

@@ -84,37 +84,37 @@ class _$DirectiveBuilder extends DirectiveBuilder {
   _$Directive? _$v;
 
   @override
-  String get as {
+  String? get as {
     _$this;
     return super.as;
   }
 
   @override
-  set as(String as) {
+  set as(String? as) {
     _$this;
     super.as = as;
   }
 
   @override
-  String get url {
+  String? get url {
     _$this;
     return super.url;
   }
 
   @override
-  set url(String url) {
+  set url(String? url) {
     _$this;
     super.url = url;
   }
 
   @override
-  DirectiveType get type {
+  DirectiveType? get type {
     _$this;
     return super.type;
   }
 
   @override
-  set type(DirectiveType type) {
+  set type(DirectiveType? type) {
     _$this;
     super.type = type;
   }

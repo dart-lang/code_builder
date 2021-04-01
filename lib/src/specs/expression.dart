@@ -32,7 +32,7 @@ abstract class Expression implements Spec {
   static const _empty = CodeExpression(Code(''));
 
   @override
-  R accept<R>(covariant ExpressionVisitor<R> visitor, [R context]);
+  R accept<R>(covariant ExpressionVisitor<R> visitor, [R? context]);
 
   /// The expression as a valid [Code] block.
   ///
@@ -468,7 +468,7 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
         out.write('>');
       }
       out.write('{');
-      visitAll<Object>(expression.values, out, (value) {
+      visitAll<Object?>(expression.values, out, (value) {
         _acceptLiteral(value, out);
       });
       return out..write('}');
@@ -494,7 +494,7 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
         out.write('>');
       }
       out.write('{');
-      visitAll<Object>(expression.values.keys, out, (key) {
+      visitAll<Object?>(expression.values.keys, out, (key) {
         final value = expression.values[key];
         _acceptLiteral(key, out);
         out.write(': ');

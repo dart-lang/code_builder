@@ -51,7 +51,7 @@ class _Allocator implements Allocator {
   @override
   String allocate(Reference reference) {
     if (reference.url != null) {
-      _imports.add(reference.url);
+      _imports.add(reference.url!);
     }
     return reference.symbol;
   }
@@ -82,7 +82,7 @@ class _PrefixedAllocator implements Allocator {
     if (reference.url == null || _doNotPrefix.contains(reference.url)) {
       return symbol;
     }
-    return '_i${_imports.putIfAbsent(reference.url, _nextKey)}.$symbol';
+    return '_i${_imports.putIfAbsent(reference.url!, _nextKey)}.$symbol';
   }
 
   int _nextKey() => _keys++;

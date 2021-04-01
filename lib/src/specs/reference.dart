@@ -14,7 +14,7 @@ import 'expression.dart';
 import 'type_reference.dart';
 
 /// Short-hand for `Reference(symbol, url)`.
-Reference refer(String symbol, [String url]) => Reference(symbol, url);
+Reference refer(String symbol, [String? url]) => Reference(symbol, url);
 
 /// A reference to [symbol], such as a class, or top-level method or field.
 ///
@@ -25,7 +25,7 @@ class Reference extends Expression implements Spec {
   /// Relative, `package:` or `dart:` URL of the library.
   ///
   /// May be omitted (`null`) in order to express "same library".
-  final String url;
+  final String? url;
 
   /// Name of the class, method, or field.
   final String symbol;
@@ -36,7 +36,7 @@ class Reference extends Expression implements Spec {
   @override
   R accept<R>(
     SpecVisitor<R> visitor, [
-    R context,
+    R? context,
   ]) =>
       visitor.visitReference(this, context);
 

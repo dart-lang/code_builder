@@ -23,7 +23,7 @@ abstract class Library implements Built<Library, LibraryBuilder>, Spec {
   @override
   R accept<R>(
     SpecVisitor<R> visitor, [
-    R context,
+    R? context,
   ]) =>
       visitor.visitLibrary(this, context);
 }

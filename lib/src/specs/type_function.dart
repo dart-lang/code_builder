@@ -48,10 +48,10 @@ abstract class FunctionType extends Expression
   BuiltMap<String, Reference> get namedParameters;
 
   @override
-  String get url => null;
+  String? get url;
 
   @override
-  String get symbol => null;
+  String get symbol;
 
   @override
   Reference get type => this;
@@ -107,7 +107,7 @@ abstract class FunctionTypeBuilder extends Object
 
   FunctionTypeBuilder._();
 
-  Reference returnType;
+  Reference? returnType;
 
   @override
   ListBuilder<Reference> types = ListBuilder<Reference>();
@@ -119,5 +119,9 @@ abstract class FunctionTypeBuilder extends Object
   MapBuilder<String, Reference> namedParameters =
       MapBuilder<String, Reference>();
 
-  bool isNullable;
+  bool? isNullable;
+
+  String? url;
+
+  String? symbol;
 }

@@ -84,7 +84,7 @@ abstract class ConstructorBuilder extends Object
   ListBuilder<Code> initializers = ListBuilder<Code>();
 
   /// Body of the constructor.
-  Code body;
+  Code? body;
 
   /// Whether the constructor should be prefixed with `const`.
   bool constant = false;
@@ -96,10 +96,10 @@ abstract class ConstructorBuilder extends Object
   bool factory = false;
 
   /// Whether this constructor is a simple lambda expression.
-  bool lambda;
+  bool? lambda;
 
   /// Name of the constructor - optional.
-  String name;
+  String? name;
 
   /// If non-null, redirect to this constructor.
   Reference? redirect;

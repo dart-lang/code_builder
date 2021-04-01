@@ -48,7 +48,7 @@ abstract class Field extends Object
   @override
   R accept<R>(
     SpecVisitor<R> visitor, [
-    R context,
+    R? context,
   ]) =>
       visitor.visitField(this, context);
 }
@@ -73,7 +73,7 @@ abstract class FieldBuilder extends Object
   ListBuilder<String> docs = ListBuilder<String>();
 
   /// Field assignment, if any.
-  Code assignment;
+  Code? assignment;
 
   /// Whether this field should be prefixed with `static`.
   ///
@@ -81,9 +81,9 @@ abstract class FieldBuilder extends Object
   bool static = false;
 
   /// Name of the field.
-  String name;
+  String? name;
 
-  Reference type;
+  Reference? type;
 
   FieldModifier modifier = FieldModifier.var$;
 }

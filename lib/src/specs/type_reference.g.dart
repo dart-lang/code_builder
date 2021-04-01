@@ -75,37 +75,37 @@ class _$TypeReferenceBuilder extends TypeReferenceBuilder {
   _$TypeReference? _$v;
 
   @override
-  String get symbol {
+  String? get symbol {
     _$this;
     return super.symbol;
   }
 
   @override
-  set symbol(String symbol) {
+  set symbol(String? symbol) {
     _$this;
     super.symbol = symbol;
   }
 
   @override
-  String get url {
+  String? get url {
     _$this;
     return super.url;
   }
 
   @override
-  set url(String url) {
+  set url(String? url) {
     _$this;
     super.url = url;
   }
 
   @override
-  Reference get bound {
+  Reference? get bound {
     _$this;
     return super.bound;
   }
 
   @override
-  set bound(Reference bound) {
+  set bound(Reference? bound) {
     _$this;
     super.bound = bound;
   }
@@ -123,13 +123,13 @@ class _$TypeReferenceBuilder extends TypeReferenceBuilder {
   }
 
   @override
-  bool get isNullable {
+  bool? get isNullable {
     _$this;
     return super.isNullable;
   }
 
   @override
-  set isNullable(bool isNullable) {
+  set isNullable(bool? isNullable) {
     _$this;
     super.isNullable = isNullable;
   }

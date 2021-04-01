@@ -117,13 +117,13 @@ class _$FieldBuilder extends FieldBuilder {
   }
 
   @override
-  Code get assignment {
+  Code? get assignment {
     _$this;
     return super.assignment;
   }
 
   @override
-  set assignment(Code assignment) {
+  set assignment(Code? assignment) {
     _$this;
     super.assignment = assignment;
   }
@@ -141,25 +141,25 @@ class _$FieldBuilder extends FieldBuilder {
   }
 
   @override
-  String get name {
+  String? get name {
     _$this;
     return super.name;
   }
 
   @override
-  set name(String name) {
+  set name(String? name) {
     _$this;
     super.name = name;
   }
 
   @override
-  Reference get type {
+  Reference? get type {
     _$this;
     return super.type;
   }
 
   @override
-  set type(Reference type) {
+  set type(Reference? type) {
     _$this;
     super.type = type;
   }

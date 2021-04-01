@@ -47,7 +47,7 @@ abstract class Extension extends Object
   @override
   R accept<R>(
     SpecVisitor<R> visitor, [
-    R context,
+    R? context,
   ]) =>
       visitor.visitExtension(this, context);
 }
@@ -65,7 +65,7 @@ abstract class ExtensionBuilder extends Object
   @override
   ListBuilder<String> docs = ListBuilder<String>();
 
-  Reference on;
+  Reference? on;
 
   @override
   ListBuilder<Reference> types = ListBuilder<Reference>();
@@ -74,5 +74,5 @@ abstract class ExtensionBuilder extends Object
   ListBuilder<Field> fields = ListBuilder<Field>();
 
   /// Name of the extension - optional.
-  String name;
+  String? name;
 }

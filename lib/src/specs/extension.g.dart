@@ -118,13 +118,13 @@ class _$ExtensionBuilder extends ExtensionBuilder {
   }
 
   @override
-  Reference get on {
+  Reference? get on {
     _$this;
     return super.on;
   }
 
   @override
-  set on(Reference on) {
+  set on(Reference? on) {
     _$this;
     super.on = on;
   }
@@ -166,13 +166,13 @@ class _$ExtensionBuilder extends ExtensionBuilder {
   }
 
   @override
-  String get name {
+  String? get name {
     _$this;
     return super.name;
   }
 
   @override
-  set name(String name) {
+  set name(String? name) {
     _$this;
     super.name = name;
   }
