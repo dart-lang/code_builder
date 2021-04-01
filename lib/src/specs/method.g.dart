@@ -18,62 +18,40 @@ class _$Method extends Method {
   @override
   final BuiltList<Parameter> requiredParameters;
   @override
-  final Code body;
+  final Code? body;
   @override
   final bool external;
   @override
-  final bool lambda;
+  final bool? lambda;
   @override
   final bool static;
   @override
-  final String name;
+  final String? name;
   @override
-  final MethodType type;
+  final MethodType? type;
   @override
-  final MethodModifier modifier;
+  final MethodModifier? modifier;
   @override
-  final Reference returns;
+  final Reference? returns;
 
-  factory _$Method([void Function(MethodBuilder) updates]) =>
+  factory _$Method([void Function(MethodBuilder)? updates]) =>
       (new MethodBuilder()..update(updates)).build() as _$Method;
 
   _$Method._(
-      {this.annotations,
-      this.docs,
-      this.types,
-      this.optionalParameters,
-      this.requiredParameters,
+      {required this.annotations,
+      required this.docs,
+      required this.types,
+      required this.optionalParameters,
+      required this.requiredParameters,
       this.body,
-      this.external,
+      required this.external,
       this.lambda,
-      this.static,
+      required this.static,
       this.name,
       this.type,
       this.modifier,
       this.returns})
-      : super._() {
-    if (annotations == null) {
-      throw new BuiltValueNullFieldError('Method', 'annotations');
-    }
-    if (docs == null) {
-      throw new BuiltValueNullFieldError('Method', 'docs');
-    }
-    if (types == null) {
-      throw new BuiltValueNullFieldError('Method', 'types');
-    }
-    if (optionalParameters == null) {
-      throw new BuiltValueNullFieldError('Method', 'optionalParameters');
-    }
-    if (requiredParameters == null) {
-      throw new BuiltValueNullFieldError('Method', 'requiredParameters');
-    }
-    if (external == null) {
-      throw new BuiltValueNullFieldError('Method', 'external');
-    }
-    if (static == null) {
-      throw new BuiltValueNullFieldError('Method', 'static');
-    }
-  }
+      : super._();
 
   @override
   Method rebuild(void Function(MethodBuilder) updates) =>
@@ -139,25 +117,25 @@ class _$Method extends Method {
           ..add('types', types)
           ..add('optionalParameters', optionalParameters)
           ..add('requiredParameters', requiredParameters)
-          ..add('body', body)
+          ..add('body', body ?? 'null')
           ..add('external', external)
-          ..add('lambda', lambda)
+          ..add('lambda', lambda ?? 'null')
           ..add('static', static)
-          ..add('name', name)
-          ..add('type', type)
-          ..add('modifier', modifier)
-          ..add('returns', returns))
+          ..add('name', name ?? 'null')
+          ..add('type', type ?? 'null')
+          ..add('modifier', modifier ?? 'null')
+          ..add('returns', returns ?? 'null'))
         .toString();
   }
 }
 
 class _$MethodBuilder extends MethodBuilder {
-  _$Method _$v;
+  _$Method? _$v;
 
   @override
   ListBuilder<Expression> get annotations {
     _$this;
-    return super.annotations ??= new ListBuilder<Expression>();
+    return super.annotations;
   }
 
   @override
@@ -169,7 +147,7 @@ class _$MethodBuilder extends MethodBuilder {
   @override
   ListBuilder<String> get docs {
     _$this;
-    return super.docs ??= new ListBuilder<String>();
+    return super.docs;
   }
 
   @override
@@ -181,7 +159,7 @@ class _$MethodBuilder extends MethodBuilder {
   @override
   ListBuilder<Reference> get types {
     _$this;
-    return super.types ??= new ListBuilder<Reference>();
+    return super.types;
   }
 
   @override
@@ -193,7 +171,7 @@ class _$MethodBuilder extends MethodBuilder {
   @override
   ListBuilder<Parameter> get optionalParameters {
     _$this;
-    return super.optionalParameters ??= new ListBuilder<Parameter>();
+    return super.optionalParameters;
   }
 
   @override
@@ -205,7 +183,7 @@ class _$MethodBuilder extends MethodBuilder {
   @override
   ListBuilder<Parameter> get requiredParameters {
     _$this;
-    return super.requiredParameters ??= new ListBuilder<Parameter>();
+    return super.requiredParameters;
   }
 
   @override
@@ -217,11 +195,11 @@ class _$MethodBuilder extends MethodBuilder {
   @override
   Code get body {
     _$this;
-    return super.body;
+    return super.body!;
   }
 
   @override
-  set body(Code body) {
+  set body(Code? body) {
     _$this;
     super.body = body;
   }
@@ -241,11 +219,11 @@ class _$MethodBuilder extends MethodBuilder {
   @override
   bool get lambda {
     _$this;
-    return super.lambda;
+    return super.lambda!;
   }
 
   @override
-  set lambda(bool lambda) {
+  set lambda(bool? lambda) {
     _$this;
     super.lambda = lambda;
   }
@@ -265,11 +243,11 @@ class _$MethodBuilder extends MethodBuilder {
   @override
   String get name {
     _$this;
-    return super.name;
+    return super.name!;
   }
 
   @override
-  set name(String name) {
+  set name(String? name) {
     _$this;
     super.name = name;
   }
@@ -277,11 +255,11 @@ class _$MethodBuilder extends MethodBuilder {
   @override
   MethodType get type {
     _$this;
-    return super.type;
+    return super.type!;
   }
 
   @override
-  set type(MethodType type) {
+  set type(MethodType? type) {
     _$this;
     super.type = type;
   }
@@ -289,11 +267,11 @@ class _$MethodBuilder extends MethodBuilder {
   @override
   MethodModifier get modifier {
     _$this;
-    return super.modifier;
+    return super.modifier!;
   }
 
   @override
-  set modifier(MethodModifier modifier) {
+  set modifier(MethodModifier? modifier) {
     _$this;
     super.modifier = modifier;
   }
@@ -301,11 +279,11 @@ class _$MethodBuilder extends MethodBuilder {
   @override
   Reference get returns {
     _$this;
-    return super.returns;
+    return super.returns!;
   }
 
   @override
-  set returns(Reference returns) {
+  set returns(Reference? returns) {
     _$this;
     super.returns = returns;
   }
@@ -314,26 +292,26 @@ class _$MethodBuilder extends MethodBuilder {
 
   MethodBuilder get _$this {
     if (_$v != null) {
-      super.annotations = _$v.annotations?.toBuilder();
-      super.docs = _$v.docs?.toBuilder();
-      super.types = _$v.types?.toBuilder();
-      super.optionalParameters = _$v.optionalParameters?.toBuilder();
-      super.requiredParameters = _$v.requiredParameters?.toBuilder();
-      super.body = _$v.body;
-      super.external = _$v.external;
-      super.lambda = _$v.lambda;
-      super.static = _$v.static;
-      super.name = _$v.name;
-      super.type = _$v.type;
-      super.modifier = _$v.modifier;
-      super.returns = _$v.returns;
+      super.annotations = _$v!.annotations.toBuilder();
+      super.docs = _$v!.docs.toBuilder();
+      super.types = _$v!.types.toBuilder();
+      super.optionalParameters = _$v!.optionalParameters.toBuilder();
+      super.requiredParameters = _$v!.requiredParameters.toBuilder();
+      super.body = _$v!.body;
+      super.external = _$v!.external;
+      super.lambda = _$v!.lambda;
+      super.static = _$v!.static;
+      super.name = _$v!.name;
+      super.type = _$v!.type;
+      super.modifier = _$v!.modifier;
+      super.returns = _$v!.returns;
       _$v = null;
     }
     return this;
   }
 
   @override
-  void replace(Method other) {
+  void replace(Method? other) {
     if (other == null) {
       throw new ArgumentError.notNull('other');
     }
@@ -341,7 +319,7 @@ class _$MethodBuilder extends MethodBuilder {
   }
 
   @override
-  void update(void Function(MethodBuilder) updates) {
+  void update(void Function(MethodBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -365,7 +343,7 @@ class _$MethodBuilder extends MethodBuilder {
               modifier: modifier,
               returns: returns);
     } catch (_) {
-      String _$failedField;
+      late String _$failedField;
       try {
         _$failedField = 'annotations';
         annotations.build();
@@ -390,7 +368,7 @@ class _$MethodBuilder extends MethodBuilder {
 
 class _$Parameter extends Parameter {
   @override
-  final Code defaultTo;
+  final Code? defaultTo;
   @override
   final String name;
   @override
@@ -404,52 +382,27 @@ class _$Parameter extends Parameter {
   @override
   final BuiltList<Reference> types;
   @override
-  final Reference type;
+  final Reference? type;
   @override
   final bool required;
   @override
   final bool covariant;
 
-  factory _$Parameter([void Function(ParameterBuilder) updates]) =>
+  factory _$Parameter([void Function(ParameterBuilder)? updates]) =>
       (new ParameterBuilder()..update(updates)).build() as _$Parameter;
 
   _$Parameter._(
       {this.defaultTo,
-      this.name,
-      this.named,
-      this.toThis,
-      this.annotations,
-      this.docs,
-      this.types,
+      required this.name,
+      required this.named,
+      required this.toThis,
+      required this.annotations,
+      required this.docs,
+      required this.types,
       this.type,
-      this.required,
-      this.covariant})
-      : super._() {
-    if (name == null) {
-      throw new BuiltValueNullFieldError('Parameter', 'name');
-    }
-    if (named == null) {
-      throw new BuiltValueNullFieldError('Parameter', 'named');
-    }
-    if (toThis == null) {
-      throw new BuiltValueNullFieldError('Parameter', 'toThis');
-    }
-    if (annotations == null) {
-      throw new BuiltValueNullFieldError('Parameter', 'annotations');
-    }
-    if (docs == null) {
-      throw new BuiltValueNullFieldError('Parameter', 'docs');
-    }
-    if (types == null) {
-      throw new BuiltValueNullFieldError('Parameter', 'types');
-    }
-    if (required == null) {
-      throw new BuiltValueNullFieldError('Parameter', 'required');
-    }
-    if (covariant == null) {
-      throw new BuiltValueNullFieldError('Parameter', 'covariant');
-    }
-  }
+      required this.required,
+      required this.covariant})
+      : super._();
 
   @override
   Parameter rebuild(void Function(ParameterBuilder) updates) =>
@@ -499,14 +452,14 @@ class _$Parameter extends Parameter {
   @override
   String toString() {
     return (newBuiltValueToStringHelper('Parameter')
-          ..add('defaultTo', defaultTo)
+          ..add('defaultTo', defaultTo ?? 'null')
           ..add('name', name)
           ..add('named', named)
           ..add('toThis', toThis)
           ..add('annotations', annotations)
           ..add('docs', docs)
           ..add('types', types)
-          ..add('type', type)
+          ..add('type', type ?? 'null')
           ..add('required', required)
           ..add('covariant', covariant))
         .toString();
@@ -514,16 +467,16 @@ class _$Parameter extends Parameter {
 }
 
 class _$ParameterBuilder extends ParameterBuilder {
-  _$Parameter _$v;
+  _$Parameter? _$v;
 
   @override
-  Code get defaultTo {
+  Code? get defaultTo {
     _$this;
     return super.defaultTo;
   }
 
   @override
-  set defaultTo(Code defaultTo) {
+  set defaultTo(Code? defaultTo) {
     _$this;
     super.defaultTo = defaultTo;
   }
@@ -567,7 +520,7 @@ class _$ParameterBuilder extends ParameterBuilder {
   @override
   ListBuilder<Expression> get annotations {
     _$this;
-    return super.annotations ??= new ListBuilder<Expression>();
+    return super.annotations;
   }
 
   @override
@@ -579,7 +532,7 @@ class _$ParameterBuilder extends ParameterBuilder {
   @override
   ListBuilder<String> get docs {
     _$this;
-    return super.docs ??= new ListBuilder<String>();
+    return super.docs;
   }
 
   @override
@@ -591,7 +544,7 @@ class _$ParameterBuilder extends ParameterBuilder {
   @override
   ListBuilder<Reference> get types {
     _$this;
-    return super.types ??= new ListBuilder<Reference>();
+    return super.types;
   }
 
   @override
@@ -601,13 +554,13 @@ class _$ParameterBuilder extends ParameterBuilder {
   }
 
   @override
-  Reference get type {
+  Reference? get type {
     _$this;
     return super.type;
   }
 
   @override
-  set type(Reference type) {
+  set type(Reference? type) {
     _$this;
     super.type = type;
   }
@@ -640,23 +593,23 @@ class _$ParameterBuilder extends ParameterBuilder {
 
   ParameterBuilder get _$this {
     if (_$v != null) {
-      super.defaultTo = _$v.defaultTo;
-      super.name = _$v.name;
-      super.named = _$v.named;
-      super.toThis = _$v.toThis;
-      super.annotations = _$v.annotations?.toBuilder();
-      super.docs = _$v.docs?.toBuilder();
-      super.types = _$v.types?.toBuilder();
-      super.type = _$v.type;
-      super.required = _$v.required;
-      super.covariant = _$v.covariant;
+      super.defaultTo = _$v!.defaultTo;
+      super.name = _$v!.name;
+      super.named = _$v!.named;
+      super.toThis = _$v!.toThis;
+      super.annotations = _$v!.annotations.toBuilder();
+      super.docs = _$v!.docs.toBuilder();
+      super.types = _$v!.types.toBuilder();
+      super.type = _$v!.type;
+      super.required = _$v!.required;
+      super.covariant = _$v!.covariant;
       _$v = null;
     }
     return this;
   }
 
   @override
-  void replace(Parameter other) {
+  void replace(Parameter? other) {
     if (other == null) {
       throw new ArgumentError.notNull('other');
     }
@@ -664,7 +617,7 @@ class _$ParameterBuilder extends ParameterBuilder {
   }
 
   @override
-  void update(void Function(ParameterBuilder) updates) {
+  void update(void Function(ParameterBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -685,7 +638,7 @@ class _$ParameterBuilder extends ParameterBuilder {
               required: required,
               covariant: covariant);
     } catch (_) {
-      String _$failedField;
+      late String _$failedField;
       try {
         _$failedField = 'annotations';
         annotations.build();

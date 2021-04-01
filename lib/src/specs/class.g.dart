@@ -14,7 +14,7 @@ class _$Class extends Class {
   @override
   final BuiltList<String> docs;
   @override
-  final Reference extend;
+  final Reference? extend;
   @override
   final BuiltList<Reference> implements;
   @override
@@ -30,53 +30,22 @@ class _$Class extends Class {
   @override
   final String name;
 
-  factory _$Class([void Function(ClassBuilder) updates]) =>
+  factory _$Class([void Function(ClassBuilder)? updates]) =>
       (new ClassBuilder()..update(updates)).build() as _$Class;
 
   _$Class._(
-      {this.abstract,
-      this.annotations,
-      this.docs,
+      {required this.abstract,
+      required this.annotations,
+      required this.docs,
       this.extend,
-      this.implements,
-      this.mixins,
-      this.types,
-      this.constructors,
-      this.methods,
-      this.fields,
-      this.name})
-      : super._() {
-    if (abstract == null) {
-      throw new BuiltValueNullFieldError('Class', 'abstract');
-    }
-    if (annotations == null) {
-      throw new BuiltValueNullFieldError('Class', 'annotations');
-    }
-    if (docs == null) {
-      throw new BuiltValueNullFieldError('Class', 'docs');
-    }
-    if (implements == null) {
-      throw new BuiltValueNullFieldError('Class', 'implements');
-    }
-    if (mixins == null) {
-      throw new BuiltValueNullFieldError('Class', 'mixins');
-    }
-    if (types == null) {
-      throw new BuiltValueNullFieldError('Class', 'types');
-    }
-    if (constructors == null) {
-      throw new BuiltValueNullFieldError('Class', 'constructors');
-    }
-    if (methods == null) {
-      throw new BuiltValueNullFieldError('Class', 'methods');
-    }
-    if (fields == null) {
-      throw new BuiltValueNullFieldError('Class', 'fields');
-    }
-    if (name == null) {
-      throw new BuiltValueNullFieldError('Class', 'name');
-    }
-  }
+      required this.implements,
+      required this.mixins,
+      required this.types,
+      required this.constructors,
+      required this.methods,
+      required this.fields,
+      required this.name})
+      : super._();
 
   @override
   Class rebuild(void Function(ClassBuilder) updates) =>
@@ -132,7 +101,7 @@ class _$Class extends Class {
           ..add('abstract', abstract)
           ..add('annotations', annotations)
           ..add('docs', docs)
-          ..add('extend', extend)
+          ..add('extend', extend ?? 'null')
           ..add('implements', implements)
           ..add('mixins', mixins)
           ..add('types', types)
@@ -145,7 +114,7 @@ class _$Class extends Class {
 }
 
 class _$ClassBuilder extends ClassBuilder {
-  _$Class _$v;
+  _$Class? _$v;
 
   @override
   bool get abstract {
@@ -162,7 +131,7 @@ class _$ClassBuilder extends ClassBuilder {
   @override
   ListBuilder<Expression> get annotations {
     _$this;
-    return super.annotations ??= new ListBuilder<Expression>();
+    return super.annotations;
   }
 
   @override
@@ -174,7 +143,7 @@ class _$ClassBuilder extends ClassBuilder {
   @override
   ListBuilder<String> get docs {
     _$this;
-    return super.docs ??= new ListBuilder<String>();
+    return super.docs;
   }
 
   @override
@@ -184,13 +153,13 @@ class _$ClassBuilder extends ClassBuilder {
   }
 
   @override
-  Reference get extend {
+  Reference? get extend {
     _$this;
     return super.extend;
   }
 
   @override
-  set extend(Reference extend) {
+  set extend(Reference? extend) {
     _$this;
     super.extend = extend;
   }
@@ -198,7 +167,7 @@ class _$ClassBuilder extends ClassBuilder {
   @override
   ListBuilder<Reference> get implements {
     _$this;
-    return super.implements ??= new ListBuilder<Reference>();
+    return super.implements;
   }
 
   @override
@@ -210,7 +179,7 @@ class _$ClassBuilder extends ClassBuilder {
   @override
   ListBuilder<Reference> get mixins {
     _$this;
-    return super.mixins ??= new ListBuilder<Reference>();
+    return super.mixins;
   }
 
   @override
@@ -222,7 +191,7 @@ class _$ClassBuilder extends ClassBuilder {
   @override
   ListBuilder<Reference> get types {
     _$this;
-    return super.types ??= new ListBuilder<Reference>();
+    return super.types;
   }
 
   @override
@@ -234,7 +203,7 @@ class _$ClassBuilder extends ClassBuilder {
   @override
   ListBuilder<Constructor> get constructors {
     _$this;
-    return super.constructors ??= new ListBuilder<Constructor>();
+    return super.constructors;
   }
 
   @override
@@ -246,7 +215,7 @@ class _$ClassBuilder extends ClassBuilder {
   @override
   ListBuilder<Method> get methods {
     _$this;
-    return super.methods ??= new ListBuilder<Method>();
+    return super.methods;
   }
 
   @override
@@ -258,7 +227,7 @@ class _$ClassBuilder extends ClassBuilder {
   @override
   ListBuilder<Field> get fields {
     _$this;
-    return super.fields ??= new ListBuilder<Field>();
+    return super.fields;
   }
 
   @override
@@ -268,13 +237,13 @@ class _$ClassBuilder extends ClassBuilder {
   }
 
   @override
-  String get name {
+  String? get name {
     _$this;
     return super.name;
   }
 
   @override
-  set name(String name) {
+  set name(String? name) {
     _$this;
     super.name = name;
   }
@@ -283,24 +252,24 @@ class _$ClassBuilder extends ClassBuilder {
 
   ClassBuilder get _$this {
     if (_$v != null) {
-      super.abstract = _$v.abstract;
-      super.annotations = _$v.annotations?.toBuilder();
-      super.docs = _$v.docs?.toBuilder();
-      super.extend = _$v.extend;
-      super.implements = _$v.implements?.toBuilder();
-      super.mixins = _$v.mixins?.toBuilder();
-      super.types = _$v.types?.toBuilder();
-      super.constructors = _$v.constructors?.toBuilder();
-      super.methods = _$v.methods?.toBuilder();
-      super.fields = _$v.fields?.toBuilder();
-      super.name = _$v.name;
+      super.abstract = _$v!.abstract;
+      super.annotations = _$v!.annotations.toBuilder();
+      super.docs = _$v!.docs.toBuilder();
+      super.extend = _$v!.extend;
+      super.implements = _$v!.implements.toBuilder();
+      super.mixins = _$v!.mixins.toBuilder();
+      super.types = _$v!.types.toBuilder();
+      super.constructors = _$v!.constructors.toBuilder();
+      super.methods = _$v!.methods.toBuilder();
+      super.fields = _$v!.fields.toBuilder();
+      super.name = _$v!.name;
       _$v = null;
     }
     return this;
   }
 
   @override
-  void replace(Class other) {
+  void replace(Class? other) {
     if (other == null) {
       throw new ArgumentError.notNull('other');
     }
@@ -308,7 +277,7 @@ class _$ClassBuilder extends ClassBuilder {
   }
 
   @override
-  void update(void Function(ClassBuilder) updates) {
+  void update(void Function(ClassBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -328,9 +297,9 @@ class _$ClassBuilder extends ClassBuilder {
               constructors: constructors.build(),
               methods: methods.build(),
               fields: fields.build(),
-              name: name);
+              name: name!);
     } catch (_) {
-      String _$failedField;
+      late String _$failedField;
       try {
         _$failedField = 'annotations';
         annotations.build();

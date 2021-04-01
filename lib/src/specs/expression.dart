@@ -447,7 +447,7 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
         out.write('>');
       }
       out.write('[');
-      visitAll<Object>(expression.values, out, (value) {
+      visitAll<Object?>(expression.values, out, (value) {
         _acceptLiteral(value, out);
       });
       return out..write(']');

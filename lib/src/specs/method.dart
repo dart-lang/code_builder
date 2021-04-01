@@ -101,6 +101,11 @@ abstract class MethodBuilder extends Object
   MethodBuilder._();
 
   @override
+  void update(void Function(MethodBuilder)? updates) {
+    updates?.call(this);
+  }
+
+  @override
   ListBuilder<Expression> annotations = ListBuilder<Expression>();
 
   @override
@@ -207,6 +212,11 @@ abstract class ParameterBuilder extends Object
   factory ParameterBuilder() = _$ParameterBuilder;
 
   ParameterBuilder._();
+
+  @override
+  void update(void Function(ParameterBuilder)? updates) {
+    updates?.call(this);
+  }
 
   /// If not `null`, a default assignment if the parameter is optional.
   Code? defaultTo;
