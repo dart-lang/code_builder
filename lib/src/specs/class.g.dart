@@ -45,7 +45,19 @@ class _$Class extends Class {
       required this.methods,
       required this.fields,
       required this.name})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(abstract, 'Class', 'abstract');
+    BuiltValueNullFieldError.checkNotNull(annotations, 'Class', 'annotations');
+    BuiltValueNullFieldError.checkNotNull(docs, 'Class', 'docs');
+    BuiltValueNullFieldError.checkNotNull(implements, 'Class', 'implements');
+    BuiltValueNullFieldError.checkNotNull(mixins, 'Class', 'mixins');
+    BuiltValueNullFieldError.checkNotNull(types, 'Class', 'types');
+    BuiltValueNullFieldError.checkNotNull(
+        constructors, 'Class', 'constructors');
+    BuiltValueNullFieldError.checkNotNull(methods, 'Class', 'methods');
+    BuiltValueNullFieldError.checkNotNull(fields, 'Class', 'fields');
+    BuiltValueNullFieldError.checkNotNull(name, 'Class', 'name');
+  }
 
   @override
   Class rebuild(void Function(ClassBuilder) updates) =>
@@ -101,7 +113,7 @@ class _$Class extends Class {
           ..add('abstract', abstract)
           ..add('annotations', annotations)
           ..add('docs', docs)
-          ..add('extend', extend ?? 'null')
+          ..add('extend', extend)
           ..add('implements', implements)
           ..add('mixins', mixins)
           ..add('types', types)
@@ -251,28 +263,27 @@ class _$ClassBuilder extends ClassBuilder {
   _$ClassBuilder() : super._();
 
   ClassBuilder get _$this {
-    if (_$v != null) {
-      super.abstract = _$v!.abstract;
-      super.annotations = _$v!.annotations.toBuilder();
-      super.docs = _$v!.docs.toBuilder();
-      super.extend = _$v!.extend;
-      super.implements = _$v!.implements.toBuilder();
-      super.mixins = _$v!.mixins.toBuilder();
-      super.types = _$v!.types.toBuilder();
-      super.constructors = _$v!.constructors.toBuilder();
-      super.methods = _$v!.methods.toBuilder();
-      super.fields = _$v!.fields.toBuilder();
-      super.name = _$v!.name;
+    final $v = _$v;
+    if ($v != null) {
+      super.abstract = $v.abstract;
+      super.annotations = $v.annotations.toBuilder();
+      super.docs = $v.docs.toBuilder();
+      super.extend = $v.extend;
+      super.implements = $v.implements.toBuilder();
+      super.mixins = $v.mixins.toBuilder();
+      super.types = $v.types.toBuilder();
+      super.constructors = $v.constructors.toBuilder();
+      super.methods = $v.methods.toBuilder();
+      super.fields = $v.fields.toBuilder();
+      super.name = $v.name;
       _$v = null;
     }
     return this;
   }
 
   @override
-  void replace(Class? other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
+  void replace(Class other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$Class;
   }
 
@@ -287,7 +298,8 @@ class _$ClassBuilder extends ClassBuilder {
     try {
       _$result = _$v ??
           new _$Class._(
-              abstract: abstract,
+              abstract: BuiltValueNullFieldError.checkNotNull(
+                  abstract, 'Class', 'abstract'),
               annotations: annotations.build(),
               docs: docs.build(),
               extend: extend,
@@ -297,7 +309,8 @@ class _$ClassBuilder extends ClassBuilder {
               constructors: constructors.build(),
               methods: methods.build(),
               fields: fields.build(),
-              name: name!);
+              name:
+                  BuiltValueNullFieldError.checkNotNull(name, 'Class', 'name'));
     } catch (_) {
       late String _$failedField;
       try {

@@ -64,8 +64,7 @@ abstract class Directive
 
   Directive._();
 
-  @nullable
-  String get as;
+  String? get as;
 
   String get url;
 

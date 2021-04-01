@@ -31,8 +31,7 @@ abstract class Field extends Object
   BuiltList<String> get docs;
 
   /// Field assignment, if any.
-  @nullable
-  Code get assignment;
+  Code? get assignment;
 
   /// Whether this field should be prefixed with `static`.
   ///
@@ -42,8 +41,7 @@ abstract class Field extends Object
   /// Name of the field.
   String get name;
 
-  @nullable
-  Reference get type;
+  Reference? get type;
 
   FieldModifier get modifier;
 

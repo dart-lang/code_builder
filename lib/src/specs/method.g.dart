@@ -51,7 +51,17 @@ class _$Method extends Method {
       this.type,
       this.modifier,
       this.returns})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(annotations, 'Method', 'annotations');
+    BuiltValueNullFieldError.checkNotNull(docs, 'Method', 'docs');
+    BuiltValueNullFieldError.checkNotNull(types, 'Method', 'types');
+    BuiltValueNullFieldError.checkNotNull(
+        optionalParameters, 'Method', 'optionalParameters');
+    BuiltValueNullFieldError.checkNotNull(
+        requiredParameters, 'Method', 'requiredParameters');
+    BuiltValueNullFieldError.checkNotNull(external, 'Method', 'external');
+    BuiltValueNullFieldError.checkNotNull(static, 'Method', 'static');
+  }
 
   @override
   Method rebuild(void Function(MethodBuilder) updates) =>
@@ -117,14 +127,14 @@ class _$Method extends Method {
           ..add('types', types)
           ..add('optionalParameters', optionalParameters)
           ..add('requiredParameters', requiredParameters)
-          ..add('body', body ?? 'null')
+          ..add('body', body)
           ..add('external', external)
-          ..add('lambda', lambda ?? 'null')
+          ..add('lambda', lambda)
           ..add('static', static)
-          ..add('name', name ?? 'null')
-          ..add('type', type ?? 'null')
-          ..add('modifier', modifier ?? 'null')
-          ..add('returns', returns ?? 'null'))
+          ..add('name', name)
+          ..add('type', type)
+          ..add('modifier', modifier)
+          ..add('returns', returns))
         .toString();
   }
 }
@@ -193,9 +203,9 @@ class _$MethodBuilder extends MethodBuilder {
   }
 
   @override
-  Code get body {
+  Code? get body {
     _$this;
-    return super.body!;
+    return super.body;
   }
 
   @override
@@ -217,9 +227,9 @@ class _$MethodBuilder extends MethodBuilder {
   }
 
   @override
-  bool get lambda {
+  bool? get lambda {
     _$this;
-    return super.lambda!;
+    return super.lambda;
   }
 
   @override
@@ -241,9 +251,9 @@ class _$MethodBuilder extends MethodBuilder {
   }
 
   @override
-  String get name {
+  String? get name {
     _$this;
-    return super.name!;
+    return super.name;
   }
 
   @override
@@ -253,9 +263,9 @@ class _$MethodBuilder extends MethodBuilder {
   }
 
   @override
-  MethodType get type {
+  MethodType? get type {
     _$this;
-    return super.type!;
+    return super.type;
   }
 
   @override
@@ -265,9 +275,9 @@ class _$MethodBuilder extends MethodBuilder {
   }
 
   @override
-  MethodModifier get modifier {
+  MethodModifier? get modifier {
     _$this;
-    return super.modifier!;
+    return super.modifier;
   }
 
   @override
@@ -277,9 +287,9 @@ class _$MethodBuilder extends MethodBuilder {
   }
 
   @override
-  Reference get returns {
+  Reference? get returns {
     _$this;
-    return super.returns!;
+    return super.returns;
   }
 
   @override
@@ -291,30 +301,29 @@ class _$MethodBuilder extends MethodBuilder {
   _$MethodBuilder() : super._();
 
   MethodBuilder get _$this {
-    if (_$v != null) {
-      super.annotations = _$v!.annotations.toBuilder();
-      super.docs = _$v!.docs.toBuilder();
-      super.types = _$v!.types.toBuilder();
-      super.optionalParameters = _$v!.optionalParameters.toBuilder();
-      super.requiredParameters = _$v!.requiredParameters.toBuilder();
-      super.body = _$v!.body;
-      super.external = _$v!.external;
-      super.lambda = _$v!.lambda;
-      super.static = _$v!.static;
-      super.name = _$v!.name;
-      super.type = _$v!.type;
-      super.modifier = _$v!.modifier;
-      super.returns = _$v!.returns;
+    final $v = _$v;
+    if ($v != null) {
+      super.annotations = $v.annotations.toBuilder();
+      super.docs = $v.docs.toBuilder();
+      super.types = $v.types.toBuilder();
+      super.optionalParameters = $v.optionalParameters.toBuilder();
+      super.requiredParameters = $v.requiredParameters.toBuilder();
+      super.body = $v.body;
+      super.external = $v.external;
+      super.lambda = $v.lambda;
+      super.static = $v.static;
+      super.name = $v.name;
+      super.type = $v.type;
+      super.modifier = $v.modifier;
+      super.returns = $v.returns;
       _$v = null;
     }
     return this;
   }
 
   @override
-  void replace(Method? other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
+  void replace(Method other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$Method;
   }
 
@@ -335,9 +344,11 @@ class _$MethodBuilder extends MethodBuilder {
               optionalParameters: optionalParameters.build(),
               requiredParameters: requiredParameters.build(),
               body: body,
-              external: external,
+              external: BuiltValueNullFieldError.checkNotNull(
+                  external, 'Method', 'external'),
               lambda: lambda,
-              static: static,
+              static: BuiltValueNullFieldError.checkNotNull(
+                  static, 'Method', 'static'),
               name: name,
               type: type,
               modifier: modifier,
@@ -402,7 +413,17 @@ class _$Parameter extends Parameter {
       this.type,
       required this.required,
       required this.covariant})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(name, 'Parameter', 'name');
+    BuiltValueNullFieldError.checkNotNull(named, 'Parameter', 'named');
+    BuiltValueNullFieldError.checkNotNull(toThis, 'Parameter', 'toThis');
+    BuiltValueNullFieldError.checkNotNull(
+        annotations, 'Parameter', 'annotations');
+    BuiltValueNullFieldError.checkNotNull(docs, 'Parameter', 'docs');
+    BuiltValueNullFieldError.checkNotNull(types, 'Parameter', 'types');
+    BuiltValueNullFieldError.checkNotNull(required, 'Parameter', 'required');
+    BuiltValueNullFieldError.checkNotNull(covariant, 'Parameter', 'covariant');
+  }
 
   @override
   Parameter rebuild(void Function(ParameterBuilder) updates) =>
@@ -452,14 +473,14 @@ class _$Parameter extends Parameter {
   @override
   String toString() {
     return (newBuiltValueToStringHelper('Parameter')
-          ..add('defaultTo', defaultTo ?? 'null')
+          ..add('defaultTo', defaultTo)
           ..add('name', name)
           ..add('named', named)
           ..add('toThis', toThis)
           ..add('annotations', annotations)
           ..add('docs', docs)
           ..add('types', types)
-          ..add('type', type ?? 'null')
+          ..add('type', type)
           ..add('required', required)
           ..add('covariant', covariant))
         .toString();
@@ -592,27 +613,26 @@ class _$ParameterBuilder extends ParameterBuilder {
   _$ParameterBuilder() : super._();
 
   ParameterBuilder get _$this {
-    if (_$v != null) {
-      super.defaultTo = _$v!.defaultTo;
-      super.name = _$v!.name;
-      super.named = _$v!.named;
-      super.toThis = _$v!.toThis;
-      super.annotations = _$v!.annotations.toBuilder();
-      super.docs = _$v!.docs.toBuilder();
-      super.types = _$v!.types.toBuilder();
-      super.type = _$v!.type;
-      super.required = _$v!.required;
-      super.covariant = _$v!.covariant;
+    final $v = _$v;
+    if ($v != null) {
+      super.defaultTo = $v.defaultTo;
+      super.name = $v.name;
+      super.named = $v.named;
+      super.toThis = $v.toThis;
+      super.annotations = $v.annotations.toBuilder();
+      super.docs = $v.docs.toBuilder();
+      super.types = $v.types.toBuilder();
+      super.type = $v.type;
+      super.required = $v.required;
+      super.covariant = $v.covariant;
       _$v = null;
     }
     return this;
   }
 
   @override
-  void replace(Parameter? other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
+  void replace(Parameter other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$Parameter;
   }
 
@@ -628,15 +648,20 @@ class _$ParameterBuilder extends ParameterBuilder {
       _$result = _$v ??
           new _$Parameter._(
               defaultTo: defaultTo,
-              name: name,
-              named: named,
-              toThis: toThis,
+              name: BuiltValueNullFieldError.checkNotNull(
+                  name, 'Parameter', 'name'),
+              named: BuiltValueNullFieldError.checkNotNull(
+                  named, 'Parameter', 'named'),
+              toThis: BuiltValueNullFieldError.checkNotNull(
+                  toThis, 'Parameter', 'toThis'),
               annotations: annotations.build(),
               docs: docs.build(),
               types: types.build(),
               type: type,
-              required: required,
-              covariant: covariant);
+              required: BuiltValueNullFieldError.checkNotNull(
+                  required, 'Parameter', 'required'),
+              covariant: BuiltValueNullFieldError.checkNotNull(
+                  covariant, 'Parameter', 'covariant'));
     } catch (_) {
       late String _$failedField;
       try {

@@ -18,7 +18,7 @@ class _$Constructor extends Constructor {
   @override
   final BuiltList<Code> initializers;
   @override
-  final Code body;
+  final Code? body;
   @override
   final bool external;
   @override
@@ -26,53 +26,41 @@ class _$Constructor extends Constructor {
   @override
   final bool factory;
   @override
-  final bool lambda;
+  final bool? lambda;
   @override
-  final String name;
+  final String? name;
   @override
-  final Reference redirect;
+  final Reference? redirect;
 
-  factory _$Constructor([void Function(ConstructorBuilder) updates]) =>
+  factory _$Constructor([void Function(ConstructorBuilder)? updates]) =>
       (new ConstructorBuilder()..update(updates)).build() as _$Constructor;
 
   _$Constructor._(
-      {this.annotations,
-      this.docs,
-      this.optionalParameters,
-      this.requiredParameters,
-      this.initializers,
+      {required this.annotations,
+      required this.docs,
+      required this.optionalParameters,
+      required this.requiredParameters,
+      required this.initializers,
       this.body,
-      this.external,
-      this.constant,
-      this.factory,
+      required this.external,
+      required this.constant,
+      required this.factory,
       this.lambda,
       this.name,
       this.redirect})
       : super._() {
-    if (annotations == null) {
-      throw new BuiltValueNullFieldError('Constructor', 'annotations');
-    }
-    if (docs == null) {
-      throw new BuiltValueNullFieldError('Constructor', 'docs');
-    }
-    if (optionalParameters == null) {
-      throw new BuiltValueNullFieldError('Constructor', 'optionalParameters');
-    }
-    if (requiredParameters == null) {
-      throw new BuiltValueNullFieldError('Constructor', 'requiredParameters');
-    }
-    if (initializers == null) {
-      throw new BuiltValueNullFieldError('Constructor', 'initializers');
-    }
-    if (external == null) {
-      throw new BuiltValueNullFieldError('Constructor', 'external');
-    }
-    if (constant == null) {
-      throw new BuiltValueNullFieldError('Constructor', 'constant');
-    }
-    if (factory == null) {
-      throw new BuiltValueNullFieldError('Constructor', 'factory');
-    }
+    BuiltValueNullFieldError.checkNotNull(
+        annotations, 'Constructor', 'annotations');
+    BuiltValueNullFieldError.checkNotNull(docs, 'Constructor', 'docs');
+    BuiltValueNullFieldError.checkNotNull(
+        optionalParameters, 'Constructor', 'optionalParameters');
+    BuiltValueNullFieldError.checkNotNull(
+        requiredParameters, 'Constructor', 'requiredParameters');
+    BuiltValueNullFieldError.checkNotNull(
+        initializers, 'Constructor', 'initializers');
+    BuiltValueNullFieldError.checkNotNull(external, 'Constructor', 'external');
+    BuiltValueNullFieldError.checkNotNull(constant, 'Constructor', 'constant');
+    BuiltValueNullFieldError.checkNotNull(factory, 'Constructor', 'factory');
   }
 
   @override
@@ -146,12 +134,12 @@ class _$Constructor extends Constructor {
 }
 
 class _$ConstructorBuilder extends ConstructorBuilder {
-  _$Constructor _$v;
+  _$Constructor? _$v;
 
   @override
   ListBuilder<Expression> get annotations {
     _$this;
-    return super.annotations ??= new ListBuilder<Expression>();
+    return super.annotations;
   }
 
   @override
@@ -163,7 +151,7 @@ class _$ConstructorBuilder extends ConstructorBuilder {
   @override
   ListBuilder<String> get docs {
     _$this;
-    return super.docs ??= new ListBuilder<String>();
+    return super.docs;
   }
 
   @override
@@ -175,7 +163,7 @@ class _$ConstructorBuilder extends ConstructorBuilder {
   @override
   ListBuilder<Parameter> get optionalParameters {
     _$this;
-    return super.optionalParameters ??= new ListBuilder<Parameter>();
+    return super.optionalParameters;
   }
 
   @override
@@ -187,7 +175,7 @@ class _$ConstructorBuilder extends ConstructorBuilder {
   @override
   ListBuilder<Parameter> get requiredParameters {
     _$this;
-    return super.requiredParameters ??= new ListBuilder<Parameter>();
+    return super.requiredParameters;
   }
 
   @override
@@ -199,7 +187,7 @@ class _$ConstructorBuilder extends ConstructorBuilder {
   @override
   ListBuilder<Code> get initializers {
     _$this;
-    return super.initializers ??= new ListBuilder<Code>();
+    return super.initializers;
   }
 
   @override
@@ -281,13 +269,13 @@ class _$ConstructorBuilder extends ConstructorBuilder {
   }
 
   @override
-  Reference get redirect {
+  Reference? get redirect {
     _$this;
     return super.redirect;
   }
 
   @override
-  set redirect(Reference redirect) {
+  set redirect(Reference? redirect) {
     _$this;
     super.redirect = redirect;
   }
@@ -295,19 +283,20 @@ class _$ConstructorBuilder extends ConstructorBuilder {
   _$ConstructorBuilder() : super._();
 
   ConstructorBuilder get _$this {
-    if (_$v != null) {
-      super.annotations = _$v.annotations?.toBuilder();
-      super.docs = _$v.docs?.toBuilder();
-      super.optionalParameters = _$v.optionalParameters?.toBuilder();
-      super.requiredParameters = _$v.requiredParameters?.toBuilder();
-      super.initializers = _$v.initializers?.toBuilder();
-      super.body = _$v.body;
-      super.external = _$v.external;
-      super.constant = _$v.constant;
-      super.factory = _$v.factory;
-      super.lambda = _$v.lambda;
-      super.name = _$v.name;
-      super.redirect = _$v.redirect;
+    final $v = _$v;
+    if ($v != null) {
+      super.annotations = $v.annotations.toBuilder();
+      super.docs = $v.docs.toBuilder();
+      super.optionalParameters = $v.optionalParameters.toBuilder();
+      super.requiredParameters = $v.requiredParameters.toBuilder();
+      super.initializers = $v.initializers.toBuilder();
+      super.body = $v.body;
+      super.external = $v.external;
+      super.constant = $v.constant;
+      super.factory = $v.factory;
+      super.lambda = $v.lambda;
+      super.name = $v.name;
+      super.redirect = $v.redirect;
       _$v = null;
     }
     return this;
@@ -315,14 +304,12 @@ class _$ConstructorBuilder extends ConstructorBuilder {
 
   @override
   void replace(Constructor other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$Constructor;
   }
 
   @override
-  void update(void Function(ConstructorBuilder) updates) {
+  void update(void Function(ConstructorBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -338,14 +325,17 @@ class _$ConstructorBuilder extends ConstructorBuilder {
               requiredParameters: requiredParameters.build(),
               initializers: initializers.build(),
               body: body,
-              external: external,
-              constant: constant,
-              factory: factory,
+              external: BuiltValueNullFieldError.checkNotNull(
+                  external, 'Constructor', 'external'),
+              constant: BuiltValueNullFieldError.checkNotNull(
+                  constant, 'Constructor', 'constant'),
+              factory: BuiltValueNullFieldError.checkNotNull(
+                  factory, 'Constructor', 'factory'),
               lambda: lambda,
               name: name,
               redirect: redirect);
     } catch (_) {
-      String _$failedField;
+      late String _$failedField;
       try {
         _$failedField = 'annotations';
         annotations.build();

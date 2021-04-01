@@ -28,13 +28,12 @@ abstract class FunctionType extends Expression
   @override
   R accept<R>(
     SpecVisitor<R> visitor, [
-    R context,
+    R? context,
   ]) =>
       visitor.visitFunctionType(this, context);
 
   /// Return type.
-  @nullable
-  Reference get returnType;
+  Reference? get returnType;
 
   @override
   BuiltList<Reference> get types;
@@ -61,8 +60,7 @@ abstract class FunctionType extends Expression
   ///
   /// An emitter may ignore this if the output is not targeting a Dart language
   /// version that supports null safety.
-  @nullable
-  bool get isNullable;
+  bool? get isNullable;
 
   @override
   Expression newInstance(

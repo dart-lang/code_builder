@@ -29,12 +29,10 @@ abstract class TypeReference extends Expression
   String get symbol;
 
   @override
-  @nullable
-  String get url;
+  String? get url;
 
   /// Optional bound generic.
-  @nullable
-  Reference get bound;
+  Reference? get bound;
 
   @override
   BuiltList<Reference> get types;
@@ -43,8 +41,7 @@ abstract class TypeReference extends Expression
   ///
   /// An emitter may ignore this if the output is not targeting a Dart language
   /// version that supports null safety.
-  @nullable
-  bool get isNullable;
+  bool? get isNullable;
 
   @override
   R accept<R>(

@@ -33,8 +33,7 @@ abstract class Extension extends Object
   @override
   BuiltList<String> get docs;
 
-  @nullable
-  Reference get on;
+  Reference? get on;
 
   @override
   BuiltList<Reference> get types;
@@ -43,8 +42,7 @@ abstract class Extension extends Object
   BuiltList<Field> get fields;
 
   /// Name of the extension - optional.
-  @nullable
-  String get name;
+  String? get name;
 
   @override
   R accept<R>(
