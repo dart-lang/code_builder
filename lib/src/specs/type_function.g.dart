@@ -18,8 +18,6 @@ class _$FunctionType extends FunctionType {
   @override
   final BuiltMap<String, Reference> namedParameters;
   @override
-  final String? url;
-  @override
   final bool? isNullable;
 
   factory _$FunctionType([void Function(FunctionTypeBuilder)? updates]) =>
@@ -31,7 +29,6 @@ class _$FunctionType extends FunctionType {
       required this.requiredParameters,
       required this.optionalParameters,
       required this.namedParameters,
-      this.url,
       this.isNullable})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(types, 'FunctionType', 'types');
@@ -60,7 +57,6 @@ class _$FunctionType extends FunctionType {
         requiredParameters == other.requiredParameters &&
         optionalParameters == other.optionalParameters &&
         namedParameters == other.namedParameters &&
-        url == other.url &&
         isNullable == other.isNullable;
   }
 
@@ -69,12 +65,10 @@ class _$FunctionType extends FunctionType {
     return $jf($jc(
         $jc(
             $jc(
-                $jc(
-                    $jc($jc($jc(0, returnType.hashCode), types.hashCode),
-                        requiredParameters.hashCode),
-                    optionalParameters.hashCode),
-                namedParameters.hashCode),
-            url.hashCode),
+                $jc($jc($jc(0, returnType.hashCode), types.hashCode),
+                    requiredParameters.hashCode),
+                optionalParameters.hashCode),
+            namedParameters.hashCode),
         isNullable.hashCode));
   }
 
@@ -86,7 +80,6 @@ class _$FunctionType extends FunctionType {
           ..add('requiredParameters', requiredParameters)
           ..add('optionalParameters', optionalParameters)
           ..add('namedParameters', namedParameters)
-          ..add('url', url)
           ..add('isNullable', isNullable))
         .toString();
   }
@@ -156,18 +149,6 @@ class _$FunctionTypeBuilder extends FunctionTypeBuilder {
   }
 
   @override
-  String? get url {
-    _$this;
-    return super.url;
-  }
-
-  @override
-  set url(String? url) {
-    _$this;
-    super.url = url;
-  }
-
-  @override
   bool? get isNullable {
     _$this;
     return super.isNullable;
@@ -189,7 +170,6 @@ class _$FunctionTypeBuilder extends FunctionTypeBuilder {
       super.requiredParameters = $v.requiredParameters.toBuilder();
       super.optionalParameters = $v.optionalParameters.toBuilder();
       super.namedParameters = $v.namedParameters.toBuilder();
-      super.url = $v.url;
       super.isNullable = $v.isNullable;
       _$v = null;
     }
@@ -218,7 +198,6 @@ class _$FunctionTypeBuilder extends FunctionTypeBuilder {
               requiredParameters: requiredParameters.build(),
               optionalParameters: optionalParameters.build(),
               namedParameters: namedParameters.build(),
-              url: url,
               isNullable: isNullable);
     } catch (_) {
       late String _$failedField;
