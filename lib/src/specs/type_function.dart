@@ -48,10 +48,11 @@ abstract class FunctionType extends Expression
   BuiltMap<String, Reference> get namedParameters;
 
   @override
-  String? get url;
+  String? get url => null;
 
   @override
-  String get symbol;
+  String get symbol => throw UnsupportedError(
+      'Getting the `symbol` of a function type is not supported');
 
   @override
   Reference get type => this;

@@ -20,8 +20,6 @@ class _$FunctionType extends FunctionType {
   @override
   final String? url;
   @override
-  final String symbol;
-  @override
   final bool? isNullable;
 
   factory _$FunctionType([void Function(FunctionTypeBuilder)? updates]) =>
@@ -34,7 +32,6 @@ class _$FunctionType extends FunctionType {
       required this.optionalParameters,
       required this.namedParameters,
       this.url,
-      required this.symbol,
       this.isNullable})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(types, 'FunctionType', 'types');
@@ -44,7 +41,6 @@ class _$FunctionType extends FunctionType {
         optionalParameters, 'FunctionType', 'optionalParameters');
     BuiltValueNullFieldError.checkNotNull(
         namedParameters, 'FunctionType', 'namedParameters');
-    BuiltValueNullFieldError.checkNotNull(symbol, 'FunctionType', 'symbol');
   }
 
   @override
@@ -65,7 +61,6 @@ class _$FunctionType extends FunctionType {
         optionalParameters == other.optionalParameters &&
         namedParameters == other.namedParameters &&
         url == other.url &&
-        symbol == other.symbol &&
         isNullable == other.isNullable;
   }
 
@@ -75,13 +70,11 @@ class _$FunctionType extends FunctionType {
         $jc(
             $jc(
                 $jc(
-                    $jc(
-                        $jc($jc($jc(0, returnType.hashCode), types.hashCode),
-                            requiredParameters.hashCode),
-                        optionalParameters.hashCode),
-                    namedParameters.hashCode),
-                url.hashCode),
-            symbol.hashCode),
+                    $jc($jc($jc(0, returnType.hashCode), types.hashCode),
+                        requiredParameters.hashCode),
+                    optionalParameters.hashCode),
+                namedParameters.hashCode),
+            url.hashCode),
         isNullable.hashCode));
   }
 
@@ -94,7 +87,6 @@ class _$FunctionType extends FunctionType {
           ..add('optionalParameters', optionalParameters)
           ..add('namedParameters', namedParameters)
           ..add('url', url)
-          ..add('symbol', symbol)
           ..add('isNullable', isNullable))
         .toString();
   }
@@ -176,18 +168,6 @@ class _$FunctionTypeBuilder extends FunctionTypeBuilder {
   }
 
   @override
-  String? get symbol {
-    _$this;
-    return super.symbol;
-  }
-
-  @override
-  set symbol(String? symbol) {
-    _$this;
-    super.symbol = symbol;
-  }
-
-  @override
   bool? get isNullable {
     _$this;
     return super.isNullable;
@@ -210,7 +190,6 @@ class _$FunctionTypeBuilder extends FunctionTypeBuilder {
       super.optionalParameters = $v.optionalParameters.toBuilder();
       super.namedParameters = $v.namedParameters.toBuilder();
       super.url = $v.url;
-      super.symbol = $v.symbol;
       super.isNullable = $v.isNullable;
       _$v = null;
     }
@@ -240,8 +219,6 @@ class _$FunctionTypeBuilder extends FunctionTypeBuilder {
               optionalParameters: optionalParameters.build(),
               namedParameters: namedParameters.build(),
               url: url,
-              symbol: BuiltValueNullFieldError.checkNotNull(
-                  symbol, 'FunctionType', 'symbol'),
               isNullable: isNullable);
     } catch (_) {
       late String _$failedField;
