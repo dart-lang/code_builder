@@ -25,7 +25,7 @@ abstract class Method extends Object
     implements Built<Method, MethodBuilder>, Spec {
   factory Method([void Function(MethodBuilder) updates]) = _$Method;
 
-  factory Method.returnsVoid([void Function(MethodBuilder) updates]) =>
+  factory Method.returnsVoid([void Function(MethodBuilder)? updates]) =>
       Method((b) {
         if (updates != null) {
           updates(b);
@@ -51,8 +51,7 @@ abstract class Method extends Object
   BuiltList<Parameter> get requiredParameters;
 
   /// Body of the method.
-  @nullable
-  Code get body;
+  Code? get body;
 
   /// Whether the method should be prefixed with `external`.
   bool get external;
@@ -60,8 +59,7 @@ abstract class Method extends Object
   /// Whether this method is a simple lambda expression.
   ///
   /// May be `null` to be inferred based on the value of [body].
-  @nullable
-  bool get lambda;
+  bool? get lambda;
 
   /// Whether this method should be prefixed with `static`.
   ///
@@ -71,24 +69,20 @@ abstract class Method extends Object
   /// Name of the method or function.
   ///
   /// May be `null` when being used as a [closure].
-  @nullable
-  String get name;
+  String? get name;
 
   /// Whether this is a getter or setter.
-  @nullable
-  MethodType get type;
+  MethodType? get type;
 
   /// Whether this method is `async`, `async*`, or `sync*`.
-  @nullable
-  MethodModifier get modifier;
+  MethodModifier? get modifier;
 
-  @nullable
-  Reference get returns;
+  Reference? get returns;
 
   @override
   R accept<R>(
     SpecVisitor<R> visitor, [
-    R context,
+    R? context,
   ]) =>
       visitor.visitMethod(this, context);
 
@@ -107,6 +101,11 @@ abstract class MethodBuilder extends Object
   MethodBuilder._();
 
   @override
+  void update(void Function(MethodBuilder)? updates) {
+    updates?.call(this);
+  }
+
+  @override
   ListBuilder<Expression> annotations = ListBuilder<Expression>();
 
   @override
@@ -122,7 +121,7 @@ abstract class MethodBuilder extends Object
   ListBuilder<Parameter> requiredParameters = ListBuilder<Parameter>();
 
   /// Body of the method.
-  Code body;
+  Code? body;
 
   /// Whether the method should be prefixed with `external`.
   bool external = false;
@@ -130,7 +129,7 @@ abstract class MethodBuilder extends Object
   /// Whether this method is a simple lambda expression.
   ///
   /// If not specified this is inferred from the [body].
-  bool lambda;
+  bool? lambda;
 
   /// Whether this method should be prefixed with `static`.
   ///
@@ -138,15 +137,15 @@ abstract class MethodBuilder extends Object
   bool static = false;
 
   /// Name of the method or function.
-  String name;
+  String? name;
 
   /// Whether this is a getter or setter.
-  MethodType type;
+  MethodType? type;
 
   /// Whether this method is `async`, `async*`, or `sync*`.
-  MethodModifier modifier;
+  MethodModifier? modifier;
 
-  Reference returns;
+  Reference? returns;
 }
 
 enum MethodType {
@@ -168,8 +167,7 @@ abstract class Parameter extends Object
   Parameter._();
 
   /// If not `null`, a default assignment if the parameter is optional.
-  @nullable
-  Code get defaultTo;
+  Code? get defaultTo;
 
   /// Name of the parameter.
   String get name;
@@ -192,8 +190,7 @@ abstract class Parameter extends Object
   BuiltList<Reference> get types;
 
   /// Type of the parameter;
-  @nullable
-  Reference get type;
+  Reference? get type;
 
   /// Whether this parameter should be annotated with the `required` keyword.
   ///
@@ -216,11 +213,16 @@ abstract class ParameterBuilder extends Object
 
   ParameterBuilder._();
 
+  @override
+  void update(void Function(ParameterBuilder)? updates) {
+    updates?.call(this);
+  }
+
   /// If not `null`, a default assignment if the parameter is optional.
-  Code defaultTo;
+  Code? defaultTo;
 
   /// Name of the parameter.
-  String name;
+  late final String name;
 
   /// Whether this parameter should be named, if optional.
   bool named = false;
@@ -240,7 +242,7 @@ abstract class ParameterBuilder extends Object
   ListBuilder<Reference> types = ListBuilder<Reference>();
 
   /// Type of the parameter;
-  Reference type;
+  Reference? type;
 
   /// Whether this parameter should be annotated with the `required` keyword.
   ///

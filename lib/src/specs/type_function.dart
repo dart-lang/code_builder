@@ -28,13 +28,12 @@ abstract class FunctionType extends Expression
   @override
   R accept<R>(
     SpecVisitor<R> visitor, [
-    R context,
+    R? context,
   ]) =>
       visitor.visitFunctionType(this, context);
 
   /// Return type.
-  @nullable
-  Reference get returnType;
+  Reference? get returnType;
 
   @override
   BuiltList<Reference> get types;
@@ -49,10 +48,11 @@ abstract class FunctionType extends Expression
   BuiltMap<String, Reference> get namedParameters;
 
   @override
-  String get url => null;
+  String? get url => null;
 
   @override
-  String get symbol => null;
+  String get symbol => throw UnsupportedError(
+      'Getting the `symbol` of a function type is not supported');
 
   @override
   Reference get type => this;
@@ -61,8 +61,7 @@ abstract class FunctionType extends Expression
   ///
   /// An emitter may ignore this if the output is not targeting a Dart language
   /// version that supports null safety.
-  @nullable
-  bool get isNullable;
+  bool? get isNullable;
 
   @override
   Expression newInstance(
@@ -109,7 +108,7 @@ abstract class FunctionTypeBuilder extends Object
 
   FunctionTypeBuilder._();
 
-  Reference returnType;
+  Reference? returnType;
 
   @override
   ListBuilder<Reference> types = ListBuilder<Reference>();
@@ -121,5 +120,9 @@ abstract class FunctionTypeBuilder extends Object
   MapBuilder<String, Reference> namedParameters =
       MapBuilder<String, Reference>();
 
-  bool isNullable;
+  bool? isNullable;
+
+  String? url;
+
+  String? symbol;
 }

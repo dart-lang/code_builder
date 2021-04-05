@@ -10,18 +10,18 @@ class InvokeExpression extends Expression {
   final Expression target;
 
   /// Optional; type of invocation.
-  final InvokeExpressionType type;
+  final InvokeExpressionType? type;
 
   final List<Expression> positionalArguments;
   final Map<String, Expression> namedArguments;
   final List<Reference> typeArguments;
-  final String name;
+  final String? name;
 
   const InvokeExpression._(
     this.target,
     this.positionalArguments, [
     this.namedArguments = const {},
-    this.typeArguments,
+    this.typeArguments = const [],
     this.name,
   ]) : type = null;
 
@@ -29,7 +29,7 @@ class InvokeExpression extends Expression {
     this.target,
     this.positionalArguments, [
     this.namedArguments = const {},
-    this.typeArguments,
+    this.typeArguments = const [],
     this.name,
   ]) : type = InvokeExpressionType.newInstance;
 
@@ -37,12 +37,12 @@ class InvokeExpression extends Expression {
     this.target,
     this.positionalArguments, [
     this.namedArguments = const {},
-    this.typeArguments,
+    this.typeArguments = const [],
     this.name,
   ]) : type = InvokeExpressionType.constInstance;
 
   @override
-  R accept<R>(ExpressionVisitor<R> visitor, [R context]) =>
+  R accept<R>(ExpressionVisitor<R> visitor, [R? context]) =>
       visitor.visitInvokeExpression(this, context);
 
   @override

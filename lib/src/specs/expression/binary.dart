@@ -21,6 +21,6 @@ class BinaryExpression extends Expression {
   });
 
   @override
-  R accept<R>(ExpressionVisitor<R> visitor, [R context]) =>
+  R accept<R>(ExpressionVisitor<R> visitor, [R? context]) =>
       visitor.visitBinaryExpression(this, context);
 }

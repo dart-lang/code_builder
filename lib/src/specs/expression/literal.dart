@@ -7,7 +7,7 @@ part of code_builder.src.specs.expression;
 /// Converts a runtime Dart [literal] value into an [Expression].
 ///
 /// Unsupported inputs invoke the [onError] callback.
-Expression literal(Object literal, {Expression Function(Object) onError}) {
+Expression literal(Object? literal, {Expression Function(Object)? onError}) {
   if (literal is bool) {
     return literalBool(literal);
   }
@@ -66,34 +66,36 @@ Expression literalString(String value, {bool raw = false}) {
 }
 
 /// Creates a literal list expression from [values].
-LiteralListExpression literalList(Iterable<Object> values, [Reference type]) =>
+LiteralListExpression literalList(Iterable<Object?> values,
+        [Reference? type]) =>
     LiteralListExpression._(false, values.toList(), type);
 
 /// Creates a literal `const` list expression from [values].
-LiteralListExpression literalConstList(List<Object> values, [Reference type]) =>
+LiteralListExpression literalConstList(List<Object?> values,
+        [Reference? type]) =>
     LiteralListExpression._(true, values, type);
 
 /// Creates a literal set expression from [values].
-LiteralSetExpression literalSet(Iterable<Object> values, [Reference type]) =>
+LiteralSetExpression literalSet(Iterable<Object?> values, [Reference? type]) =>
     LiteralSetExpression._(false, values.toSet(), type);
 
 /// Creates a literal `const` set expression from [values].
-LiteralSetExpression literalConstSet(Set<Object> values, [Reference type]) =>
+LiteralSetExpression literalConstSet(Set<Object?> values, [Reference? type]) =>
     LiteralSetExpression._(true, values, type);
 
 /// Create a literal map expression from [values].
 LiteralMapExpression literalMap(
-  Map<Object, Object> values, [
-  Reference keyType,
-  Reference valueType,
+  Map<Object?, Object?> values, [
+  Reference? keyType,
+  Reference? valueType,
 ]) =>
     LiteralMapExpression._(false, values, keyType, valueType);
 
 /// Create a literal `const` map expression from [values].
 LiteralMapExpression literalConstMap(
-  Map<Object, Object> values, [
-  Reference keyType,
-  Reference valueType,
+  Map<Object?, Object?> values, [
+  Reference? keyType,
+  Reference? valueType,
 ]) =>
     LiteralMapExpression._(true, values, keyType, valueType);
 
@@ -113,7 +115,7 @@ class LiteralExpression extends Expression {
   const LiteralExpression._(this.literal);
 
   @override
-  R accept<R>(ExpressionVisitor<R> visitor, [R context]) =>
+  R accept<R>(ExpressionVisitor<R> visitor, [R? context]) =>
       visitor.visitLiteralExpression(this, context);
 
   @override
@@ -122,13 +124,13 @@ class LiteralExpression extends Expression {
 
 class LiteralListExpression extends Expression {
   final bool isConst;
-  final List<Object> values;
-  final Reference type;
+  final List<Object?> values;
+  final Reference? type;
 
   const LiteralListExpression._(this.isConst, this.values, this.type);
 
   @override
-  R accept<R>(ExpressionVisitor<R> visitor, [R context]) =>
+  R accept<R>(ExpressionVisitor<R> visitor, [R? context]) =>
       visitor.visitLiteralListExpression(this, context);
 
   @override
@@ -137,13 +139,13 @@ class LiteralListExpression extends Expression {
 
 class LiteralSetExpression extends Expression {
   final bool isConst;
-  final Set<Object> values;
-  final Reference type;
+  final Set<Object?> values;
+  final Reference? type;
 
   const LiteralSetExpression._(this.isConst, this.values, this.type);
 
   @override
-  R accept<R>(ExpressionVisitor<R> visitor, [R context]) =>
+  R accept<R>(ExpressionVisitor<R> visitor, [R? context]) =>
       visitor.visitLiteralSetExpression(this, context);
 
   @override
@@ -152,9 +154,9 @@ class LiteralSetExpression extends Expression {
 
 class LiteralMapExpression extends Expression {
   final bool isConst;
-  final Map<Object, Object> values;
-  final Reference keyType;
-  final Reference valueType;
+  final Map<Object?, Object?> values;
+  final Reference? keyType;
+  final Reference? valueType;
 
   const LiteralMapExpression._(
     this.isConst,
@@ -164,7 +166,7 @@ class LiteralMapExpression extends Expression {
   );
 
   @override
-  R accept<R>(ExpressionVisitor<R> visitor, [R context]) =>
+  R accept<R>(ExpressionVisitor<R> visitor, [R? context]) =>
       visitor.visitLiteralMapExpression(this, context);
 
   @override

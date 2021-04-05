@@ -33,8 +33,7 @@ abstract class Extension extends Object
   @override
   BuiltList<String> get docs;
 
-  @nullable
-  Reference get on;
+  Reference? get on;
 
   @override
   BuiltList<Reference> get types;
@@ -43,13 +42,12 @@ abstract class Extension extends Object
   BuiltList<Field> get fields;
 
   /// Name of the extension - optional.
-  @nullable
-  String get name;
+  String? get name;
 
   @override
   R accept<R>(
     SpecVisitor<R> visitor, [
-    R context,
+    R? context,
   ]) =>
       visitor.visitExtension(this, context);
 }
@@ -67,7 +65,7 @@ abstract class ExtensionBuilder extends Object
   @override
   ListBuilder<String> docs = ListBuilder<String>();
 
-  Reference on;
+  Reference? on;
 
   @override
   ListBuilder<Reference> types = ListBuilder<Reference>();
@@ -76,5 +74,5 @@ abstract class ExtensionBuilder extends Object
   ListBuilder<Field> fields = ListBuilder<Field>();
 
   /// Name of the extension - optional.
-  String name;
+  String? name;
 }
