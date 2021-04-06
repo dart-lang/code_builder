@@ -1,3 +1,9 @@
+## 3.8.0-nullsafety01
+
+* First null safety version. Alpha Version!!! Please report any inconsistencies that you have!
+* Add support for late and abstract fields
+* Made extension `on` clause required as Dart definition.
+
 ## 3.7.0
 
 * Add support for converting a Method to a generic closure, with
@@ -185,7 +191,7 @@ void main() {
 ```
 
 * Added inference support for `Method.lambda` and `Constructor.lambda`. If not
-  explicitly provided and the body of the function originated from an
+  explicitly provided, and the body of the function originated from an
   `Expression` then `lambda` is inferred to be true. This is not a breaking
   change yet, as it requires an explicit `null` value. In `3.0.0` this will be
   the default:
@@ -210,12 +216,12 @@ void main() {
 * Methods taking `positionalArguments` accept `Iterable<Expression>`
 * **BUG FIX**: Parameters can take a `FunctionType` as a `type`.
   `Reference.type` now returns a `Reference`. Note that this change is
-  technically breaking but should not impacts most clients.
+  technically breaking but should not impact most clients.
 
 ## 2.2.0
 
 * Imports are prefixed with `_i1` rather than `_1` which satisfies the lint
-  `lowercase_with_underscores`. While not a strictly breaking change you may
+  `lowercase_with_underscores`. While not a strictly breaking change, you may
   have to fix/regenerate golden file-like tests. We added documentation that
   the specific prefix is not considered stable.
 
@@ -245,7 +251,7 @@ void main() {
 
 * `literalList` accepts an `Iterable` argument.
 
-* Fixed an NPE when a method had a return type of a `FunctionType`:
+* Fixed an NPE when a method had a return type of `FunctionType`:
 
 ```dart
 void main() {
