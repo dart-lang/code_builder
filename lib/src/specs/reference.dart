@@ -29,7 +29,7 @@ class Reference extends Expression implements Spec {
 
   /// Name of the class, method, or field.
   ///
-  /// May be `null` for references without symbols, for isntance a function type
+  /// May be `null` for references without symbols, for instance a function type
   /// has no symbol.
   final String? symbol;
 
