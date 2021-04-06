@@ -1,6 +1,7 @@
 ## 4.0.0-dev
 
 * Migrate to null safety.
+* Changed the DartEmittor constructor to use named optional parameters.
 
 ## 3.7.0
 

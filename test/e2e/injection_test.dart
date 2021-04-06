@@ -61,7 +61,7 @@ void main() {
           @override
           _i3.Thing getThing() => _i3.Thing(_module.get1(), _module.get2());
         }
-      ''', DartEmitter(Allocator.simplePrefixing())),
+      ''', DartEmitter(allocator: Allocator.simplePrefixing())),
     );
   });
 }

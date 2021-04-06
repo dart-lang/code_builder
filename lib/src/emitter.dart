@@ -71,9 +71,9 @@ class DartEmitter extends Object
   ///
   /// May specify an [Allocator] to use for symbols, otherwise uses a no-op.
   DartEmitter(
-      [this.allocator = Allocator.none,
+      {this.allocator = Allocator.none,
       bool? orderDirectives = false,
-      bool? useNullSafetySyntax = false])
+      bool? useNullSafetySyntax = false})
       : orderDirectives = orderDirectives ?? false,
         _useNullSafetySyntax = useNullSafetySyntax ?? false;
 
@@ -81,7 +81,9 @@ class DartEmitter extends Object
   factory DartEmitter.scoped(
           {bool orderDirectives = false, bool useNullSafetySyntax = false}) =>
       DartEmitter(
-          Allocator.simplePrefixing(), orderDirectives, useNullSafetySyntax);
+          allocator: Allocator.simplePrefixing(),
+          orderDirectives: orderDirectives,
+          useNullSafetySyntax: useNullSafetySyntax);
 
   static bool _isLambdaBody(Code? code) =>
       code is ToCodeExpression && !code.isStatement;
