@@ -51,8 +51,7 @@ abstract class FunctionType extends Expression
   String? get url => null;
 
   @override
-  String get symbol => throw UnsupportedError(
-      'Getting the `symbol` of a function type is not supported');
+  String? get symbol => null;
 
   @override
   Reference get type => this;
