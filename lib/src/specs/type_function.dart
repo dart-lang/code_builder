@@ -3,8 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 // @dart=2.12
 
-import 'package:built_value/built_value.dart';
 import 'package:built_collection/built_collection.dart';
+import 'package:built_value/built_value.dart';
 import 'package:meta/meta.dart';
 
 import '../base.dart';
@@ -52,7 +52,8 @@ abstract class FunctionType extends Expression
   String? get url => null;
 
   @override
-  String get symbol => '';
+  String get symbol => throw UnsupportedError(
+      'Getting the `symbol` of a function type is not supported');
 
   @override
   Reference get type => this;
@@ -121,4 +122,8 @@ abstract class FunctionTypeBuilder extends Object
       MapBuilder<String, Reference>();
 
   bool? isNullable;
+
+  String? url;
+
+  String? symbol;
 }

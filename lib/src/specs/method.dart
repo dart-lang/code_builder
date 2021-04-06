@@ -3,8 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 // @dart=2.12
 
-import 'package:built_value/built_value.dart';
 import 'package:built_collection/built_collection.dart';
+import 'package:built_value/built_value.dart';
 import 'package:meta/meta.dart';
 
 import '../base.dart';
@@ -100,6 +100,11 @@ abstract class MethodBuilder extends Object
   factory MethodBuilder() = _$MethodBuilder;
 
   MethodBuilder._();
+
+  @override
+  void update(void Function(MethodBuilder)? updates) {
+    updates?.call(this);
+  }
 
   @override
   ListBuilder<Expression> annotations = ListBuilder<Expression>();
@@ -208,6 +213,11 @@ abstract class ParameterBuilder extends Object
   factory ParameterBuilder() = _$ParameterBuilder;
 
   ParameterBuilder._();
+
+  @override
+  void update(void Function(ParameterBuilder)? updates) {
+    updates?.call(this);
+  }
 
   /// If not `null`, a default assignment if the parameter is optional.
   Code? defaultTo;

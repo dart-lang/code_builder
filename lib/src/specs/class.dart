@@ -3,8 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 // @dart=2.12
 
-import 'package:built_value/built_value.dart';
 import 'package:built_collection/built_collection.dart';
+import 'package:built_value/built_value.dart';
 import 'package:meta/meta.dart';
 
 import '../base.dart';
@@ -67,6 +67,11 @@ abstract class ClassBuilder extends Object
   factory ClassBuilder() = _$ClassBuilder;
 
   ClassBuilder._();
+
+  @override
+  void update(void Function(ClassBuilder)? updates) {
+    updates?.call(this);
+  }
 
   /// Whether the class is `abstract`.
   bool abstract = false;

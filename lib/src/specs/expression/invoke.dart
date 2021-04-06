@@ -16,7 +16,7 @@ class InvokeExpression extends Expression {
   final List<Expression> positionalArguments;
   final Map<String, Expression> namedArguments;
   // Tested for null so it must be optional
-  final List<Reference>? typeArguments; 
+  final List<Reference>? typeArguments;
   // Tested for null so it must be optional
   final String? name;
 
@@ -24,7 +24,7 @@ class InvokeExpression extends Expression {
     this.target,
     this.positionalArguments, [
     this.namedArguments = const {},
-    this.typeArguments,
+    this.typeArguments = const [],
     this.name,
   ]) : type = null;
 
@@ -32,7 +32,7 @@ class InvokeExpression extends Expression {
     this.target,
     this.positionalArguments, [
     this.namedArguments = const {},
-    this.typeArguments,
+    this.typeArguments = const [],
     this.name,
   ]) : type = InvokeExpressionType.newInstance;
 
@@ -40,7 +40,7 @@ class InvokeExpression extends Expression {
     this.target,
     this.positionalArguments, [
     this.namedArguments = const {},
-    this.typeArguments,
+    this.typeArguments = const [],
     this.name,
   ]) : type = InvokeExpressionType.constInstance;
 

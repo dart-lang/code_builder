@@ -1,7 +1,5 @@
 name: code_builder
 version: 3.8.0-nullsafety01
-  # Maybe the correct version should be 4.0.0 but it will block build_runner 
-  # because of the code_builder version constraints.
 
 description: >-
   A fluent, builder-based library for generating valid Dart code
