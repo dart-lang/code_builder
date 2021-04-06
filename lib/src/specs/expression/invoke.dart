@@ -1,6 +1,7 @@
 // Copyright (c) 2017, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
+// @dart=2.12
 
 part of code_builder.src.specs.expression;
 
@@ -10,12 +11,14 @@ class InvokeExpression extends Expression {
   final Expression target;
 
   /// Optional; type of invocation.
-  final InvokeExpressionType type;
+  final InvokeExpressionType? type;
 
   final List<Expression> positionalArguments;
   final Map<String, Expression> namedArguments;
-  final List<Reference> typeArguments;
-  final String name;
+  // Tested for null so it must be optional
+  final List<Reference>? typeArguments; 
+  // Tested for null so it must be optional
+  final String? name;
 
   const InvokeExpression._(
     this.target,
@@ -42,7 +45,7 @@ class InvokeExpression extends Expression {
   ]) : type = InvokeExpressionType.constInstance;
 
   @override
-  R accept<R>(ExpressionVisitor<R> visitor, [R context]) =>
+  R accept<R>(ExpressionVisitor<R> visitor, [R? context]) =>
       visitor.visitInvokeExpression(this, context);
 
   @override

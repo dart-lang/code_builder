@@ -1,6 +1,7 @@
 // Copyright (c) 2017, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
+// @dart=2.12
 
 import 'package:built_value/built_value.dart';
 import 'package:built_collection/built_collection.dart';
@@ -29,12 +30,10 @@ abstract class TypeReference extends Expression
   String get symbol;
 
   @override
-  @nullable
-  String get url;
+  String? get url;
 
   /// Optional bound generic.
-  @nullable
-  Reference get bound;
+  Reference? get bound;
 
   @override
   BuiltList<Reference> get types;
@@ -43,13 +42,12 @@ abstract class TypeReference extends Expression
   ///
   /// An emitter may ignore this if the output is not targeting a Dart language
   /// version that supports null safety.
-  @nullable
-  bool get isNullable;
+  bool? get isNullable;
 
   @override
   R accept<R>(
     SpecVisitor<R> visitor, [
-    R context,
+    R? context,
   ]) =>
       visitor.visitType(this, context);
 
@@ -123,12 +121,12 @@ abstract class TypeReferenceBuilder extends Object
 
   TypeReferenceBuilder._();
 
-  String symbol;
+  late String symbol;
 
-  String url;
+  String? url;
 
   /// Optional bound generic.
-  Reference bound;
+  Reference? bound;
 
   @override
   ListBuilder<Reference> types = ListBuilder<Reference>();
@@ -137,5 +135,5 @@ abstract class TypeReferenceBuilder extends Object
   ///
   /// An emitter may ignore this if the output is not targeting a Dart language
   /// version that supports null safety.
-  bool isNullable;
+  bool? isNullable;
 }

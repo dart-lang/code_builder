@@ -1,6 +1,7 @@
 // Copyright (c) 2017, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
+// @dart=2.12
 
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
@@ -41,7 +42,7 @@ abstract class Code implements Spec {
   ) = ScopedCode._;
 
   @override
-  R accept<R>(covariant CodeVisitor<R> visitor, [R context]);
+  R accept<R>(covariant CodeVisitor<R> visitor, [R? context]);
 }
 
 /// Represents blocks of statements of Dart code.
@@ -54,7 +55,7 @@ abstract class Block implements Built<Block, BlockBuilder>, Code, Spec {
   Block._();
 
   @override
-  R accept<R>(covariant CodeVisitor<R> visitor, [R context]) =>
+  R accept<R>(covariant CodeVisitor<R> visitor, [R? context]) =>
       visitor.visitBlock(this, context);
 
   BuiltList<Code> get statements;
@@ -79,11 +80,11 @@ abstract class BlockBuilder implements Builder<Block, BlockBuilder> {
 ///
 /// **INTERNAL ONLY**.
 abstract class CodeVisitor<T> implements SpecVisitor<T> {
-  T visitBlock(Block code, [T context]);
+  T visitBlock(Block code, [T? context]);
 
-  T visitStaticCode(StaticCode code, [T context]);
+  T visitStaticCode(StaticCode code, [T? context]);
 
-  T visitScopedCode(ScopedCode code, [T context]);
+  T visitScopedCode(ScopedCode code, [T? context]);
 }
 
 /// Knowledge of how to write valid Dart code from [CodeVisitor].
@@ -92,7 +93,7 @@ abstract class CodeEmitter implements CodeVisitor<StringSink> {
   Allocator get allocator;
 
   @override
-  StringSink visitBlock(Block block, [StringSink output]) {
+  StringSink visitBlock(Block block, [StringSink? output]) {
     output ??= StringBuffer();
     return visitAll<Code>(block.statements, output, (statement) {
       statement.accept(this, output);
@@ -100,13 +101,13 @@ abstract class CodeEmitter implements CodeVisitor<StringSink> {
   }
 
   @override
-  StringSink visitStaticCode(StaticCode code, [StringSink output]) {
+  StringSink visitStaticCode(StaticCode code, [StringSink? output]) {
     output ??= StringBuffer();
     return output..write(code.code);
   }
 
   @override
-  StringSink visitScopedCode(ScopedCode code, [StringSink output]) {
+  StringSink visitScopedCode(ScopedCode code, [StringSink? output]) {
     output ??= StringBuffer();
     return output..write(code.code(allocator.allocate));
   }
@@ -119,7 +120,7 @@ class LazyCode implements Code {
   const LazyCode._(this.generate);
 
   @override
-  R accept<R>(CodeVisitor<R> visitor, [R context]) =>
+  R accept<R>(CodeVisitor<R> visitor, [R? context]) =>
       generate(visitor).accept(visitor, context);
 }
 
@@ -132,7 +133,7 @@ class _LazyCode implements Code {
   const _LazyCode(this.generate);
 
   @override
-  R accept<R>(CodeVisitor<R> visitor, [R context]) =>
+  R accept<R>(CodeVisitor<R> visitor, [R? context]) =>
       generate().accept(visitor, context);
 }
 
@@ -143,7 +144,7 @@ class StaticCode implements Code {
   const StaticCode._(this.code);
 
   @override
-  R accept<R>(CodeVisitor<R> visitor, [R context]) =>
+  R accept<R>(CodeVisitor<R> visitor, [R? context]) =>
       visitor.visitStaticCode(this, context);
 
   @override
@@ -157,7 +158,7 @@ class ScopedCode implements Code {
   const ScopedCode._(this.code);
 
   @override
-  R accept<R>(CodeVisitor<R> visitor, [R context]) =>
+  R accept<R>(CodeVisitor<R> visitor, [R? context]) =>
       visitor.visitScopedCode(this, context);
 
   @override

@@ -1,6 +1,7 @@
 // Copyright (c) 2017, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
+// @dart=2.12
 
 library code_builder.src.specs.expression;
 
@@ -32,7 +33,7 @@ abstract class Expression implements Spec {
   static const _empty = CodeExpression(Code(''));
 
   @override
-  R accept<R>(covariant ExpressionVisitor<R> visitor, [R context]);
+  R accept<R>(covariant ExpressionVisitor<R> visitor, [R? context]);
 
   /// The expression as a valid [Code] block.
   ///
@@ -203,7 +204,7 @@ abstract class Expression implements Spec {
       );
 
   /// Return `var {name} = {this}`.
-  Expression assignVar(String name, [Reference type]) => BinaryExpression._(
+  Expression assignVar(String name, [Reference? type]) => BinaryExpression._(
         type == null
             ? LiteralExpression._('var $name')
             : BinaryExpression._(
@@ -216,7 +217,7 @@ abstract class Expression implements Spec {
       );
 
   /// Return `final {name} = {this}`.
-  Expression assignFinal(String name, [Reference type]) => BinaryExpression._(
+  Expression assignFinal(String name, [Reference? type]) => BinaryExpression._(
         type == null
             ? const LiteralExpression._('final')
             : BinaryExpression._(
@@ -229,7 +230,7 @@ abstract class Expression implements Spec {
       );
 
   /// Return `const {name} = {this}`.
-  Expression assignConst(String name, [Reference type]) => BinaryExpression._(
+  Expression assignConst(String name, [Reference? type]) => BinaryExpression._(
         type == null
             ? const LiteralExpression._('const')
             : BinaryExpression._(
@@ -313,7 +314,7 @@ class ToCodeExpression implements Code {
   const ToCodeExpression(this.code, [this.isStatement = false]);
 
   @override
-  R accept<R>(CodeVisitor<R> visitor, [R context]) =>
+  R accept<R>(CodeVisitor<R> visitor, [R? context]) =>
       (visitor as ExpressionVisitor<R>).visitToCodeExpression(this, context);
 
   @override
@@ -324,15 +325,15 @@ class ToCodeExpression implements Code {
 ///
 /// **INTERNAL ONLY**.
 abstract class ExpressionVisitor<T> implements SpecVisitor<T> {
-  T visitToCodeExpression(ToCodeExpression code, [T context]);
-  T visitBinaryExpression(BinaryExpression expression, [T context]);
-  T visitClosureExpression(ClosureExpression expression, [T context]);
-  T visitCodeExpression(CodeExpression expression, [T context]);
-  T visitInvokeExpression(InvokeExpression expression, [T context]);
-  T visitLiteralExpression(LiteralExpression expression, [T context]);
-  T visitLiteralListExpression(LiteralListExpression expression, [T context]);
-  T visitLiteralSetExpression(LiteralSetExpression expression, [T context]);
-  T visitLiteralMapExpression(LiteralMapExpression expression, [T context]);
+  T visitToCodeExpression(ToCodeExpression code, [T? context]);
+  T visitBinaryExpression(BinaryExpression expression, [T? context]);
+  T visitClosureExpression(ClosureExpression expression, [T? context]);
+  T visitCodeExpression(CodeExpression expression, [T? context]);
+  T visitInvokeExpression(InvokeExpression expression, [T? context]);
+  T visitLiteralExpression(LiteralExpression expression, [T? context]);
+  T visitLiteralListExpression(LiteralListExpression expression, [T? context]);
+  T visitLiteralSetExpression(LiteralSetExpression expression, [T? context]);
+  T visitLiteralMapExpression(LiteralMapExpression expression, [T? context]);
 }
 
 /// Knowledge of how to write valid Dart code from [ExpressionVisitor].
@@ -341,7 +342,7 @@ abstract class ExpressionVisitor<T> implements SpecVisitor<T> {
 abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
   @override
   StringSink visitToCodeExpression(ToCodeExpression expression,
-      [StringSink output]) {
+      [StringSink? output]) {
     output ??= StringBuffer();
     expression.code.accept(this, output);
     if (expression.isStatement) {
@@ -352,7 +353,7 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
 
   @override
   StringSink visitBinaryExpression(BinaryExpression expression,
-      [StringSink output]) {
+      [StringSink? output]) {
     output ??= StringBuffer();
     expression.left.accept(this, output);
     if (expression.addSpace) {
@@ -370,14 +371,14 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
 
   @override
   StringSink visitClosureExpression(ClosureExpression expression,
-      [StringSink output]) {
+      [StringSink? output]) {
     output ??= StringBuffer();
     return expression.method.accept(this, output);
   }
 
   @override
   StringSink visitCodeExpression(CodeExpression expression,
-      [StringSink output]) {
+      [StringSink? output]) {
     output ??= StringBuffer();
     final visitor = this as CodeVisitor<StringSink>;
     return expression.code.accept(visitor, output);
@@ -385,22 +386,23 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
 
   @override
   StringSink visitInvokeExpression(InvokeExpression expression,
-      [StringSink output]) {
+      [StringSink? output]) {
     output ??= StringBuffer();
     return _writeConstExpression(
         output, expression.type == InvokeExpressionType.constInstance, () {
       expression.target.accept(this, output);
       if (expression.name != null) {
-        output..write('.')..write(expression.name);
+        output!..write('.')..write(expression.name);
       }
-      if (expression.typeArguments.isNotEmpty) {
-        output.write('<');
-        visitAll<Reference>(expression.typeArguments, output, (type) {
+      if (expression.typeArguments != null &&
+          expression.typeArguments!.isNotEmpty) {
+        output!.write('<');
+        visitAll<Reference>(expression.typeArguments!, output, (type) {
           type.accept(this, output);
         });
         output.write('>');
       }
-      output.write('(');
+      output!.write('(');
       visitAll<Spec>(expression.positionalArguments, output, (spec) {
         spec.accept(this, output);
       });
@@ -409,8 +411,8 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
         output.write(', ');
       }
       visitAll<String>(expression.namedArguments.keys, output, (name) {
-        output..write(name)..write(': ');
-        expression.namedArguments[name].accept(this, output);
+        output!..write(name)..write(': ');
+        expression.namedArguments[name]!.accept(this, output);
       });
       return output..write(')');
     });
@@ -418,12 +420,12 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
 
   @override
   StringSink visitLiteralExpression(LiteralExpression expression,
-      [StringSink output]) {
+      [StringSink? output]) {
     output ??= StringBuffer();
     return output..write(expression.literal);
   }
 
-  void _acceptLiteral(Object literalOrSpec, StringSink output) {
+  void _acceptLiteral(Object? literalOrSpec, StringSink output) {
     if (literalOrSpec is Spec) {
       literalOrSpec.accept(this, output);
       return;
@@ -436,19 +438,19 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
   @override
   StringSink visitLiteralListExpression(
     LiteralListExpression expression, [
-    StringSink output,
+    StringSink? output,
   ]) {
     output ??= StringBuffer();
 
     return _writeConstExpression(output, expression.isConst, () {
       if (expression.type != null) {
-        output.write('<');
-        expression.type.accept(this, output);
+        output!.write('<');
+        expression.type!.accept(this, output);
         output.write('>');
       }
-      output.write('[');
-      visitAll<Object>(expression.values, output, (value) {
-        _acceptLiteral(value, output);
+      output!.write('[');
+      visitAll<Object?>(expression.values, output, (value) {
+        _acceptLiteral(value, output!);
       });
       return output..write(']');
     });
@@ -457,19 +459,19 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
   @override
   StringSink visitLiteralSetExpression(
     LiteralSetExpression expression, [
-    StringSink output,
+    StringSink? output,
   ]) {
     output ??= StringBuffer();
 
     return _writeConstExpression(output, expression.isConst, () {
       if (expression.type != null) {
-        output.write('<');
-        expression.type.accept(this, output);
+        output!.write('<');
+        expression.type!.accept(this, output);
         output.write('>');
       }
-      output.write('{');
-      visitAll<Object>(expression.values, output, (value) {
-        _acceptLiteral(value, output);
+      output!.write('{');
+      visitAll<Object?>(expression.values, output, (value) {
+        _acceptLiteral(value, output!);
       });
       return output..write('}');
     });
@@ -478,25 +480,25 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
   @override
   StringSink visitLiteralMapExpression(
     LiteralMapExpression expression, [
-    StringSink output,
+    StringSink? output,
   ]) {
     output ??= StringBuffer();
     return _writeConstExpression(output, expression.isConst, () {
       if (expression.keyType != null) {
-        output.write('<');
-        expression.keyType.accept(this, output);
+        output!.write('<');
+        expression.keyType!.accept(this, output);
         output.write(', ');
         if (expression.valueType == null) {
           const Reference('dynamic', 'dart:core').accept(this, output);
         } else {
-          expression.valueType.accept(this, output);
+          expression.valueType!.accept(this, output);
         }
         output.write('>');
       }
-      output.write('{');
-      visitAll<Object>(expression.values.keys, output, (key) {
-        final value = expression.values[key];
-        _acceptLiteral(key, output);
+      output!.write('{');
+      visitAll<Object?>(expression.values.keys, output, (key) {
+        final dynamic value = expression.values[key];
+        _acceptLiteral(key, output!);
         output.write(': ');
         _acceptLiteral(value, output);
       });

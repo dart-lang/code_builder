@@ -1,6 +1,7 @@
 // Copyright (c) 2017, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
+// @dart=2.12
 
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
@@ -31,26 +32,34 @@ abstract class Field extends Object
   BuiltList<String> get docs;
 
   /// Field assignment, if any.
-  @nullable
-  Code get assignment;
+  Code? get assignment;
 
   /// Whether this field should be prefixed with `static`.
   ///
   /// This is only valid within classes.
   bool get static;
 
+  /// Whether this field should be prefixed with `abstract`.
+  ///
+  /// This is only valid within abstract classes.
+  bool get abstract;
+
+  /// Whether this field should be prefixed with `late`.
+  ///
+  /// This is only valid wit classes.
+  bool get late;
+
   /// Name of the field.
   String get name;
 
-  @nullable
-  Reference get type;
+  Reference? get type;
 
   FieldModifier get modifier;
 
   @override
   R accept<R>(
     SpecVisitor<R> visitor, [
-    R context,
+    R? context,
   ]) =>
       visitor.visitField(this, context);
 }
@@ -66,7 +75,14 @@ abstract class FieldBuilder extends Object
     implements Builder<Field, FieldBuilder> {
   factory FieldBuilder() = _$FieldBuilder;
 
-  FieldBuilder._();
+  FieldBuilder._() {
+    if (abstract && late) {
+      throw StateError('Fields can be abstract or late. Not both.');
+    }
+    if (abstract && static) {
+      throw StateError('Abstract fields can not be static');
+    }
+  }
 
   @override
   ListBuilder<Expression> annotations = ListBuilder<Expression>();
@@ -75,17 +91,27 @@ abstract class FieldBuilder extends Object
   ListBuilder<String> docs = ListBuilder<String>();
 
   /// Field assignment, if any.
-  Code assignment;
+  Code? assignment;
 
   /// Whether this field should be prefixed with `static`.
   ///
   /// This is only valid within classes.
   bool static = false;
 
-  /// Name of the field.
-  String name;
+  /// Whether this field should be prefixed with `abstract`.
+  ///
+  /// This is only valid within abstract classes.
+  bool abstract = false;
 
-  Reference type;
+  /// Whether this field should be prefixed with `late`.
+  ///
+  /// This is only valid wit classes.
+  bool late = false;
+
+  /// Name of the field.
+  late String name;
+
+  Reference? type;
 
   FieldModifier modifier = FieldModifier.var$;
 }

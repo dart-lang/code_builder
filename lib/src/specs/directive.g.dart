@@ -1,4 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// @dart=2.12
 
 part of 'directive.dart';
 
@@ -8,7 +9,7 @@ part of 'directive.dart';
 
 class _$Directive extends Directive {
   @override
-  final String as;
+  final String? as;
   @override
   final String url;
   @override
@@ -20,27 +21,22 @@ class _$Directive extends Directive {
   @override
   final bool deferred;
 
-  factory _$Directive([void Function(DirectiveBuilder) updates]) =>
+  factory _$Directive([void Function(DirectiveBuilder)? updates]) =>
       (new DirectiveBuilder()..update(updates)).build() as _$Directive;
 
   _$Directive._(
-      {this.as, this.url, this.type, this.show, this.hide, this.deferred})
+      {this.as,
+      required this.url,
+      required this.type,
+      required this.show,
+      required this.hide,
+      required this.deferred})
       : super._() {
-    if (url == null) {
-      throw new BuiltValueNullFieldError('Directive', 'url');
-    }
-    if (type == null) {
-      throw new BuiltValueNullFieldError('Directive', 'type');
-    }
-    if (show == null) {
-      throw new BuiltValueNullFieldError('Directive', 'show');
-    }
-    if (hide == null) {
-      throw new BuiltValueNullFieldError('Directive', 'hide');
-    }
-    if (deferred == null) {
-      throw new BuiltValueNullFieldError('Directive', 'deferred');
-    }
+    BuiltValueNullFieldError.checkNotNull(url, 'Directive', 'url');
+    BuiltValueNullFieldError.checkNotNull(type, 'Directive', 'type');
+    BuiltValueNullFieldError.checkNotNull(show, 'Directive', 'show');
+    BuiltValueNullFieldError.checkNotNull(hide, 'Directive', 'hide');
+    BuiltValueNullFieldError.checkNotNull(deferred, 'Directive', 'deferred');
   }
 
   @override
@@ -86,16 +82,16 @@ class _$Directive extends Directive {
 }
 
 class _$DirectiveBuilder extends DirectiveBuilder {
-  _$Directive _$v;
+  _$Directive? _$v;
 
   @override
-  String get as {
+  String? get as {
     _$this;
     return super.as;
   }
 
   @override
-  set as(String as) {
+  set as(String? as) {
     _$this;
     super.as = as;
   }
@@ -163,13 +159,14 @@ class _$DirectiveBuilder extends DirectiveBuilder {
   _$DirectiveBuilder() : super._();
 
   DirectiveBuilder get _$this {
-    if (_$v != null) {
-      super.as = _$v.as;
-      super.url = _$v.url;
-      super.type = _$v.type;
-      super.show = _$v.show;
-      super.hide = _$v.hide;
-      super.deferred = _$v.deferred;
+    final $v = _$v;
+    if ($v != null) {
+      super.as = $v.as;
+      super.url = $v.url;
+      super.type = $v.type;
+      super.show = $v.show;
+      super.hide = $v.hide;
+      super.deferred = $v.deferred;
       _$v = null;
     }
     return this;
@@ -177,14 +174,12 @@ class _$DirectiveBuilder extends DirectiveBuilder {
 
   @override
   void replace(Directive other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$Directive;
   }
 
   @override
-  void update(void Function(DirectiveBuilder) updates) {
+  void update(void Function(DirectiveBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -193,11 +188,15 @@ class _$DirectiveBuilder extends DirectiveBuilder {
     final _$result = _$v ??
         new _$Directive._(
             as: as,
-            url: url,
-            type: type,
-            show: show,
-            hide: hide,
-            deferred: deferred);
+            url: BuiltValueNullFieldError.checkNotNull(url, 'Directive', 'url'),
+            type: BuiltValueNullFieldError.checkNotNull(
+                type, 'Directive', 'type'),
+            show: BuiltValueNullFieldError.checkNotNull(
+                show, 'Directive', 'show'),
+            hide: BuiltValueNullFieldError.checkNotNull(
+                hide, 'Directive', 'hide'),
+            deferred: BuiltValueNullFieldError.checkNotNull(
+                deferred, 'Directive', 'deferred'));
     replace(_$result);
     return _$result;
   }

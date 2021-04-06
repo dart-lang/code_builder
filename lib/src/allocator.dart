@@ -1,6 +1,7 @@
 // Copyright (c) 2017, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
+// @dart=2.12
 
 import 'specs/directive.dart';
 import 'specs/reference.dart';
@@ -51,7 +52,7 @@ class _Allocator implements Allocator {
   @override
   String allocate(Reference reference) {
     if (reference.url != null) {
-      _imports.add(reference.url);
+      _imports.add(reference.url!);
     }
     return reference.symbol;
   }
@@ -82,7 +83,7 @@ class _PrefixedAllocator implements Allocator {
     if (reference.url == null || _doNotPrefix.contains(reference.url)) {
       return symbol;
     }
-    return '_i${_imports.putIfAbsent(reference.url, _nextKey)}.$symbol';
+    return '_i${_imports.putIfAbsent(reference.url!, _nextKey)}.$symbol';
   }
 
   int _nextKey() => _keys++;

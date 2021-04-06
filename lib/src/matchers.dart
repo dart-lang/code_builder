@@ -1,6 +1,7 @@
 // Copyright (c) 2017, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
+// @dart=2.12
 
 import 'package:matcher/matcher.dart';
 
@@ -18,7 +19,7 @@ String _dart(Spec spec, DartEmitter emitter) =>
 /// be overridden with [emitter].
 Matcher equalsDart(
   String source, [
-  DartEmitter emitter,
+  DartEmitter? emitter,
 ]) =>
     EqualsDart._(EqualsDart._format(source), emitter ?? DartEmitter());
 

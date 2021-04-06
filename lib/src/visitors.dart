@@ -1,6 +1,7 @@
 // Copyright (c) 2017, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
+// @dart=2.12
 
 import 'package:meta/meta.dart';
 
@@ -22,31 +23,31 @@ import 'specs/type_reference.dart';
 abstract class SpecVisitor<T> {
   const SpecVisitor._();
 
-  T visitAnnotation(Expression spec, [T context]);
+  T visitAnnotation(Expression spec, [T? context]);
 
-  T visitClass(Class spec, [T context]);
+  T visitClass(Class spec, [T? context]);
 
-  T visitExtension(Extension spec, [T context]);
+  T visitExtension(Extension spec, [T? context]);
 
-  T visitEnum(Enum spec, [T context]);
+  T visitEnum(Enum spec, [T? context]);
 
-  T visitConstructor(Constructor spec, String clazz, [T context]);
+  T visitConstructor(Constructor spec, String clazz, [T? context]);
 
-  T visitDirective(Directive spec, [T context]);
+  T visitDirective(Directive spec, [T? context]);
 
-  T visitField(Field spec, [T context]);
+  T visitField(Field spec, [T? context]);
 
-  T visitLibrary(Library spec, [T context]);
+  T visitLibrary(Library spec, [T? context]);
 
-  T visitFunctionType(FunctionType spec, [T context]);
+  T visitFunctionType(FunctionType spec, [T? context]);
 
-  T visitMethod(Method spec, [T context]);
+  T visitMethod(Method spec, [T? context]);
 
-  T visitReference(Reference spec, [T context]);
+  T visitReference(Reference spec, [T? context]);
 
-  T visitSpec(Spec spec, [T context]);
+  T visitSpec(Spec spec, [T? context]);
 
-  T visitType(TypeReference spec, [T context]);
+  T visitType(TypeReference spec, [T? context]);
 
-  T visitTypeParameters(Iterable<Reference> specs, [T context]);
+  T visitTypeParameters(Iterable<Reference> specs, [T? context]);
 }

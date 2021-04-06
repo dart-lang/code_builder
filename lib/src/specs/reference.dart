@@ -1,6 +1,7 @@
 // Copyright (c) 2017, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
+// @dart=2.12
 
 library code_builder.src.specs.reference;
 
@@ -14,7 +15,7 @@ import 'expression.dart';
 import 'type_reference.dart';
 
 /// Short-hand for `Reference(symbol, url)`.
-Reference refer(String symbol, [String url]) => Reference(symbol, url);
+Reference refer(String symbol, [String? url]) => Reference(symbol, url);
 
 /// A reference to [symbol], such as a class, or top-level method or field.
 ///
@@ -25,7 +26,7 @@ class Reference extends Expression implements Spec {
   /// Relative, `package:` or `dart:` URL of the library.
   ///
   /// May be omitted (`null`) in order to express "same library".
-  final String url;
+  final String? url;
 
   /// Name of the class, method, or field.
   final String symbol;
@@ -36,7 +37,7 @@ class Reference extends Expression implements Spec {
   @override
   R accept<R>(
     SpecVisitor<R> visitor, [
-    R context,
+    R? context,
   ]) =>
       visitor.visitReference(this, context);
 

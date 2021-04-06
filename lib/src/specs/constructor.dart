@@ -1,6 +1,7 @@
 // Copyright (c) 2017, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
+// @dart=2.12
 
 import 'package:built_value/built_value.dart';
 import 'package:built_collection/built_collection.dart';
@@ -40,8 +41,7 @@ abstract class Constructor extends Object
   BuiltList<Code> get initializers;
 
   /// Body of the method.
-  @nullable
-  Code get body;
+  Code? get body;
 
   /// Whether the constructor should be prefixed with `external`.
   bool get external;
@@ -53,16 +53,13 @@ abstract class Constructor extends Object
   bool get factory;
 
   /// Whether this constructor is a simple lambda expression.
-  @nullable
-  bool get lambda;
+  bool? get lambda;
 
   /// Name of the constructor - optional.
-  @nullable
-  String get name;
+  String? get name;
 
   /// If non-null, redirect to this constructor.
-  @nullable
-  Reference get redirect;
+  Reference? get redirect;
 }
 
 abstract class ConstructorBuilder extends Object
@@ -88,7 +85,7 @@ abstract class ConstructorBuilder extends Object
   ListBuilder<Code> initializers = ListBuilder<Code>();
 
   /// Body of the constructor.
-  Code body;
+  Code? body;
 
   /// Whether the constructor should be prefixed with `const`.
   bool constant = false;
@@ -100,12 +97,12 @@ abstract class ConstructorBuilder extends Object
   bool factory = false;
 
   /// Whether this constructor is a simple lambda expression.
-  bool lambda;
+  bool? lambda;
 
   /// Name of the constructor - optional.
-  String name;
+  String? name;
 
   /// If non-null, redirect to this constructor.
-  @nullable
-  Reference redirect;
+
+  Reference? redirect;
 }

@@ -1,4 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// @dart=2.12
 
 part of 'field.dart';
 
@@ -12,43 +13,41 @@ class _$Field extends Field {
   @override
   final BuiltList<String> docs;
   @override
-  final Code assignment;
+  final Code? assignment;
   @override
   final bool static;
   @override
+  final bool abstract;
+  @override
+  final bool late;
+  @override
   final String name;
   @override
-  final Reference type;
+  final Reference? type;
   @override
   final FieldModifier modifier;
 
-  factory _$Field([void Function(FieldBuilder) updates]) =>
+  factory _$Field([void Function(FieldBuilder)? updates]) =>
       (new FieldBuilder()..update(updates)).build() as _$Field;
 
   _$Field._(
-      {this.annotations,
-      this.docs,
+      {required this.annotations,
+      required this.docs,
       this.assignment,
-      this.static,
-      this.name,
+      required this.static,
+      required this.abstract,
+      required this.late,
+      required this.name,
       this.type,
-      this.modifier})
+      required this.modifier})
       : super._() {
-    if (annotations == null) {
-      throw new BuiltValueNullFieldError('Field', 'annotations');
-    }
-    if (docs == null) {
-      throw new BuiltValueNullFieldError('Field', 'docs');
-    }
-    if (static == null) {
-      throw new BuiltValueNullFieldError('Field', 'static');
-    }
-    if (name == null) {
-      throw new BuiltValueNullFieldError('Field', 'name');
-    }
-    if (modifier == null) {
-      throw new BuiltValueNullFieldError('Field', 'modifier');
-    }
+    BuiltValueNullFieldError.checkNotNull(annotations, 'Field', 'annotations');
+    BuiltValueNullFieldError.checkNotNull(docs, 'Field', 'docs');
+    BuiltValueNullFieldError.checkNotNull(static, 'Field', 'static');
+    BuiltValueNullFieldError.checkNotNull(abstract, 'Field', 'abstract');
+    BuiltValueNullFieldError.checkNotNull(late, 'Field', 'late');
+    BuiltValueNullFieldError.checkNotNull(name, 'Field', 'name');
+    BuiltValueNullFieldError.checkNotNull(modifier, 'Field', 'modifier');
   }
 
   @override
@@ -66,6 +65,8 @@ class _$Field extends Field {
         docs == other.docs &&
         assignment == other.assignment &&
         static == other.static &&
+        abstract == other.abstract &&
+        late == other.late &&
         name == other.name &&
         type == other.type &&
         modifier == other.modifier;
@@ -77,9 +78,15 @@ class _$Field extends Field {
         $jc(
             $jc(
                 $jc(
-                    $jc($jc($jc(0, annotations.hashCode), docs.hashCode),
-                        assignment.hashCode),
-                    static.hashCode),
+                    $jc(
+                        $jc(
+                            $jc(
+                                $jc($jc(0, annotations.hashCode),
+                                    docs.hashCode),
+                                assignment.hashCode),
+                            static.hashCode),
+                        abstract.hashCode),
+                    late.hashCode),
                 name.hashCode),
             type.hashCode),
         modifier.hashCode));
@@ -92,6 +99,8 @@ class _$Field extends Field {
           ..add('docs', docs)
           ..add('assignment', assignment)
           ..add('static', static)
+          ..add('abstract', abstract)
+          ..add('late', late)
           ..add('name', name)
           ..add('type', type)
           ..add('modifier', modifier))
@@ -100,12 +109,12 @@ class _$Field extends Field {
 }
 
 class _$FieldBuilder extends FieldBuilder {
-  _$Field _$v;
+  _$Field? _$v;
 
   @override
   ListBuilder<Expression> get annotations {
     _$this;
-    return super.annotations ??= new ListBuilder<Expression>();
+    return super.annotations;
   }
 
   @override
@@ -117,7 +126,7 @@ class _$FieldBuilder extends FieldBuilder {
   @override
   ListBuilder<String> get docs {
     _$this;
-    return super.docs ??= new ListBuilder<String>();
+    return super.docs;
   }
 
   @override
@@ -127,13 +136,13 @@ class _$FieldBuilder extends FieldBuilder {
   }
 
   @override
-  Code get assignment {
+  Code? get assignment {
     _$this;
     return super.assignment;
   }
 
   @override
-  set assignment(Code assignment) {
+  set assignment(Code? assignment) {
     _$this;
     super.assignment = assignment;
   }
@@ -151,6 +160,30 @@ class _$FieldBuilder extends FieldBuilder {
   }
 
   @override
+  bool get abstract {
+    _$this;
+    return super.abstract;
+  }
+
+  @override
+  set abstract(bool abstract) {
+    _$this;
+    super.abstract = abstract;
+  }
+
+  @override
+  bool get late {
+    _$this;
+    return super.late;
+  }
+
+  @override
+  set late(bool late) {
+    _$this;
+    super.late = late;
+  }
+
+  @override
   String get name {
     _$this;
     return super.name;
@@ -163,13 +196,13 @@ class _$FieldBuilder extends FieldBuilder {
   }
 
   @override
-  Reference get type {
+  Reference? get type {
     _$this;
     return super.type;
   }
 
   @override
-  set type(Reference type) {
+  set type(Reference? type) {
     _$this;
     super.type = type;
   }
@@ -189,14 +222,17 @@ class _$FieldBuilder extends FieldBuilder {
   _$FieldBuilder() : super._();
 
   FieldBuilder get _$this {
-    if (_$v != null) {
-      super.annotations = _$v.annotations?.toBuilder();
-      super.docs = _$v.docs?.toBuilder();
-      super.assignment = _$v.assignment;
-      super.static = _$v.static;
-      super.name = _$v.name;
-      super.type = _$v.type;
-      super.modifier = _$v.modifier;
+    final $v = _$v;
+    if ($v != null) {
+      super.annotations = $v.annotations.toBuilder();
+      super.docs = $v.docs.toBuilder();
+      super.assignment = $v.assignment;
+      super.static = $v.static;
+      super.abstract = $v.abstract;
+      super.late = $v.late;
+      super.name = $v.name;
+      super.type = $v.type;
+      super.modifier = $v.modifier;
       _$v = null;
     }
     return this;
@@ -204,14 +240,12 @@ class _$FieldBuilder extends FieldBuilder {
 
   @override
   void replace(Field other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$Field;
   }
 
   @override
-  void update(void Function(FieldBuilder) updates) {
+  void update(void Function(FieldBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -224,12 +258,19 @@ class _$FieldBuilder extends FieldBuilder {
               annotations: annotations.build(),
               docs: docs.build(),
               assignment: assignment,
-              static: static,
-              name: name,
+              static: BuiltValueNullFieldError.checkNotNull(
+                  static, 'Field', 'static'),
+              abstract: BuiltValueNullFieldError.checkNotNull(
+                  abstract, 'Field', 'abstract'),
+              late:
+                  BuiltValueNullFieldError.checkNotNull(late, 'Field', 'late'),
+              name:
+                  BuiltValueNullFieldError.checkNotNull(name, 'Field', 'name'),
               type: type,
-              modifier: modifier);
+              modifier: BuiltValueNullFieldError.checkNotNull(
+                  modifier, 'Field', 'modifier'));
     } catch (_) {
-      String _$failedField;
+      late String _$failedField;
       try {
         _$failedField = 'annotations';
         annotations.build();

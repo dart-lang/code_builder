@@ -1,6 +1,7 @@
 // Copyright (c) 2020, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
+// @dart=2.12
 
 import 'package:built_value/built_value.dart';
 import 'package:built_collection/built_collection.dart';
@@ -33,7 +34,7 @@ abstract class Extension extends Object
   @override
   BuiltList<String> get docs;
 
-  @nullable
+  // On reference class of an extension is not nullable, just the name
   Reference get on;
 
   @override
@@ -43,13 +44,12 @@ abstract class Extension extends Object
   BuiltList<Field> get fields;
 
   /// Name of the extension - optional.
-  @nullable
-  String get name;
+  String? get name;
 
   @override
   R accept<R>(
     SpecVisitor<R> visitor, [
-    R context,
+    R? context,
   ]) =>
       visitor.visitExtension(this, context);
 }
@@ -67,7 +67,7 @@ abstract class ExtensionBuilder extends Object
   @override
   ListBuilder<String> docs = ListBuilder<String>();
 
-  Reference on;
+  late Reference on;
 
   @override
   ListBuilder<Reference> types = ListBuilder<Reference>();
@@ -76,5 +76,5 @@ abstract class ExtensionBuilder extends Object
   ListBuilder<Field> fields = ListBuilder<Field>();
 
   /// Name of the extension - optional.
-  String name;
+  String? name;
 }

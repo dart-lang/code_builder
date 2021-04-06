@@ -1,4 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// @dart=2.12
 
 part of 'code.dart';
 
@@ -10,13 +11,11 @@ class _$Block extends Block {
   @override
   final BuiltList<Code> statements;
 
-  factory _$Block([void Function(BlockBuilder) updates]) =>
+  factory _$Block([void Function(BlockBuilder)? updates]) =>
       (new BlockBuilder()..update(updates)).build() as _$Block;
 
-  _$Block._({this.statements}) : super._() {
-    if (statements == null) {
-      throw new BuiltValueNullFieldError('Block', 'statements');
-    }
+  _$Block._({required this.statements}) : super._() {
+    BuiltValueNullFieldError.checkNotNull(statements, 'Block', 'statements');
   }
 
   @override
@@ -45,12 +44,12 @@ class _$Block extends Block {
 }
 
 class _$BlockBuilder extends BlockBuilder {
-  _$Block _$v;
+  _$Block? _$v;
 
   @override
   ListBuilder<Code> get statements {
     _$this;
-    return super.statements ??= new ListBuilder<Code>();
+    return super.statements;
   }
 
   @override
@@ -62,8 +61,9 @@ class _$BlockBuilder extends BlockBuilder {
   _$BlockBuilder() : super._();
 
   BlockBuilder get _$this {
-    if (_$v != null) {
-      super.statements = _$v.statements?.toBuilder();
+    final $v = _$v;
+    if ($v != null) {
+      super.statements = $v.statements.toBuilder();
       _$v = null;
     }
     return this;
@@ -71,14 +71,12 @@ class _$BlockBuilder extends BlockBuilder {
 
   @override
   void replace(Block other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$Block;
   }
 
   @override
-  void update(void Function(BlockBuilder) updates) {
+  void update(void Function(BlockBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -88,7 +86,7 @@ class _$BlockBuilder extends BlockBuilder {
     try {
       _$result = _$v ?? new _$Block._(statements: statements.build());
     } catch (_) {
-      String _$failedField;
+      late String _$failedField;
       try {
         _$failedField = 'statements';
         statements.build();

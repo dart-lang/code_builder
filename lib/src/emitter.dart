@@ -1,6 +1,7 @@
 // Copyright (c) 2017, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
+// @dart=2.12
 
 import 'allocator.dart';
 import 'base.dart';
@@ -72,10 +73,8 @@ class DartEmitter extends Object
   /// May specify an [Allocator] to use for symbols, otherwise uses a no-op.
   DartEmitter(
       [this.allocator = Allocator.none,
-      bool orderDirectives = false,
-      bool useNullSafetySyntax = false])
-      : orderDirectives = orderDirectives ?? false,
-        _useNullSafetySyntax = useNullSafetySyntax ?? false;
+      this.orderDirectives = false,
+      this._useNullSafetySyntax = false]);
 
   /// Creates a new instance of [DartEmitter] with simple automatic imports.
   factory DartEmitter.scoped(
@@ -83,7 +82,7 @@ class DartEmitter extends Object
       DartEmitter(
           Allocator.simplePrefixing(), orderDirectives, useNullSafetySyntax);
 
-  static bool _isLambdaBody(Code code) =>
+  static bool _isLambdaBody(Code? code) =>
       code is ToCodeExpression && !code.isStatement;
 
   /// Whether the provided [method] is considered a lambda method.
@@ -96,7 +95,7 @@ class DartEmitter extends Object
       constructor.factory && _isLambdaBody(constructor.body);
 
   @override
-  StringSink visitAnnotation(Expression spec, [StringSink output]) {
+  StringSink visitAnnotation(Expression spec, [StringSink? output]) {
     (output ??= StringBuffer()).write('@');
     spec.accept(this, output);
     output.write(' ');
@@ -104,7 +103,7 @@ class DartEmitter extends Object
   }
 
   @override
-  StringSink visitClass(Class spec, [StringSink output]) {
+  StringSink visitClass(Class spec, [StringSink? output]) {
     output ??= StringBuffer();
     spec.docs.forEach(output.writeln);
     spec.annotations.forEach((a) => visitAnnotation(a, output));
@@ -115,7 +114,7 @@ class DartEmitter extends Object
     visitTypeParameters(spec.types.map((r) => r.type), output);
     if (spec.extend != null) {
       output.write(' extends ');
-      spec.extend.type.accept(this, output);
+      spec.extend!.type.accept(this, output);
     }
     if (spec.mixins.isNotEmpty) {
       output
@@ -132,18 +131,18 @@ class DartEmitter extends Object
     output.write(' {');
     spec.constructors.forEach((c) {
       visitConstructor(c, spec.name, output);
-      output.writeln();
+      output!.writeln();
     });
     spec.fields.forEach((f) {
       visitField(f, output);
-      output.writeln();
+      output!.writeln();
     });
     spec.methods.forEach((m) {
       visitMethod(m, output);
       if (_isLambdaMethod(m)) {
-        output.write(';');
+        output!.write(';');
       }
-      output.writeln();
+      output!.writeln();
     });
     output.writeln(' }');
     return output;
@@ -151,7 +150,7 @@ class DartEmitter extends Object
 
   @override
   StringSink visitConstructor(Constructor spec, String clazz,
-      [StringSink output]) {
+      [StringSink? output]) {
     output ??= StringBuffer();
     spec.docs.forEach(output.writeln);
     spec.annotations.forEach((a) => visitAnnotation(a, output));
@@ -215,16 +214,16 @@ class DartEmitter extends Object
     }
     if (spec.redirect != null) {
       output.write(' = ');
-      spec.redirect.type.accept(this, output);
+      spec.redirect!.type.accept(this, output);
       output.write(';');
     } else if (spec.body != null) {
       if (_isLambdaConstructor(spec)) {
         output.write(' => ');
-        spec.body.accept(this, output);
+        spec.body!.accept(this, output);
         output.write(';');
       } else {
         output.write(' { ');
-        spec.body.accept(this, output);
+        spec.body!.accept(this, output);
         output.write(' }');
       }
     } else {
@@ -235,7 +234,7 @@ class DartEmitter extends Object
   }
 
   @override
-  StringSink visitExtension(Extension spec, [StringSink output]) {
+  StringSink visitExtension(Extension spec, [StringSink? output]) {
     output ??= StringBuffer();
     spec.docs.forEach(output.writeln);
     spec.annotations.forEach((a) => visitAnnotation(a, output));
@@ -245,28 +244,26 @@ class DartEmitter extends Object
       output.write(' ${spec.name}');
     }
     visitTypeParameters(spec.types.map((r) => r.type), output);
-    if (spec.on != null) {
-      output.write(' on ');
-      spec.on.type.accept(this, output);
-    }
+    output.write(' on ');
+    spec.on.type.accept(this, output);
     output.write(' {');
     spec.fields.forEach((f) {
       visitField(f, output);
-      output.writeln();
+      output!.writeln();
     });
     spec.methods.forEach((m) {
       visitMethod(m, output);
       if (_isLambdaMethod(m)) {
-        output.write(';');
+        output!.write(';');
       }
-      output.writeln();
+      output!.writeln();
     });
     output.writeln(' }');
     return output;
   }
 
   @override
-  StringSink visitDirective(Directive spec, [StringSink output]) {
+  StringSink visitDirective(Directive spec, [StringSink? output]) {
     output ??= StringBuffer();
     switch (spec.type) {
       case DirectiveType.import:
@@ -303,12 +300,18 @@ class DartEmitter extends Object
   }
 
   @override
-  StringSink visitField(Field spec, [StringSink output]) {
+  StringSink visitField(Field spec, [StringSink? output]) {
     output ??= StringBuffer();
     spec.docs.forEach(output.writeln);
     spec.annotations.forEach((a) => visitAnnotation(a, output));
     if (spec.static) {
       output.write('static ');
+    }
+    if (spec.late) {
+      output.write('late ');
+    }
+    if (spec.abstract) {
+      output.write('abstract ');
     }
     switch (spec.modifier) {
       case FieldModifier.var$:
@@ -324,14 +327,14 @@ class DartEmitter extends Object
         break;
     }
     if (spec.type != null) {
-      spec.type.type.accept(this, output);
+      spec.type!.type.accept(this, output);
       output.write(' ');
     }
     output.write(spec.name);
     if (spec.assignment != null) {
       output.write(' = ');
       startConstCode(spec.modifier == FieldModifier.constant, () {
-        spec.assignment.accept(this, output);
+        spec.assignment!.accept(this, output);
       });
     }
     output.writeln(';');
@@ -339,7 +342,7 @@ class DartEmitter extends Object
   }
 
   @override
-  StringSink visitLibrary(Library spec, [StringSink output]) {
+  StringSink visitLibrary(Library spec, [StringSink? output]) {
     output ??= StringBuffer();
     // Process the body first in order to prime the allocators.
     final body = StringBuffer();
@@ -356,7 +359,7 @@ class DartEmitter extends Object
       directives.sort();
     }
 
-    Directive previous;
+    Directive? previous;
     for (final directive in directives) {
       if (_newLineBetween(orderDirectives, previous, directive)) {
         // Note: dartfmt handles creating new lines between directives.
@@ -372,10 +375,10 @@ class DartEmitter extends Object
   }
 
   @override
-  StringSink visitFunctionType(FunctionType spec, [StringSink output]) {
+  StringSink visitFunctionType(FunctionType spec, [StringSink? output]) {
     output ??= StringBuffer();
     if (spec.returnType != null) {
-      spec.returnType.accept(this, output);
+      spec.returnType!.accept(this, output);
       output.write(' ');
     }
     output.write('Function');
@@ -404,8 +407,8 @@ class DartEmitter extends Object
     } else if (spec.namedParameters.isNotEmpty) {
       output.write('{');
       visitAll<String>(spec.namedParameters.keys, output, (name) {
-        spec.namedParameters[name].accept(this, output);
-        output..write(' ')..write(name);
+        spec.namedParameters[name]!.accept(this, output);
+        output!..write(' ')..write(name);
       });
       output.write('}');
     }
@@ -417,7 +420,7 @@ class DartEmitter extends Object
   }
 
   @override
-  StringSink visitMethod(Method spec, [StringSink output]) {
+  StringSink visitMethod(Method spec, [StringSink? output]) {
     output ??= StringBuffer();
     spec.docs.forEach(output.writeln);
     spec.annotations.forEach((a) => visitAnnotation(a, output));
@@ -428,7 +431,7 @@ class DartEmitter extends Object
       output.write('static ');
     }
     if (spec.returns != null) {
-      spec.returns.accept(this, output);
+      spec.returns!.accept(this, output);
       output.write(' ');
     }
     if (spec.type == MethodType.getter) {
@@ -478,7 +481,7 @@ class DartEmitter extends Object
     }
     if (spec.body != null) {
       if (spec.modifier != null) {
-        switch (spec.modifier) {
+        switch (spec.modifier!) {
           case MethodModifier.async:
             output.write(' async ');
             break;
@@ -495,7 +498,7 @@ class DartEmitter extends Object
       } else {
         output.write(' { ');
       }
-      spec.body.accept(this, output);
+      spec.body!.accept(this, output);
       if (!_isLambdaMethod(spec)) {
         output.write(' } ');
       }
@@ -522,7 +525,7 @@ class DartEmitter extends Object
       output.write('covariant ');
     }
     if (spec.type != null) {
-      spec.type.type.accept(this, output);
+      spec.type!.type.accept(this, output);
       output.write(' ');
     }
     if (spec.toThis) {
@@ -531,26 +534,26 @@ class DartEmitter extends Object
     output.write(spec.name);
     if (optional && spec.defaultTo != null) {
       output.write(' = ');
-      spec.defaultTo.accept(this, output);
+      spec.defaultTo!.accept(this, output);
     }
   }
 
   @override
-  StringSink visitReference(Reference spec, [StringSink output]) =>
+  StringSink visitReference(Reference spec, [StringSink? output]) =>
       (output ??= StringBuffer())..write(allocator.allocate(spec));
 
   @override
-  StringSink visitSpec(Spec spec, [StringSink output]) =>
+  StringSink visitSpec(Spec spec, [StringSink? output]) =>
       spec.accept(this, output);
 
   @override
-  StringSink visitType(TypeReference spec, [StringSink output]) {
+  StringSink visitType(TypeReference spec, [StringSink? output]) {
     output ??= StringBuffer();
     // Intentionally not .accept to avoid stack overflow.
     visitReference(spec, output);
     if (spec.bound != null) {
       output.write(' extends ');
-      spec.bound.type.accept(this, output);
+      spec.bound!.type.accept(this, output);
     }
     visitTypeParameters(spec.types.map((r) => r.type), output);
     if (_useNullSafetySyntax && (spec.isNullable ?? false)) {
@@ -561,7 +564,7 @@ class DartEmitter extends Object
 
   @override
   StringSink visitTypeParameters(Iterable<Reference> specs,
-      [StringSink output]) {
+      [StringSink? output]) {
     output ??= StringBuffer();
     if (specs.isNotEmpty) {
       output
@@ -573,13 +576,13 @@ class DartEmitter extends Object
   }
 
   @override
-  StringSink visitEnum(Enum spec, [StringSink output]) {
+  StringSink visitEnum(Enum spec, [StringSink? output]) {
     output ??= StringBuffer();
     spec.docs.forEach(output.writeln);
     spec.annotations.forEach((a) => visitAnnotation(a, output));
     output.writeln('enum ${spec.name} {');
     spec.values.forEach((v) {
-      v.docs.forEach(output.writeln);
+      v.docs.forEach(output!.writeln);
       v.annotations.forEach((a) => visitAnnotation(a, output));
       output.write(v.name);
       if (v != spec.values.last) {
@@ -596,11 +599,9 @@ class DartEmitter extends Object
 /// * [ordered] is `true`
 /// * [a] is non-`null`
 /// * If there should be an empty line before [b] if it's emitted after [a].
-bool _newLineBetween(bool ordered, Directive a, Directive b) {
+bool _newLineBetween(bool ordered, Directive? a, Directive b) {
   if (!ordered) return false;
   if (a == null) return false;
-
-  assert(b != null);
 
   // Put a line between imports and exports
   if (a.type != b.type) return true;

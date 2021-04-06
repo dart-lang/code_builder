@@ -1,6 +1,7 @@
 // Copyright (c) 2017, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
+// @dart=2.12
 
 import 'package:built_value/built_value.dart';
 import 'package:collection/collection.dart';
@@ -18,7 +19,7 @@ abstract class Directive
 
   factory Directive.import(
     String url, {
-    String as,
+    String? as,
     List<String> show = const [],
     List<String> hide = const [],
   }) =>
@@ -64,8 +65,7 @@ abstract class Directive
 
   Directive._();
 
-  @nullable
-  String get as;
+  String? get as;
 
   String get url;
 
@@ -80,7 +80,7 @@ abstract class Directive
   @override
   R accept<R>(
     SpecVisitor<R> visitor, [
-    R context,
+    R? context,
   ]) =>
       visitor.visitDirective(this, context);
 
@@ -96,15 +96,15 @@ abstract class DirectiveBuilder
 
   bool deferred = false;
 
-  String as;
+  String? as;
 
-  String url;
+  late String url;
 
   List<String> show = <String>[];
 
   List<String> hide = <String>[];
 
-  DirectiveType type;
+  late DirectiveType type;
 }
 
 enum DirectiveType {

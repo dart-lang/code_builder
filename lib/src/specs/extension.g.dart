@@ -1,4 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// @dart=2.12
 
 part of 'extension.dart';
 
@@ -20,35 +21,27 @@ class _$Extension extends Extension {
   @override
   final BuiltList<Field> fields;
   @override
-  final String name;
+  final String? name;
 
-  factory _$Extension([void Function(ExtensionBuilder) updates]) =>
+  factory _$Extension([void Function(ExtensionBuilder)? updates]) =>
       (new ExtensionBuilder()..update(updates)).build() as _$Extension;
 
   _$Extension._(
-      {this.annotations,
-      this.docs,
-      this.on,
-      this.types,
-      this.methods,
-      this.fields,
+      {required this.annotations,
+      required this.docs,
+      required this.on,
+      required this.types,
+      required this.methods,
+      required this.fields,
       this.name})
       : super._() {
-    if (annotations == null) {
-      throw new BuiltValueNullFieldError('Extension', 'annotations');
-    }
-    if (docs == null) {
-      throw new BuiltValueNullFieldError('Extension', 'docs');
-    }
-    if (types == null) {
-      throw new BuiltValueNullFieldError('Extension', 'types');
-    }
-    if (methods == null) {
-      throw new BuiltValueNullFieldError('Extension', 'methods');
-    }
-    if (fields == null) {
-      throw new BuiltValueNullFieldError('Extension', 'fields');
-    }
+    BuiltValueNullFieldError.checkNotNull(
+        annotations, 'Extension', 'annotations');
+    BuiltValueNullFieldError.checkNotNull(docs, 'Extension', 'docs');
+    BuiltValueNullFieldError.checkNotNull(on, 'Extension', 'on');
+    BuiltValueNullFieldError.checkNotNull(types, 'Extension', 'types');
+    BuiltValueNullFieldError.checkNotNull(methods, 'Extension', 'methods');
+    BuiltValueNullFieldError.checkNotNull(fields, 'Extension', 'fields');
   }
 
   @override
@@ -100,12 +93,12 @@ class _$Extension extends Extension {
 }
 
 class _$ExtensionBuilder extends ExtensionBuilder {
-  _$Extension _$v;
+  _$Extension? _$v;
 
   @override
   ListBuilder<Expression> get annotations {
     _$this;
-    return super.annotations ??= new ListBuilder<Expression>();
+    return super.annotations;
   }
 
   @override
@@ -117,7 +110,7 @@ class _$ExtensionBuilder extends ExtensionBuilder {
   @override
   ListBuilder<String> get docs {
     _$this;
-    return super.docs ??= new ListBuilder<String>();
+    return super.docs;
   }
 
   @override
@@ -141,7 +134,7 @@ class _$ExtensionBuilder extends ExtensionBuilder {
   @override
   ListBuilder<Reference> get types {
     _$this;
-    return super.types ??= new ListBuilder<Reference>();
+    return super.types;
   }
 
   @override
@@ -153,7 +146,7 @@ class _$ExtensionBuilder extends ExtensionBuilder {
   @override
   ListBuilder<Method> get methods {
     _$this;
-    return super.methods ??= new ListBuilder<Method>();
+    return super.methods;
   }
 
   @override
@@ -165,7 +158,7 @@ class _$ExtensionBuilder extends ExtensionBuilder {
   @override
   ListBuilder<Field> get fields {
     _$this;
-    return super.fields ??= new ListBuilder<Field>();
+    return super.fields;
   }
 
   @override
@@ -175,13 +168,13 @@ class _$ExtensionBuilder extends ExtensionBuilder {
   }
 
   @override
-  String get name {
+  String? get name {
     _$this;
     return super.name;
   }
 
   @override
-  set name(String name) {
+  set name(String? name) {
     _$this;
     super.name = name;
   }
@@ -189,14 +182,15 @@ class _$ExtensionBuilder extends ExtensionBuilder {
   _$ExtensionBuilder() : super._();
 
   ExtensionBuilder get _$this {
-    if (_$v != null) {
-      super.annotations = _$v.annotations?.toBuilder();
-      super.docs = _$v.docs?.toBuilder();
-      super.on = _$v.on;
-      super.types = _$v.types?.toBuilder();
-      super.methods = _$v.methods?.toBuilder();
-      super.fields = _$v.fields?.toBuilder();
-      super.name = _$v.name;
+    final $v = _$v;
+    if ($v != null) {
+      super.annotations = $v.annotations.toBuilder();
+      super.docs = $v.docs.toBuilder();
+      super.on = $v.on;
+      super.types = $v.types.toBuilder();
+      super.methods = $v.methods.toBuilder();
+      super.fields = $v.fields.toBuilder();
+      super.name = $v.name;
       _$v = null;
     }
     return this;
@@ -204,14 +198,12 @@ class _$ExtensionBuilder extends ExtensionBuilder {
 
   @override
   void replace(Extension other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$Extension;
   }
 
   @override
-  void update(void Function(ExtensionBuilder) updates) {
+  void update(void Function(ExtensionBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -223,13 +215,13 @@ class _$ExtensionBuilder extends ExtensionBuilder {
           new _$Extension._(
               annotations: annotations.build(),
               docs: docs.build(),
-              on: on,
+              on: BuiltValueNullFieldError.checkNotNull(on, 'Extension', 'on'),
               types: types.build(),
               methods: methods.build(),
               fields: fields.build(),
               name: name);
     } catch (_) {
-      String _$failedField;
+      late String _$failedField;
       try {
         _$failedField = 'annotations';
         annotations.build();

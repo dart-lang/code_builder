@@ -1,6 +1,7 @@
 // Copyright (c) 2017, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
+// @dart=2.12
 
 import 'package:built_value/built_value.dart';
 import 'package:built_collection/built_collection.dart';
@@ -28,13 +29,12 @@ abstract class FunctionType extends Expression
   @override
   R accept<R>(
     SpecVisitor<R> visitor, [
-    R context,
+    R? context,
   ]) =>
       visitor.visitFunctionType(this, context);
 
   /// Return type.
-  @nullable
-  Reference get returnType;
+  Reference? get returnType;
 
   @override
   BuiltList<Reference> get types;
@@ -49,10 +49,10 @@ abstract class FunctionType extends Expression
   BuiltMap<String, Reference> get namedParameters;
 
   @override
-  String get url => null;
+  String? get url => null;
 
   @override
-  String get symbol => null;
+  String get symbol => '';
 
   @override
   Reference get type => this;
@@ -61,8 +61,7 @@ abstract class FunctionType extends Expression
   ///
   /// An emitter may ignore this if the output is not targeting a Dart language
   /// version that supports null safety.
-  @nullable
-  bool get isNullable;
+  bool? get isNullable;
 
   @override
   Expression newInstance(
@@ -109,7 +108,7 @@ abstract class FunctionTypeBuilder extends Object
 
   FunctionTypeBuilder._();
 
-  Reference returnType;
+  Reference? returnType;
 
   @override
   ListBuilder<Reference> types = ListBuilder<Reference>();
@@ -121,5 +120,5 @@ abstract class FunctionTypeBuilder extends Object
   MapBuilder<String, Reference> namedParameters =
       MapBuilder<String, Reference>();
 
-  bool isNullable;
+  bool? isNullable;
 }

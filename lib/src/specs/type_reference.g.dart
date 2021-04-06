@@ -1,4 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// @dart=2.12
 
 part of 'type_reference.dart';
 
@@ -10,26 +11,26 @@ class _$TypeReference extends TypeReference {
   @override
   final String symbol;
   @override
-  final String url;
+  final String? url;
   @override
-  final Reference bound;
+  final Reference? bound;
   @override
   final BuiltList<Reference> types;
   @override
-  final bool isNullable;
+  final bool? isNullable;
 
-  factory _$TypeReference([void Function(TypeReferenceBuilder) updates]) =>
+  factory _$TypeReference([void Function(TypeReferenceBuilder)? updates]) =>
       (new TypeReferenceBuilder()..update(updates)).build() as _$TypeReference;
 
   _$TypeReference._(
-      {this.symbol, this.url, this.bound, this.types, this.isNullable})
+      {required this.symbol,
+      this.url,
+      this.bound,
+      required this.types,
+      this.isNullable})
       : super._() {
-    if (symbol == null) {
-      throw new BuiltValueNullFieldError('TypeReference', 'symbol');
-    }
-    if (types == null) {
-      throw new BuiltValueNullFieldError('TypeReference', 'types');
-    }
+    BuiltValueNullFieldError.checkNotNull(symbol, 'TypeReference', 'symbol');
+    BuiltValueNullFieldError.checkNotNull(types, 'TypeReference', 'types');
   }
 
   @override
@@ -72,7 +73,7 @@ class _$TypeReference extends TypeReference {
 }
 
 class _$TypeReferenceBuilder extends TypeReferenceBuilder {
-  _$TypeReference _$v;
+  _$TypeReference? _$v;
 
   @override
   String get symbol {
@@ -87,25 +88,25 @@ class _$TypeReferenceBuilder extends TypeReferenceBuilder {
   }
 
   @override
-  String get url {
+  String? get url {
     _$this;
     return super.url;
   }
 
   @override
-  set url(String url) {
+  set url(String? url) {
     _$this;
     super.url = url;
   }
 
   @override
-  Reference get bound {
+  Reference? get bound {
     _$this;
     return super.bound;
   }
 
   @override
-  set bound(Reference bound) {
+  set bound(Reference? bound) {
     _$this;
     super.bound = bound;
   }
@@ -113,7 +114,7 @@ class _$TypeReferenceBuilder extends TypeReferenceBuilder {
   @override
   ListBuilder<Reference> get types {
     _$this;
-    return super.types ??= new ListBuilder<Reference>();
+    return super.types;
   }
 
   @override
@@ -123,13 +124,13 @@ class _$TypeReferenceBuilder extends TypeReferenceBuilder {
   }
 
   @override
-  bool get isNullable {
+  bool? get isNullable {
     _$this;
     return super.isNullable;
   }
 
   @override
-  set isNullable(bool isNullable) {
+  set isNullable(bool? isNullable) {
     _$this;
     super.isNullable = isNullable;
   }
@@ -137,12 +138,13 @@ class _$TypeReferenceBuilder extends TypeReferenceBuilder {
   _$TypeReferenceBuilder() : super._();
 
   TypeReferenceBuilder get _$this {
-    if (_$v != null) {
-      super.symbol = _$v.symbol;
-      super.url = _$v.url;
-      super.bound = _$v.bound;
-      super.types = _$v.types?.toBuilder();
-      super.isNullable = _$v.isNullable;
+    final $v = _$v;
+    if ($v != null) {
+      super.symbol = $v.symbol;
+      super.url = $v.url;
+      super.bound = $v.bound;
+      super.types = $v.types.toBuilder();
+      super.isNullable = $v.isNullable;
       _$v = null;
     }
     return this;
@@ -150,14 +152,12 @@ class _$TypeReferenceBuilder extends TypeReferenceBuilder {
 
   @override
   void replace(TypeReference other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$TypeReference;
   }
 
   @override
-  void update(void Function(TypeReferenceBuilder) updates) {
+  void update(void Function(TypeReferenceBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -167,13 +167,14 @@ class _$TypeReferenceBuilder extends TypeReferenceBuilder {
     try {
       _$result = _$v ??
           new _$TypeReference._(
-              symbol: symbol,
+              symbol: BuiltValueNullFieldError.checkNotNull(
+                  symbol, 'TypeReference', 'symbol'),
               url: url,
               bound: bound,
               types: types.build(),
               isNullable: isNullable);
     } catch (_) {
-      String _$failedField;
+      late String _$failedField;
       try {
         _$failedField = 'types';
         types.build();

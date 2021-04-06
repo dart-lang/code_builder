@@ -1,6 +1,7 @@
 // Copyright (c) 2017, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
+// @dart=2.12
 
 import 'package:built_value/built_value.dart';
 import 'package:built_collection/built_collection.dart';
@@ -36,8 +37,7 @@ abstract class Class extends Object
   @override
   BuiltList<String> get docs;
 
-  @nullable
-  Reference get extend;
+  Reference? get extend;
 
   BuiltList<Reference> get implements;
 
@@ -56,7 +56,7 @@ abstract class Class extends Object
   @override
   R accept<R>(
     SpecVisitor<R> visitor, [
-    R context,
+    R? context,
   ]) =>
       visitor.visitClass(this, context);
 }
@@ -77,7 +77,7 @@ abstract class ClassBuilder extends Object
   @override
   ListBuilder<String> docs = ListBuilder<String>();
 
-  Reference extend;
+  Reference? extend;
 
   ListBuilder<Reference> implements = ListBuilder<Reference>();
   ListBuilder<Reference> mixins = ListBuilder<Reference>();
@@ -90,5 +90,5 @@ abstract class ClassBuilder extends Object
   ListBuilder<Field> fields = ListBuilder<Field>();
 
   /// Name of the class.
-  String name;
+  late String name;
 }

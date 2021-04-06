@@ -1,6 +1,7 @@
 include: package:pedantic/analysis_options.yaml
 
 analyzer:
+  exclude: [CHANGELOG.md]
   strong-mode:
     implicit-casts: false
     implicit-dynamic: false

@@ -1,6 +1,7 @@
 // Copyright (c) 2020, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
+// @dart=2.12
 
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
@@ -34,7 +35,7 @@ abstract class Enum extends Object
   @override
   R accept<R>(
     SpecVisitor<R> visitor, [
-    R context,
+    R? context,
   ]) =>
       visitor.visitEnum(this, context);
 }
@@ -46,7 +47,7 @@ abstract class EnumBuilder extends Object
 
   EnumBuilder._();
 
-  String name;
+  late String name;
 
   ListBuilder<EnumValue> values = ListBuilder<EnumValue>();
 
@@ -81,7 +82,7 @@ abstract class EnumValueBuilder extends Object
 
   EnumValueBuilder._();
 
-  String name;
+  late String name;
 
   @override
   ListBuilder<Expression> annotations = ListBuilder<Expression>();
