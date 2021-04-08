@@ -72,10 +72,9 @@ class DartEmitter extends Object
   /// May specify an [Allocator] to use for symbols, otherwise uses a no-op.
   DartEmitter(
       {this.allocator = Allocator.none,
-      bool? orderDirectives = false,
-      bool? useNullSafetySyntax = false})
-      : orderDirectives = orderDirectives ?? false,
-        _useNullSafetySyntax = useNullSafetySyntax ?? false;
+      this.orderDirectives = false,
+      bool useNullSafetySyntax = false})
+      : _useNullSafetySyntax = useNullSafetySyntax;
 
   /// Creates a new instance of [DartEmitter] with simple automatic imports.
   factory DartEmitter.scoped(
