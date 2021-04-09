@@ -136,7 +136,8 @@ void main() {
   test('should emit a scoped type as an expression', () {
     expect(
       refer('Foo', 'package:foo/foo.dart'),
-      equalsDart('_i1.Foo', DartEmitter(Allocator.simplePrefixing())),
+      equalsDart(
+          '_i1.Foo', DartEmitter(allocator: Allocator.simplePrefixing())),
     );
   });
 
