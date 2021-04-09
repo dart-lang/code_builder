@@ -162,5 +162,5 @@ class ScopedCode implements Code {
       visitor.visitScopedCode(this, context);
 
   @override
-  String toString() => code((ref) => ref.symbol);
+  String toString() => code((ref) => ref.symbol!);
 }

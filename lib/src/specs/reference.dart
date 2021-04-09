@@ -29,7 +29,10 @@ class Reference extends Expression implements Spec {
   final String? url;
 
   /// Name of the class, method, or field.
-  final String symbol;
+  ///
+  /// May be `null` for references without symbols, for instance a function type
+  /// has no symbol.
+  final String? symbol;
 
   /// Create a reference to [symbol] in [url].
   const Reference(this.symbol, [this.url]);

@@ -54,7 +54,7 @@ class _Allocator implements Allocator {
     if (reference.url != null) {
       _imports.add(reference.url!);
     }
-    return reference.symbol;
+    return reference.symbol!;
   }
 
   @override
@@ -65,7 +65,7 @@ class _NullAllocator implements Allocator {
   const _NullAllocator();
 
   @override
-  String allocate(Reference reference) => reference.symbol;
+  String allocate(Reference reference) => reference.symbol!;
 
   @override
   Iterable<Directive> get imports => const [];
