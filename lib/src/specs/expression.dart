@@ -19,6 +19,7 @@ part 'expression/closure.dart';
 part 'expression/code.dart';
 part 'expression/invoke.dart';
 part 'expression/literal.dart';
+part 'expression/parenthesized.dart';
 
 /// Represents a [code] block that wraps an [Expression].
 
@@ -55,15 +56,12 @@ abstract class Expression implements Spec {
       BinaryExpression._(_empty, expression, '!', addSpace: false);
 
   /// Returns the result of `this` `as` [other].
-  Expression asA(Expression other) => CodeExpression(Block.of([
-        const Code('('),
-        BinaryExpression._(
-          expression,
-          other,
-          'as',
-        ).code,
-        const Code(')')
-      ]));
+  Expression asA(Expression other) =>
+      ParenthesizedExpression._(BinaryExpression._(
+        expression,
+        other,
+        'as',
+      ));
 
   /// Returns accessing the index operator (`[]`) on `this`.
   Expression index(Expression index) => BinaryExpression._(
@@ -333,6 +331,8 @@ abstract class ExpressionVisitor<T> implements SpecVisitor<T> {
   T visitLiteralListExpression(LiteralListExpression expression, [T? context]);
   T visitLiteralSetExpression(LiteralSetExpression expression, [T? context]);
   T visitLiteralMapExpression(LiteralMapExpression expression, [T? context]);
+  T visitParenthesizedExpression(ParenthesizedExpression expression,
+      [T? context]);
 }
 
 /// Knowledge of how to write valid Dart code from [ExpressionVisitor].
@@ -502,6 +502,18 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
       });
       return out..write('}');
     });
+  }
+
+  @override
+  StringSink visitParenthesizedExpression(
+    ParenthesizedExpression expression, [
+    StringSink? output,
+  ]) {
+    output ??= StringBuffer();
+    output.write('(');
+    expression.inner.accept(this, output);
+    output.write(')');
+    return output;
   }
 
   /// Executes [visit] within a context which may alter the output if [isConst]

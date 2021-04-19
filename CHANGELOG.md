@@ -2,6 +2,8 @@
 
 * Migrate to null safety.
 * Changed the DartEmittor constructor to use named optional parameters.
+* Add `ParenthesizedExpression` and
+  `ExpressionVisitor.visitParenthesizedExpression.`
 
 ## 3.7.0
 
