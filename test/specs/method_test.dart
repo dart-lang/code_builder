@@ -67,6 +67,18 @@ void main() {
     );
   });
 
+  test('should create a lambda method if the value is cast', () {
+    expect(
+      Method((b) => b
+        ..name = 'returnsCastedValue'
+        ..returns = refer('Foo')
+        ..body = refer('bar').asA(refer('Foo')).code),
+      equalsDart(r'''
+        Foo returnsCastedValue() => (bar as Foo)
+      '''),
+    );
+  });
+
   test('should create a normal method implicitly', () {
     expect(
       Method.returnsVoid((b) => b
