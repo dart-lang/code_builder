@@ -278,6 +278,9 @@ abstract class Expression implements Spec {
       );
 
   /// Applies the null check operator on this expression, returning `this` `!`.
+  ///
+  /// Please note that this is only valid when emitting code with the null
+  /// safety syntax enabled.
   Expression get nullChecked => BinaryExpression._(
         this,
         const LiteralExpression._('!'),
