@@ -38,6 +38,9 @@ abstract class Field extends Object
   /// This is only valid within classes.
   bool get static;
 
+  /// Whether this field should be prefixed with 'late'.
+  bool get isLate;
+
   /// Name of the field.
   String get name;
 
@@ -79,6 +82,9 @@ abstract class FieldBuilder extends Object
   ///
   /// This is only valid within classes.
   bool static = false;
+
+  /// Whether this field should be prefixed with 'late'.
+  bool isLate = false;
 
   /// Name of the field.
   String? name;

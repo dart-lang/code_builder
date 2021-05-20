@@ -41,6 +41,29 @@ void main() {
     );
   });
 
+  test('should create a late field', () {
+    expect(
+      Field((b) => b
+        ..isLate = true
+        ..name = 'foo'),
+      equalsDart(r'''
+        late var foo;
+      '''),
+    );
+  });
+
+  test('should create a static late field', () {
+    expect(
+      Field((b) => b
+        ..static = true
+        ..isLate = true
+        ..name = 'foo'),
+      equalsDart(r'''
+        static late var foo;
+      '''),
+    );
+  });
+
   test('should create a constant field', () {
     expect(
       Field((b) => b

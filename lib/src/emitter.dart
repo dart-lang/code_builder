@@ -311,6 +311,9 @@ class DartEmitter extends Object
     if (spec.static) {
       output.write('static ');
     }
+    if(spec.isLate) {
+      output.write('late ');
+    }
     switch (spec.modifier) {
       case FieldModifier.var$:
         if (spec.type == null) {
