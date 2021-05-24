@@ -1,5 +1,5 @@
 name: code_builder
-version: 4.0.0
+version: 4.0.1-dev
 description: >-
   A fluent, builder-based library for generating valid Dart code
 homepage: https://github.com/dart-lang/code_builder
@@ -16,13 +16,9 @@ dependencies:
 
 dev_dependencies:
   build: ^2.0.0
-  build_runner: ^1.12.2
+  build_runner: ^2.0.3
   built_value_generator: ^8.0.0
   dart_style: ^2.0.0
   pedantic: ^1.10.0
   source_gen: ^1.0.0
   test: ^1.16.0
-
-dependency_overrides:
-  # Due to dependency cycle
-  build_runner: ^1.12.2
