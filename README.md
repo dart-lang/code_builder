@@ -55,7 +55,7 @@ void main() {
           ..name = 'doOther'
           ..returns = refer('Other', 'package:b/b.dart')),
       ]));
-  final emitter = DartEmitter(Allocator.simplePrefixing());
+  final emitter = DartEmitter.scoped();
   print(DartFormatter().format('${library.accept(emitter)}'));
 }
 ```
