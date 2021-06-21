@@ -1,4 +1,5 @@
 ## 4.0.1-dev
+* Introduce `Expression.spread` for the spread operator `...`.
 
 ## 4.0.0
 

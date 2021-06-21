@@ -466,6 +466,13 @@ void main() {
     );
   });
 
+  test('should emit spread', () {
+    expect(
+      refer('foo').spread,
+      equalsDart('...foo'),
+    );
+  });
+
   test('should emit throw', () {
     expect(
       literalNull.thrown,
