@@ -14,6 +14,7 @@ import 'specs/extension.dart';
 import 'specs/field.dart';
 import 'specs/library.dart';
 import 'specs/method.dart';
+import 'specs/mixin.dart';
 import 'specs/reference.dart';
 import 'specs/type_function.dart';
 import 'specs/type_reference.dart';
@@ -25,6 +26,8 @@ abstract class SpecVisitor<T> {
   T visitAnnotation(Expression spec, [T? context]);
 
   T visitClass(Class spec, [T? context]);
+
+  T visitMixin(Mixin spec, [T? context]);
 
   T visitExtension(Extension spec, [T? context]);
 

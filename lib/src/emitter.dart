@@ -14,6 +14,7 @@ import 'specs/extension.dart';
 import 'specs/field.dart';
 import 'specs/library.dart';
 import 'specs/method.dart';
+import 'specs/mixin.dart';
 import 'specs/reference.dart';
 import 'specs/type_function.dart';
 import 'specs/type_reference.dart';
@@ -147,6 +148,40 @@ class DartEmitter extends Object
       out.writeln();
     });
     out.writeln(' }');
+    return out;
+  }
+
+  @override
+  StringSink visitMixin(Mixin spec, [StringSink? output]) {
+    final out = output ??= StringBuffer();
+    spec.docs.forEach(out.writeln);
+    spec.annotations.forEach((a) => visitAnnotation(a, out));
+
+    out.write('mixin ${spec.name}');
+    visitTypeParameters(spec.types.map((r) => r.type), out);
+    if (spec.on != null) {
+      out.write(' on ');
+      spec.on!.type.accept(this, out);
+    }
+    if (spec.implements.isNotEmpty) {
+      out
+        ..write(' implements ')
+        ..writeAll(
+            spec.implements.map<StringSink>((m) => m.type.accept(this)), ',');
+    }
+    out.write('  {');
+    spec.fields.forEach((f) {
+      visitField(f, out);
+      out.writeln();
+    });
+    spec.methods.forEach((m) {
+      visitMethod(m, out);
+      if (_isLambdaMethod(m)) {
+        out.write(';');
+      }
+      out.writeln();
+    });
+    out.write('  }');
     return out;
   }
 
