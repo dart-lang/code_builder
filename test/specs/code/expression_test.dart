@@ -377,6 +377,10 @@ void main() {
     );
   });
 
+  test('should emit a null check', () {
+    expect(refer('foo').nullChecked, equalsDart('foo!'));
+  });
+
   test('should emit an if null index operator set', () {
     expect(
       refer('bar')

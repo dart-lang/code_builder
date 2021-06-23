@@ -277,6 +277,17 @@ abstract class Expression implements Spec {
         addSpace: false,
       );
 
+  /// Applies the null check operator on this expression, returning `this` `!`.
+  ///
+  /// Please note that this is only valid when emitting code with the null
+  /// safety syntax enabled.
+  Expression get nullChecked => BinaryExpression._(
+        this,
+        const LiteralExpression._('!'),
+        '',
+        addSpace: false,
+      );
+
   /// This expression preceded by `return`.
   Expression get returned => BinaryExpression._(
         const LiteralExpression._('return'),
