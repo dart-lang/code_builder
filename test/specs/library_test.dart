@@ -137,5 +137,36 @@ void main() {
           ''', DartEmitter()),
       );
     });
+
+    test('should emit a source file with annotations', () {
+      expect(
+        Library(
+          (b) => b
+            ..name = 'js_interop'
+            ..annotations.add(
+              refer('JS', 'package:js/js.dart').call([]),
+            ),
+        ),
+        equalsDart(r'''
+          @JS()
+          library js_interop;
+          import 'package:js/js.dart';
+        ''', DartEmitter(allocator: Allocator())),
+      );
+    });
+
+    test('should error on unnamed library with annotations', () {
+      expect(
+        () {
+          Library(
+            (b) => b
+              ..annotations.add(
+                refer('JS', 'package:js/js.dart').call([]),
+              ),
+          ).accept(DartEmitter());
+        },
+        throwsStateError,
+      );
+    });
   });
 }

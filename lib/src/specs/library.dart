@@ -7,18 +7,30 @@ import 'package:built_value/built_value.dart';
 import 'package:meta/meta.dart';
 
 import '../base.dart';
+import '../mixins/annotations.dart';
 import '../visitors.dart';
 import 'directive.dart';
+import 'expression.dart';
 
 part 'library.g.dart';
 
 @immutable
-abstract class Library implements Built<Library, LibraryBuilder>, Spec {
+abstract class Library
+    with HasAnnotations
+    implements Built<Library, LibraryBuilder>, Spec {
   factory Library([void Function(LibraryBuilder) updates]) = _$Library;
   Library._();
 
+  @override
+  BuiltList<Expression> get annotations;
+
   BuiltList<Directive> get directives;
   BuiltList<Spec> get body;
+
+  /// Name of the library.
+  ///
+  /// May be `null` when no [annotations] are specified.
+  String? get name;
 
   @override
   R accept<R>(
@@ -28,10 +40,17 @@ abstract class Library implements Built<Library, LibraryBuilder>, Spec {
       visitor.visitLibrary(this, context);
 }
 
-abstract class LibraryBuilder implements Builder<Library, LibraryBuilder> {
+abstract class LibraryBuilder
+    with HasAnnotationsBuilder
+    implements Builder<Library, LibraryBuilder> {
   factory LibraryBuilder() = _$LibraryBuilder;
   LibraryBuilder._();
 
+  @override
+  ListBuilder<Expression> annotations = ListBuilder<Expression>();
+
   ListBuilder<Spec> body = ListBuilder<Spec>();
   ListBuilder<Directive> directives = ListBuilder<Directive>();
+
+  String? name;
 }
