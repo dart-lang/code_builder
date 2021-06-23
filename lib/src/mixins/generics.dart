@@ -13,5 +13,5 @@ abstract class HasGenerics {
 
 abstract class HasGenericsBuilder {
   /// Generic type parameters.
-  ListBuilder<Reference> types;
+  abstract ListBuilder<Reference> types;
 }

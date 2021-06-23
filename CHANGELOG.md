@@ -1,6 +1,18 @@
-## 3.6.1
+## 4.1.0-dev
 
-Added support 'late' field modifier
+* Add support 'late' field modifier.
+
+## 4.0.0
+
+* Migrate to null safety.
+* Changed the DartEmittor constructor to use named optional parameters.
+* Add `ParenthesizedExpression` and
+  `ExpressionVisitor.visitParenthesizedExpression.`
+
+## 3.7.0
+
+* Add support for converting a Method to a generic closure, with
+  `Method.genericClosure`.
 
 ## 3.6.0
 

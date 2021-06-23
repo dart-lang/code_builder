@@ -11,5 +11,5 @@ abstract class HasDartDocs {
 
 abstract class HasDartDocsBuilder {
   /// Dart docs.
-  ListBuilder<String> docs;
+  abstract ListBuilder<String> docs;
 }

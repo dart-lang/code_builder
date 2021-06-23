@@ -8,7 +8,7 @@ part of 'type_function.dart';
 
 class _$FunctionType extends FunctionType {
   @override
-  final Reference returnType;
+  final Reference? returnType;
   @override
   final BuiltList<Reference> types;
   @override
@@ -18,31 +18,26 @@ class _$FunctionType extends FunctionType {
   @override
   final BuiltMap<String, Reference> namedParameters;
   @override
-  final bool isNullable;
+  final bool? isNullable;
 
-  factory _$FunctionType([void Function(FunctionTypeBuilder) updates]) =>
+  factory _$FunctionType([void Function(FunctionTypeBuilder)? updates]) =>
       (new FunctionTypeBuilder()..update(updates)).build() as _$FunctionType;
 
   _$FunctionType._(
       {this.returnType,
-      this.types,
-      this.requiredParameters,
-      this.optionalParameters,
-      this.namedParameters,
+      required this.types,
+      required this.requiredParameters,
+      required this.optionalParameters,
+      required this.namedParameters,
       this.isNullable})
       : super._() {
-    if (types == null) {
-      throw new BuiltValueNullFieldError('FunctionType', 'types');
-    }
-    if (requiredParameters == null) {
-      throw new BuiltValueNullFieldError('FunctionType', 'requiredParameters');
-    }
-    if (optionalParameters == null) {
-      throw new BuiltValueNullFieldError('FunctionType', 'optionalParameters');
-    }
-    if (namedParameters == null) {
-      throw new BuiltValueNullFieldError('FunctionType', 'namedParameters');
-    }
+    BuiltValueNullFieldError.checkNotNull(types, 'FunctionType', 'types');
+    BuiltValueNullFieldError.checkNotNull(
+        requiredParameters, 'FunctionType', 'requiredParameters');
+    BuiltValueNullFieldError.checkNotNull(
+        optionalParameters, 'FunctionType', 'optionalParameters');
+    BuiltValueNullFieldError.checkNotNull(
+        namedParameters, 'FunctionType', 'namedParameters');
   }
 
   @override
@@ -91,16 +86,16 @@ class _$FunctionType extends FunctionType {
 }
 
 class _$FunctionTypeBuilder extends FunctionTypeBuilder {
-  _$FunctionType _$v;
+  _$FunctionType? _$v;
 
   @override
-  Reference get returnType {
+  Reference? get returnType {
     _$this;
     return super.returnType;
   }
 
   @override
-  set returnType(Reference returnType) {
+  set returnType(Reference? returnType) {
     _$this;
     super.returnType = returnType;
   }
@@ -108,7 +103,7 @@ class _$FunctionTypeBuilder extends FunctionTypeBuilder {
   @override
   ListBuilder<Reference> get types {
     _$this;
-    return super.types ??= new ListBuilder<Reference>();
+    return super.types;
   }
 
   @override
@@ -120,7 +115,7 @@ class _$FunctionTypeBuilder extends FunctionTypeBuilder {
   @override
   ListBuilder<Reference> get requiredParameters {
     _$this;
-    return super.requiredParameters ??= new ListBuilder<Reference>();
+    return super.requiredParameters;
   }
 
   @override
@@ -132,7 +127,7 @@ class _$FunctionTypeBuilder extends FunctionTypeBuilder {
   @override
   ListBuilder<Reference> get optionalParameters {
     _$this;
-    return super.optionalParameters ??= new ListBuilder<Reference>();
+    return super.optionalParameters;
   }
 
   @override
@@ -144,7 +139,7 @@ class _$FunctionTypeBuilder extends FunctionTypeBuilder {
   @override
   MapBuilder<String, Reference> get namedParameters {
     _$this;
-    return super.namedParameters ??= new MapBuilder<String, Reference>();
+    return super.namedParameters;
   }
 
   @override
@@ -154,13 +149,13 @@ class _$FunctionTypeBuilder extends FunctionTypeBuilder {
   }
 
   @override
-  bool get isNullable {
+  bool? get isNullable {
     _$this;
     return super.isNullable;
   }
 
   @override
-  set isNullable(bool isNullable) {
+  set isNullable(bool? isNullable) {
     _$this;
     super.isNullable = isNullable;
   }
@@ -168,13 +163,14 @@ class _$FunctionTypeBuilder extends FunctionTypeBuilder {
   _$FunctionTypeBuilder() : super._();
 
   FunctionTypeBuilder get _$this {
-    if (_$v != null) {
-      super.returnType = _$v.returnType;
-      super.types = _$v.types?.toBuilder();
-      super.requiredParameters = _$v.requiredParameters?.toBuilder();
-      super.optionalParameters = _$v.optionalParameters?.toBuilder();
-      super.namedParameters = _$v.namedParameters?.toBuilder();
-      super.isNullable = _$v.isNullable;
+    final $v = _$v;
+    if ($v != null) {
+      super.returnType = $v.returnType;
+      super.types = $v.types.toBuilder();
+      super.requiredParameters = $v.requiredParameters.toBuilder();
+      super.optionalParameters = $v.optionalParameters.toBuilder();
+      super.namedParameters = $v.namedParameters.toBuilder();
+      super.isNullable = $v.isNullable;
       _$v = null;
     }
     return this;
@@ -182,14 +178,12 @@ class _$FunctionTypeBuilder extends FunctionTypeBuilder {
 
   @override
   void replace(FunctionType other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$FunctionType;
   }
 
   @override
-  void update(void Function(FunctionTypeBuilder) updates) {
+  void update(void Function(FunctionTypeBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -206,7 +200,7 @@ class _$FunctionTypeBuilder extends FunctionTypeBuilder {
               namedParameters: namedParameters.build(),
               isNullable: isNullable);
     } catch (_) {
-      String _$failedField;
+      late String _$failedField;
       try {
         _$failedField = 'types';
         types.build();

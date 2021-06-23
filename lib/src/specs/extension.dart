@@ -2,11 +2,10 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:built_value/built_value.dart';
 import 'package:built_collection/built_collection.dart';
+import 'package:built_value/built_value.dart';
 import 'package:meta/meta.dart';
 
-import '../../code_builder.dart';
 import '../base.dart';
 import '../mixins/annotations.dart';
 import '../mixins/dartdoc.dart';
@@ -33,23 +32,22 @@ abstract class Extension extends Object
   @override
   BuiltList<String> get docs;
 
-  @nullable
-  Reference get on;
+  Reference? get on;
 
   @override
   BuiltList<Reference> get types;
 
   BuiltList<Method> get methods;
+
   BuiltList<Field> get fields;
 
   /// Name of the extension - optional.
-  @nullable
-  String get name;
+  String? get name;
 
   @override
   R accept<R>(
     SpecVisitor<R> visitor, [
-    R context,
+    R? context,
   ]) =>
       visitor.visitExtension(this, context);
 }
@@ -67,7 +65,7 @@ abstract class ExtensionBuilder extends Object
   @override
   ListBuilder<String> docs = ListBuilder<String>();
 
-  Reference on;
+  Reference? on;
 
   @override
   ListBuilder<Reference> types = ListBuilder<Reference>();
@@ -76,5 +74,5 @@ abstract class ExtensionBuilder extends Object
   ListBuilder<Field> fields = ListBuilder<Field>();
 
   /// Name of the extension - optional.
-  String name;
+  String? name;
 }

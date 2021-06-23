@@ -18,7 +18,7 @@ String _dart(Spec spec, DartEmitter emitter) =>
 /// be overridden with [emitter].
 Matcher equalsDart(
   String source, [
-  DartEmitter emitter,
+  DartEmitter? emitter,
 ]) =>
     EqualsDart._(EqualsDart._format(source), emitter ?? DartEmitter());
 

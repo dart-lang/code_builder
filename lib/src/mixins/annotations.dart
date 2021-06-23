@@ -15,5 +15,5 @@ abstract class HasAnnotations {
 /// Compliment to the [HasAnnotations] mixin for metadata [annotations].
 abstract class HasAnnotationsBuilder {
   /// Annotations as metadata on the node.
-  ListBuilder<Expression> annotations;
+  abstract ListBuilder<Expression> annotations;
 }

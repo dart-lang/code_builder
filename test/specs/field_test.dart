@@ -55,7 +55,7 @@ void main() {
   test('should create a late field', () {
     expect(
       Field((b) => b
-        ..lated = true
+        ..late = true
         ..name = 'foo'),
       equalsDart(r'''
         late var foo;
@@ -67,7 +67,7 @@ void main() {
     expect(
       Field((b) => b
         ..static = true
-        ..lated = true
+        ..late = true
         ..name = 'foo'),
       equalsDart(r'''
         static late var foo;

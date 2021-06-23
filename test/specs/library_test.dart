@@ -91,7 +91,7 @@ void main() {
           import 'dart:collection';
           
           final test = LinkedHashMap();
-        ''', DartEmitter(Allocator())),
+        ''', DartEmitter(allocator: Allocator())),
       );
     });
 
@@ -106,7 +106,7 @@ void main() {
           import 'dart:collection' as _i1;
           
           final test = _i1.LinkedHashMap();
-        ''', DartEmitter(Allocator.simplePrefixing())),
+        ''', DartEmitter(allocator: Allocator.simplePrefixing())),
       );
     });
 
