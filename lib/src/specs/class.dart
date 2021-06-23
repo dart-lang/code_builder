@@ -2,8 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:built_value/built_value.dart';
 import 'package:built_collection/built_collection.dart';
+import 'package:built_value/built_value.dart';
 import 'package:meta/meta.dart';
 
 import '../base.dart';
@@ -36,8 +36,7 @@ abstract class Class extends Object
   @override
   BuiltList<Object> get docs;
 
-  @nullable
-  Reference get extend;
+  Reference? get extend;
 
   BuiltList<Reference> get implements;
 
@@ -56,7 +55,7 @@ abstract class Class extends Object
   @override
   R accept<R>(
     SpecVisitor<R> visitor, [
-    R context,
+    R? context,
   ]) =>
       visitor.visitClass(this, context);
 }
@@ -68,6 +67,11 @@ abstract class ClassBuilder extends Object
 
   ClassBuilder._();
 
+  @override
+  void update(void Function(ClassBuilder)? updates) {
+    updates?.call(this);
+  }
+
   /// Whether the class is `abstract`.
   bool abstract = false;
 
@@ -77,7 +81,7 @@ abstract class ClassBuilder extends Object
   @override
   ListBuilder<Object> docs = ListBuilder<Object>();
 
-  Reference extend;
+  Reference? extend;
 
   ListBuilder<Reference> implements = ListBuilder<Reference>();
   ListBuilder<Reference> mixins = ListBuilder<Reference>();
@@ -90,5 +94,5 @@ abstract class ClassBuilder extends Object
   ListBuilder<Field> fields = ListBuilder<Field>();
 
   /// Name of the class.
-  String name;
+  String? name;
 }

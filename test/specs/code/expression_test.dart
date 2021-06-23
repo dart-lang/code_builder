@@ -136,7 +136,8 @@ void main() {
   test('should emit a scoped type as an expression', () {
     expect(
       refer('Foo', 'package:foo/foo.dart'),
-      equalsDart('_i1.Foo', DartEmitter(Allocator.simplePrefixing())),
+      equalsDart(
+          '_i1.Foo', DartEmitter(allocator: Allocator.simplePrefixing())),
     );
   });
 
@@ -350,6 +351,18 @@ void main() {
     );
   });
 
+  test('should emit a generic closure', () {
+    expect(
+      refer('map').property('putIfAbsent').call([
+        literalString('foo'),
+        Method((b) => b
+          ..types.add(refer('T'))
+          ..body = literalTrue.code).genericClosure,
+      ]),
+      equalsDart("map.putIfAbsent('foo', <T>() => true)"),
+    );
+  });
+
   test('should emit an assignment', () {
     expect(
       refer('foo').assign(literalTrue),
@@ -463,7 +476,7 @@ void main() {
   test('should emit an explicit cast', () {
     expect(
       refer('foo').asA(refer('String')).property('length'),
-      equalsDart('( foo as String ).length'),
+      equalsDart('(foo as String).length'),
     );
   });
 

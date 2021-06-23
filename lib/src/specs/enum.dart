@@ -34,7 +34,7 @@ abstract class Enum extends Object
   @override
   R accept<R>(
     SpecVisitor<R> visitor, [
-    R context,
+    R? context,
   ]) =>
       visitor.visitEnum(this, context);
 }
@@ -46,7 +46,7 @@ abstract class EnumBuilder extends Object
 
   EnumBuilder._();
 
-  String name;
+  String? name;
 
   ListBuilder<EnumValue> values = ListBuilder<EnumValue>();
 
@@ -81,7 +81,7 @@ abstract class EnumValueBuilder extends Object
 
   EnumValueBuilder._();
 
-  String name;
+  String? name;
 
   @override
   ListBuilder<Expression> annotations = ListBuilder<Expression>();

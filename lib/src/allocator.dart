@@ -50,10 +50,11 @@ class _Allocator implements Allocator {
 
   @override
   String allocate(Reference reference) {
-    if (reference.url != null) {
-      _imports.add(reference.url);
+    final url = reference.url;
+    if (url != null) {
+      _imports.add(url);
     }
-    return reference.symbol;
+    return reference.symbol!;
   }
 
   @override
@@ -64,7 +65,7 @@ class _NullAllocator implements Allocator {
   const _NullAllocator();
 
   @override
-  String allocate(Reference reference) => reference.symbol;
+  String allocate(Reference reference) => reference.symbol!;
 
   @override
   Iterable<Directive> get imports => const [];
@@ -79,10 +80,11 @@ class _PrefixedAllocator implements Allocator {
   @override
   String allocate(Reference reference) {
     final symbol = reference.symbol;
-    if (reference.url == null || _doNotPrefix.contains(reference.url)) {
-      return symbol;
+    final url = reference.url;
+    if (url == null || _doNotPrefix.contains(url)) {
+      return symbol!;
     }
-    return '_i${_imports.putIfAbsent(reference.url, _nextKey)}.$symbol';
+    return '_i${_imports.putIfAbsent(url, _nextKey)}.$symbol';
   }
 
   int _nextKey() => _keys++;

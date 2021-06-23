@@ -22,7 +22,7 @@ void main() {
   });
 
   group('in a Null Safety library', () {
-    DartEmitter emitter;
+    late DartEmitter emitter;
 
     setUp(() => emitter = DartEmitter.scoped(useNullSafetySyntax: true));
 

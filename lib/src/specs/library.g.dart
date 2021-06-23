@@ -12,16 +12,12 @@ class _$Library extends Library {
   @override
   final BuiltList<Spec> body;
 
-  factory _$Library([void Function(LibraryBuilder) updates]) =>
+  factory _$Library([void Function(LibraryBuilder)? updates]) =>
       (new LibraryBuilder()..update(updates)).build() as _$Library;
 
-  _$Library._({this.directives, this.body}) : super._() {
-    if (directives == null) {
-      throw new BuiltValueNullFieldError('Library', 'directives');
-    }
-    if (body == null) {
-      throw new BuiltValueNullFieldError('Library', 'body');
-    }
+  _$Library._({required this.directives, required this.body}) : super._() {
+    BuiltValueNullFieldError.checkNotNull(directives, 'Library', 'directives');
+    BuiltValueNullFieldError.checkNotNull(body, 'Library', 'body');
   }
 
   @override
@@ -54,12 +50,12 @@ class _$Library extends Library {
 }
 
 class _$LibraryBuilder extends LibraryBuilder {
-  _$Library _$v;
+  _$Library? _$v;
 
   @override
   ListBuilder<Directive> get directives {
     _$this;
-    return super.directives ??= new ListBuilder<Directive>();
+    return super.directives;
   }
 
   @override
@@ -71,7 +67,7 @@ class _$LibraryBuilder extends LibraryBuilder {
   @override
   ListBuilder<Spec> get body {
     _$this;
-    return super.body ??= new ListBuilder<Spec>();
+    return super.body;
   }
 
   @override
@@ -83,9 +79,10 @@ class _$LibraryBuilder extends LibraryBuilder {
   _$LibraryBuilder() : super._();
 
   LibraryBuilder get _$this {
-    if (_$v != null) {
-      super.directives = _$v.directives?.toBuilder();
-      super.body = _$v.body?.toBuilder();
+    final $v = _$v;
+    if ($v != null) {
+      super.directives = $v.directives.toBuilder();
+      super.body = $v.body.toBuilder();
       _$v = null;
     }
     return this;
@@ -93,14 +90,12 @@ class _$LibraryBuilder extends LibraryBuilder {
 
   @override
   void replace(Library other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$Library;
   }
 
   @override
-  void update(void Function(LibraryBuilder) updates) {
+  void update(void Function(LibraryBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -111,7 +106,7 @@ class _$LibraryBuilder extends LibraryBuilder {
       _$result = _$v ??
           new _$Library._(directives: directives.build(), body: body.build());
     } catch (_) {
-      String _$failedField;
+      late String _$failedField;
       try {
         _$failedField = 'directives';
         directives.build();

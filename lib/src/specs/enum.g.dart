@@ -16,22 +16,19 @@ class _$Enum extends Enum {
   @override
   final BuiltList<Object> docs;
 
-  factory _$Enum([void Function(EnumBuilder) updates]) =>
+  factory _$Enum([void Function(EnumBuilder)? updates]) =>
       (new EnumBuilder()..update(updates)).build() as _$Enum;
 
-  _$Enum._({this.name, this.values, this.annotations, this.docs}) : super._() {
-    if (name == null) {
-      throw new BuiltValueNullFieldError('Enum', 'name');
-    }
-    if (values == null) {
-      throw new BuiltValueNullFieldError('Enum', 'values');
-    }
-    if (annotations == null) {
-      throw new BuiltValueNullFieldError('Enum', 'annotations');
-    }
-    if (docs == null) {
-      throw new BuiltValueNullFieldError('Enum', 'docs');
-    }
+  _$Enum._(
+      {required this.name,
+      required this.values,
+      required this.annotations,
+      required this.docs})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(name, 'Enum', 'name');
+    BuiltValueNullFieldError.checkNotNull(values, 'Enum', 'values');
+    BuiltValueNullFieldError.checkNotNull(annotations, 'Enum', 'annotations');
+    BuiltValueNullFieldError.checkNotNull(docs, 'Enum', 'docs');
   }
 
   @override
@@ -70,16 +67,16 @@ class _$Enum extends Enum {
 }
 
 class _$EnumBuilder extends EnumBuilder {
-  _$Enum _$v;
+  _$Enum? _$v;
 
   @override
-  String get name {
+  String? get name {
     _$this;
     return super.name;
   }
 
   @override
-  set name(String name) {
+  set name(String? name) {
     _$this;
     super.name = name;
   }
@@ -87,7 +84,7 @@ class _$EnumBuilder extends EnumBuilder {
   @override
   ListBuilder<EnumValue> get values {
     _$this;
-    return super.values ??= new ListBuilder<EnumValue>();
+    return super.values;
   }
 
   @override
@@ -99,7 +96,7 @@ class _$EnumBuilder extends EnumBuilder {
   @override
   ListBuilder<Expression> get annotations {
     _$this;
-    return super.annotations ??= new ListBuilder<Expression>();
+    return super.annotations;
   }
 
   @override
@@ -111,7 +108,7 @@ class _$EnumBuilder extends EnumBuilder {
   @override
   ListBuilder<Object> get docs {
     _$this;
-    return super.docs ??= new ListBuilder<Object>();
+    return super.docs;
   }
 
   @override
@@ -123,11 +120,12 @@ class _$EnumBuilder extends EnumBuilder {
   _$EnumBuilder() : super._();
 
   EnumBuilder get _$this {
-    if (_$v != null) {
-      super.name = _$v.name;
-      super.values = _$v.values?.toBuilder();
-      super.annotations = _$v.annotations?.toBuilder();
-      super.docs = _$v.docs?.toBuilder();
+    final $v = _$v;
+    if ($v != null) {
+      super.name = $v.name;
+      super.values = $v.values.toBuilder();
+      super.annotations = $v.annotations.toBuilder();
+      super.docs = $v.docs.toBuilder();
       _$v = null;
     }
     return this;
@@ -135,14 +133,12 @@ class _$EnumBuilder extends EnumBuilder {
 
   @override
   void replace(Enum other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$Enum;
   }
 
   @override
-  void update(void Function(EnumBuilder) updates) {
+  void update(void Function(EnumBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -152,12 +148,12 @@ class _$EnumBuilder extends EnumBuilder {
     try {
       _$result = _$v ??
           new _$Enum._(
-              name: name,
+              name: BuiltValueNullFieldError.checkNotNull(name, 'Enum', 'name'),
               values: values.build(),
               annotations: annotations.build(),
               docs: docs.build());
     } catch (_) {
-      String _$failedField;
+      late String _$failedField;
       try {
         _$failedField = 'values';
         values.build();
@@ -184,19 +180,16 @@ class _$EnumValue extends EnumValue {
   @override
   final BuiltList<Object> docs;
 
-  factory _$EnumValue([void Function(EnumValueBuilder) updates]) =>
+  factory _$EnumValue([void Function(EnumValueBuilder)? updates]) =>
       (new EnumValueBuilder()..update(updates)).build() as _$EnumValue;
 
-  _$EnumValue._({this.name, this.annotations, this.docs}) : super._() {
-    if (name == null) {
-      throw new BuiltValueNullFieldError('EnumValue', 'name');
-    }
-    if (annotations == null) {
-      throw new BuiltValueNullFieldError('EnumValue', 'annotations');
-    }
-    if (docs == null) {
-      throw new BuiltValueNullFieldError('EnumValue', 'docs');
-    }
+  _$EnumValue._(
+      {required this.name, required this.annotations, required this.docs})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(name, 'EnumValue', 'name');
+    BuiltValueNullFieldError.checkNotNull(
+        annotations, 'EnumValue', 'annotations');
+    BuiltValueNullFieldError.checkNotNull(docs, 'EnumValue', 'docs');
   }
 
   @override
@@ -232,16 +225,16 @@ class _$EnumValue extends EnumValue {
 }
 
 class _$EnumValueBuilder extends EnumValueBuilder {
-  _$EnumValue _$v;
+  _$EnumValue? _$v;
 
   @override
-  String get name {
+  String? get name {
     _$this;
     return super.name;
   }
 
   @override
-  set name(String name) {
+  set name(String? name) {
     _$this;
     super.name = name;
   }
@@ -249,7 +242,7 @@ class _$EnumValueBuilder extends EnumValueBuilder {
   @override
   ListBuilder<Expression> get annotations {
     _$this;
-    return super.annotations ??= new ListBuilder<Expression>();
+    return super.annotations;
   }
 
   @override
@@ -261,7 +254,11 @@ class _$EnumValueBuilder extends EnumValueBuilder {
   @override
   ListBuilder<Object> get docs {
     _$this;
+<<<<<<< HEAD
     return super.docs ??= new ListBuilder<Object>();
+=======
+    return super.docs;
+>>>>>>> master
   }
 
   @override
@@ -273,10 +270,11 @@ class _$EnumValueBuilder extends EnumValueBuilder {
   _$EnumValueBuilder() : super._();
 
   EnumValueBuilder get _$this {
-    if (_$v != null) {
-      super.name = _$v.name;
-      super.annotations = _$v.annotations?.toBuilder();
-      super.docs = _$v.docs?.toBuilder();
+    final $v = _$v;
+    if ($v != null) {
+      super.name = $v.name;
+      super.annotations = $v.annotations.toBuilder();
+      super.docs = $v.docs.toBuilder();
       _$v = null;
     }
     return this;
@@ -284,14 +282,12 @@ class _$EnumValueBuilder extends EnumValueBuilder {
 
   @override
   void replace(EnumValue other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$EnumValue;
   }
 
   @override
-  void update(void Function(EnumValueBuilder) updates) {
+  void update(void Function(EnumValueBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -301,9 +297,12 @@ class _$EnumValueBuilder extends EnumValueBuilder {
     try {
       _$result = _$v ??
           new _$EnumValue._(
-              name: name, annotations: annotations.build(), docs: docs.build());
+              name: BuiltValueNullFieldError.checkNotNull(
+                  name, 'EnumValue', 'name'),
+              annotations: annotations.build(),
+              docs: docs.build());
     } catch (_) {
-      String _$failedField;
+      late String _$failedField;
       try {
         _$failedField = 'annotations';
         annotations.build();

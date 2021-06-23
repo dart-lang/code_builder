@@ -4,6 +4,7 @@
 
 part of code_builder.src.specs.expression;
 
+/// Returns [method] as closure, removing its return type and type parameters.
 Expression toClosure(Method method) {
   final withoutTypes = method.rebuild((b) {
     b.returns = null;
@@ -12,12 +13,20 @@ Expression toClosure(Method method) {
   return ClosureExpression._(withoutTypes);
 }
 
+/// Returns [method] as a (possibly) generic closure, removing its return type.
+Expression toGenericClosure(Method method) {
+  final withoutReturnType = method.rebuild((b) {
+    b.returns = null;
+  });
+  return ClosureExpression._(withoutReturnType);
+}
+
 class ClosureExpression extends Expression {
   final Method method;
 
   const ClosureExpression._(this.method);
 
   @override
-  R accept<R>(ExpressionVisitor<R> visitor, [R context]) =>
+  R accept<R>(ExpressionVisitor<R> visitor, [R? context]) =>
       visitor.visitClosureExpression(this, context);
 }

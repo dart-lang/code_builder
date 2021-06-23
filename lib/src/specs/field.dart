@@ -31,8 +31,7 @@ abstract class Field extends Object
   BuiltList<Object> get docs;
 
   /// Field assignment, if any.
-  @nullable
-  Code get assignment;
+  Code? get assignment;
 
   /// Whether this field should be prefixed with `static`.
   ///
@@ -42,15 +41,14 @@ abstract class Field extends Object
   /// Name of the field.
   String get name;
 
-  @nullable
-  Reference get type;
+  Reference? get type;
 
   FieldModifier get modifier;
 
   @override
   R accept<R>(
     SpecVisitor<R> visitor, [
-    R context,
+    R? context,
   ]) =>
       visitor.visitField(this, context);
 }
@@ -75,7 +73,7 @@ abstract class FieldBuilder extends Object
   ListBuilder<Object> docs = ListBuilder<Object>();
 
   /// Field assignment, if any.
-  Code assignment;
+  Code? assignment;
 
   /// Whether this field should be prefixed with `static`.
   ///
@@ -83,9 +81,9 @@ abstract class FieldBuilder extends Object
   bool static = false;
 
   /// Name of the field.
-  String name;
+  String? name;
 
-  Reference type;
+  Reference? type;
 
   FieldModifier modifier = FieldModifier.var$;
 }
