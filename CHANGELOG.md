@@ -1,5 +1,6 @@
 ## 4.1.0-dev
 
+* Add `Expression.spread` for the spread operator `...`.
 * Add support 'late' field modifier.
 
 ## 4.0.0

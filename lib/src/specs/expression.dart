@@ -284,6 +284,14 @@ abstract class Expression implements Spec {
         '',
       );
 
+  /// This expression preceded by the spread operator `...`.
+  Expression get spread => BinaryExpression._(
+        const LiteralExpression._('...'),
+        this,
+        '',
+        addSpace: false,
+      );
+
   /// This expression preceded by `throw`.
   Expression get thrown => BinaryExpression._(
         const LiteralExpression._('throw'),
