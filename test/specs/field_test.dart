@@ -52,6 +52,29 @@ void main() {
     );
   });
 
+  test('should create a late field', () {
+    expect(
+      Field((b) => b
+        ..late = true
+        ..name = 'foo'),
+      equalsDart(r'''
+        late var foo;
+      '''),
+    );
+  });
+
+  test('should create a static late field', () {
+    expect(
+      Field((b) => b
+        ..static = true
+        ..late = true
+        ..name = 'foo'),
+      equalsDart(r'''
+        static late var foo;
+      '''),
+    );
+  });
+
   test('should create a field with an assignment', () {
     expect(
       Field((b) => b

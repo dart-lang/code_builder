@@ -16,6 +16,8 @@ class _$Field extends Field {
   @override
   final bool static;
   @override
+  final bool late;
+  @override
   final String name;
   @override
   final Reference? type;
@@ -30,6 +32,7 @@ class _$Field extends Field {
       required this.docs,
       this.assignment,
       required this.static,
+      required this.late,
       required this.name,
       this.type,
       required this.modifier})
@@ -37,6 +40,7 @@ class _$Field extends Field {
     BuiltValueNullFieldError.checkNotNull(annotations, 'Field', 'annotations');
     BuiltValueNullFieldError.checkNotNull(docs, 'Field', 'docs');
     BuiltValueNullFieldError.checkNotNull(static, 'Field', 'static');
+    BuiltValueNullFieldError.checkNotNull(late, 'Field', 'late');
     BuiltValueNullFieldError.checkNotNull(name, 'Field', 'name');
     BuiltValueNullFieldError.checkNotNull(modifier, 'Field', 'modifier');
   }
@@ -56,6 +60,7 @@ class _$Field extends Field {
         docs == other.docs &&
         assignment == other.assignment &&
         static == other.static &&
+        late == other.late &&
         name == other.name &&
         type == other.type &&
         modifier == other.modifier;
@@ -67,9 +72,11 @@ class _$Field extends Field {
         $jc(
             $jc(
                 $jc(
-                    $jc($jc($jc(0, annotations.hashCode), docs.hashCode),
-                        assignment.hashCode),
-                    static.hashCode),
+                    $jc(
+                        $jc($jc($jc(0, annotations.hashCode), docs.hashCode),
+                            assignment.hashCode),
+                        static.hashCode),
+                    late.hashCode),
                 name.hashCode),
             type.hashCode),
         modifier.hashCode));
@@ -82,6 +89,7 @@ class _$Field extends Field {
           ..add('docs', docs)
           ..add('assignment', assignment)
           ..add('static', static)
+          ..add('late', late)
           ..add('name', name)
           ..add('type', type)
           ..add('modifier', modifier))
@@ -141,6 +149,18 @@ class _$FieldBuilder extends FieldBuilder {
   }
 
   @override
+  bool get late {
+    _$this;
+    return super.late;
+  }
+
+  @override
+  set late(bool late) {
+    _$this;
+    super.late = late;
+  }
+
+  @override
   String? get name {
     _$this;
     return super.name;
@@ -185,6 +205,7 @@ class _$FieldBuilder extends FieldBuilder {
       super.docs = $v.docs.toBuilder();
       super.assignment = $v.assignment;
       super.static = $v.static;
+      super.late = $v.late;
       super.name = $v.name;
       super.type = $v.type;
       super.modifier = $v.modifier;
@@ -215,6 +236,8 @@ class _$FieldBuilder extends FieldBuilder {
               assignment: assignment,
               static: BuiltValueNullFieldError.checkNotNull(
                   static, 'Field', 'static'),
+              late:
+                  BuiltValueNullFieldError.checkNotNull(late, 'Field', 'late'),
               name:
                   BuiltValueNullFieldError.checkNotNull(name, 'Field', 'name'),
               type: type,
