@@ -6,7 +6,6 @@ import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:meta/meta.dart';
 
-import '../../code_builder.dart';
 import '../base.dart';
 import '../mixins/annotations.dart';
 import '../mixins/dartdoc.dart';
@@ -39,6 +38,7 @@ abstract class Extension extends Object
   BuiltList<Reference> get types;
 
   BuiltList<Method> get methods;
+
   BuiltList<Field> get fields;
 
   /// Name of the extension - optional.

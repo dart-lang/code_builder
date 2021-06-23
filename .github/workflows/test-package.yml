@@ -28,12 +28,12 @@ jobs:
           sdk: ${{ matrix.sdk }}
       - id: install
         name: Install dependencies
-        run: pub get
+        run: dart pub get
       - name: Check formatting
-        run: dartfmt --dry-run --set-exit-if-changed .
+        run: dart format --output=none --set-exit-if-changed .
         if: always() && steps.install.outcome == 'success'
       - name: Analyze code
-        run: dartanalyzer --fatal-infos --fatal-warnings .
+        run: dart analyze --fatal-infos .
         if: always() && steps.install.outcome == 'success'
 
   test:
@@ -51,7 +51,7 @@ jobs:
           sdk: ${{ matrix.sdk }}
       - id: install
         name: Install dependencies
-        run: pub get
+        run: dart pub get
       - name: Run VM tests
-        run: pub run test --platform vm
+        run: dart test --platform vm
         if: always() && steps.install.outcome == 'success'

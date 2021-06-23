@@ -1,3 +1,7 @@
+## 4.1.0-dev
+
+* Add support 'late' field modifier.
+
 ## 4.0.0
 
 * Migrate to null safety.
