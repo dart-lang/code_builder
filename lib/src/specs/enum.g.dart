@@ -254,11 +254,7 @@ class _$EnumValueBuilder extends EnumValueBuilder {
   @override
   ListBuilder<Object> get docs {
     _$this;
-<<<<<<< HEAD
-    return super.docs ??= new ListBuilder<Object>();
-=======
     return super.docs;
->>>>>>> master
   }
 
   @override

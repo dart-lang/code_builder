@@ -513,7 +513,6 @@ class DartEmitter extends Object
     bool optional = false,
     bool named = false,
   }) {
-    output ??= StringBuffer();
     _visitDocs(spec.docs, output);
     spec.annotations.forEach((a) => visitAnnotation(a, output));
     // The `required` keyword must precede the `covariant` keyword.
@@ -592,15 +591,15 @@ class DartEmitter extends Object
     return out;
   }
 
-  StringSink _visitDocs(Iterable<Object> docs, [StringSink output]) {
-    output ??= StringBuffer();
+  StringSink _visitDocs(Iterable<Object> docs, [StringSink? output]) {
+    final out = output ??= StringBuffer();
     for (var doc in docs) {
       if (doc is Reference) {
-        output.write('[');
-        visitReference(doc, output);
-        output.writeln(']');
+        out.write('[');
+        visitReference(doc, out);
+        out.writeln(']');
       } else if (doc is String) {
-        output.writeln(doc);
+        out.writeln(doc);
       } else {
         throw ArgumentError(
             "doc is expected to be a String or a Reference, but '$doc' is a "
