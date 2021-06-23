@@ -1,6 +1,7 @@
 ## 4.1.0-dev
 
 * Add support 'late' field modifier.
+* Add support for `Expression.nullChecked` to add a null assertion operator.
 
 ## 4.0.0
 
