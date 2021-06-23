@@ -6,10 +6,16 @@ import 'package:built_collection/built_collection.dart';
 
 abstract class HasDartDocs {
   /// Dart docs.
+  ///
+  /// This list may contain both [String]s and [Reference]s, so that elements
+  /// may be properly referenced with a prefix.
   BuiltList<Object> get docs;
 }
 
 abstract class HasDartDocsBuilder {
   /// Dart docs.
+  ///
+  /// This list may contain both [String]s and [Reference]s, so that elements
+  /// may be properly referenced with a prefix.
   abstract ListBuilder<Object> docs;
 }
