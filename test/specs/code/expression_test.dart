@@ -477,6 +477,13 @@ void main() {
     );
   });
 
+  test('should emit null safe spread', () {
+    expect(
+      refer('foo').nullSafeSpread,
+      equalsDart('...?foo'),
+    );
+  });
+
   test('should emit throw', () {
     expect(
       literalNull.thrown,

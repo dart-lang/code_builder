@@ -303,6 +303,14 @@ abstract class Expression implements Spec {
         addSpace: false,
       );
 
+  /// This expression precenede by the null safe spread operator `?...`.
+  Expression get nullSafeSpread => BinaryExpression._(
+        const LiteralExpression._('...?'),
+        this,
+        '',
+        addSpace: false,
+      );
+
   /// This expression preceded by `throw`.
   Expression get thrown => BinaryExpression._(
         const LiteralExpression._('throw'),
