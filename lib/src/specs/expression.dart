@@ -418,7 +418,9 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
         out, expression.type == InvokeExpressionType.constInstance, () {
       expression.target.accept(this, out);
       if (expression.name != null) {
-        out..write('.')..write(expression.name);
+        out
+          ..write('.')
+          ..write(expression.name);
       }
       if (expression.typeArguments.isNotEmpty) {
         out.write('<');
@@ -436,7 +438,9 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
         out.write(', ');
       }
       visitAll<String>(expression.namedArguments.keys, out, (name) {
-        out..write(name)..write(': ');
+        out
+          ..write(name)
+          ..write(': ');
         expression.namedArguments[name]!.accept(this, out);
       });
       return out..write(')');

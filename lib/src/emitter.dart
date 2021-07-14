@@ -202,7 +202,9 @@ class DartEmitter extends Object
     }
     output.write(clazz);
     if (spec.name != null) {
-      output..write('.')..write(spec.name);
+      output
+        ..write('.')
+        ..write(spec.name);
     }
     output.write('(');
     if (spec.requiredParameters.isNotEmpty) {
@@ -401,7 +403,9 @@ class DartEmitter extends Object
         // Note: dartfmt handles creating new lines between directives.
         // 2 lines are written here. The first one comes after the previous
         // directive `;`, the second is the empty line.
-        output..writeln()..writeln();
+        output
+          ..writeln()
+          ..writeln();
       }
       directive.accept(this, output);
       previous = directive;
@@ -444,7 +448,9 @@ class DartEmitter extends Object
       out.write('{');
       visitAll<String>(spec.namedParameters.keys, out, (name) {
         spec.namedParameters[name]!.accept(this, out);
-        out..write(' ')..write(name);
+        out
+          ..write(' ')
+          ..write(name);
       });
       out.write('}');
     }
@@ -471,7 +477,9 @@ class DartEmitter extends Object
       output.write(' ');
     }
     if (spec.type == MethodType.getter) {
-      output..write('get ')..write(spec.name);
+      output
+        ..write('get ')
+        ..write(spec.name);
     } else {
       if (spec.type == MethodType.setter) {
         output.write('set ');
