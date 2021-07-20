@@ -1,4 +1,4 @@
-## 4.1.0-dev
+## 4.1.0
 
 * Add `Expression.spread` for the spread operator `...`.
 * Add support 'late' field modifier.
