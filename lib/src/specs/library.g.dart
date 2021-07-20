@@ -8,14 +8,25 @@ part of 'library.dart';
 
 class _$Library extends Library {
   @override
+  final BuiltList<Expression> annotations;
+  @override
   final BuiltList<Directive> directives;
   @override
   final BuiltList<Spec> body;
+  @override
+  final String? name;
 
   factory _$Library([void Function(LibraryBuilder)? updates]) =>
       (new LibraryBuilder()..update(updates)).build() as _$Library;
 
-  _$Library._({required this.directives, required this.body}) : super._() {
+  _$Library._(
+      {required this.annotations,
+      required this.directives,
+      required this.body,
+      this.name})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        annotations, 'Library', 'annotations');
     BuiltValueNullFieldError.checkNotNull(directives, 'Library', 'directives');
     BuiltValueNullFieldError.checkNotNull(body, 'Library', 'body');
   }
@@ -31,26 +42,45 @@ class _$Library extends Library {
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
     return other is Library &&
+        annotations == other.annotations &&
         directives == other.directives &&
-        body == other.body;
+        body == other.body &&
+        name == other.name;
   }
 
   @override
   int get hashCode {
-    return $jf($jc($jc(0, directives.hashCode), body.hashCode));
+    return $jf($jc(
+        $jc($jc($jc(0, annotations.hashCode), directives.hashCode),
+            body.hashCode),
+        name.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper('Library')
+          ..add('annotations', annotations)
           ..add('directives', directives)
-          ..add('body', body))
+          ..add('body', body)
+          ..add('name', name))
         .toString();
   }
 }
 
 class _$LibraryBuilder extends LibraryBuilder {
   _$Library? _$v;
+
+  @override
+  ListBuilder<Expression> get annotations {
+    _$this;
+    return super.annotations;
+  }
+
+  @override
+  set annotations(ListBuilder<Expression> annotations) {
+    _$this;
+    super.annotations = annotations;
+  }
 
   @override
   ListBuilder<Directive> get directives {
@@ -76,13 +106,27 @@ class _$LibraryBuilder extends LibraryBuilder {
     super.body = body;
   }
 
+  @override
+  String? get name {
+    _$this;
+    return super.name;
+  }
+
+  @override
+  set name(String? name) {
+    _$this;
+    super.name = name;
+  }
+
   _$LibraryBuilder() : super._();
 
   LibraryBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
+      super.annotations = $v.annotations.toBuilder();
       super.directives = $v.directives.toBuilder();
       super.body = $v.body.toBuilder();
+      super.name = $v.name;
       _$v = null;
     }
     return this;
@@ -104,10 +148,16 @@ class _$LibraryBuilder extends LibraryBuilder {
     _$Library _$result;
     try {
       _$result = _$v ??
-          new _$Library._(directives: directives.build(), body: body.build());
+          new _$Library._(
+              annotations: annotations.build(),
+              directives: directives.build(),
+              body: body.build(),
+              name: name);
     } catch (_) {
       late String _$failedField;
       try {
+        _$failedField = 'annotations';
+        annotations.build();
         _$failedField = 'directives';
         directives.build();
         _$failedField = 'body';

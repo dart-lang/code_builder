@@ -5,6 +5,7 @@
 * Add support for `Expression.nullChecked` to add a null assertion operator.
 * Add support for creating `mixin`s.
 * Add `Expression.nullSafeSpread` for the null aware spread operator `...?`.
+* A `Library` can now be annotated.
 
 ## 4.0.0
 

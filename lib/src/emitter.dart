@@ -391,6 +391,13 @@ class DartEmitter extends Object
       }
     }
 
+    if (spec.name != null) {
+      spec.annotations.forEach((a) => visitAnnotation(a, output));
+      output.write('library ${spec.name!};');
+    } else if (spec.annotations.isNotEmpty) {
+      throw StateError('a library name is required for annotations');
+    }
+
     final directives = <Directive>[...allocator.imports, ...spec.directives];
 
     if (orderDirectives) {
