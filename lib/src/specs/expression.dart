@@ -165,6 +165,27 @@ abstract class Expression implements Spec {
         '%',
       );
 
+  /// Returns the result of `this` `&` [other].
+  Expression operatorBitwiseAnd(Expression other) => BinaryExpression._(
+    expression,
+    other,
+    '&',
+  );
+
+  // Returns the result of `this` `|` [other].
+  Expression operatorBitwiseOr(Expression other) => BinaryExpression._(
+    expression,
+    other,
+    '|',
+  );
+
+  /// Returns the result of `this` `^` [other].
+  Expression operatorBitwiseXor(Expression other) => BinaryExpression._(
+    expression,
+    other,
+    '^',
+  );
+
   Expression conditional(Expression whenTrue, Expression whenFalse) =>
       BinaryExpression._(
         expression,

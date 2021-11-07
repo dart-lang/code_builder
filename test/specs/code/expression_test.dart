@@ -584,4 +584,16 @@ void main() {
     expect(refer('foo').operatorEuclideanModulo(refer('foo2')),
         equalsDart('foo % foo2'));
   });
+
+  test('should emit an operator bitwise and call', () {
+    expect(refer('foo').operatorBitwiseAnd(refer('foo2')), equalsDart('foo & foo2'));
+  });
+
+  test('should emit an operator bitwise or call', () {
+    expect(refer('foo').operatorBitwiseOr(refer('foo2')), equalsDart('foo | foo2'));
+  });
+
+  test('should emit an operator bitwise xor call', () {
+    expect(refer('foo').operatorBitwiseXor(refer('foo2')), equalsDart('foo ^ foo2'));
+  });
 }
