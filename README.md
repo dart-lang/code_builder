@@ -22,7 +22,7 @@ void main() {
     ..extend = refer('Organism')
     ..methods.add(Method.returnsVoid((b) => b
       ..name = 'eat'
-      ..body = const Code("print('Yum');"))));
+      ..body = const Code("print('Yum!');"))));
   final emitter = DartEmitter();
   print(DartFormatter().format('${animal.accept(emitter)}'));
 }
