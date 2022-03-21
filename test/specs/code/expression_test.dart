@@ -137,7 +137,7 @@ void main() {
     expect(
       refer('Foo', 'package:foo/foo.dart'),
       equalsDart(
-          '_i1.Foo', DartEmitter(allocator: Allocator.simplePrefixing())),
+          r'$i1.Foo', DartEmitter(allocator: Allocator.simplePrefixing())),
     );
   });
 

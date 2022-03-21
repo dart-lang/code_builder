@@ -38,18 +38,18 @@ void main() {
     expect(
       library,
       equalsDart(r'''
-          import '../relative.dart' as _i1;
-          import 'package:foo/foo.dart' as _i2;
-          import 'package:foo/bar.dart' as _i3;
-          import 'dart:collection' as _i4;
+          import '../relative.dart' as $i1;
+          import 'package:foo/foo.dart' as $i2;
+          import 'package:foo/bar.dart' as $i3;
+          import 'dart:collection' as $i4;
           export '../relative.dart';
           export 'package:foo/foo.dart';
           part 'lib.g.dart';
 
-          final relativeRef = _i1.Relative();
-          final pkgRefFoo = _i2.Foo();
-          final pkgRefBar = _i3.Bar();
-          final collectionRef = _i4.LinkedHashMap();''', DartEmitter.scoped()),
+          final relativeRef = $i1.Relative();
+          final pkgRefFoo = $i2.Foo();
+          final pkgRefBar = $i3.Bar();
+          final collectionRef = $i4.LinkedHashMap();''', DartEmitter.scoped()),
     );
   });
 
@@ -57,22 +57,22 @@ void main() {
     expect(
       library,
       equalsDart(r'''
-          import 'dart:collection' as _i4;
+          import 'dart:collection' as $i4;
 
-          import 'package:foo/bar.dart' as _i3;
-          import 'package:foo/foo.dart' as _i2;
+          import 'package:foo/bar.dart' as $i3;
+          import 'package:foo/foo.dart' as $i2;
 
-          import '../relative.dart' as _i1;
+          import '../relative.dart' as $i1;
 
           export 'package:foo/foo.dart';
           export '../relative.dart';
 
           part 'lib.g.dart';
 
-          final relativeRef = _i1.Relative();
-          final pkgRefFoo = _i2.Foo();
-          final pkgRefBar = _i3.Bar();
-          final collectionRef = _i4.LinkedHashMap();''',
+          final relativeRef = $i1.Relative();
+          final pkgRefFoo = $i2.Foo();
+          final pkgRefBar = $i3.Bar();
+          final collectionRef = $i4.LinkedHashMap();''',
           DartEmitter.scoped(orderDirectives: true)),
     );
   });

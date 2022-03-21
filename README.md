@@ -63,11 +63,11 @@ void main() {
 Outputs:
 
 ```dart
-import 'package:a/a.dart' as _i1;
-import 'package:b/b.dart' as _i2;
+import 'package:a/a.dart' as $i1;
+import 'package:b/b.dart' as $i2;
 
-_i1.Thing doThing() {}
-_i2.Other doOther() {}
+$i1.Thing doThing() {}
+$i2.Other doOther() {}
 ```
 
 ## Contributing

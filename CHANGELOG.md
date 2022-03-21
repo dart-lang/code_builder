@@ -1,4 +1,7 @@
-## 4.1.1-dev
+## 4.2.0-dev
+
+* Change imports patterns from `_i1` to `$i1` to avoid conflicting with a
+  recommended lint.
 
 ## 4.1.0
 

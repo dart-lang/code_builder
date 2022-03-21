@@ -30,7 +30,7 @@ abstract class Code implements Spec {
   /// Create a code based that may use a provided [Allocator] for scoping:
   ///
   /// ```dart
-  /// // Emits `_i123.FooType()`, where `_i123` is the import prefix.
+  /// // Emits `$i123.FooType()`, where `$i123` is the import prefix.
   ///
   /// Code.scope((a) {
   ///   return '${a.allocate(fooType)}()'

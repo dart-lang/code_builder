@@ -103,9 +103,9 @@ void main() {
             ..modifier = FieldModifier.final$
             ..assignment = Code.scope((a) => '${a($LinkedHashMap)}()')))),
         equalsDart(r'''
-          import 'dart:collection' as _i1;
+          import 'dart:collection' as $i1;
           
-          final test = _i1.LinkedHashMap();
+          final test = $i1.LinkedHashMap();
         ''', DartEmitter(allocator: Allocator.simplePrefixing())),
       );
     });
