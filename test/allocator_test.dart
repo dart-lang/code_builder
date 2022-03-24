@@ -43,10 +43,10 @@ void main() {
       );
       expect(
         allocator.allocate(refer('LinkedHashMap', 'dart:collection')),
-        r'$i1.LinkedHashMap',
+        '_i1.LinkedHashMap',
       );
       expect(allocator.imports.map((d) => '${d.url} as ${d.as}'), [
-        r'dart:collection as $i1',
+        'dart:collection as _i1',
       ]);
     });
   });

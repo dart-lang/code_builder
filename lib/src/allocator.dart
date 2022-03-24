@@ -37,7 +37,7 @@ abstract class Allocator {
   ///
   /// Where-as an implementation that prefixes imports might output:
   /// ```dart
-  /// allocate(const Reference('Foo', 'package:foo')); // Returns r'$i1.Foo'.
+  /// allocate(const Reference('Foo', 'package:foo')); // Returns '_i1.Foo'.
   /// ```
   String allocate(Reference reference);
 
@@ -84,13 +84,13 @@ class _PrefixedAllocator implements Allocator {
     if (url == null || _doNotPrefix.contains(url)) {
       return symbol!;
     }
-    return '\$i${_imports.putIfAbsent(url, _nextKey)}.$symbol';
+    return '_i${_imports.putIfAbsent(url, _nextKey)}.$symbol';
   }
 
   int _nextKey() => _keys++;
 
   @override
   Iterable<Directive> get imports => _imports.keys.map(
-        (u) => Directive.import(u, as: '\$i${_imports[u]}'),
+        (u) => Directive.import(u, as: '_i${_imports[u]}'),
       );
 }

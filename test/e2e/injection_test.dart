@@ -53,13 +53,13 @@ void main() {
     expect(
       clazz.build(),
       equalsDart(r'''
-        class Injector implements $i1.App {
+        class Injector implements _i1.App {
           Injector(this._module);
 
-          final $i2.Module _module;
+          final _i2.Module _module;
 
           @override
-          $i3.Thing getThing() => $i3.Thing(_module.get1(), _module.get2());
+          _i3.Thing getThing() => _i3.Thing(_module.get1(), _module.get2());
         }
       ''', DartEmitter(allocator: Allocator.simplePrefixing())),
     );
