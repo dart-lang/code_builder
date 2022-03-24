@@ -1,4 +1,4 @@
-## 4.1.1-dev
+## 4.2.0-dev
 
 * Add an ignore for a lint from the `package:lints` recommended set. The lint,
   `no_leading_underscores_for_library_prefixes` is most useful for hand edited
