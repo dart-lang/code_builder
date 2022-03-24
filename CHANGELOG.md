@@ -1,5 +1,10 @@
 ## 4.1.1-dev
 
+* Add an ignore for a lint from the `package:lints` recommended set. The lint,
+  `no_leading_underscores_for_library_prefixes` is most useful for hand edited
+  code where the appearance of a private name which is already not visible
+  outside the library is confusing.
+
 ## 4.1.0
 
 * Add `Expression.spread` for the spread operator `...`.
