@@ -452,9 +452,10 @@ class DartEmitter extends Object
     visitAll<Reference>(spec.requiredParameters, out, (spec) {
       spec.accept(this, out);
     });
+    final hasNamedParameters = spec.namedRequiredParameters.isNotEmpty ||
+        spec.namedParameters.isNotEmpty;
     if (spec.requiredParameters.isNotEmpty &&
-        (spec.optionalParameters.isNotEmpty ||
-            spec.namedParameters.isNotEmpty)) {
+        (spec.optionalParameters.isNotEmpty || hasNamedParameters)) {
       out.write(', ');
     }
     if (spec.optionalParameters.isNotEmpty) {
@@ -463,8 +464,19 @@ class DartEmitter extends Object
         spec.accept(this, out);
       });
       out.write(']');
-    } else if (spec.namedParameters.isNotEmpty) {
+    } else if (hasNamedParameters) {
       out.write('{');
+      visitAll<String>(spec.namedRequiredParameters.keys, out, (name) {
+        out.write('required ');
+        spec.namedRequiredParameters[name]!.accept(this, out);
+        out
+          ..write(' ')
+          ..write(name);
+      });
+      if (spec.namedRequiredParameters.isNotEmpty &&
+          spec.namedParameters.isNotEmpty) {
+        out.write(', ');
+      }
       visitAll<String>(spec.namedParameters.keys, out, (name) {
         spec.namedParameters[name]!.accept(this, out);
         out

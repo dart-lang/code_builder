@@ -302,6 +302,32 @@ void main() {
     );
   });
 
+  test(
+      'should emit a function type with named required and optional parameters',
+      () {
+    expect(
+      FunctionType((b) => b
+        ..namedRequiredParameters.addAll({
+          'x': refer('int'),
+        })
+        ..namedParameters.addAll({
+          'y': refer('int'),
+        })),
+      equalsDart('Function({required int x, int y})'),
+    );
+  });
+
+  test('should emit a function type with named required parameters', () {
+    expect(
+      FunctionType((b) => b
+        ..namedRequiredParameters.addAll({
+          'x': refer('int'),
+          'y': refer('int'),
+        })),
+      equalsDart('Function({required int x, required int y})'),
+    );
+  });
+
   test('should emit a nullable function type in a Null Safety library', () {
     final emitter = DartEmitter.scoped(useNullSafetySyntax: true);
     expect(

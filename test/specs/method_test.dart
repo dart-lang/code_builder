@@ -212,6 +212,31 @@ void main() {
     );
   });
 
+  test('should create a function type with a required named parameter', () {
+    expect(
+      FunctionType((b) => b
+        ..returnType = refer('String')
+        ..namedRequiredParameters['named'] = refer('int')),
+      equalsDart(r'''
+        String Function({required int named})
+      '''),
+    );
+  });
+
+  test(
+      'should create a function type with a required named and an optional '
+      'named parameter', () {
+    expect(
+      FunctionType((b) => b
+        ..returnType = refer('String')
+        ..namedRequiredParameters['named'] = refer('int')
+        ..namedParameters['optional'] = refer('int')),
+      equalsDart(r'''
+        String Function({required int named, int optional})
+      '''),
+    );
+  });
+
   test('should create a method with a nested function type return type', () {
     expect(
       Method((b) => b
