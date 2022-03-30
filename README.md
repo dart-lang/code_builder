@@ -94,16 +94,17 @@ will be on a best-effort basis.
 ### Updating generated (`.g.dart`) files
 
 > **NOTE**: There is currently a limitation in `build_runner` that requires a
-> workaround for developing this package. We expect this to be unnecessary in
-> the future.
+> workaround for developing this package since it is a dependency of the build
+> system.
 
-Use [`build_runner`][build_runner]:
+Make a snapshot of the generated [`build_runner`][build_runner] build script and
+run from the snapshot instead of source to avoid problems with deleted files.
+These steps must be run without deleting the source files.
 
 ```bash
-$ pub global activate build_runner
-$ mv build.disabled.yaml build.yaml
-$ pub global run build_runner build --delete-conflicting-outputs
-$ mv build.yaml build.disabled.yaml
+$ dart run build_runner generate-build-script
+$ dart compile kernel .dart_tool/build/entrypoint/build.dart
+$ dart .dart_tool/build/entrypoint/build.dill build --delete_conflicting-outputs
 ```
 
 [build_runner]: https://pub.dev/packages/build_runner
