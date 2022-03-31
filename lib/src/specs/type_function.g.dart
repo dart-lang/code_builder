@@ -18,6 +18,8 @@ class _$FunctionType extends FunctionType {
   @override
   final BuiltMap<String, Reference> namedParameters;
   @override
+  final BuiltMap<String, Reference> namedRequiredParameters;
+  @override
   final bool? isNullable;
 
   factory _$FunctionType([void Function(FunctionTypeBuilder)? updates]) =>
@@ -29,6 +31,7 @@ class _$FunctionType extends FunctionType {
       required this.requiredParameters,
       required this.optionalParameters,
       required this.namedParameters,
+      required this.namedRequiredParameters,
       this.isNullable})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(types, 'FunctionType', 'types');
@@ -38,6 +41,8 @@ class _$FunctionType extends FunctionType {
         optionalParameters, 'FunctionType', 'optionalParameters');
     BuiltValueNullFieldError.checkNotNull(
         namedParameters, 'FunctionType', 'namedParameters');
+    BuiltValueNullFieldError.checkNotNull(
+        namedRequiredParameters, 'FunctionType', 'namedRequiredParameters');
   }
 
   @override
@@ -57,6 +62,7 @@ class _$FunctionType extends FunctionType {
         requiredParameters == other.requiredParameters &&
         optionalParameters == other.optionalParameters &&
         namedParameters == other.namedParameters &&
+        namedRequiredParameters == other.namedRequiredParameters &&
         isNullable == other.isNullable;
   }
 
@@ -65,10 +71,12 @@ class _$FunctionType extends FunctionType {
     return $jf($jc(
         $jc(
             $jc(
-                $jc($jc($jc(0, returnType.hashCode), types.hashCode),
-                    requiredParameters.hashCode),
-                optionalParameters.hashCode),
-            namedParameters.hashCode),
+                $jc(
+                    $jc($jc($jc(0, returnType.hashCode), types.hashCode),
+                        requiredParameters.hashCode),
+                    optionalParameters.hashCode),
+                namedParameters.hashCode),
+            namedRequiredParameters.hashCode),
         isNullable.hashCode));
   }
 
@@ -80,6 +88,7 @@ class _$FunctionType extends FunctionType {
           ..add('requiredParameters', requiredParameters)
           ..add('optionalParameters', optionalParameters)
           ..add('namedParameters', namedParameters)
+          ..add('namedRequiredParameters', namedRequiredParameters)
           ..add('isNullable', isNullable))
         .toString();
   }
@@ -149,6 +158,19 @@ class _$FunctionTypeBuilder extends FunctionTypeBuilder {
   }
 
   @override
+  MapBuilder<String, Reference> get namedRequiredParameters {
+    _$this;
+    return super.namedRequiredParameters;
+  }
+
+  @override
+  set namedRequiredParameters(
+      MapBuilder<String, Reference> namedRequiredParameters) {
+    _$this;
+    super.namedRequiredParameters = namedRequiredParameters;
+  }
+
+  @override
   bool? get isNullable {
     _$this;
     return super.isNullable;
@@ -170,6 +192,7 @@ class _$FunctionTypeBuilder extends FunctionTypeBuilder {
       super.requiredParameters = $v.requiredParameters.toBuilder();
       super.optionalParameters = $v.optionalParameters.toBuilder();
       super.namedParameters = $v.namedParameters.toBuilder();
+      super.namedRequiredParameters = $v.namedRequiredParameters.toBuilder();
       super.isNullable = $v.isNullable;
       _$v = null;
     }
@@ -198,6 +221,7 @@ class _$FunctionTypeBuilder extends FunctionTypeBuilder {
               requiredParameters: requiredParameters.build(),
               optionalParameters: optionalParameters.build(),
               namedParameters: namedParameters.build(),
+              namedRequiredParameters: namedRequiredParameters.build(),
               isNullable: isNullable);
     } catch (_) {
       late String _$failedField;
@@ -210,6 +234,8 @@ class _$FunctionTypeBuilder extends FunctionTypeBuilder {
         optionalParameters.build();
         _$failedField = 'namedParameters';
         namedParameters.build();
+        _$failedField = 'namedRequiredParameters';
+        namedRequiredParameters.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             'FunctionType', _$failedField, e.toString());
