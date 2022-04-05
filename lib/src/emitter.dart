@@ -417,6 +417,10 @@ class DartEmitter extends Object
     }
 
     Directive? previous;
+    if (directives.any((d) => d.as?.startsWith('_') ?? false)) {
+      output.writeln(
+          '// ignore_for_file: no_leading_underscores_for_library_prefixes');
+    }
     for (final directive in directives) {
       if (_newLineBetween(orderDirectives, previous, directive)) {
         // Note: dartfmt handles creating new lines between directives.

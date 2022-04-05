@@ -103,6 +103,7 @@ void main() {
             ..modifier = FieldModifier.final$
             ..assignment = Code.scope((a) => '${a($LinkedHashMap)}()')))),
         equalsDart(r'''
+          // ignore_for_file: no_leading_underscores_for_library_prefixes
           import 'dart:collection' as _i1;
           
           final test = _i1.LinkedHashMap();
