@@ -4,6 +4,8 @@
   `no_leading_underscores_for_library_prefixes` is most useful for hand edited
   code where the appearance of a private name which is already not visible
   outside the library is confusing.
+* Fix the docs for `Expression.assign`, `ifNullThen`, and `assignNullAware`
+  which had the argument and receiver flipped.
 
 ## 4.1.0
 
