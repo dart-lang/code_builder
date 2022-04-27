@@ -186,14 +186,14 @@ abstract class Expression implements Spec {
         '=',
       );
 
-  /// Return `{other} ?? {this}`.
+  /// Return `{this} ?? {other}`.
   Expression ifNullThen(Expression other) => BinaryExpression._(
         this,
         other,
         '??',
       );
 
-  /// Return `{other} ??= {this}`.
+  /// Return `{this} ??= {other}`.
   Expression assignNullAware(Expression other) => BinaryExpression._(
         this,
         other,
