@@ -134,7 +134,6 @@ void main() {
         Constructor((c) => c..constant = true),
         Constructor((c) => c
           ..constant = true
-          ..factory = true
           ..name = 'redirect'
           ..initializers.add(
             refer('this').call([]).code,
@@ -154,7 +153,7 @@ void main() {
       c;
 
       const MyEnum();
-      const MyEnum.redirect(): this();
+      const MyEnum.redirect() : this();
     }
     '''));
   });
@@ -247,6 +246,48 @@ void main() {
 
       final int? myInt;
       final String? myString;
+    }
+    '''));
+  });
+
+  test('should create an enum with generics', () {
+    final myEnum = Enum((b) => b
+      ..name = 'MyEnum'
+      ..types.add(const Reference('T'))
+      ..constructors.add(Constructor((c) => c
+        ..constant = true
+        ..requiredParameters.add(Parameter((p) => p
+          ..toThis = true
+          ..name = 'value'))))
+      ..fields.add(
+        Field((f) => f
+          ..modifier = FieldModifier.final$
+          ..type = refer('T')
+          ..name = 'value'),
+      )
+      ..values.addAll([
+        EnumValue((v) => v
+          ..name = 'a'
+          ..types.add(const Reference('int'))
+          ..arguments.add(literalNum(123))),
+        EnumValue((v) => v
+          ..name = 'b'
+          ..types.add(const Reference('String'))
+          ..arguments.add(literalString('abc'))),
+        EnumValue((v) => v
+          ..name = 'c'
+          ..types.add(const Reference('MyEnum'))
+          ..arguments.add(refer('MyEnum').property('a'))),
+      ]));
+    expect(myEnum, equalsDart('''
+    enum MyEnum<T> {
+      a<int>(123), 
+      b<String>('abc'), 
+      c<MyEnum>(MyEnum.a);
+  
+      const MyEnum(this.value);
+  
+      final T value;
     }
     '''));
   });

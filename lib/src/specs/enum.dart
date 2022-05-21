@@ -81,7 +81,7 @@ abstract class EnumBuilder extends Object
 
 @immutable
 abstract class EnumValue extends Object
-    with HasAnnotations, HasDartDocs
+    with HasAnnotations, HasDartDocs, HasGenerics
     implements Built<EnumValue, EnumValueBuilder> {
   factory EnumValue([void Function(EnumValueBuilder) updates]) = _$EnumValue;
 
@@ -98,12 +98,15 @@ abstract class EnumValue extends Object
   /// The name of the constructor to target.
   String? get targetName;
 
+  @override
+  BuiltList<Reference> get types;
+
   /// Arguments to the constructor.
   BuiltList<Expression> get arguments;
 }
 
 abstract class EnumValueBuilder extends Object
-    with HasAnnotationsBuilder, HasDartDocsBuilder
+    with HasAnnotationsBuilder, HasDartDocsBuilder, HasGenericsBuilder
     implements Builder<EnumValue, EnumValueBuilder> {
   factory EnumValueBuilder() = _$EnumValueBuilder;
 
@@ -119,6 +122,9 @@ abstract class EnumValueBuilder extends Object
 
   /// The name of the constructor to target.
   String? targetName;
+
+  @override
+  ListBuilder<Reference> types = ListBuilder<Reference>();
 
   /// Arguments to the constructor.
   ListBuilder<Expression> arguments = ListBuilder();

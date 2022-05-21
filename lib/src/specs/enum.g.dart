@@ -327,6 +327,8 @@ class _$EnumValue extends EnumValue {
   @override
   final String? targetName;
   @override
+  final BuiltList<Reference> types;
+  @override
   final BuiltList<Expression> arguments;
 
   factory _$EnumValue([void Function(EnumValueBuilder)? updates]) =>
@@ -337,12 +339,14 @@ class _$EnumValue extends EnumValue {
       required this.annotations,
       required this.docs,
       this.targetName,
+      required this.types,
       required this.arguments})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(name, 'EnumValue', 'name');
     BuiltValueNullFieldError.checkNotNull(
         annotations, 'EnumValue', 'annotations');
     BuiltValueNullFieldError.checkNotNull(docs, 'EnumValue', 'docs');
+    BuiltValueNullFieldError.checkNotNull(types, 'EnumValue', 'types');
     BuiltValueNullFieldError.checkNotNull(arguments, 'EnumValue', 'arguments');
   }
 
@@ -361,6 +365,7 @@ class _$EnumValue extends EnumValue {
         annotations == other.annotations &&
         docs == other.docs &&
         targetName == other.targetName &&
+        types == other.types &&
         arguments == other.arguments;
   }
 
@@ -368,9 +373,11 @@ class _$EnumValue extends EnumValue {
   int get hashCode {
     return $jf($jc(
         $jc(
-            $jc($jc($jc(0, name.hashCode), annotations.hashCode),
-                docs.hashCode),
-            targetName.hashCode),
+            $jc(
+                $jc($jc($jc(0, name.hashCode), annotations.hashCode),
+                    docs.hashCode),
+                targetName.hashCode),
+            types.hashCode),
         arguments.hashCode));
   }
 
@@ -381,6 +388,7 @@ class _$EnumValue extends EnumValue {
           ..add('annotations', annotations)
           ..add('docs', docs)
           ..add('targetName', targetName)
+          ..add('types', types)
           ..add('arguments', arguments))
         .toString();
   }
@@ -438,6 +446,18 @@ class _$EnumValueBuilder extends EnumValueBuilder {
   }
 
   @override
+  ListBuilder<Reference> get types {
+    _$this;
+    return super.types;
+  }
+
+  @override
+  set types(ListBuilder<Reference> types) {
+    _$this;
+    super.types = types;
+  }
+
+  @override
   ListBuilder<Expression> get arguments {
     _$this;
     return super.arguments;
@@ -458,6 +478,7 @@ class _$EnumValueBuilder extends EnumValueBuilder {
       super.annotations = $v.annotations.toBuilder();
       super.docs = $v.docs.toBuilder();
       super.targetName = $v.targetName;
+      super.types = $v.types.toBuilder();
       super.arguments = $v.arguments.toBuilder();
       _$v = null;
     }
@@ -486,6 +507,7 @@ class _$EnumValueBuilder extends EnumValueBuilder {
               annotations: annotations.build(),
               docs: docs.build(),
               targetName: targetName,
+              types: types.build(),
               arguments: arguments.build());
     } catch (_) {
       late String _$failedField;
@@ -495,6 +517,8 @@ class _$EnumValueBuilder extends EnumValueBuilder {
         _$failedField = 'docs';
         docs.build();
 
+        _$failedField = 'types';
+        types.build();
         _$failedField = 'arguments';
         arguments.build();
       } catch (e) {

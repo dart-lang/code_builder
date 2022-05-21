@@ -665,7 +665,7 @@ class DartEmitter extends Object
     for (var a in spec.annotations) {
       visitAnnotation(a, out);
     }
-    out.write('enum ${spec.name} ');
+    out.write('enum ${spec.name}');
     visitTypeParameters(spec.types.map((r) => r.type), out);
     if (spec.mixins.isNotEmpty) {
       out
@@ -689,6 +689,7 @@ class DartEmitter extends Object
       if (v.targetName != null) {
         out.write('.${v.targetName}');
       }
+      visitTypeParameters(v.types.map((r) => r.type), out);
       final takesArguments = v.targetName != null || v.arguments.isNotEmpty;
       if (takesArguments) {
         out.write('(');
