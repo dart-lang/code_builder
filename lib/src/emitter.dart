@@ -695,7 +695,7 @@ class DartEmitter extends Object
       }
       if (v.arguments.isNotEmpty) {
         out.writeAll(
-            v.arguments.map<StringSink>((arg) => arg.accept(this)), ',');
+            v.arguments.map<StringSink>((arg) => arg.accept(this)), ', ');
       }
       if (takesArguments) {
         out.write(')');

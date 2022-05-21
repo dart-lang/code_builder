@@ -169,23 +169,37 @@ void main() {
           ..constant = true
           ..factory = true
           ..name = 'redirect'
-          ..redirect = refer('MyOtherEnum.target'))
+          ..redirect = refer('MyOtherEnum.target')
+          ..optionalParameters.addAll([
+            Parameter((p) => p
+              ..type = refer('int?')
+              ..name = 'myInt'),
+            Parameter((p) => p
+              ..type = refer('String?')
+              ..name = 'myString')
+          ]))
       ])
       ..values.addAll([
         EnumValue((v) => v..name = 'a'),
         EnumValue((v) => v
           ..name = 'b'
+          ..targetName = 'redirect'
+          ..arguments.addAll([
+            literalNum(1),
+            literalString('abc'),
+          ])),
+        EnumValue((v) => v
+          ..name = 'c'
           ..targetName = 'redirect'),
-        EnumValue((v) => v..name = 'c'),
       ]));
     expect(myEnum, equalsDart('''
     enum MyEnum {
       a,
-      b.redirect(),
-      c;
+      b.redirect(1, 'abc'),
+      c.redirect();
 
       const MyEnum();
-      const factory MyEnum.redirect() = MyOtherEnum.target;
+      const factory MyEnum.redirect([int? myInt, String? myString]) = MyOtherEnum.target;
     }
     '''));
   });
@@ -195,29 +209,44 @@ void main() {
       ..name = 'MyEnum'
       ..constructors.add(Constructor((c) => c
         ..constant = true
-        ..optionalParameters.add(Parameter((p) => p
-          ..toThis = true
-          ..name = 'myInt'))))
-      ..fields.add(Field((f) => f
-        ..modifier = FieldModifier.final$
-        ..type = refer('int?')
-        ..name = 'myInt'))
+        ..optionalParameters.addAll([
+          Parameter((p) => p
+            ..toThis = true
+            ..name = 'myInt'),
+          Parameter((p) => p
+            ..toThis = true
+            ..name = 'myString')
+        ])))
+      ..fields.addAll([
+        Field((f) => f
+          ..modifier = FieldModifier.final$
+          ..type = refer('int?')
+          ..name = 'myInt'),
+        Field((f) => f
+          ..modifier = FieldModifier.final$
+          ..type = refer('String?')
+          ..name = 'myString')
+      ])
       ..values.addAll([
         EnumValue((v) => v..name = 'a'),
         EnumValue((v) => v
           ..name = 'b'
-          ..arguments.add(literalNum(1))),
+          ..arguments.addAll([
+            literalNum(1),
+            literalString('abc'),
+          ])),
         EnumValue((v) => v..name = 'c'),
       ]));
     expect(myEnum, equalsDart('''
     enum MyEnum {
       a,
-      b(1),
+      b(1, 'abc'),
       c;
 
-      const MyEnum([this.myInt]);
+      const MyEnum([this.myInt, this.myString]);
 
       final int? myInt;
+      final String? myString;
     }
     '''));
   });
