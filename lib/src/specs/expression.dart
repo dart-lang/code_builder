@@ -331,9 +331,9 @@ Expression declareConst(String variableName, {Reference? type}) => type == null
     : BinaryExpression._(
         const LiteralExpression._('const'), _typedVar(variableName, type), '');
 
-/// Declare a variable named [variableName].
+/// Declare a final variable named [variableName].
 ///
-/// Returns `var {variableName}`, or `{type} {variableName}`.
+/// Returns `final {variableName}`, or `final {type} {variableName}`.
 /// If [late] is true the declaration is prefixed with `late`.
 Expression declareFinal(String variableName,
         {Reference? type, bool late = false}) =>
