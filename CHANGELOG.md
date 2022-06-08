@@ -6,6 +6,9 @@
   outside the library is confusing.
 * Fix the docs for `Expression.assign`, `ifNullThen`, and `assignNullAware`
   which had the argument and receiver flipped.
+* Add `declareConst`, `declareFinal`, and `declareVar` to replace
+  `Expression.assignConst`, `assignFinal`, and `assignVar`. Add support for late
+  variables with the `declare*` utilities.
 
 ## 4.1.0
 

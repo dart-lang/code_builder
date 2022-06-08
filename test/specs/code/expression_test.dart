@@ -610,4 +610,57 @@ void main() {
     expect(refer('foo').operatorEuclideanModulo(refer('foo2')),
         equalsDart('foo % foo2'));
   });
+
+  test('should emit a const variable declaration', () {
+    expect(declareConst('foo').assign(refer('bar')),
+        equalsDart('const foo = bar'));
+  });
+
+  test('should emit a typed const variable declaration', () {
+    expect(declareConst('foo', type: refer('String')).assign(refer('bar')),
+        equalsDart('const String foo = bar'));
+  });
+
+  test('should emit a final variable declaration', () {
+    expect(declareFinal('foo').assign(refer('bar')),
+        equalsDart('final foo = bar'));
+  });
+
+  test('should emit a typed final variable declaration', () {
+    expect(declareFinal('foo', type: refer('String')).assign(refer('bar')),
+        equalsDart('final String foo = bar'));
+  });
+
+  test('should emit a late final variable declaration', () {
+    expect(declareFinal('foo', late: true).assign(refer('bar')),
+        equalsDart('late final foo = bar'));
+  });
+
+  test('should emit a late typed final variable declaration', () {
+    expect(
+        declareFinal('foo', type: refer('String'), late: true)
+            .assign(refer('bar')),
+        equalsDart('late final String foo = bar'));
+  });
+
+  test('should emit a variable declaration', () {
+    expect(declareVar('foo').assign(refer('bar')), equalsDart('var foo = bar'));
+  });
+
+  test('should emit a typed variable declaration', () {
+    expect(declareVar('foo', type: refer('String')).assign(refer('bar')),
+        equalsDart('String foo = bar'));
+  });
+
+  test('should emit a late variable declaration', () {
+    expect(declareVar('foo', late: true).assign(refer('bar')),
+        equalsDart('late var foo = bar'));
+  });
+
+  test('should emit a late typed variable declaration', () {
+    expect(
+        declareVar('foo', type: refer('String'), late: true)
+            .assign(refer('bar')),
+        equalsDart('late String foo = bar'));
+  });
 }
