@@ -13,7 +13,7 @@ import '../visitors.dart';
 part 'switch.g.dart';
 
 @immutable
-abstract class Switch extends Object
+abstract class Switch extends Expression
     with HasDartDocs
     implements Built<Switch, SwitchBuilder>, Spec {
   factory Switch([void Function(SwitchBuilder) updates]) = _$Switch;

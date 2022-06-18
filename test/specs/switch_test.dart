@@ -10,6 +10,9 @@ import '../common.dart';
 void main() {
   useDartfmt();
 
+  switch (true) {
+  }
+
   test('should create a switch', () {
     expect(
       Switch((b) => b..condition = literal(true)),
@@ -69,6 +72,54 @@ void main() {
           case false:
             print('Oh no!');
             break;
+        }
+      '''),
+    );
+  });
+
+  test('should be able to be used within a code block', () {
+    expect(
+      Method(
+        (b) => b
+          ..returns = refer('String?')
+          ..name = 'getStatus'
+          ..requiredParameters.add(Parameter(
+            (b) => b
+              ..type = refer('int')
+              ..name = 'value',
+          ))
+          ..body = Block.of([
+            Switch(
+              (b) => b
+                ..condition = refer('value')
+                ..cases.addAll([
+                  SwitchCase(
+                    (b) => b
+                      ..condition = literal(200)
+                      ..body = literal('OK').returned.statement
+                      ..break$ = false,
+                  ),
+                  SwitchCase(
+                    (b) => b
+                      ..condition = literal(201)
+                      ..body = literal('CREATED').returned.statement
+                      ..break$ = false,
+                  ),
+                ])
+                ..default$ = literal(null).returned.statement,
+            ).code,
+          ]),
+      ),
+      equalsDart(r'''
+        String? getStatus(int value) {
+          switch (value) {
+            case 200:
+              return 'OK';
+            case 201:
+              return 'CREATED';
+            default:
+              return null;
+          }
         }
       '''),
     );

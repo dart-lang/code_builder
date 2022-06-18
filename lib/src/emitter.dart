@@ -630,20 +630,24 @@ class DartEmitter extends Object
   StringSink visitSwitch(Switch spec, [StringSink? output]) {
     final out = output ??= StringBuffer();
     spec.docs.forEach(out.writeln);
-    out.writeln('switch (${spec.condition}) {');
+    out.write('switch (');
+    spec.condition.accept(this, output);
+    out.writeln(') {');
     for (var v in spec.cases) {
-      v.docs.forEach(out.writeln);
-      out.writeln('case ${v.condition}:');
-      v.body!.accept(this, output);
-      if (v.break$!) {
-        out.writeln(' break;');
+      out.write('case ');
+      v.condition!.accept(this, output);
+      out.writeln(':');
+      v.body!.accept(this, output).writeln();
+      if (v.break$ == true) {
+        out.writeln('break;');
       }
     }
     if (spec.default$ != null) {
       out.writeln('default:');
-      spec.default$!.accept(this, output);
+      spec.default$!.accept(this, output).writeln();
     }
-    out.writeln(' }');
+    out.writeln('}');
+
     return out;
   }
 
