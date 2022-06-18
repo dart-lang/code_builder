@@ -55,5 +55,7 @@ export 'src/specs/method.dart'
         ParameterBuilder;
 export 'src/specs/mixin.dart' show Mixin, MixinBuilder;
 export 'src/specs/reference.dart' show refer, Reference;
+export 'src/specs/switch.dart'
+    show Switch, SwitchBuilder, SwitchCase, SwitchCaseBuilder;
 export 'src/specs/type_function.dart' show FunctionType, FunctionTypeBuilder;
 export 'src/specs/type_reference.dart' show TypeReference, TypeReferenceBuilder;

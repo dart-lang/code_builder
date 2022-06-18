@@ -16,6 +16,7 @@ import 'specs/library.dart';
 import 'specs/method.dart';
 import 'specs/mixin.dart';
 import 'specs/reference.dart';
+import 'specs/switch.dart';
 import 'specs/type_function.dart';
 import 'specs/type_reference.dart';
 
@@ -46,6 +47,8 @@ abstract class SpecVisitor<T> {
   T visitMethod(Method spec, [T? context]);
 
   T visitReference(Reference spec, [T? context]);
+
+  T visitSwitch(Switch spec, [T? context]);
 
   T visitSpec(Spec spec, [T? context]);
 

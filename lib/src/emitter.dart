@@ -16,6 +16,7 @@ import 'specs/library.dart';
 import 'specs/method.dart';
 import 'specs/mixin.dart';
 import 'specs/reference.dart';
+import 'specs/switch.dart';
 import 'specs/type_function.dart';
 import 'specs/type_reference.dart';
 import 'visitors.dart';
@@ -624,6 +625,27 @@ class DartEmitter extends Object
   @override
   StringSink visitReference(Reference spec, [StringSink? output]) =>
       (output ??= StringBuffer())..write(allocator.allocate(spec));
+
+  @override
+  StringSink visitSwitch(Switch spec, [StringSink? output]) {
+    final out = output ??= StringBuffer();
+    spec.docs.forEach(out.writeln);
+    out.writeln('switch (${spec.condition}) {');
+    for (var v in spec.cases) {
+      v.docs.forEach(out.writeln);
+      out.writeln('case ${v.condition}:');
+      v.body!.accept(this, output);
+      if (v.break$!) {
+        out.writeln(' break;');
+      }
+    }
+    if (spec.default$ != null) {
+      out.writeln('default:');
+      spec.default$!.accept(this, output);
+    }
+    out.writeln(' }');
+    return out;
+  }
 
   @override
   StringSink visitSpec(Spec spec, [StringSink? output]) =>
