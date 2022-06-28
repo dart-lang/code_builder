@@ -122,6 +122,7 @@ void main() {
       c;
 
       const MyEnum();
+
       const MyEnum.target();
     }
     '''));
@@ -153,6 +154,7 @@ void main() {
       c;
 
       const MyEnum();
+
       const MyEnum.redirect() : this();
     }
     '''));
@@ -198,6 +200,7 @@ void main() {
       c.redirect();
 
       const MyEnum();
+
       const factory MyEnum.redirect([int? myInt, String? myString]) = MyOtherEnum.target;
     }
     '''));
@@ -245,6 +248,7 @@ void main() {
       const MyEnum([this.myInt, this.myString]);
 
       final int? myInt;
+
       final String? myString;
     }
     '''));
@@ -326,6 +330,7 @@ void main() {
       const MyEnum([this.myInt]);
 
       final int? myInt;
+
       static const String myString = 'abc';
     }
     '''));
