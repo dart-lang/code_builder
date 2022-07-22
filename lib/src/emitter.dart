@@ -614,6 +614,9 @@ class DartEmitter extends Object
     if (spec.toThis) {
       output.write('this.');
     }
+    if (spec.toSuper) {
+      output.write('super.');
+    }
     output.write(spec.name);
     if (optional && spec.defaultTo != null) {
       output.write(' = ');
