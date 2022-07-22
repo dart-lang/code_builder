@@ -104,7 +104,7 @@ These steps must be run without deleting the source files.
 ```bash
 $ dart run build_runner generate-build-script
 $ dart compile kernel .dart_tool/build/entrypoint/build.dart
-$ dart .dart_tool/build/entrypoint/build.dill build --delete_conflicting-outputs
+$ dart .dart_tool/build/entrypoint/build.dill build --delete-conflicting-outputs
 ```
 
 [build_runner]: https://pub.dev/packages/build_runner
