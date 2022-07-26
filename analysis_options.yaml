@@ -12,7 +12,6 @@ linter:
     - control_flow_in_finally
     - empty_statements
     - hash_and_equals
-    - invariant_booleans
     - iterable_contains_unrelated_type
     - list_remove_unrelated_type
     - no_adjacent_strings_in_list

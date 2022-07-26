@@ -9,6 +9,8 @@
 * Add `declareConst`, `declareFinal`, and `declareVar` to replace
   `Expression.assignConst`, `assignFinal`, and `assignVar`. Add support for late
   variables with the `declare*` utilities.
+* Add `ParameterBuilder.toSuper` so suport super formal parameters language
+  feature.
 
 ## 4.1.0
 
