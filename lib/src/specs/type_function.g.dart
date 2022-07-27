@@ -34,15 +34,15 @@ class _$FunctionType extends FunctionType {
       required this.namedRequiredParameters,
       this.isNullable})
       : super._() {
-    BuiltValueNullFieldError.checkNotNull(types, 'FunctionType', 'types');
+    BuiltValueNullFieldError.checkNotNull(types, r'FunctionType', 'types');
     BuiltValueNullFieldError.checkNotNull(
-        requiredParameters, 'FunctionType', 'requiredParameters');
+        requiredParameters, r'FunctionType', 'requiredParameters');
     BuiltValueNullFieldError.checkNotNull(
-        optionalParameters, 'FunctionType', 'optionalParameters');
+        optionalParameters, r'FunctionType', 'optionalParameters');
     BuiltValueNullFieldError.checkNotNull(
-        namedParameters, 'FunctionType', 'namedParameters');
+        namedParameters, r'FunctionType', 'namedParameters');
     BuiltValueNullFieldError.checkNotNull(
-        namedRequiredParameters, 'FunctionType', 'namedRequiredParameters');
+        namedRequiredParameters, r'FunctionType', 'namedRequiredParameters');
   }
 
   @override
@@ -82,7 +82,7 @@ class _$FunctionType extends FunctionType {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('FunctionType')
+    return (newBuiltValueToStringHelper(r'FunctionType')
           ..add('returnType', returnType)
           ..add('types', types)
           ..add('requiredParameters', requiredParameters)
@@ -211,7 +211,9 @@ class _$FunctionTypeBuilder extends FunctionTypeBuilder {
   }
 
   @override
-  _$FunctionType build() {
+  FunctionType build() => _build();
+
+  _$FunctionType _build() {
     _$FunctionType _$result;
     try {
       _$result = _$v ??
@@ -238,7 +240,7 @@ class _$FunctionTypeBuilder extends FunctionTypeBuilder {
         namedRequiredParameters.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
-            'FunctionType', _$failedField, e.toString());
+            r'FunctionType', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -247,4 +249,4 @@ class _$FunctionTypeBuilder extends FunctionTypeBuilder {
   }
 }
 
-// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new
+// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new,unnecessary_lambdas
