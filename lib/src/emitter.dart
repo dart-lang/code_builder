@@ -358,7 +358,7 @@ class DartEmitter extends Object
     if (spec.static) {
       output.write('static ');
     }
-    if (spec.late) {
+    if (spec.late && _useNullSafetySyntax) {
       output.write('late ');
     }
     switch (spec.modifier) {
