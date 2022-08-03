@@ -1,6 +1,7 @@
 ## 4.2.1-dev
 
 * Only emit `late` keyword when using null safety syntax.
+* Use implicit `const` when assigning to a `declareConst` variable.
 
 ## 4.2.0
 

@@ -10,6 +10,7 @@ class BinaryExpression extends Expression {
   final Expression right;
   final String operator;
   final bool addSpace;
+  @override
   final bool isConst;
 
   const BinaryExpression._(
