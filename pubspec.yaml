@@ -1,5 +1,5 @@
 name: code_builder
-version: 4.2.0
+version: 4.2.1-dev
 description: >-
   A fluent, builder-based library for generating valid Dart code
 repository: https://github.com/dart-lang/code_builder

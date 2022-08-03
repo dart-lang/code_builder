@@ -1,3 +1,7 @@
+## 4.2.1-dev
+
+* Only emit `late` keyword when using null safety syntax.
+
 ## 4.2.0
 
 * Add an ignore for a lint from the `package:lints` recommended set. The lint,

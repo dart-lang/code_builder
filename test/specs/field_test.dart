@@ -52,13 +52,24 @@ void main() {
     );
   });
 
-  test('should create a late field', () {
+  test('should create a late field if using null-safety', () {
     expect(
       Field((b) => b
         ..late = true
         ..name = 'foo'),
       equalsDart(r'''
         late var foo;
+      ''', DartEmitter(useNullSafetySyntax: true)),
+    );
+  });
+
+  test('should not create a late field if not using null-safety', () {
+    expect(
+      Field((b) => b
+        ..late = true
+        ..name = 'foo'),
+      equalsDart(r'''
+        var foo;
       '''),
     );
   });
@@ -71,7 +82,7 @@ void main() {
         ..name = 'foo'),
       equalsDart(r'''
         static late var foo;
-      '''),
+      ''', DartEmitter(useNullSafetySyntax: true)),
     );
   });
 
