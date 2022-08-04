@@ -29,6 +29,23 @@ void main() {
     );
   });
 
+  test('assign to declared constant', () {
+    expect(
+      declareConst('constField').assign(constMap),
+      equalsDart(r'''
+          const constField = {'list': [], 'duration': Duration()}''',
+          DartEmitter.scoped()),
+    );
+  });
+
+  test('assign to declared non-constant', () {
+    expect(
+        declareVar('varField').assign(constMap),
+        equalsDart(r'''
+          var varField = const {'list': [], 'duration': Duration()}''',
+            DartEmitter.scoped()));
+  });
+
   final library = Library((b) => b
     ..body.add(Field((b) => b
       ..name = 'val1'

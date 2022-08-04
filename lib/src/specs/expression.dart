@@ -32,6 +32,17 @@ abstract class Expression implements Spec {
   /// An empty expression.
   static const _empty = CodeExpression(Code(''));
 
+  /// Whether this expression implies a const context for sub expressions.
+  ///
+  /// Collection literals that are const imply const for all values.
+  /// Assignment to a const variable implies a const value.
+  /// Invoking a const constructor implies const for all arguments.
+  ///
+  /// The implied const context is used to omit redundant `const` keywords.
+  /// A value of `false` does not imply that the expression cannot be used in a
+  /// const context.
+  bool get isConst => false;
+
   @override
   R accept<R>(covariant ExpressionVisitor<R> visitor, [R? context]);
 
@@ -180,11 +191,8 @@ abstract class Expression implements Spec {
       );
 
   /// Return `{this} = {other}`.
-  Expression assign(Expression other) => BinaryExpression._(
-        this,
-        other,
-        '=',
-      );
+  Expression assign(Expression other) =>
+      BinaryExpression._(this, other, '=', isConst: isConst);
 
   /// Return `{this} ?? {other}`.
   Expression ifNullThen(Expression other) => BinaryExpression._(
@@ -326,10 +334,14 @@ abstract class Expression implements Spec {
 /// Declare a const variable named [variableName].
 ///
 /// Returns `const {variableName}`, or `const {type} {variableName}`.
-Expression declareConst(String variableName, {Reference? type}) => type == null
-    ? LiteralExpression._('const $variableName')
-    : BinaryExpression._(
-        const LiteralExpression._('const'), _typedVar(variableName, type), '');
+Expression declareConst(String variableName, {Reference? type}) =>
+    BinaryExpression._(
+        const LiteralExpression._('const'),
+        type == null
+            ? LiteralExpression._(variableName)
+            : _typedVar(variableName, type),
+        '',
+        isConst: true);
 
 /// Declare a final variable named [variableName].
 ///
@@ -454,8 +466,7 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
   StringSink visitInvokeExpression(InvokeExpression expression,
       [StringSink? output]) {
     final out = output ??= StringBuffer();
-    return _writeConstExpression(
-        out, expression.type == InvokeExpressionType.constInstance, () {
+    return _writeConstExpression(out, expression.isConst, () {
       expression.target.accept(this, out);
       if (expression.name != null) {
         out
