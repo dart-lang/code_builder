@@ -209,6 +209,7 @@ abstract class Expression implements Spec {
       );
 
   /// Return `var {name} = {this}`.
+  @Deprecated('Use `declareVar(name).assign(expression)`')
   Expression assignVar(String name, [Reference? type]) => BinaryExpression._(
         type == null
             ? LiteralExpression._('var $name')
@@ -222,6 +223,7 @@ abstract class Expression implements Spec {
       );
 
   /// Return `final {name} = {this}`.
+  @Deprecated('Use `declareFinal(name).assign(expression)`')
   Expression assignFinal(String name, [Reference? type]) => BinaryExpression._(
         type == null
             ? const LiteralExpression._('final')
@@ -235,6 +237,7 @@ abstract class Expression implements Spec {
       );
 
   /// Return `const {name} = {this}`.
+  @Deprecated('Use `declareConst(name).assign(expression)`')
   Expression assignConst(String name, [Reference? type]) => BinaryExpression._(
         type == null
             ? const LiteralExpression._('const')
