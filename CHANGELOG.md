@@ -2,6 +2,7 @@
 
 * Only emit `late` keyword when using null safety syntax.
 * Use implicit `const` when assigning to a `declareConst` variable.
+* Deprecate `assignVar`, `assignConst`, and `assignFinal`.
 
 ## 4.2.0
 
