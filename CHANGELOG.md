@@ -350,7 +350,8 @@ class Animal extends Organism {
 **Major changes**:
 
 * Builders now use `built_value`, and have a more consistent, friendly API.
-* Builders are now consistent - they don't work until code is emitted.
+* Builders are now consistent - they don't perform work work until code is
+  emitted.
 * It's possible to overwrite the built-in code emitting, formatting, etc by
   providing your own visitors. See `DartEmitter` as an example of the built-in
   visitor/emitter.
@@ -621,7 +622,7 @@ literal(true).asAssign(reference('flag'))
 
 ## 1.0.0-alpha+7
 
-- Make use of the new analyzer API in preparation for analyzer version 0.30.
+- Make use of the new analyzer APIs in preparation for analyzer version 0.30.
 
 ## 1.0.0-alpha+6
 
@@ -746,5 +747,3 @@ automatically added to a `LibraryBuilder` for you if you use
 ## 0.1.0
 
 - Initial version
-
-
