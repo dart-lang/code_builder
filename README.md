@@ -77,7 +77,7 @@ _i2.Other doOther() {}
 
 If a feature is missing (the Dart language is always evolving) or you'd like an
 easier or better way to do something, consider [opening a pull request][pull].
-You can always [file an issue][issue], but generally speaking feature requests
+You can always [file an issue][issue], but generally speaking, feature requests
 will be on a best-effort basis.
 
 > **NOTE**: Due to the evolving Dart SDK the local `dartfmt` must be used to
@@ -98,8 +98,8 @@ will be on a best-effort basis.
 > system.
 
 Make a snapshot of the generated [`build_runner`][build_runner] build script and
-run from the snapshot instead of source to avoid problems with deleted files.
-These steps must be run without deleting the source files.
+run from the snapshot instead of from source to avoid problems with deleted
+files. These steps must be run without deleting the source files.
 
 ```bash
 $ dart run build_runner generate-build-script
