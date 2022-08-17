@@ -10,6 +10,8 @@ import '../common.dart';
 void main() {
   useDartfmt();
 
+  final trailingCommasEmitter = DartEmitter(useTrailingCommas: true);
+
   test('should create a method', () {
     expect(
       Method((b) => b..name = 'foo'),
@@ -161,6 +163,101 @@ void main() {
       equalsDart(r'''
         String Function([int])
       '''),
+    );
+  });
+
+  test(
+      'should create a function type with an optional parameter without a '
+      'trailing comma', () {
+    expect(
+      FunctionType((b) => b
+        ..returnType = refer('String')
+        ..requiredParameters.add(refer('int'))),
+      equalsDart(r'''
+        String Function(int)
+      ''', trailingCommasEmitter),
+    );
+  });
+
+  test(
+      'should create a function type with multiple required parameters with a '
+      'trailing comma', () {
+    expect(
+      FunctionType((b) => b
+        ..returnType = refer('String')
+        ..requiredParameters.add(refer('int'))
+        ..requiredParameters.add(refer('String'))),
+      equalsDart(r'''
+        String Function(int, String, )
+      ''', trailingCommasEmitter),
+    );
+  });
+
+  test(
+      'should create a function type with an optional parameter without a '
+      'trailing comma', () {
+    expect(
+      FunctionType((b) => b
+        ..returnType = refer('String')
+        ..optionalParameters.add(refer('int'))),
+      equalsDart(r'''
+        String Function([int])
+      ''', trailingCommasEmitter),
+    );
+  });
+
+  test(
+      'should create a function type with multiple optional parameters with a '
+      'trailing comma', () {
+    expect(
+      FunctionType((b) => b
+        ..returnType = refer('String')
+        ..optionalParameters.add(refer('int'))
+        ..optionalParameters.add(refer('String'))),
+      equalsDart(r'''
+        String Function([int, String, ])
+      ''', trailingCommasEmitter),
+    );
+  });
+
+  test(
+      'should create a function type with a named parameter with a trailing '
+      'comma', () {
+    expect(
+      FunctionType((b) => b
+        ..returnType = refer('String')
+        ..namedParameters['bar'] = refer('int')),
+      equalsDart(r'''
+        String Function({int bar})
+      ''', trailingCommasEmitter),
+    );
+  });
+
+  test(
+      'should create a function type with multiple named parameters with a '
+      'trailing comma', () {
+    expect(
+      FunctionType((b) => b
+        ..returnType = refer('String')
+        ..namedParameters['bar'] = refer('int')
+        ..namedParameters['baz'] = refer('String')),
+      equalsDart(r'''
+        String Function({int bar, String baz, })
+      ''', trailingCommasEmitter),
+    );
+  });
+
+  test(
+      'should create a function type with a required parameter and a named '
+      'parameter with a trailing comma', () {
+    expect(
+      FunctionType((b) => b
+        ..returnType = refer('String')
+        ..requiredParameters.add(refer('int'))
+        ..namedParameters['bar'] = refer('int')),
+      equalsDart(r'''
+        String Function(int, {int bar, })
+      ''', trailingCommasEmitter),
     );
   });
 
@@ -347,7 +444,7 @@ void main() {
     );
   });
 
-  test('should create a method with a paremter', () {
+  test('should create a method with a parameter', () {
     expect(
       Method(
         (b) => b
@@ -588,6 +685,73 @@ void main() {
       equalsDart(r'''
         foo(a, {b});
       '''),
+    );
+  });
+
+  test(
+      'should create a method with a required parameter without a trailing '
+      'comma', () {
+    expect(
+      Method(
+        (b) => b
+          ..name = 'fib'
+          ..requiredParameters.add(Parameter((b) => b.name = 'i')),
+      ),
+      equalsDart(r'''
+        fib(i);
+      ''', trailingCommasEmitter),
+    );
+  });
+
+  test(
+      'should create a method with multiple required parameters with a '
+      'trailing comma', () {
+    expect(
+      Method(
+        (b) => b
+          ..name = 'fib'
+          ..requiredParameters.add(Parameter((b) => b.name = 'i'))
+          ..requiredParameters.add(Parameter((b) => b.name = 'j')),
+      ),
+      equalsDart(r'''
+        fib(i, j, );
+      ''', trailingCommasEmitter),
+    );
+  });
+
+  test(
+      'should create a method with a required parameter and an optional '
+      'parameter with a trailing comma', () {
+    expect(
+      Method(
+        (b) => b
+          ..name = 'fib'
+          ..requiredParameters.add(Parameter((b) => b.name = 'i'))
+          ..optionalParameters.add(Parameter((b) => b.name = 'j')),
+      ),
+      equalsDart(r'''
+        fib(i, [j, ]);
+      ''', trailingCommasEmitter),
+    );
+  });
+
+  test(
+      'should create a method with a required parameter and a named parameter '
+      'with a trailing comma', () {
+    expect(
+      Method(
+        (b) => b
+          ..name = 'fib'
+          ..requiredParameters.add(Parameter((b) => b.name = 'i'))
+          ..optionalParameters.add(Parameter(
+            (b) => b
+              ..named = true
+              ..name = 'j',
+          )),
+      ),
+      equalsDart(r'''
+        fib(i, {j, });
+      ''', trailingCommasEmitter),
     );
   });
 }

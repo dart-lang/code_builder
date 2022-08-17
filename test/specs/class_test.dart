@@ -10,6 +10,8 @@ import '../common.dart';
 void main() {
   useDartfmt();
 
+  final trailingCommasEmitter = DartEmitter(useTrailingCommas: true);
+
   test('should create a class', () {
     expect(
       Class((b) => b..name = 'Foo'),
@@ -312,7 +314,7 @@ void main() {
     );
   });
 
-  test('should create a class with method parameters', () {
+  test('should create a class with a constructor with parameters', () {
     expect(
       Class((b) => b
         ..name = 'Foo'
@@ -385,6 +387,45 @@ void main() {
           Foo(super.a, super.b, {super.c});
         }
       '''),
+    );
+  });
+
+  test(
+      'should create a class with a constructor with a positional parameter '
+      'without a trailing comma', () {
+    expect(
+      Class((b) => b
+        ..name = 'Foo'
+        ..constructors.add(Constructor((b) => b
+          ..requiredParameters.add(
+            Parameter((b) => b..name = 'a'),
+          )))),
+      equalsDart(r'''
+        class Foo {
+          Foo(a);
+        }
+      ''', trailingCommasEmitter),
+    );
+  });
+
+  test(
+      'should create a class with a constructor with a positional parameter '
+      'and a named parameter with a trailing comma', () {
+    expect(
+      Class((b) => b
+        ..name = 'Foo'
+        ..constructors.add(Constructor((b) => b
+          ..requiredParameters.add(Parameter((b) => b..name = 'a'))
+          ..optionalParameters.add(
+            Parameter((b) => b
+              ..name = 'b'
+              ..named = true),
+          )))),
+      equalsDart(r'''
+        class Foo {
+          Foo(a, {b, });
+        }
+      ''', trailingCommasEmitter),
     );
   });
 }

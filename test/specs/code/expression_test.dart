@@ -10,6 +10,8 @@ import '../../common.dart';
 void main() {
   useDartfmt();
 
+  final trailingCommasEmitter = DartEmitter(useTrailingCommas: true);
+
   test('should emit a simple expression', () {
     expect(literalNull, equalsDart('null'));
   });
@@ -111,6 +113,27 @@ void main() {
         refer('Map').newInstance([])
       ]),
       equalsDart('[[], {}, true, null, Map()]'),
+    );
+  });
+
+  test('should emit a list with no elements without a trailing comma', () {
+    expect(
+      literalList([]),
+      equalsDart('[]', trailingCommasEmitter),
+    );
+  });
+
+  test('should emit a list with a single element without a trailing comma', () {
+    expect(
+      literalList([true]),
+      equalsDart('[true]', trailingCommasEmitter),
+    );
+  });
+
+  test('should emit a list with multiple elements with a trailing comma', () {
+    expect(
+      literalList([true, false]),
+      equalsDart('[true, false, ]', trailingCommasEmitter),
     );
   });
 
@@ -222,6 +245,65 @@ void main() {
         'baz': literal(3),
       }),
       equalsDart('foo(1, bar: 2, baz: 3)'),
+    );
+  });
+
+  test(
+      'should emit invoking a method with a single positional argument without '
+      'a trailing comma', () {
+    expect(
+      refer('foo').call([
+        literal(1),
+      ]),
+      equalsDart('foo(1)', trailingCommasEmitter),
+    );
+  });
+
+  test(
+      'should emit invoking a method with multiple positional arguments with a '
+      'trailing comma', () {
+    expect(
+      refer('foo').call([
+        literal(1),
+        literal(2),
+      ]),
+      equalsDart('foo(1, 2, )', trailingCommasEmitter),
+    );
+  });
+
+  test(
+      'should emit invoking a method with a positional argument and a named '
+      'argument with a trailing comma', () {
+    expect(
+      refer('foo').call([
+        literal(1),
+      ], {
+        'bar': literal(2),
+      }),
+      equalsDart('foo(1, bar: 2, )', trailingCommasEmitter),
+    );
+  });
+
+  test(
+      'should emit invoking a method with a named argument without a trailing '
+      'comma', () {
+    expect(
+      refer('foo').call([], {
+        'bar': literal(2),
+      }),
+      equalsDart('foo(bar: 2)', trailingCommasEmitter),
+    );
+  });
+
+  test(
+      'should emit invoking a method with multiple named arguments with a '
+      'trailing comma', () {
+    expect(
+      refer('foo').call([], {
+        'bar': literal(2),
+        'baz': literal(3),
+      }),
+      equalsDart('foo(bar: 2, baz: 3, )', trailingCommasEmitter),
     );
   });
 
