@@ -45,7 +45,7 @@ void main() {
           final Module _module;
 
           @override
-          Thing getThing() => Thing(_module.get1(), _module.get2());
+          Thing getThing() => Thing(_module.get1(), _module.get2(), );
         }
       '''),
     );
@@ -59,7 +59,7 @@ void main() {
           final _i2.Module _module;
 
           @override
-          _i3.Thing getThing() => _i3.Thing(_module.get1(), _module.get2());
+          _i3.Thing getThing() => _i3.Thing(_module.get1(), _module.get2(), );
         }
       ''', DartEmitter(allocator: Allocator.simplePrefixing())),
     );

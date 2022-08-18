@@ -10,8 +10,6 @@ import '../common.dart';
 void main() {
   useDartfmt();
 
-  final trailingCommasEmitter = DartEmitter(useTrailingCommas: true);
-
   test('should create a class', () {
     expect(
       Class((b) => b..name = 'Foo'),
@@ -330,7 +328,7 @@ void main() {
           ])))),
       equalsDart(r'''
         class Foo {
-          Foo(a, b, {c});
+          Foo(a, b, {c, });
         }
       '''),
     );
@@ -357,7 +355,7 @@ void main() {
           ])))),
       equalsDart(r'''
         class Foo {
-          Foo(this.a, this.b, {this.c});
+          Foo(this.a, this.b, {this.c, });
         }
       '''),
     );
@@ -384,48 +382,9 @@ void main() {
           ])))),
       equalsDart(r'''
         class Foo {
-          Foo(super.a, super.b, {super.c});
+          Foo(super.a, super.b, {super.c, });
         }
       '''),
-    );
-  });
-
-  test(
-      'should create a class with a constructor with a positional parameter '
-      'without a trailing comma', () {
-    expect(
-      Class((b) => b
-        ..name = 'Foo'
-        ..constructors.add(Constructor((b) => b
-          ..requiredParameters.add(
-            Parameter((b) => b..name = 'a'),
-          )))),
-      equalsDart(r'''
-        class Foo {
-          Foo(a);
-        }
-      ''', trailingCommasEmitter),
-    );
-  });
-
-  test(
-      'should create a class with a constructor with a positional parameter '
-      'and a named parameter with a trailing comma', () {
-    expect(
-      Class((b) => b
-        ..name = 'Foo'
-        ..constructors.add(Constructor((b) => b
-          ..requiredParameters.add(Parameter((b) => b..name = 'a'))
-          ..optionalParameters.add(
-            Parameter((b) => b
-              ..name = 'b'
-              ..named = true),
-          )))),
-      equalsDart(r'''
-        class Foo {
-          Foo(a, {b, });
-        }
-      ''', trailingCommasEmitter),
     );
   });
 }

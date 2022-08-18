@@ -68,33 +68,22 @@ class DartEmitter extends Object
   /// a Dart language version which supports it.
   final bool _useNullSafetySyntax;
 
-  /// If trailing commas should be used where they are allowed.
-  ///
-  /// If `true`, an argument list, parameter list, or collection literal with
-  /// more than one element will end with a trailing comma.
-  final bool _useTrailingCommas;
-
   /// Creates a new instance of [DartEmitter].
   ///
   /// May specify an [Allocator] to use for symbols, otherwise uses a no-op.
   DartEmitter(
       {this.allocator = Allocator.none,
       this.orderDirectives = false,
-      bool useNullSafetySyntax = false,
-      bool useTrailingCommas = false})
-      : _useNullSafetySyntax = useNullSafetySyntax,
-        _useTrailingCommas = useTrailingCommas;
+      bool useNullSafetySyntax = false})
+      : _useNullSafetySyntax = useNullSafetySyntax;
 
   /// Creates a new instance of [DartEmitter] with simple automatic imports.
   factory DartEmitter.scoped(
-          {bool orderDirectives = false,
-          bool useNullSafetySyntax = false,
-          bool useTrailingCommas = false}) =>
+          {bool orderDirectives = false, bool useNullSafetySyntax = false}) =>
       DartEmitter(
           allocator: Allocator.simplePrefixing(),
           orderDirectives: orderDirectives,
-          useNullSafetySyntax: useNullSafetySyntax,
-          useTrailingCommas: useTrailingCommas);
+          useNullSafetySyntax: useNullSafetySyntax);
 
   static bool _isLambdaBody(Code? code) =>
       code is ToCodeExpression && !code.isStatement;
@@ -107,9 +96,6 @@ class DartEmitter extends Object
   static bool _isLambdaConstructor(Constructor constructor) =>
       constructor.lambda ??
       constructor.factory && _isLambdaBody(constructor.body);
-
-  @override
-  bool get useTrailingCommas => _useTrailingCommas;
 
   @override
   StringSink visitAnnotation(Expression spec, [StringSink? output]) {
@@ -234,7 +220,7 @@ class DartEmitter extends Object
       for (final p in spec.requiredParameters) {
         count++;
         _visitParameter(p, output);
-        if ((useTrailingCommas && hasMultipleParameters) ||
+        if (hasMultipleParameters ||
             spec.requiredParameters.length != count ||
             spec.optionalParameters.isNotEmpty) {
           output.write(', ');
@@ -252,8 +238,7 @@ class DartEmitter extends Object
       for (final p in spec.optionalParameters) {
         count++;
         _visitParameter(p, output, optional: true, named: named);
-        if ((useTrailingCommas && hasMultipleParameters) ||
-            spec.optionalParameters.length != count) {
+        if (hasMultipleParameters || spec.optionalParameters.length != count) {
           output.write(', ');
         }
       }
@@ -471,12 +456,11 @@ class DartEmitter extends Object
       out.write('>');
     }
     out.write('(');
-    final needsTrailingComma = useTrailingCommas &&
-        spec.requiredParameters.length +
-                spec.optionalParameters.length +
-                spec.namedRequiredParameters.length +
-                spec.namedParameters.length >
-            1;
+    final needsTrailingComma = spec.requiredParameters.length +
+            spec.optionalParameters.length +
+            spec.namedRequiredParameters.length +
+            spec.namedParameters.length >
+        1;
     visitAll<Reference>(spec.requiredParameters, out, (spec) {
       spec.accept(this, out);
     });
@@ -488,11 +472,6 @@ class DartEmitter extends Object
             hasNamedParameters)) {
       out.write(', ');
     }
-    /*if (useTrailingCommas &&
-        spec.requiredParameters.isNotEmpty &&
-        hasMultipleParameters) {
-      out.write(', ');
-    }*/
     if (spec.optionalParameters.isNotEmpty) {
       out.write('[');
       visitAll<Reference>(spec.optionalParameters, out, (spec) {
@@ -570,7 +549,7 @@ class DartEmitter extends Object
         for (final p in spec.requiredParameters) {
           count++;
           _visitParameter(p, output);
-          if ((useTrailingCommas && hasMultipleParameters) ||
+          if (hasMultipleParameters ||
               spec.requiredParameters.length != count ||
               spec.optionalParameters.isNotEmpty) {
             output.write(', ');
@@ -588,7 +567,7 @@ class DartEmitter extends Object
         for (final p in spec.optionalParameters) {
           count++;
           _visitParameter(p, output, optional: true, named: named);
-          if ((useTrailingCommas && hasMultipleParameters) ||
+          if (hasMultipleParameters ||
               spec.optionalParameters.length != count) {
             output.write(', ');
           }

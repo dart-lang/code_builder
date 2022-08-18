@@ -421,8 +421,6 @@ abstract class ExpressionVisitor<T> implements SpecVisitor<T> {
 ///
 /// **INTERNAL ONLY**.
 abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
-  bool get useTrailingCommas => false;
-
   @override
   StringSink visitToCodeExpression(ToCodeExpression expression,
       [StringSink? output]) {
@@ -501,7 +499,7 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
       });
       final argumentCount = expression.positionalArguments.length +
           expression.namedArguments.length;
-      if (useTrailingCommas && argumentCount > 1) {
+      if (argumentCount > 1) {
         out.write(', ');
       }
       return out..write(')');
@@ -542,7 +540,7 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
       visitAll<Object?>(expression.values, out, (value) {
         _acceptLiteral(value, out);
       });
-      if (useTrailingCommas && expression.values.length > 1) {
+      if (expression.values.length > 1) {
         out.write(', ');
       }
       return out..write(']');
@@ -566,7 +564,7 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
       visitAll<Object?>(expression.values, out, (value) {
         _acceptLiteral(value, out);
       });
-      if (useTrailingCommas && expression.values.length > 1) {
+      if (expression.values.length > 1) {
         out.write(', ');
       }
       return out..write('}');
@@ -598,7 +596,7 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
         out.write(': ');
         _acceptLiteral(value, out);
       });
-      if (useTrailingCommas && expression.values.length > 1) {
+      if (expression.values.length > 1) {
         out.write(', ');
       }
       return out..write('}');

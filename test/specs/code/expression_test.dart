@@ -10,8 +10,6 @@ import '../../common.dart';
 void main() {
   useDartfmt();
 
-  final trailingCommasEmitter = DartEmitter(useTrailingCommas: true);
-
   test('should emit a simple expression', () {
     expect(literalNull, equalsDart('null'));
   });
@@ -98,7 +96,7 @@ void main() {
         refer('three'): 3,
         refer('Map').newInstance([]): null,
       }),
-      equalsDart(r"{1: 'one', 2: two, three: 3, Map(): null}"),
+      equalsDart(r"{1: 'one', 2: two, three: 3, Map(): null, }"),
     );
   });
 
@@ -112,28 +110,7 @@ void main() {
         null,
         refer('Map').newInstance([])
       ]),
-      equalsDart('[[], {}, true, null, Map()]'),
-    );
-  });
-
-  test('should emit a list with no elements without a trailing comma', () {
-    expect(
-      literalList([]),
-      equalsDart('[]', trailingCommasEmitter),
-    );
-  });
-
-  test('should emit a list with a single element without a trailing comma', () {
-    expect(
-      literalList([true]),
-      equalsDart('[true]', trailingCommasEmitter),
-    );
-  });
-
-  test('should emit a list with multiple elements with a trailing comma', () {
-    expect(
-      literalList([true, false]),
-      equalsDart('[true, false, ]', trailingCommasEmitter),
+      equalsDart('[[], {}, true, null, Map(), ]'),
     );
   });
 
@@ -148,7 +125,7 @@ void main() {
         null,
         refer('Map').newInstance([])
       ]),
-      equalsDart('{[], {}, true, null, Map()}'),
+      equalsDart('{[], {}, true, null, Map(), }'),
     );
   });
 
@@ -213,7 +190,7 @@ void main() {
         literal(2),
         literal(3),
       ]),
-      equalsDart('foo(1, 2, 3)'),
+      equalsDart('foo(1, 2, 3, )'),
     );
   });
 
@@ -232,7 +209,7 @@ void main() {
         'bar': literal(1),
         'baz': literal(2),
       }),
-      equalsDart('foo(bar: 1, baz: 2)'),
+      equalsDart('foo(bar: 1, baz: 2, )'),
     );
   });
 
@@ -244,66 +221,7 @@ void main() {
         'bar': literal(2),
         'baz': literal(3),
       }),
-      equalsDart('foo(1, bar: 2, baz: 3)'),
-    );
-  });
-
-  test(
-      'should emit invoking a method with a single positional argument without '
-      'a trailing comma', () {
-    expect(
-      refer('foo').call([
-        literal(1),
-      ]),
-      equalsDart('foo(1)', trailingCommasEmitter),
-    );
-  });
-
-  test(
-      'should emit invoking a method with multiple positional arguments with a '
-      'trailing comma', () {
-    expect(
-      refer('foo').call([
-        literal(1),
-        literal(2),
-      ]),
-      equalsDart('foo(1, 2, )', trailingCommasEmitter),
-    );
-  });
-
-  test(
-      'should emit invoking a method with a positional argument and a named '
-      'argument with a trailing comma', () {
-    expect(
-      refer('foo').call([
-        literal(1),
-      ], {
-        'bar': literal(2),
-      }),
-      equalsDart('foo(1, bar: 2, )', trailingCommasEmitter),
-    );
-  });
-
-  test(
-      'should emit invoking a method with a named argument without a trailing '
-      'comma', () {
-    expect(
-      refer('foo').call([], {
-        'bar': literal(2),
-      }),
-      equalsDart('foo(bar: 2)', trailingCommasEmitter),
-    );
-  });
-
-  test(
-      'should emit invoking a method with multiple named arguments with a '
-      'trailing comma', () {
-    expect(
-      refer('foo').call([], {
-        'bar': literal(2),
-        'baz': literal(3),
-      }),
-      equalsDart('foo(bar: 2, baz: 3, )', trailingCommasEmitter),
+      equalsDart('foo(1, bar: 2, baz: 3, )'),
     );
   });
 
@@ -369,7 +287,7 @@ void main() {
       FunctionType((b) => b
         ..requiredParameters.add(refer('String'))
         ..optionalParameters.add(refer('int'))),
-      equalsDart('Function(String, [int])'),
+      equalsDart('Function(String, [int, ])'),
     );
   });
 
@@ -380,7 +298,7 @@ void main() {
           'x': refer('int'),
           'y': refer('int'),
         })),
-      equalsDart('Function({int x, int y})'),
+      equalsDart('Function({int x, int y, })'),
     );
   });
 
@@ -395,7 +313,7 @@ void main() {
         ..namedParameters.addAll({
           'y': refer('int'),
         })),
-      equalsDart('Function({required int x, int y})'),
+      equalsDart('Function({required int x, int y, })'),
     );
   });
 
@@ -406,7 +324,7 @@ void main() {
           'x': refer('int'),
           'y': refer('int'),
         })),
-      equalsDart('Function({required int x, required int y})'),
+      equalsDart('Function({required int x, required int y, })'),
     );
   });
 
@@ -455,7 +373,7 @@ void main() {
         literalString('foo'),
         Method((b) => b..body = literalTrue.code).closure,
       ]),
-      equalsDart("map.putIfAbsent('foo', () => true)"),
+      equalsDart("map.putIfAbsent('foo', () => true, )"),
     );
   });
 
@@ -467,7 +385,7 @@ void main() {
           ..types.add(refer('T'))
           ..body = literalTrue.code).genericClosure,
       ]),
-      equalsDart("map.putIfAbsent('foo', <T>() => true)"),
+      equalsDart("map.putIfAbsent('foo', <T>() => true, )"),
     );
   });
 
