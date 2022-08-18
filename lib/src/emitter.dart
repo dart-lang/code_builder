@@ -213,12 +213,15 @@ class DartEmitter extends Object
         ..write(spec.name);
     }
     output.write('(');
+    final hasMultipleParameters =
+        spec.requiredParameters.length + spec.optionalParameters.length > 1;
     if (spec.requiredParameters.isNotEmpty) {
       var count = 0;
       for (final p in spec.requiredParameters) {
         count++;
         _visitParameter(p, output);
-        if (spec.requiredParameters.length != count ||
+        if (hasMultipleParameters ||
+            spec.requiredParameters.length != count ||
             spec.optionalParameters.isNotEmpty) {
           output.write(', ');
         }
@@ -235,7 +238,7 @@ class DartEmitter extends Object
       for (final p in spec.optionalParameters) {
         count++;
         _visitParameter(p, output, optional: true, named: named);
-        if (spec.optionalParameters.length != count) {
+        if (hasMultipleParameters || spec.optionalParameters.length != count) {
           output.write(', ');
         }
       }
@@ -453,13 +456,20 @@ class DartEmitter extends Object
       out.write('>');
     }
     out.write('(');
+    final needsTrailingComma = spec.requiredParameters.length +
+            spec.optionalParameters.length +
+            spec.namedRequiredParameters.length +
+            spec.namedParameters.length >
+        1;
     visitAll<Reference>(spec.requiredParameters, out, (spec) {
       spec.accept(this, out);
     });
     final hasNamedParameters = spec.namedRequiredParameters.isNotEmpty ||
         spec.namedParameters.isNotEmpty;
     if (spec.requiredParameters.isNotEmpty &&
-        (spec.optionalParameters.isNotEmpty || hasNamedParameters)) {
+        (needsTrailingComma ||
+            spec.optionalParameters.isNotEmpty ||
+            hasNamedParameters)) {
       out.write(', ');
     }
     if (spec.optionalParameters.isNotEmpty) {
@@ -467,6 +477,9 @@ class DartEmitter extends Object
       visitAll<Reference>(spec.optionalParameters, out, (spec) {
         spec.accept(this, out);
       });
+      if (needsTrailingComma) {
+        out.write(', ');
+      }
       out.write(']');
     } else if (hasNamedParameters) {
       out.write('{');
@@ -487,6 +500,9 @@ class DartEmitter extends Object
           ..write(' ')
           ..write(name);
       });
+      if (needsTrailingComma) {
+        out.write(', ');
+      }
       out.write('}');
     }
     out.write(')');
@@ -526,12 +542,15 @@ class DartEmitter extends Object
       }
       visitTypeParameters(spec.types.map((r) => r.type), output);
       output.write('(');
+      final hasMultipleParameters =
+          spec.requiredParameters.length + spec.optionalParameters.length > 1;
       if (spec.requiredParameters.isNotEmpty) {
         var count = 0;
         for (final p in spec.requiredParameters) {
           count++;
           _visitParameter(p, output);
-          if (spec.requiredParameters.length != count ||
+          if (hasMultipleParameters ||
+              spec.requiredParameters.length != count ||
               spec.optionalParameters.isNotEmpty) {
             output.write(', ');
           }
@@ -548,7 +567,8 @@ class DartEmitter extends Object
         for (final p in spec.optionalParameters) {
           count++;
           _visitParameter(p, output, optional: true, named: named);
-          if (spec.optionalParameters.length != count) {
+          if (hasMultipleParameters ||
+              spec.optionalParameters.length != count) {
             output.write(', ');
           }
         }

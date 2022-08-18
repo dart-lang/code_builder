@@ -497,6 +497,11 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
           ..write(': ');
         expression.namedArguments[name]!.accept(this, out);
       });
+      final argumentCount = expression.positionalArguments.length +
+          expression.namedArguments.length;
+      if (argumentCount > 1) {
+        out.write(', ');
+      }
       return out..write(')');
     });
   }
@@ -535,6 +540,9 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
       visitAll<Object?>(expression.values, out, (value) {
         _acceptLiteral(value, out);
       });
+      if (expression.values.length > 1) {
+        out.write(', ');
+      }
       return out..write(']');
     });
   }
@@ -556,6 +564,9 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
       visitAll<Object?>(expression.values, out, (value) {
         _acceptLiteral(value, out);
       });
+      if (expression.values.length > 1) {
+        out.write(', ');
+      }
       return out..write('}');
     });
   }
@@ -585,6 +596,9 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
         out.write(': ');
         _acceptLiteral(value, out);
       });
+      if (expression.values.length > 1) {
+        out.write(', ');
+      }
       return out..write('}');
     });
   }

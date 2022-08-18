@@ -96,7 +96,7 @@ void main() {
         refer('three'): 3,
         refer('Map').newInstance([]): null,
       }),
-      equalsDart(r"{1: 'one', 2: two, three: 3, Map(): null}"),
+      equalsDart(r"{1: 'one', 2: two, three: 3, Map(): null, }"),
     );
   });
 
@@ -110,7 +110,7 @@ void main() {
         null,
         refer('Map').newInstance([])
       ]),
-      equalsDart('[[], {}, true, null, Map()]'),
+      equalsDart('[[], {}, true, null, Map(), ]'),
     );
   });
 
@@ -125,7 +125,7 @@ void main() {
         null,
         refer('Map').newInstance([])
       ]),
-      equalsDart('{[], {}, true, null, Map()}'),
+      equalsDart('{[], {}, true, null, Map(), }'),
     );
   });
 
@@ -190,7 +190,7 @@ void main() {
         literal(2),
         literal(3),
       ]),
-      equalsDart('foo(1, 2, 3)'),
+      equalsDart('foo(1, 2, 3, )'),
     );
   });
 
@@ -209,7 +209,7 @@ void main() {
         'bar': literal(1),
         'baz': literal(2),
       }),
-      equalsDart('foo(bar: 1, baz: 2)'),
+      equalsDart('foo(bar: 1, baz: 2, )'),
     );
   });
 
@@ -221,7 +221,7 @@ void main() {
         'bar': literal(2),
         'baz': literal(3),
       }),
-      equalsDart('foo(1, bar: 2, baz: 3)'),
+      equalsDart('foo(1, bar: 2, baz: 3, )'),
     );
   });
 
@@ -287,7 +287,7 @@ void main() {
       FunctionType((b) => b
         ..requiredParameters.add(refer('String'))
         ..optionalParameters.add(refer('int'))),
-      equalsDart('Function(String, [int])'),
+      equalsDart('Function(String, [int, ])'),
     );
   });
 
@@ -298,7 +298,7 @@ void main() {
           'x': refer('int'),
           'y': refer('int'),
         })),
-      equalsDart('Function({int x, int y})'),
+      equalsDart('Function({int x, int y, })'),
     );
   });
 
@@ -313,7 +313,7 @@ void main() {
         ..namedParameters.addAll({
           'y': refer('int'),
         })),
-      equalsDart('Function({required int x, int y})'),
+      equalsDart('Function({required int x, int y, })'),
     );
   });
 
@@ -324,7 +324,7 @@ void main() {
           'x': refer('int'),
           'y': refer('int'),
         })),
-      equalsDart('Function({required int x, required int y})'),
+      equalsDart('Function({required int x, required int y, })'),
     );
   });
 
@@ -373,7 +373,7 @@ void main() {
         literalString('foo'),
         Method((b) => b..body = literalTrue.code).closure,
       ]),
-      equalsDart("map.putIfAbsent('foo', () => true)"),
+      equalsDart("map.putIfAbsent('foo', () => true, )"),
     );
   });
 
@@ -385,7 +385,7 @@ void main() {
           ..types.add(refer('T'))
           ..body = literalTrue.code).genericClosure,
       ]),
-      equalsDart("map.putIfAbsent('foo', <T>() => true)"),
+      equalsDart("map.putIfAbsent('foo', <T>() => true, )"),
     );
   });
 

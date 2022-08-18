@@ -312,7 +312,7 @@ void main() {
     );
   });
 
-  test('should create a class with method parameters', () {
+  test('should create a class with a constructor with parameters', () {
     expect(
       Class((b) => b
         ..name = 'Foo'
@@ -328,7 +328,7 @@ void main() {
           ])))),
       equalsDart(r'''
         class Foo {
-          Foo(a, b, {c});
+          Foo(a, b, {c, });
         }
       '''),
     );
@@ -355,7 +355,7 @@ void main() {
           ])))),
       equalsDart(r'''
         class Foo {
-          Foo(this.a, this.b, {this.c});
+          Foo(this.a, this.b, {this.c, });
         }
       '''),
     );
@@ -382,7 +382,7 @@ void main() {
           ])))),
       equalsDart(r'''
         class Foo {
-          Foo(super.a, super.b, {super.c});
+          Foo(super.a, super.b, {super.c, });
         }
       '''),
     );

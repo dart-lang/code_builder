@@ -3,6 +3,8 @@
 * Only emit `late` keyword when using null safety syntax.
 * Use implicit `const` when assigning to a `declareConst` variable.
 * Deprecate `assignVar`, `assignConst`, and `assignFinal`.
+* Add trailing commas to any parameter list, argument list, or collection
+  literal which has more than one element.
 
 ## 4.2.0
 

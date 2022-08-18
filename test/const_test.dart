@@ -17,7 +17,7 @@ void main() {
 
   test('expression', () {
     expect(constMap, equalsDart(r'''
-          const {'list': [], 'duration': Duration()}'''));
+          const {'list': [], 'duration': Duration(), }'''));
   });
 
   test('assignConst', () {
@@ -25,7 +25,7 @@ void main() {
       // ignore: deprecated_member_use_from_same_package
       constMap.assignConst('constField'),
       equalsDart(r'''
-          const constField = {'list': [], 'duration': Duration()}''',
+          const constField = {'list': [], 'duration': Duration(), }''',
           DartEmitter.scoped()),
     );
   });
@@ -34,7 +34,7 @@ void main() {
     expect(
       declareConst('constField').assign(constMap),
       equalsDart(r'''
-          const constField = {'list': [], 'duration': Duration()}''',
+          const constField = {'list': [], 'duration': Duration(), }''',
           DartEmitter.scoped()),
     );
   });
@@ -43,7 +43,7 @@ void main() {
     expect(
         declareVar('varField').assign(constMap),
         equalsDart(r'''
-          var varField = const {'list': [], 'duration': Duration()}''',
+          var varField = const {'list': [], 'duration': Duration(), }''',
             DartEmitter.scoped()));
   });
 
