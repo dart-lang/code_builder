@@ -8,7 +8,7 @@
 
 * Add an ignore for a lint from the `package:lints` recommended set. The lint,
   `no_leading_underscores_for_library_prefixes` is most useful for hand edited
-  code where the appearance of a private name which is already not visible
+  code where the appearance of a private name that is already not visible
   outside the library is confusing.
 * Fix the docs for `Expression.assign`, `ifNullThen`, and `assignNullAware`
   which had the argument and receiver flipped.
@@ -361,11 +361,12 @@ class Animal extends Organism {
 **Major changes**:
 
 * Builders now use `built_value`, and have a more consistent, friendly API.
-* Builders are now consistent - they don't any work until code is emitted.
+* Builders are now consistent - they don't perform work work until code is
+  emitted.
 * It's possible to overwrite the built-in code emitting, formatting, etc by
   providing your own visitors. See `DartEmitter` as an example of the built-in
   visitor/emitter.
-* Most of the expression and statement level helpers were removed; in practice
+* Most of the expression and statement-level helpers were removed; in practice,
   they were difficult to write and maintain, and many users commonly asked for
   opt-out type APIs. See the `Code` example below:
 
@@ -495,7 +496,7 @@ expect(
 
 ## 1.0.0
 
-First full release. At this point all changes until `2.0.0` will be backwards
+First full release. At this point, all changes until `2.0.0` will be backward
 compatible (new features) or bug fixes that are not breaking. This doesn't mean
 that the entire Dart language is buildable with our API, though.
 
@@ -632,7 +633,7 @@ literal(true).asAssign(reference('flag'))
 
 ## 1.0.0-alpha+7
 
-- Make use of new analyzer API in preparation for analyzer version 0.30.
+- Make use of the new analyzer APIs in preparation for analyzer version 0.30.
 
 ## 1.0.0-alpha+6
 
@@ -658,13 +659,13 @@ method('main')
 
 ## 1.0.0-alpha+4
 
-- Add support for latest `pkg/analyzer`.
+- Add support for the latest `pkg/analyzer`.
 
 ## 1.0.0-alpha+3
 
 - BREAKING CHANGE: Added generics support to `TypeBuilder`:
 
-`importFrom` becomes a _named_, not positional argument, and the named
+`importFrom` becomes a _named_, not a positional argument, and the named
 argument `genericTypes` is added (`Iterable<TypeBuilder>`).
 
 ```dart
@@ -748,7 +749,7 @@ reference('foo').property('bar');
 
 ## 0.1.1
 
-- Add concept of `Scope` and change `toAst` to support it
+- Add the concept of `Scope` and change `toAst` to support it
 
 Now your entire AST tree can be scoped and import directives
 automatically added to a `LibraryBuilder` for you if you use
