@@ -286,12 +286,12 @@ void main() {
       ]));
     expect(myEnum, equalsDart('''
     enum MyEnum<T> {
-      a<int>(123), 
-      b<String>('abc'), 
+      a<int>(123),
+      b<String>('abc'),
       c<MyEnum>(MyEnum.a);
-  
+
       const MyEnum(this.value);
-  
+
       final T value;
     }
     '''));
