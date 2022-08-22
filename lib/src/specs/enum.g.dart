@@ -43,16 +43,17 @@ class _$Enum extends Enum {
       required this.methods,
       required this.fields})
       : super._() {
-    BuiltValueNullFieldError.checkNotNull(name, 'Enum', 'name');
-    BuiltValueNullFieldError.checkNotNull(values, 'Enum', 'values');
-    BuiltValueNullFieldError.checkNotNull(annotations, 'Enum', 'annotations');
-    BuiltValueNullFieldError.checkNotNull(docs, 'Enum', 'docs');
-    BuiltValueNullFieldError.checkNotNull(implements, 'Enum', 'implements');
-    BuiltValueNullFieldError.checkNotNull(mixins, 'Enum', 'mixins');
-    BuiltValueNullFieldError.checkNotNull(types, 'Enum', 'types');
-    BuiltValueNullFieldError.checkNotNull(constructors, 'Enum', 'constructors');
-    BuiltValueNullFieldError.checkNotNull(methods, 'Enum', 'methods');
-    BuiltValueNullFieldError.checkNotNull(fields, 'Enum', 'fields');
+    BuiltValueNullFieldError.checkNotNull(name, r'Enum', 'name');
+    BuiltValueNullFieldError.checkNotNull(values, r'Enum', 'values');
+    BuiltValueNullFieldError.checkNotNull(annotations, r'Enum', 'annotations');
+    BuiltValueNullFieldError.checkNotNull(docs, r'Enum', 'docs');
+    BuiltValueNullFieldError.checkNotNull(implements, r'Enum', 'implements');
+    BuiltValueNullFieldError.checkNotNull(mixins, r'Enum', 'mixins');
+    BuiltValueNullFieldError.checkNotNull(types, r'Enum', 'types');
+    BuiltValueNullFieldError.checkNotNull(
+        constructors, r'Enum', 'constructors');
+    BuiltValueNullFieldError.checkNotNull(methods, r'Enum', 'methods');
+    BuiltValueNullFieldError.checkNotNull(fields, r'Enum', 'fields');
   }
 
   @override
@@ -347,10 +348,10 @@ class _$EnumValue extends EnumValue {
       : super._() {
     BuiltValueNullFieldError.checkNotNull(name, r'EnumValue', 'name');
     BuiltValueNullFieldError.checkNotNull(
-        annotations, 'EnumValue', 'annotations');
-    BuiltValueNullFieldError.checkNotNull(docs, 'EnumValue', 'docs');
-    BuiltValueNullFieldError.checkNotNull(types, 'EnumValue', 'types');
-    BuiltValueNullFieldError.checkNotNull(arguments, 'EnumValue', 'arguments');
+        annotations, r'EnumValue', 'annotations');
+    BuiltValueNullFieldError.checkNotNull(docs, r'EnumValue', 'docs');
+    BuiltValueNullFieldError.checkNotNull(types, r'EnumValue', 'types');
+    BuiltValueNullFieldError.checkNotNull(arguments, r'EnumValue', 'arguments');
   }
 
   @override
