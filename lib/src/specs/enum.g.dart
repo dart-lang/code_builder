@@ -329,7 +329,7 @@ class _$EnumValue extends EnumValue {
   @override
   final BuiltList<String> docs;
   @override
-  final String? targetName;
+  final String? constructorName;
   @override
   final BuiltList<Reference> types;
   @override
@@ -342,7 +342,7 @@ class _$EnumValue extends EnumValue {
       {required this.name,
       required this.annotations,
       required this.docs,
-      this.targetName,
+      this.constructorName,
       required this.types,
       required this.arguments})
       : super._() {
@@ -368,7 +368,7 @@ class _$EnumValue extends EnumValue {
         name == other.name &&
         annotations == other.annotations &&
         docs == other.docs &&
-        targetName == other.targetName &&
+        constructorName == other.constructorName &&
         types == other.types &&
         arguments == other.arguments;
   }
@@ -380,7 +380,7 @@ class _$EnumValue extends EnumValue {
             $jc(
                 $jc($jc($jc(0, name.hashCode), annotations.hashCode),
                     docs.hashCode),
-                targetName.hashCode),
+                constructorName.hashCode),
             types.hashCode),
         arguments.hashCode));
   }
@@ -391,7 +391,7 @@ class _$EnumValue extends EnumValue {
           ..add('name', name)
           ..add('annotations', annotations)
           ..add('docs', docs)
-          ..add('targetName', targetName)
+          ..add('constructorName', constructorName)
           ..add('types', types)
           ..add('arguments', arguments))
         .toString();
@@ -438,15 +438,15 @@ class _$EnumValueBuilder extends EnumValueBuilder {
   }
 
   @override
-  String? get targetName {
+  String? get constructorName {
     _$this;
-    return super.targetName;
+    return super.constructorName;
   }
 
   @override
-  set targetName(String? targetName) {
+  set constructorName(String? constructorName) {
     _$this;
-    super.targetName = targetName;
+    super.constructorName = constructorName;
   }
 
   @override
@@ -481,7 +481,7 @@ class _$EnumValueBuilder extends EnumValueBuilder {
       super.name = $v.name;
       super.annotations = $v.annotations.toBuilder();
       super.docs = $v.docs.toBuilder();
-      super.targetName = $v.targetName;
+      super.constructorName = $v.constructorName;
       super.types = $v.types.toBuilder();
       super.arguments = $v.arguments.toBuilder();
       _$v = null;
@@ -512,7 +512,7 @@ class _$EnumValueBuilder extends EnumValueBuilder {
                   name, r'EnumValue', 'name'),
               annotations: annotations.build(),
               docs: docs.build(),
-              targetName: targetName,
+              constructorName: constructorName,
               types: types.build(),
               arguments: arguments.build());
     } catch (_) {

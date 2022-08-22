@@ -96,7 +96,9 @@ abstract class EnumValue extends Object
   BuiltList<String> get docs;
 
   /// The name of the constructor to target.
-  String? get targetName;
+  ///
+  /// If `null` uses the unnamed constructor.
+  String? get constructorName;
 
   @override
   BuiltList<Reference> get types;
@@ -121,7 +123,7 @@ abstract class EnumValueBuilder extends Object
   ListBuilder<String> docs = ListBuilder<String>();
 
   /// The name of the constructor to target.
-  String? targetName;
+  String? constructorName;
 
   @override
   ListBuilder<Reference> types = ListBuilder<Reference>();

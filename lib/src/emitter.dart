@@ -709,11 +709,11 @@ class DartEmitter extends Object
         visitAnnotation(a, out);
       }
       out.write(v.name);
-      if (v.targetName != null) {
-        out.write('.${v.targetName}');
+      if (v.constructorName != null) {
+        out.write('.${v.constructorName}');
       }
       visitTypeParameters(v.types.map((r) => r.type), out);
-      final takesArguments = v.targetName != null || v.arguments.isNotEmpty;
+      final takesArguments = v.constructorName != null || v.arguments.isNotEmpty;
       if (takesArguments) {
         out.write('(');
       }

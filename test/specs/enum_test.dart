@@ -106,24 +106,24 @@ void main() {
         Constructor((c) => c..constant = true),
         Constructor((c) => c
           ..constant = true
-          ..name = 'target'),
+          ..name = 'named'),
       ])
       ..values.addAll([
         EnumValue((v) => v..name = 'a'),
         EnumValue((v) => v
           ..name = 'b'
-          ..targetName = 'target'),
+          ..constructorName = 'named'),
         EnumValue((v) => v..name = 'c'),
       ]));
     expect(myEnum, equalsDart('''
     enum MyEnum {
       a,
-      b.target(),
+      b.named(),
       c;
 
       const MyEnum();
 
-      const MyEnum.target();
+      const MyEnum.named();
     }
     '''));
   });
@@ -144,7 +144,7 @@ void main() {
         EnumValue((v) => v..name = 'a'),
         EnumValue((v) => v
           ..name = 'b'
-          ..targetName = 'redirect'),
+          ..constructorName = 'redirect'),
         EnumValue((v) => v..name = 'c'),
       ]));
     expect(myEnum, equalsDart('''
@@ -170,7 +170,7 @@ void main() {
           ..constant = true
           ..factory = true
           ..name = 'redirect'
-          ..redirect = refer('MyOtherEnum.target')
+          ..redirect = refer('MyOtherEnum.named')
           ..optionalParameters.addAll([
             Parameter((p) => p
               ..type = refer('int?')
@@ -184,14 +184,14 @@ void main() {
         EnumValue((v) => v..name = 'a'),
         EnumValue((v) => v
           ..name = 'b'
-          ..targetName = 'redirect'
+          ..constructorName = 'redirect'
           ..arguments.addAll([
             literalNum(1),
             literalString('abc'),
           ])),
         EnumValue((v) => v
           ..name = 'c'
-          ..targetName = 'redirect'),
+          ..constructorName = 'redirect'),
       ]));
     expect(myEnum, equalsDart('''
     enum MyEnum {
@@ -201,7 +201,8 @@ void main() {
 
       const MyEnum();
 
-      const factory MyEnum.redirect([int? myInt, String? myString]) = MyOtherEnum.target;
+      const factory MyEnum.redirect([int? myInt, String? myString])
+          = MyOtherEnum.named;
     }
     '''));
   });
