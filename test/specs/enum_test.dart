@@ -201,8 +201,10 @@ void main() {
 
       const MyEnum();
 
-      const factory MyEnum.redirect([int? myInt, String? myString])
-          = MyOtherEnum.named;
+      const factory MyEnum.redirect([
+          int? myInt,
+          String? myString,
+      ]) = MyOtherEnum.named;
     }
     '''));
   });
@@ -246,7 +248,10 @@ void main() {
       b(1, 'abc'),
       c;
 
-      const MyEnum([this.myInt, this.myString]);
+      const MyEnum([
+          this.myInt,
+          this.myString,
+      ]);
 
       final int? myInt;
 
