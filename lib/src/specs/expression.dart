@@ -32,6 +32,17 @@ abstract class Expression implements Spec {
   /// An empty expression.
   static const _empty = CodeExpression(Code(''));
 
+  /// Whether this expression implies a const context for sub expressions.
+  ///
+  /// Collection literals that are const imply const for all values.
+  /// Assignment to a const variable implies a const value.
+  /// Invoking a const constructor implies const for all arguments.
+  ///
+  /// The implied const context is used to omit redundant `const` keywords.
+  /// A value of `false` does not imply that the expression cannot be used in a
+  /// const context.
+  bool get isConst => false;
+
   @override
   R accept<R>(covariant ExpressionVisitor<R> visitor, [R? context]);
 
@@ -180,11 +191,8 @@ abstract class Expression implements Spec {
       );
 
   /// Return `{this} = {other}`.
-  Expression assign(Expression other) => BinaryExpression._(
-        this,
-        other,
-        '=',
-      );
+  Expression assign(Expression other) =>
+      BinaryExpression._(this, other, '=', isConst: isConst);
 
   /// Return `{this} ?? {other}`.
   Expression ifNullThen(Expression other) => BinaryExpression._(
@@ -201,6 +209,7 @@ abstract class Expression implements Spec {
       );
 
   /// Return `var {name} = {this}`.
+  @Deprecated('Use `declareVar(name).assign(expression)`')
   Expression assignVar(String name, [Reference? type]) => BinaryExpression._(
         type == null
             ? LiteralExpression._('var $name')
@@ -214,6 +223,7 @@ abstract class Expression implements Spec {
       );
 
   /// Return `final {name} = {this}`.
+  @Deprecated('Use `declareFinal(name).assign(expression)`')
   Expression assignFinal(String name, [Reference? type]) => BinaryExpression._(
         type == null
             ? const LiteralExpression._('final')
@@ -227,6 +237,7 @@ abstract class Expression implements Spec {
       );
 
   /// Return `const {name} = {this}`.
+  @Deprecated('Use `declareConst(name).assign(expression)`')
   Expression assignConst(String name, [Reference? type]) => BinaryExpression._(
         type == null
             ? const LiteralExpression._('const')
@@ -323,6 +334,50 @@ abstract class Expression implements Spec {
   Expression get expression => this;
 }
 
+/// Declare a const variable named [variableName].
+///
+/// Returns `const {variableName}`, or `const {type} {variableName}`.
+Expression declareConst(String variableName, {Reference? type}) =>
+    BinaryExpression._(
+        const LiteralExpression._('const'),
+        type == null
+            ? LiteralExpression._(variableName)
+            : _typedVar(variableName, type),
+        '',
+        isConst: true);
+
+/// Declare a final variable named [variableName].
+///
+/// Returns `final {variableName}`, or `final {type} {variableName}`.
+/// If [late] is true the declaration is prefixed with `late`.
+Expression declareFinal(String variableName,
+        {Reference? type, bool late = false}) =>
+    _late(
+        late,
+        type == null
+            ? LiteralExpression._('final $variableName')
+            : BinaryExpression._(const LiteralExpression._('final'),
+                _typedVar(variableName, type), ''));
+
+/// Declare a variable named [variableName].
+///
+/// Returns `var {variableName}`, or `{type} {variableName}`.
+/// If [late] is true the declaration is prefixed with `late`.
+Expression declareVar(String variableName,
+        {Reference? type, bool late = false}) =>
+    _late(
+        late,
+        type == null
+            ? LiteralExpression._('var $variableName')
+            : _typedVar(variableName, type));
+
+Expression _typedVar(String variableName, Reference type) =>
+    BinaryExpression._(type.expression, LiteralExpression._(variableName), '');
+
+Expression _late(bool late, Expression expression) => late
+    ? BinaryExpression._(const LiteralExpression._('late'), expression, '')
+    : expression;
+
 /// Creates `typedef {name} =`.
 Code createTypeDef(String name, FunctionType type) => BinaryExpression._(
         LiteralExpression._('typedef $name'), type.expression, '=')
@@ -414,8 +469,7 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
   StringSink visitInvokeExpression(InvokeExpression expression,
       [StringSink? output]) {
     final out = output ??= StringBuffer();
-    return _writeConstExpression(
-        out, expression.type == InvokeExpressionType.constInstance, () {
+    return _writeConstExpression(out, expression.isConst, () {
       expression.target.accept(this, out);
       if (expression.name != null) {
         out
@@ -443,6 +497,11 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
           ..write(': ');
         expression.namedArguments[name]!.accept(this, out);
       });
+      final argumentCount = expression.positionalArguments.length +
+          expression.namedArguments.length;
+      if (argumentCount > 1) {
+        out.write(', ');
+      }
       return out..write(')');
     });
   }
@@ -481,6 +540,9 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
       visitAll<Object?>(expression.values, out, (value) {
         _acceptLiteral(value, out);
       });
+      if (expression.values.length > 1) {
+        out.write(', ');
+      }
       return out..write(']');
     });
   }
@@ -502,6 +564,9 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
       visitAll<Object?>(expression.values, out, (value) {
         _acceptLiteral(value, out);
       });
+      if (expression.values.length > 1) {
+        out.write(', ');
+      }
       return out..write('}');
     });
   }
@@ -531,6 +596,9 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
         out.write(': ');
         _acceptLiteral(value, out);
       });
+      if (expression.values.length > 1) {
+        out.write(', ');
+      }
       return out..write('}');
     });
   }

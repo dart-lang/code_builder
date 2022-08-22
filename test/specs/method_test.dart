@@ -173,7 +173,7 @@ void main() {
         ..requiredParameters.add(refer('int'))
         ..optionalParameters.add(refer('int'))),
       equalsDart(r'''
-        String Function(int, [int])
+        String Function(int, [int, ])
       '''),
     );
   });
@@ -207,7 +207,7 @@ void main() {
         ..requiredParameters.add(refer('int'))
         ..namedParameters['named'] = refer('int')),
       equalsDart(r'''
-        String Function(int, {int named})
+        String Function(int, {int named, })
       '''),
     );
   });
@@ -232,7 +232,7 @@ void main() {
         ..namedRequiredParameters['named'] = refer('int')
         ..namedParameters['optional'] = refer('int')),
       equalsDart(r'''
-        String Function({required int named, int optional})
+        String Function({required int named, int optional, })
       '''),
     );
   });
@@ -347,7 +347,7 @@ void main() {
     );
   });
 
-  test('should create a method with a paremter', () {
+  test('should create a method with a parameter', () {
     expect(
       Method(
         (b) => b
@@ -440,7 +440,7 @@ void main() {
           ]),
       ),
       equalsDart(r'''
-        foo<T extends Iterable>(T t, X<T> x);
+        foo<T extends Iterable>(T t, X<T> x, );
       '''),
     );
   });
@@ -471,7 +471,7 @@ void main() {
           ]),
       ),
       equalsDart(r'''
-        foo([a, b]);
+        foo([a, b, ]);
       '''),
     );
   });
@@ -586,7 +586,7 @@ void main() {
           ),
       ),
       equalsDart(r'''
-        foo(a, {b});
+        foo(a, {b, });
       '''),
     );
   });

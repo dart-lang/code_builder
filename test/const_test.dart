@@ -17,16 +17,34 @@ void main() {
 
   test('expression', () {
     expect(constMap, equalsDart(r'''
-          const {'list': [], 'duration': Duration()}'''));
+          const {'list': [], 'duration': Duration(), }'''));
   });
 
   test('assignConst', () {
     expect(
+      // ignore: deprecated_member_use_from_same_package
       constMap.assignConst('constField'),
       equalsDart(r'''
-          const constField = {'list': [], 'duration': Duration()}''',
+          const constField = {'list': [], 'duration': Duration(), }''',
           DartEmitter.scoped()),
     );
+  });
+
+  test('assign to declared constant', () {
+    expect(
+      declareConst('constField').assign(constMap),
+      equalsDart(r'''
+          const constField = {'list': [], 'duration': Duration(), }''',
+          DartEmitter.scoped()),
+    );
+  });
+
+  test('assign to declared non-constant', () {
+    expect(
+        declareVar('varField').assign(constMap),
+        equalsDart(r'''
+          var varField = const {'list': [], 'duration': Duration(), }''',
+            DartEmitter.scoped()));
   });
 
   final library = Library((b) => b

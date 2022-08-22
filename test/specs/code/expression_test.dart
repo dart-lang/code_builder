@@ -96,7 +96,7 @@ void main() {
         refer('three'): 3,
         refer('Map').newInstance([]): null,
       }),
-      equalsDart(r"{1: 'one', 2: two, three: 3, Map(): null}"),
+      equalsDart(r"{1: 'one', 2: two, three: 3, Map(): null, }"),
     );
   });
 
@@ -110,7 +110,7 @@ void main() {
         null,
         refer('Map').newInstance([])
       ]),
-      equalsDart('[[], {}, true, null, Map()]'),
+      equalsDart('[[], {}, true, null, Map(), ]'),
     );
   });
 
@@ -125,7 +125,7 @@ void main() {
         null,
         refer('Map').newInstance([])
       ]),
-      equalsDart('{[], {}, true, null, Map()}'),
+      equalsDart('{[], {}, true, null, Map(), }'),
     );
   });
 
@@ -190,7 +190,7 @@ void main() {
         literal(2),
         literal(3),
       ]),
-      equalsDart('foo(1, 2, 3)'),
+      equalsDart('foo(1, 2, 3, )'),
     );
   });
 
@@ -209,7 +209,7 @@ void main() {
         'bar': literal(1),
         'baz': literal(2),
       }),
-      equalsDart('foo(bar: 1, baz: 2)'),
+      equalsDart('foo(bar: 1, baz: 2, )'),
     );
   });
 
@@ -221,7 +221,7 @@ void main() {
         'bar': literal(2),
         'baz': literal(3),
       }),
-      equalsDart('foo(1, bar: 2, baz: 3)'),
+      equalsDart('foo(1, bar: 2, baz: 3, )'),
     );
   });
 
@@ -287,7 +287,7 @@ void main() {
       FunctionType((b) => b
         ..requiredParameters.add(refer('String'))
         ..optionalParameters.add(refer('int'))),
-      equalsDart('Function(String, [int])'),
+      equalsDart('Function(String, [int, ])'),
     );
   });
 
@@ -298,7 +298,7 @@ void main() {
           'x': refer('int'),
           'y': refer('int'),
         })),
-      equalsDart('Function({int x, int y})'),
+      equalsDart('Function({int x, int y, })'),
     );
   });
 
@@ -313,7 +313,7 @@ void main() {
         ..namedParameters.addAll({
           'y': refer('int'),
         })),
-      equalsDart('Function({required int x, int y})'),
+      equalsDart('Function({required int x, int y, })'),
     );
   });
 
@@ -324,7 +324,7 @@ void main() {
           'x': refer('int'),
           'y': refer('int'),
         })),
-      equalsDart('Function({required int x, required int y})'),
+      equalsDart('Function({required int x, required int y, })'),
     );
   });
 
@@ -373,7 +373,7 @@ void main() {
         literalString('foo'),
         Method((b) => b..body = literalTrue.code).closure,
       ]),
-      equalsDart("map.putIfAbsent('foo', () => true)"),
+      equalsDart("map.putIfAbsent('foo', () => true, )"),
     );
   });
 
@@ -385,7 +385,7 @@ void main() {
           ..types.add(refer('T'))
           ..body = literalTrue.code).genericClosure,
       ]),
-      equalsDart("map.putIfAbsent('foo', <T>() => true)"),
+      equalsDart("map.putIfAbsent('foo', <T>() => true, )"),
     );
   });
 
@@ -412,6 +412,7 @@ void main() {
       refer('bar')
           .index(literalTrue)
           .ifNullThen(literalFalse)
+          // ignore: deprecated_member_use_from_same_package
           .assignVar('foo')
           .statement,
       equalsDart('var foo = bar[true] ?? false;'),
@@ -427,6 +428,7 @@ void main() {
 
   test('should emit an index operator', () {
     expect(
+      // ignore: deprecated_member_use_from_same_package
       refer('bar').index(literalString('key')).assignVar('foo').statement,
       equalsDart("var foo = bar['key'];"),
     );
@@ -437,6 +439,7 @@ void main() {
       refer('bar')
           .index(literalString('key'))
           .assign(literalFalse)
+          // ignore: deprecated_member_use_from_same_package
           .assignVar('foo')
           .statement,
       equalsDart("var foo = bar['key'] = false;"),
@@ -448,6 +451,7 @@ void main() {
       refer('bar')
           .index(literalTrue)
           .assignNullAware(literalFalse)
+          // ignore: deprecated_member_use_from_same_package
           .assignVar('foo')
           .statement,
       equalsDart('var foo = bar[true] ??= false;'),
@@ -456,6 +460,7 @@ void main() {
 
   test('should emit assigning to a var', () {
     expect(
+      // ignore: deprecated_member_use_from_same_package
       literalTrue.assignVar('foo'),
       equalsDart('var foo = true'),
     );
@@ -463,6 +468,7 @@ void main() {
 
   test('should emit assigning to a type', () {
     expect(
+      // ignore: deprecated_member_use_from_same_package
       literalTrue.assignVar('foo', refer('bool')),
       equalsDart('bool foo = true'),
     );
@@ -470,6 +476,7 @@ void main() {
 
   test('should emit assigning to a final', () {
     expect(
+      // ignore: deprecated_member_use_from_same_package
       literalTrue.assignFinal('foo'),
       equalsDart('final foo = true'),
     );
@@ -477,6 +484,7 @@ void main() {
 
   test('should emit assigning to a const', () {
     expect(
+      // ignore: deprecated_member_use_from_same_package
       literalTrue.assignConst('foo'),
       equalsDart('const foo = true'),
     );
@@ -609,5 +617,58 @@ void main() {
   test('should emit an euclidean modulo operator call', () {
     expect(refer('foo').operatorEuclideanModulo(refer('foo2')),
         equalsDart('foo % foo2'));
+  });
+
+  test('should emit a const variable declaration', () {
+    expect(declareConst('foo').assign(refer('bar')),
+        equalsDart('const foo = bar'));
+  });
+
+  test('should emit a typed const variable declaration', () {
+    expect(declareConst('foo', type: refer('String')).assign(refer('bar')),
+        equalsDart('const String foo = bar'));
+  });
+
+  test('should emit a final variable declaration', () {
+    expect(declareFinal('foo').assign(refer('bar')),
+        equalsDart('final foo = bar'));
+  });
+
+  test('should emit a typed final variable declaration', () {
+    expect(declareFinal('foo', type: refer('String')).assign(refer('bar')),
+        equalsDart('final String foo = bar'));
+  });
+
+  test('should emit a late final variable declaration', () {
+    expect(declareFinal('foo', late: true).assign(refer('bar')),
+        equalsDart('late final foo = bar'));
+  });
+
+  test('should emit a late typed final variable declaration', () {
+    expect(
+        declareFinal('foo', type: refer('String'), late: true)
+            .assign(refer('bar')),
+        equalsDart('late final String foo = bar'));
+  });
+
+  test('should emit a variable declaration', () {
+    expect(declareVar('foo').assign(refer('bar')), equalsDart('var foo = bar'));
+  });
+
+  test('should emit a typed variable declaration', () {
+    expect(declareVar('foo', type: refer('String')).assign(refer('bar')),
+        equalsDart('String foo = bar'));
+  });
+
+  test('should emit a late variable declaration', () {
+    expect(declareVar('foo', late: true).assign(refer('bar')),
+        equalsDart('late var foo = bar'));
+  });
+
+  test('should emit a late typed variable declaration', () {
+    expect(
+        declareVar('foo', type: refer('String'), late: true)
+            .assign(refer('bar')),
+        equalsDart('late String foo = bar'));
   });
 }

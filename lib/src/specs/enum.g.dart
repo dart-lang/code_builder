@@ -100,7 +100,7 @@ class _$Enum extends Enum {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('Enum')
+    return (newBuiltValueToStringHelper(r'Enum')
           ..add('name', name)
           ..add('values', values)
           ..add('annotations', annotations)
@@ -270,12 +270,15 @@ class _$EnumBuilder extends EnumBuilder {
   }
 
   @override
-  _$Enum build() {
+  Enum build() => _build();
+
+  _$Enum _build() {
     _$Enum _$result;
     try {
       _$result = _$v ??
           new _$Enum._(
-              name: BuiltValueNullFieldError.checkNotNull(name, 'Enum', 'name'),
+              name:
+                  BuiltValueNullFieldError.checkNotNull(name, r'Enum', 'name'),
               values: values.build(),
               annotations: annotations.build(),
               docs: docs.build(),
@@ -308,7 +311,7 @@ class _$EnumBuilder extends EnumBuilder {
         fields.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
-            'Enum', _$failedField, e.toString());
+            r'Enum', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -342,7 +345,7 @@ class _$EnumValue extends EnumValue {
       required this.types,
       required this.arguments})
       : super._() {
-    BuiltValueNullFieldError.checkNotNull(name, 'EnumValue', 'name');
+    BuiltValueNullFieldError.checkNotNull(name, r'EnumValue', 'name');
     BuiltValueNullFieldError.checkNotNull(
         annotations, 'EnumValue', 'annotations');
     BuiltValueNullFieldError.checkNotNull(docs, 'EnumValue', 'docs');
@@ -383,7 +386,7 @@ class _$EnumValue extends EnumValue {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('EnumValue')
+    return (newBuiltValueToStringHelper(r'EnumValue')
           ..add('name', name)
           ..add('annotations', annotations)
           ..add('docs', docs)
@@ -497,13 +500,15 @@ class _$EnumValueBuilder extends EnumValueBuilder {
   }
 
   @override
-  _$EnumValue build() {
+  EnumValue build() => _build();
+
+  _$EnumValue _build() {
     _$EnumValue _$result;
     try {
       _$result = _$v ??
           new _$EnumValue._(
               name: BuiltValueNullFieldError.checkNotNull(
-                  name, 'EnumValue', 'name'),
+                  name, r'EnumValue', 'name'),
               annotations: annotations.build(),
               docs: docs.build(),
               targetName: targetName,
@@ -523,7 +528,7 @@ class _$EnumValueBuilder extends EnumValueBuilder {
         arguments.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
-            'EnumValue', _$failedField, e.toString());
+            r'EnumValue', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -532,4 +537,4 @@ class _$EnumValueBuilder extends EnumValueBuilder {
   }
 }
 
-// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new
+// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new,unnecessary_lambdas
