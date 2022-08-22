@@ -713,7 +713,8 @@ class DartEmitter extends Object
         out.write('.${v.constructorName}');
       }
       visitTypeParameters(v.types.map((r) => r.type), out);
-      final takesArguments = v.constructorName != null || v.arguments.isNotEmpty;
+      final takesArguments =
+          v.constructorName != null || v.arguments.isNotEmpty;
       if (takesArguments) {
         out.write('(');
       }
