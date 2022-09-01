@@ -1,5 +1,6 @@
-## 4.2.1-dev
+## 4.3.0-dev
 
+* Add support for adding more implementation in `enum` classes.
 * Only emit `late` keyword when using null safety syntax.
 * Use implicit `const` when assigning to a `declareConst` variable.
 * Deprecate `assignVar`, `assignConst`, and `assignFinal`.

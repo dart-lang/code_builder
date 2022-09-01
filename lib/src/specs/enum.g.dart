@@ -15,6 +15,18 @@ class _$Enum extends Enum {
   final BuiltList<Expression> annotations;
   @override
   final BuiltList<String> docs;
+  @override
+  final BuiltList<Reference> implements;
+  @override
+  final BuiltList<Reference> mixins;
+  @override
+  final BuiltList<Reference> types;
+  @override
+  final BuiltList<Constructor> constructors;
+  @override
+  final BuiltList<Method> methods;
+  @override
+  final BuiltList<Field> fields;
 
   factory _$Enum([void Function(EnumBuilder)? updates]) =>
       (new EnumBuilder()..update(updates)).build() as _$Enum;
@@ -23,12 +35,25 @@ class _$Enum extends Enum {
       {required this.name,
       required this.values,
       required this.annotations,
-      required this.docs})
+      required this.docs,
+      required this.implements,
+      required this.mixins,
+      required this.types,
+      required this.constructors,
+      required this.methods,
+      required this.fields})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(name, r'Enum', 'name');
     BuiltValueNullFieldError.checkNotNull(values, r'Enum', 'values');
     BuiltValueNullFieldError.checkNotNull(annotations, r'Enum', 'annotations');
     BuiltValueNullFieldError.checkNotNull(docs, r'Enum', 'docs');
+    BuiltValueNullFieldError.checkNotNull(implements, r'Enum', 'implements');
+    BuiltValueNullFieldError.checkNotNull(mixins, r'Enum', 'mixins');
+    BuiltValueNullFieldError.checkNotNull(types, r'Enum', 'types');
+    BuiltValueNullFieldError.checkNotNull(
+        constructors, r'Enum', 'constructors');
+    BuiltValueNullFieldError.checkNotNull(methods, r'Enum', 'methods');
+    BuiltValueNullFieldError.checkNotNull(fields, r'Enum', 'fields');
   }
 
   @override
@@ -45,14 +70,33 @@ class _$Enum extends Enum {
         name == other.name &&
         values == other.values &&
         annotations == other.annotations &&
-        docs == other.docs;
+        docs == other.docs &&
+        implements == other.implements &&
+        mixins == other.mixins &&
+        types == other.types &&
+        constructors == other.constructors &&
+        methods == other.methods &&
+        fields == other.fields;
   }
 
   @override
   int get hashCode {
     return $jf($jc(
-        $jc($jc($jc(0, name.hashCode), values.hashCode), annotations.hashCode),
-        docs.hashCode));
+        $jc(
+            $jc(
+                $jc(
+                    $jc(
+                        $jc(
+                            $jc(
+                                $jc($jc($jc(0, name.hashCode), values.hashCode),
+                                    annotations.hashCode),
+                                docs.hashCode),
+                            implements.hashCode),
+                        mixins.hashCode),
+                    types.hashCode),
+                constructors.hashCode),
+            methods.hashCode),
+        fields.hashCode));
   }
 
   @override
@@ -61,7 +105,13 @@ class _$Enum extends Enum {
           ..add('name', name)
           ..add('values', values)
           ..add('annotations', annotations)
-          ..add('docs', docs))
+          ..add('docs', docs)
+          ..add('implements', implements)
+          ..add('mixins', mixins)
+          ..add('types', types)
+          ..add('constructors', constructors)
+          ..add('methods', methods)
+          ..add('fields', fields))
         .toString();
   }
 }
@@ -117,6 +167,78 @@ class _$EnumBuilder extends EnumBuilder {
     super.docs = docs;
   }
 
+  @override
+  ListBuilder<Reference> get implements {
+    _$this;
+    return super.implements;
+  }
+
+  @override
+  set implements(ListBuilder<Reference> implements) {
+    _$this;
+    super.implements = implements;
+  }
+
+  @override
+  ListBuilder<Reference> get mixins {
+    _$this;
+    return super.mixins;
+  }
+
+  @override
+  set mixins(ListBuilder<Reference> mixins) {
+    _$this;
+    super.mixins = mixins;
+  }
+
+  @override
+  ListBuilder<Reference> get types {
+    _$this;
+    return super.types;
+  }
+
+  @override
+  set types(ListBuilder<Reference> types) {
+    _$this;
+    super.types = types;
+  }
+
+  @override
+  ListBuilder<Constructor> get constructors {
+    _$this;
+    return super.constructors;
+  }
+
+  @override
+  set constructors(ListBuilder<Constructor> constructors) {
+    _$this;
+    super.constructors = constructors;
+  }
+
+  @override
+  ListBuilder<Method> get methods {
+    _$this;
+    return super.methods;
+  }
+
+  @override
+  set methods(ListBuilder<Method> methods) {
+    _$this;
+    super.methods = methods;
+  }
+
+  @override
+  ListBuilder<Field> get fields {
+    _$this;
+    return super.fields;
+  }
+
+  @override
+  set fields(ListBuilder<Field> fields) {
+    _$this;
+    super.fields = fields;
+  }
+
   _$EnumBuilder() : super._();
 
   EnumBuilder get _$this {
@@ -126,6 +248,12 @@ class _$EnumBuilder extends EnumBuilder {
       super.values = $v.values.toBuilder();
       super.annotations = $v.annotations.toBuilder();
       super.docs = $v.docs.toBuilder();
+      super.implements = $v.implements.toBuilder();
+      super.mixins = $v.mixins.toBuilder();
+      super.types = $v.types.toBuilder();
+      super.constructors = $v.constructors.toBuilder();
+      super.methods = $v.methods.toBuilder();
+      super.fields = $v.fields.toBuilder();
       _$v = null;
     }
     return this;
@@ -154,7 +282,13 @@ class _$EnumBuilder extends EnumBuilder {
                   BuiltValueNullFieldError.checkNotNull(name, r'Enum', 'name'),
               values: values.build(),
               annotations: annotations.build(),
-              docs: docs.build());
+              docs: docs.build(),
+              implements: implements.build(),
+              mixins: mixins.build(),
+              types: types.build(),
+              constructors: constructors.build(),
+              methods: methods.build(),
+              fields: fields.build());
     } catch (_) {
       late String _$failedField;
       try {
@@ -164,6 +298,18 @@ class _$EnumBuilder extends EnumBuilder {
         annotations.build();
         _$failedField = 'docs';
         docs.build();
+        _$failedField = 'implements';
+        implements.build();
+        _$failedField = 'mixins';
+        mixins.build();
+        _$failedField = 'types';
+        types.build();
+        _$failedField = 'constructors';
+        constructors.build();
+        _$failedField = 'methods';
+        methods.build();
+        _$failedField = 'fields';
+        fields.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             r'Enum', _$failedField, e.toString());
@@ -182,17 +328,30 @@ class _$EnumValue extends EnumValue {
   final BuiltList<Expression> annotations;
   @override
   final BuiltList<String> docs;
+  @override
+  final String? constructorName;
+  @override
+  final BuiltList<Reference> types;
+  @override
+  final BuiltList<Expression> arguments;
 
   factory _$EnumValue([void Function(EnumValueBuilder)? updates]) =>
       (new EnumValueBuilder()..update(updates)).build() as _$EnumValue;
 
   _$EnumValue._(
-      {required this.name, required this.annotations, required this.docs})
+      {required this.name,
+      required this.annotations,
+      required this.docs,
+      this.constructorName,
+      required this.types,
+      required this.arguments})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(name, r'EnumValue', 'name');
     BuiltValueNullFieldError.checkNotNull(
         annotations, r'EnumValue', 'annotations');
     BuiltValueNullFieldError.checkNotNull(docs, r'EnumValue', 'docs');
+    BuiltValueNullFieldError.checkNotNull(types, r'EnumValue', 'types');
+    BuiltValueNullFieldError.checkNotNull(arguments, r'EnumValue', 'arguments');
   }
 
   @override
@@ -208,13 +367,22 @@ class _$EnumValue extends EnumValue {
     return other is EnumValue &&
         name == other.name &&
         annotations == other.annotations &&
-        docs == other.docs;
+        docs == other.docs &&
+        constructorName == other.constructorName &&
+        types == other.types &&
+        arguments == other.arguments;
   }
 
   @override
   int get hashCode {
-    return $jf(
-        $jc($jc($jc(0, name.hashCode), annotations.hashCode), docs.hashCode));
+    return $jf($jc(
+        $jc(
+            $jc(
+                $jc($jc($jc(0, name.hashCode), annotations.hashCode),
+                    docs.hashCode),
+                constructorName.hashCode),
+            types.hashCode),
+        arguments.hashCode));
   }
 
   @override
@@ -222,7 +390,10 @@ class _$EnumValue extends EnumValue {
     return (newBuiltValueToStringHelper(r'EnumValue')
           ..add('name', name)
           ..add('annotations', annotations)
-          ..add('docs', docs))
+          ..add('docs', docs)
+          ..add('constructorName', constructorName)
+          ..add('types', types)
+          ..add('arguments', arguments))
         .toString();
   }
 }
@@ -266,6 +437,42 @@ class _$EnumValueBuilder extends EnumValueBuilder {
     super.docs = docs;
   }
 
+  @override
+  String? get constructorName {
+    _$this;
+    return super.constructorName;
+  }
+
+  @override
+  set constructorName(String? constructorName) {
+    _$this;
+    super.constructorName = constructorName;
+  }
+
+  @override
+  ListBuilder<Reference> get types {
+    _$this;
+    return super.types;
+  }
+
+  @override
+  set types(ListBuilder<Reference> types) {
+    _$this;
+    super.types = types;
+  }
+
+  @override
+  ListBuilder<Expression> get arguments {
+    _$this;
+    return super.arguments;
+  }
+
+  @override
+  set arguments(ListBuilder<Expression> arguments) {
+    _$this;
+    super.arguments = arguments;
+  }
+
   _$EnumValueBuilder() : super._();
 
   EnumValueBuilder get _$this {
@@ -274,6 +481,9 @@ class _$EnumValueBuilder extends EnumValueBuilder {
       super.name = $v.name;
       super.annotations = $v.annotations.toBuilder();
       super.docs = $v.docs.toBuilder();
+      super.constructorName = $v.constructorName;
+      super.types = $v.types.toBuilder();
+      super.arguments = $v.arguments.toBuilder();
       _$v = null;
     }
     return this;
@@ -301,7 +511,10 @@ class _$EnumValueBuilder extends EnumValueBuilder {
               name: BuiltValueNullFieldError.checkNotNull(
                   name, r'EnumValue', 'name'),
               annotations: annotations.build(),
-              docs: docs.build());
+              docs: docs.build(),
+              constructorName: constructorName,
+              types: types.build(),
+              arguments: arguments.build());
     } catch (_) {
       late String _$failedField;
       try {
@@ -309,6 +522,11 @@ class _$EnumValueBuilder extends EnumValueBuilder {
         annotations.build();
         _$failedField = 'docs';
         docs.build();
+
+        _$failedField = 'types';
+        types.build();
+        _$failedField = 'arguments';
+        arguments.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             r'EnumValue', _$failedField, e.toString());

@@ -9,13 +9,14 @@ import 'package:meta/meta.dart';
 import '../../code_builder.dart';
 import '../mixins/annotations.dart';
 import '../mixins/dartdoc.dart';
+import '../mixins/generics.dart';
 import '../visitors.dart';
 
 part 'enum.g.dart';
 
 @immutable
 abstract class Enum extends Object
-    with HasAnnotations, HasDartDocs
+    with HasAnnotations, HasDartDocs, HasGenerics
     implements Built<Enum, EnumBuilder>, Spec {
   factory Enum([void Function(EnumBuilder) updates]) = _$Enum;
 
@@ -31,6 +32,17 @@ abstract class Enum extends Object
   @override
   BuiltList<String> get docs;
 
+  BuiltList<Reference> get implements;
+
+  BuiltList<Reference> get mixins;
+
+  @override
+  BuiltList<Reference> get types;
+
+  BuiltList<Constructor> get constructors;
+  BuiltList<Method> get methods;
+  BuiltList<Field> get fields;
+
   @override
   R accept<R>(
     SpecVisitor<R> visitor, [
@@ -40,7 +52,7 @@ abstract class Enum extends Object
 }
 
 abstract class EnumBuilder extends Object
-    with HasAnnotationsBuilder, HasDartDocsBuilder
+    with HasAnnotationsBuilder, HasDartDocsBuilder, HasGenericsBuilder
     implements Builder<Enum, EnumBuilder> {
   factory EnumBuilder() = _$EnumBuilder;
 
@@ -55,11 +67,21 @@ abstract class EnumBuilder extends Object
 
   @override
   ListBuilder<String> docs = ListBuilder<String>();
+
+  ListBuilder<Reference> implements = ListBuilder<Reference>();
+  ListBuilder<Reference> mixins = ListBuilder<Reference>();
+
+  @override
+  ListBuilder<Reference> types = ListBuilder<Reference>();
+
+  ListBuilder<Constructor> constructors = ListBuilder<Constructor>();
+  ListBuilder<Method> methods = ListBuilder<Method>();
+  ListBuilder<Field> fields = ListBuilder<Field>();
 }
 
 @immutable
 abstract class EnumValue extends Object
-    with HasAnnotations, HasDartDocs
+    with HasAnnotations, HasDartDocs, HasGenerics
     implements Built<EnumValue, EnumValueBuilder> {
   factory EnumValue([void Function(EnumValueBuilder) updates]) = _$EnumValue;
 
@@ -72,10 +94,21 @@ abstract class EnumValue extends Object
 
   @override
   BuiltList<String> get docs;
+
+  /// The name of the constructor to target.
+  ///
+  /// If `null` uses the unnamed constructor.
+  String? get constructorName;
+
+  @override
+  BuiltList<Reference> get types;
+
+  /// Arguments to the constructor.
+  BuiltList<Expression> get arguments;
 }
 
 abstract class EnumValueBuilder extends Object
-    with HasAnnotationsBuilder, HasDartDocsBuilder
+    with HasAnnotationsBuilder, HasDartDocsBuilder, HasGenericsBuilder
     implements Builder<EnumValue, EnumValueBuilder> {
   factory EnumValueBuilder() = _$EnumValueBuilder;
 
@@ -88,4 +121,13 @@ abstract class EnumValueBuilder extends Object
 
   @override
   ListBuilder<String> docs = ListBuilder<String>();
+
+  /// The name of the constructor to target.
+  String? constructorName;
+
+  @override
+  ListBuilder<Reference> types = ListBuilder<Reference>();
+
+  /// Arguments to the constructor.
+  ListBuilder<Expression> arguments = ListBuilder();
 }

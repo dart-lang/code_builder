@@ -688,18 +688,67 @@ class DartEmitter extends Object
     for (var a in spec.annotations) {
       visitAnnotation(a, out);
     }
-    out.writeln('enum ${spec.name} {');
+    out.write('enum ${spec.name}');
+    visitTypeParameters(spec.types.map((r) => r.type), out);
+    if (spec.mixins.isNotEmpty) {
+      out
+        ..write(' with ')
+        ..writeAll(
+            spec.mixins.map<StringSink>((m) => m.type.accept(this)), ', ');
+    }
+    if (spec.implements.isNotEmpty) {
+      out
+        ..write(' implements ')
+        ..writeAll(
+            spec.implements.map<StringSink>((m) => m.type.accept(this)), ', ');
+    }
+    out.write(' { ');
     for (var v in spec.values) {
       v.docs.forEach(out.writeln);
       for (var a in v.annotations) {
         visitAnnotation(a, out);
       }
       out.write(v.name);
+      if (v.constructorName != null) {
+        out.write('.${v.constructorName}');
+      }
+      visitTypeParameters(v.types.map((r) => r.type), out);
+      final takesArguments =
+          v.constructorName != null || v.arguments.isNotEmpty;
+      if (takesArguments) {
+        out.write('(');
+      }
+      if (v.arguments.isNotEmpty) {
+        out.writeAll(
+            v.arguments.map<StringSink>((arg) => arg.accept(this)), ', ');
+      }
+      if (takesArguments) {
+        out.write(')');
+      }
       if (v != spec.values.last) {
         out.writeln(',');
+      } else if (spec.constructors.isNotEmpty ||
+          spec.fields.isNotEmpty ||
+          spec.methods.isNotEmpty) {
+        out.writeln(';');
       }
     }
-    out.writeln('}');
+    for (var c in spec.constructors) {
+      visitConstructor(c, spec.name, out);
+      out.writeln();
+    }
+    for (var f in spec.fields) {
+      visitField(f, out);
+      out.writeln();
+    }
+    for (var m in spec.methods) {
+      visitMethod(m, out);
+      if (_isLambdaMethod(m)) {
+        out.write(';');
+      }
+      out.writeln();
+    }
+    out.writeln(' }');
     return out;
   }
 }
