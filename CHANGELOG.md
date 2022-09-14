@@ -1,4 +1,4 @@
-## 4.3.0-dev
+## 4.3.0
 
 * Add support for adding more implementation in `enum` classes.
 * Only emit `late` keyword when using null safety syntax.
