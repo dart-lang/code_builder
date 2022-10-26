@@ -55,8 +55,8 @@ class EqualsDart extends Matcher {
   Description describeMismatch(
     covariant Spec item,
     Description mismatchDescription,
-    matchState,
-    verbose,
+    Map<dynamic, dynamic> matchState,
+    bool verbose,
   ) {
     final actualSource = _dart(item, _emitter);
     return equals(_expectedSource).describeMismatch(
@@ -68,6 +68,6 @@ class EqualsDart extends Matcher {
   }
 
   @override
-  bool matches(covariant Spec item, matchState) =>
+  bool matches(covariant Spec item, Object? matchState) =>
       _dart(item, _emitter) == _expectedSource;
 }
