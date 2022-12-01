@@ -1,3 +1,8 @@
+## 4.3.1-dev
+
+* Mention how the `allocator` argument relates to imports in the `DartEmitter`
+  constructor doc.
+
 ## 4.3.0
 
 * Add support for adding more implementation in `enum` classes.
