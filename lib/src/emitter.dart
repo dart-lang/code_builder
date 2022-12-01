@@ -70,7 +70,9 @@ class DartEmitter extends Object
 
   /// Creates a new instance of [DartEmitter].
   ///
-  /// May specify an [Allocator] to use for symbols, otherwise uses a no-op.
+  /// May specify an [Allocator] to use for references and imports,
+  /// otherwise uses [Allocator.none] which never prefixes references and will
+  /// not automatically emit import directives.
   DartEmitter(
       {this.allocator = Allocator.none,
       this.orderDirectives = false,
