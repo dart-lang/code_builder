@@ -590,4 +590,19 @@ void main() {
       '''),
     );
   });
+
+  test('should create a method as a closure', () {
+    expect(
+      Method(
+        (b) => b
+          ..requiredParameters.add(
+            Parameter((b) => b..name = 'a'),
+          )
+          ..body = const Code(''),
+      ).closure,
+      equalsDart(r'''
+        (a) { }
+      '''),
+    );
+  });
 }
