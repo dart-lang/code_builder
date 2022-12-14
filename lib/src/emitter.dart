@@ -18,6 +18,7 @@ import 'specs/mixin.dart';
 import 'specs/reference.dart';
 import 'specs/type_function.dart';
 import 'specs/type_reference.dart';
+import 'specs/typedef.dart';
 import 'visitors.dart';
 
 /// Helper method improving on [StringSink.writeAll].
@@ -511,6 +512,19 @@ class DartEmitter extends Object
     if (_useNullSafetySyntax && (spec.isNullable ?? false)) {
       out.write('?');
     }
+    return out;
+  }
+
+  @override
+  StringSink visitTypeDef(TypeDef spec, [StringSink? output]) {
+    final out = output ??= StringBuffer();
+    spec.docs.forEach(out.writeln);
+    for (var a in spec.annotations) {
+      visitAnnotation(a, out);
+    }
+    out.write('typedef ${spec.name} = ');
+    spec.definition.accept(this, out);
+    out.writeln(';');
     return out;
   }
 

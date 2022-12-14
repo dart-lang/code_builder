@@ -57,3 +57,4 @@ export 'src/specs/mixin.dart' show Mixin, MixinBuilder;
 export 'src/specs/reference.dart' show refer, Reference;
 export 'src/specs/type_function.dart' show FunctionType, FunctionTypeBuilder;
 export 'src/specs/type_reference.dart' show TypeReference, TypeReferenceBuilder;
+export 'src/specs/typedef.dart' show TypeDef, TypeDefBuilder;
