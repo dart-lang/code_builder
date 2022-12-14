@@ -1,5 +1,6 @@
+[![Dart CI](https://github.com/dart-lang/code_builder/actions/workflows/test-package.yml/badge.svg)](https://github.com/dart-lang/code_builder/actions/workflows/test-package.yml)
 [![Pub package](https://img.shields.io/pub/v/code_builder.svg)](https://pub.dev/packages/code_builder)
-[![Build Status](https://github.com/dart-lang/code_builder/workflows/Dart%20CI/badge.svg?branch=master)](https://github.com/dart-lang/code_builder/actions?query=workflow%3A%22Dart+CI%22+branch%3Amaster)
+[![package publisher](https://img.shields.io/pub/publisher/code_builder.svg)](https://pub.dev/packages/code_builder/publisher)
 [![Gitter chat](https://badges.gitter.im/dart-lang/build.svg)](https://gitter.im/dart-lang/build)
 
 A fluent, builder-based library for generating valid Dart code.
