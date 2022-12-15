@@ -25,6 +25,9 @@ abstract class TypeDef extends Object
   /// Name of the typedef.
   String get name;
 
+  /// The right hand side of the typedef.
+  ///
+  /// Typically a reference to a type, or a Function type.
   Expression get definition;
 
   @override
@@ -48,7 +51,6 @@ abstract class TypeDefBuilder extends Object
   @override
   ListBuilder<String> docs = ListBuilder<String>();
 
-  /// Name of the field.
   String? name;
 
   Expression? definition;
