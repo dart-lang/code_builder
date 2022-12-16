@@ -85,7 +85,7 @@ will be on a best-effort basis.
 > format this repository. You can run it simply from the command-line:
 >
 > ```sh
-> $ pub run dart_style:format -w .
+> $ dart pub run dart_style:format -w .
 > ```
 
 [wiki]: https://github.com/dart-lang/code_builder/wiki

@@ -237,6 +237,30 @@ void main() {
     );
   });
 
+  test('should create a typedef to a reference', () {
+    expect(
+      TypeDef((b) => b
+        ..name = 'i32'
+        ..definition = const Reference('int')),
+      equalsDart(r'''
+        typedef i32 = int;
+      '''),
+    );
+  });
+
+  test('should create a typedef to a function type', () {
+    expect(
+      TypeDef((b) => b
+        ..name = 'MyMapper'
+        ..definition = FunctionType((b) => b
+          ..returnType = refer('String')
+          ..optionalParameters.add(refer('int')))),
+      equalsDart(r'''
+        typedef MyMapper = String Function([int]);
+      '''),
+    );
+  });
+
   test('should create a method with a nested function type return type', () {
     expect(
       Method((b) => b

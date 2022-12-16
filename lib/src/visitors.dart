@@ -18,6 +18,7 @@ import 'specs/mixin.dart';
 import 'specs/reference.dart';
 import 'specs/type_function.dart';
 import 'specs/type_reference.dart';
+import 'specs/typedef.dart';
 
 @optionalTypeArgs
 abstract class SpecVisitor<T> {
@@ -42,6 +43,8 @@ abstract class SpecVisitor<T> {
   T visitLibrary(Library spec, [T? context]);
 
   T visitFunctionType(FunctionType spec, [T? context]);
+
+  T visitTypeDef(TypeDef spec, [T? context]);
 
   T visitMethod(Method spec, [T? context]);
 

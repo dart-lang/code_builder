@@ -2,6 +2,7 @@
 
 * Mention how the `allocator` argument relates to imports in the `DartEmitter`
   constructor doc.
+* Add support for emitting typedefs.
 
 ## 4.3.0
 
