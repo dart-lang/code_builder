@@ -398,6 +398,24 @@ class DartEmitter extends Object
   @override
   StringSink visitLibrary(Library spec, [StringSink? output]) {
     output ??= StringBuffer();
+
+    spec.comments.map((line) => '// $line').forEach(output.writeln);
+    output.writeln();
+
+    if (spec.ignoreForFile.isNotEmpty) {
+      final ignores = spec.ignoreForFile.toList()..sort();
+      final lines = ['// ignore_for_file: ${ignores.first}'];
+      for (var ignore in ignores.skip(1)) {
+        if (lines.last.length + 2 + ignore.length > 80) {
+          lines.add('// ignore_for_file: $ignore');
+        } else {
+          lines[lines.length - 1] = '${lines.last}, $ignore';
+        }
+      }
+      lines.forEach(output.writeln);
+      output.writeln();
+    }
+
     // Process the body first in order to prime the allocators.
     final body = StringBuffer();
     for (final spec in spec.body) {

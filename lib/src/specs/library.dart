@@ -27,6 +27,12 @@ abstract class Library
   BuiltList<Directive> get directives;
   BuiltList<Spec> get body;
 
+  /// Line comments to place at the start of the library.
+  BuiltList<String> get comments;
+
+  /// A list of analysis issues to ignore (`ignore_for_file: ...`).
+  BuiltList<String> get ignoreForFile;
+
   /// Name of the library.
   ///
   /// May be `null` when no [annotations] are specified.
@@ -52,5 +58,7 @@ abstract class LibraryBuilder
   ListBuilder<Spec> body = ListBuilder<Spec>();
   ListBuilder<Directive> directives = ListBuilder<Directive>();
 
+  ListBuilder<String> comments = ListBuilder<String>();
+  ListBuilder<String> ignoreForFile = ListBuilder<String>();
   String? name;
 }

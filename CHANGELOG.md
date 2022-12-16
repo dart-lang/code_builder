@@ -3,6 +3,8 @@
 * Mention how the `allocator` argument relates to imports in the `DartEmitter`
   constructor doc.
 * Add support for emitting typedefs.
+* Add support for emitting leading line comments for libraries.
+* Add support for emitting `ignore_for_file` analyzer directive comments.
 
 ## 4.3.0
 

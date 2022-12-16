@@ -14,6 +14,10 @@ class _$Library extends Library {
   @override
   final BuiltList<Spec> body;
   @override
+  final BuiltList<String> comments;
+  @override
+  final BuiltList<String> ignoreForFile;
+  @override
   final String? name;
 
   factory _$Library([void Function(LibraryBuilder)? updates]) =>
@@ -23,12 +27,17 @@ class _$Library extends Library {
       {required this.annotations,
       required this.directives,
       required this.body,
+      required this.comments,
+      required this.ignoreForFile,
       this.name})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
         annotations, r'Library', 'annotations');
     BuiltValueNullFieldError.checkNotNull(directives, r'Library', 'directives');
     BuiltValueNullFieldError.checkNotNull(body, r'Library', 'body');
+    BuiltValueNullFieldError.checkNotNull(comments, r'Library', 'comments');
+    BuiltValueNullFieldError.checkNotNull(
+        ignoreForFile, r'Library', 'ignoreForFile');
   }
 
   @override
@@ -45,14 +54,20 @@ class _$Library extends Library {
         annotations == other.annotations &&
         directives == other.directives &&
         body == other.body &&
+        comments == other.comments &&
+        ignoreForFile == other.ignoreForFile &&
         name == other.name;
   }
 
   @override
   int get hashCode {
     return $jf($jc(
-        $jc($jc($jc(0, annotations.hashCode), directives.hashCode),
-            body.hashCode),
+        $jc(
+            $jc(
+                $jc($jc($jc(0, annotations.hashCode), directives.hashCode),
+                    body.hashCode),
+                comments.hashCode),
+            ignoreForFile.hashCode),
         name.hashCode));
   }
 
@@ -62,6 +77,8 @@ class _$Library extends Library {
           ..add('annotations', annotations)
           ..add('directives', directives)
           ..add('body', body)
+          ..add('comments', comments)
+          ..add('ignoreForFile', ignoreForFile)
           ..add('name', name))
         .toString();
   }
@@ -107,6 +124,30 @@ class _$LibraryBuilder extends LibraryBuilder {
   }
 
   @override
+  ListBuilder<String> get comments {
+    _$this;
+    return super.comments;
+  }
+
+  @override
+  set comments(ListBuilder<String> comments) {
+    _$this;
+    super.comments = comments;
+  }
+
+  @override
+  ListBuilder<String> get ignoreForFile {
+    _$this;
+    return super.ignoreForFile;
+  }
+
+  @override
+  set ignoreForFile(ListBuilder<String> ignoreForFile) {
+    _$this;
+    super.ignoreForFile = ignoreForFile;
+  }
+
+  @override
   String? get name {
     _$this;
     return super.name;
@@ -126,6 +167,8 @@ class _$LibraryBuilder extends LibraryBuilder {
       super.annotations = $v.annotations.toBuilder();
       super.directives = $v.directives.toBuilder();
       super.body = $v.body.toBuilder();
+      super.comments = $v.comments.toBuilder();
+      super.ignoreForFile = $v.ignoreForFile.toBuilder();
       super.name = $v.name;
       _$v = null;
     }
@@ -154,6 +197,8 @@ class _$LibraryBuilder extends LibraryBuilder {
               annotations: annotations.build(),
               directives: directives.build(),
               body: body.build(),
+              comments: comments.build(),
+              ignoreForFile: ignoreForFile.build(),
               name: name);
     } catch (_) {
       late String _$failedField;
@@ -164,6 +209,10 @@ class _$LibraryBuilder extends LibraryBuilder {
         directives.build();
         _$failedField = 'body';
         body.build();
+        _$failedField = 'comments';
+        comments.build();
+        _$failedField = 'ignoreForFile';
+        ignoreForFile.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             r'Library', _$failedField, e.toString());
