@@ -399,8 +399,10 @@ class DartEmitter extends Object
   StringSink visitLibrary(Library spec, [StringSink? output]) {
     output ??= StringBuffer();
 
-    spec.comments.map((line) => '// $line').forEach(output.writeln);
-    output.writeln();
+    if (spec.comments.isNotEmpty) {
+      spec.comments.map((line) => '// $line').forEach(output.writeln);
+      output.writeln();
+    }
 
     if (spec.ignoreForFile.isNotEmpty) {
       final ignores = spec.ignoreForFile.toList()..sort();
