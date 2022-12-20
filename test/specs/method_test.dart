@@ -464,7 +464,7 @@ void main() {
           ]),
       ),
       equalsDart(r'''
-        foo<T extends Iterable>(T t, X<T> x, );
+        foo<T extends Iterable>(T t, X<T> x);
       '''),
     );
   });

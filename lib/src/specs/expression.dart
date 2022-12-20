@@ -499,7 +499,7 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
       });
       final argumentCount = expression.positionalArguments.length +
           expression.namedArguments.length;
-      if (argumentCount > 1) {
+      if (argumentCount > 3) {
         out.write(', ');
       }
       return out..write(')');
@@ -540,7 +540,7 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
       visitAll<Object?>(expression.values, out, (value) {
         _acceptLiteral(value, out);
       });
-      if (expression.values.length > 1) {
+      if (expression.values.length > 3) {
         out.write(', ');
       }
       return out..write(']');

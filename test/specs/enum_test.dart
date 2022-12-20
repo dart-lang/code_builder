@@ -254,7 +254,6 @@ void main() {
       ]);
 
       final int? myInt;
-
       final String? myString;
     }
     '''));

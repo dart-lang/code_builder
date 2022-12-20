@@ -141,16 +141,25 @@ class DartEmitter extends Object
       visitConstructor(c, spec.name, out);
       out.writeln();
     }
-    for (var f in spec.fields) {
-      visitField(f, out);
+    if (spec.fields.isNotEmpty) {
       out.writeln();
-    }
-    for (var m in spec.methods) {
-      visitMethod(m, out);
-      if (_isLambdaMethod(m)) {
-        out.write(';');
+      var isStatic = spec.fields.isEmpty ? null : spec.fields.first.static;
+      for (var f in spec.fields) {
+        if (isStatic != f.static) out.writeln();
+        isStatic = f.static;
+        visitField(f, out);
+        out.writeln();
       }
+    }
+    if (spec.methods.isNotEmpty) {
       out.writeln();
+      for (var m in spec.methods) {
+        visitMethod(m, out);
+        if (_isLambdaMethod(m)) {
+          out.write(';');
+        }
+        out.writeln();
+      }
     }
     out.writeln(' }');
     return out;
@@ -223,8 +232,7 @@ class DartEmitter extends Object
       for (final p in spec.requiredParameters) {
         count++;
         _visitParameter(p, output);
-        if (hasMultipleParameters ||
-            spec.requiredParameters.length != count ||
+        if (spec.requiredParameters.length != count ||
             spec.optionalParameters.isNotEmpty) {
           output.write(', ');
         }
@@ -391,7 +399,7 @@ class DartEmitter extends Object
         spec.assignment!.accept(this, output);
       });
     }
-    output.writeln(';');
+    output.write(';');
     return output;
   }
 
@@ -585,8 +593,7 @@ class DartEmitter extends Object
         for (final p in spec.requiredParameters) {
           count++;
           _visitParameter(p, output);
-          if (hasMultipleParameters ||
-              spec.requiredParameters.length != count ||
+          if (spec.requiredParameters.length != count ||
               spec.optionalParameters.isNotEmpty) {
             output.write(', ');
           }
@@ -773,7 +780,10 @@ class DartEmitter extends Object
       visitConstructor(c, spec.name, out);
       out.writeln();
     }
+    var isStatic = spec.fields.isEmpty ? null : spec.fields.first.static;
     for (var f in spec.fields) {
+      if (isStatic != f.static) out.writeln();
+      isStatic = f.static;
       visitField(f, out);
       out.writeln();
     }

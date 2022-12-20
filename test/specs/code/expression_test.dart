@@ -190,7 +190,7 @@ void main() {
         literal(2),
         literal(3),
       ]),
-      equalsDart('foo(1, 2, 3, )'),
+      equalsDart('foo(1, 2, 3)'),
     );
   });
 
@@ -209,7 +209,7 @@ void main() {
         'bar': literal(1),
         'baz': literal(2),
       }),
-      equalsDart('foo(bar: 1, baz: 2, )'),
+      equalsDart('foo(bar: 1, baz: 2)'),
     );
   });
 
@@ -221,7 +221,7 @@ void main() {
         'bar': literal(2),
         'baz': literal(3),
       }),
-      equalsDart('foo(1, bar: 2, baz: 3, )'),
+      equalsDart('foo(1, bar: 2, baz: 3)'),
     );
   });
 
@@ -373,7 +373,7 @@ void main() {
         literalString('foo'),
         Method((b) => b..body = literalTrue.code).closure,
       ]),
-      equalsDart("map.putIfAbsent('foo', () => true, )"),
+      equalsDart("map.putIfAbsent('foo', () => true)"),
     );
   });
 
@@ -385,7 +385,7 @@ void main() {
           ..types.add(refer('T'))
           ..body = literalTrue.code).genericClosure,
       ]),
-      equalsDart("map.putIfAbsent('foo', <T>() => true, )"),
+      equalsDart("map.putIfAbsent('foo', <T>() => true)"),
     );
   });
 
