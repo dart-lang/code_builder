@@ -7,6 +7,7 @@
 * Add support for emitting `ignore_for_file` analyzer directive comments.
 * Only use trailing commas if a collection (parameter list, ...) has many
   elements.
+* Don't use trailing commas for parameters lists without optional arguments.
 
 ## 4.3.0
 
