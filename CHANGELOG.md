@@ -1,4 +1,4 @@
-## 4.3.1-dev
+## 4.4.0
 
 * Mention how the `allocator` argument relates to imports in the `DartEmitter`
   constructor doc.
