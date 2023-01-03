@@ -143,10 +143,7 @@ class DartEmitter extends Object
     }
     if (spec.fields.isNotEmpty) {
       out.writeln();
-      var isStatic = spec.fields.isEmpty ? null : spec.fields.first.static;
       for (var f in spec.fields) {
-        if (isStatic != f.static) out.writeln();
-        isStatic = f.static;
         visitField(f, out);
         out.writeln();
       }
@@ -780,10 +777,7 @@ class DartEmitter extends Object
       visitConstructor(c, spec.name, out);
       out.writeln();
     }
-    var isStatic = spec.fields.isEmpty ? null : spec.fields.first.static;
     for (var f in spec.fields) {
-      if (isStatic != f.static) out.writeln();
-      isStatic = f.static;
       visitField(f, out);
       out.writeln();
     }

@@ -335,7 +335,6 @@ void main() {
       const MyEnum([this.myInt]);
 
       final int? myInt;
-
       static const String myString = 'abc';
     }
     '''));
