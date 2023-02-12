@@ -109,7 +109,7 @@ void main() {
       Method((b) => b
         ..name = 'foo'
         ..external = true
-        ..requiredParameters.add((Parameter((b) => b..name = 'foo')))
+        ..requiredParameters.add(Parameter((b) => b..name = 'foo'))
         ..type = MethodType.setter),
       equalsDart(r'''
         external set foo(foo);
