@@ -13,9 +13,9 @@ void main() {
   final $LinkedHashMap = refer('LinkedHashMap', 'dart:collection');
 
   final library = Library((b) => b
-    ..directives.add((Directive.export('../relative.dart')))
-    ..directives.add((Directive.export('package:foo/foo.dart')))
-    ..directives.add((Directive.part('lib.g.dart')))
+    ..directives.add(Directive.export('../relative.dart'))
+    ..directives.add(Directive.export('package:foo/foo.dart'))
+    ..directives.add(Directive.part('lib.g.dart'))
     ..body.add(Field((b) => b
       ..name = 'relativeRef'
       ..modifier = FieldModifier.final$
