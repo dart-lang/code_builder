@@ -1,4 +1,4 @@
-## 4.4.1-dev
+## 4.5.0-dev
 
 * Only use trailing commas if a collection (parameter list, ...) has many
   elements.
