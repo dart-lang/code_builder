@@ -328,7 +328,7 @@ void main() {
           ])))),
       equalsDart(r'''
         class Foo {
-          Foo(a, b, {c, });
+          Foo(a, b, {c});
         }
       '''),
     );
@@ -355,7 +355,7 @@ void main() {
           ])))),
       equalsDart(r'''
         class Foo {
-          Foo(this.a, this.b, {this.c, });
+          Foo(this.a, this.b, {this.c});
         }
       '''),
     );
@@ -382,7 +382,77 @@ void main() {
           ])))),
       equalsDart(r'''
         class Foo {
-          Foo(super.a, super.b, {super.c, });
+          Foo(super.a, super.b, {super.c});
+        }
+      '''),
+    );
+  });
+
+  test('constructors with one parameter lack trailing commas', () {
+    expect(
+      Class((b) => b
+        ..name = 'Foo'
+        ..constructors.add(Constructor((b) => b
+          ..requiredParameters.addAll([
+            Parameter((b) => b..name = 'a'),
+          ])))),
+      equalsDart(r'''
+        class Foo {
+          Foo(a);
+        }
+      '''),
+    );
+  });
+
+  test('constructors with two parameters lack trailing commas', () {
+    expect(
+      Class((b) => b
+        ..name = 'Foo'
+        ..constructors.add(Constructor((b) => b
+          ..requiredParameters.addAll([
+            Parameter((b) => b..name = 'a'),
+            Parameter((b) => b..name = 'b'),
+          ])))),
+      equalsDart(r'''
+        class Foo {
+          Foo(a, b);
+        }
+      '''),
+    );
+  });
+
+  test('constructors with three parameters lack trailing commas', () {
+    expect(
+      Class((b) => b
+        ..name = 'Foo'
+        ..constructors.add(Constructor((b) => b
+          ..requiredParameters.addAll([
+            Parameter((b) => b..name = 'a'),
+            Parameter((b) => b..name = 'b'),
+            Parameter((b) => b..name = 'c'),
+          ])))),
+      equalsDart(r'''
+        class Foo {
+          Foo(a, b, c);
+        }
+      '''),
+    );
+  });
+
+  test('constructors with four parameters have trailing commas', () {
+    expect(
+      Class((b) => b
+        ..name = 'Foo'
+        ..constructors.add(Constructor((b) => b
+          ..requiredParameters.addAll([
+            Parameter((b) => b..name = 'a'),
+            Parameter((b) => b..name = 'b'),
+            Parameter((b) => b..name = 'c'),
+            Parameter((b) => b..name = 'd'),
+          ])))),
+      equalsDart(r'''
+        class Foo {
+          Foo(a, b, c, d, );
         }
       '''),
     );

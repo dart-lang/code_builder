@@ -21,7 +21,7 @@ part 'expression/invoke.dart';
 part 'expression/literal.dart';
 part 'expression/parenthesized.dart';
 
-/// Represents a [code] block that wraps an [Expression].
+const _useTrailingCommaCount = 3;
 
 /// Represents a Dart expression.
 ///
@@ -383,6 +383,7 @@ Code createTypeDef(String name, FunctionType type) => BinaryExpression._(
         LiteralExpression._('typedef $name'), type.expression, '=')
     .statement;
 
+/// Represents a [Code] block that wraps an [Expression].
 class ToCodeExpression implements Code {
   final Expression code;
 
@@ -499,7 +500,7 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
       });
       final argumentCount = expression.positionalArguments.length +
           expression.namedArguments.length;
-      if (argumentCount > 3) {
+      if (argumentCount > _useTrailingCommaCount) {
         out.write(', ');
       }
       return out..write(')');
@@ -540,7 +541,7 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
       visitAll<Object?>(expression.values, out, (value) {
         _acceptLiteral(value, out);
       });
-      if (expression.values.length > 3) {
+      if (expression.values.length > _useTrailingCommaCount) {
         out.write(', ');
       }
       return out..write(']');

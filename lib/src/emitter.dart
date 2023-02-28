@@ -21,6 +21,8 @@ import 'specs/type_reference.dart';
 import 'specs/typedef.dart';
 import 'visitors.dart';
 
+const _useTrailingCommaCount = 3;
+
 /// Helper method improving on [StringSink.writeAll].
 ///
 /// For every `Spec` in [elements], executing [visit].
@@ -222,15 +224,17 @@ class DartEmitter extends Object
         ..write(spec.name);
     }
     output.write('(');
-    final hasMultipleParameters =
-        spec.requiredParameters.length + spec.optionalParameters.length > 1;
+    final useTrailingCommas =
+        spec.requiredParameters.length + spec.optionalParameters.length >
+            _useTrailingCommaCount;
     if (spec.requiredParameters.isNotEmpty) {
       var count = 0;
       for (final p in spec.requiredParameters) {
         count++;
         _visitParameter(p, output);
-        if (spec.requiredParameters.length != count ||
-            spec.optionalParameters.isNotEmpty) {
+        if (spec.requiredParameters.length != count) {
+          output.write(', ');
+        } else if (useTrailingCommas || spec.optionalParameters.isNotEmpty) {
           output.write(', ');
         }
       }
@@ -246,7 +250,7 @@ class DartEmitter extends Object
       for (final p in spec.optionalParameters) {
         count++;
         _visitParameter(p, output, optional: true, named: named);
-        if (hasMultipleParameters || spec.optionalParameters.length != count) {
+        if (useTrailingCommas || spec.optionalParameters.length != count) {
           output.write(', ');
         }
       }
@@ -583,15 +587,17 @@ class DartEmitter extends Object
       }
       visitTypeParameters(spec.types.map((r) => r.type), output);
       output.write('(');
-      final hasMultipleParameters =
-          spec.requiredParameters.length + spec.optionalParameters.length > 1;
+      final useTrailingCommas =
+          spec.requiredParameters.length + spec.optionalParameters.length >
+              _useTrailingCommaCount;
       if (spec.requiredParameters.isNotEmpty) {
         var count = 0;
         for (final p in spec.requiredParameters) {
           count++;
           _visitParameter(p, output);
-          if (spec.requiredParameters.length != count ||
-              spec.optionalParameters.isNotEmpty) {
+          if (spec.requiredParameters.length != count) {
+            output.write(', ');
+          } else if (useTrailingCommas || spec.optionalParameters.isNotEmpty) {
             output.write(', ');
           }
         }
@@ -607,8 +613,7 @@ class DartEmitter extends Object
         for (final p in spec.optionalParameters) {
           count++;
           _visitParameter(p, output, optional: true, named: named);
-          if (hasMultipleParameters ||
-              spec.optionalParameters.length != count) {
+          if (useTrailingCommas || spec.optionalParameters.length != count) {
             output.write(', ');
           }
         }

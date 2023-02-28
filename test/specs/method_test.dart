@@ -495,7 +495,7 @@ void main() {
           ]),
       ),
       equalsDart(r'''
-        foo([a, b, ]);
+        foo([a, b]);
       '''),
     );
   });
@@ -610,7 +610,7 @@ void main() {
           ),
       ),
       equalsDart(r'''
-        foo(a, {b, });
+        foo(a, {b});
       '''),
     );
   });
@@ -626,6 +626,72 @@ void main() {
       ).closure,
       equalsDart(r'''
         (a) { }
+      '''),
+    );
+  });
+
+  test('methods with one parameter lack trailing commas', () {
+    expect(
+      Method(
+        (b) => b
+          ..name = 'fib'
+          ..requiredParameters.addAll([
+            Parameter((b) => b.name = 'a'),
+          ]),
+      ),
+      equalsDart(r'''
+        fib(a);
+      '''),
+    );
+  });
+
+  test('methods with two parameters lack trailing commas', () {
+    expect(
+      Method(
+        (b) => b
+          ..name = 'fib'
+          ..requiredParameters.addAll([
+            Parameter((b) => b.name = 'a'),
+            Parameter((b) => b.name = 'b'),
+          ]),
+      ),
+      equalsDart(r'''
+        fib(a, b);
+      '''),
+    );
+  });
+
+  test('methods with three parameters lack trailing commas', () {
+    expect(
+      Method(
+        (b) => b
+          ..name = 'fib'
+          ..requiredParameters.addAll([
+            Parameter((b) => b.name = 'a'),
+            Parameter((b) => b.name = 'b'),
+            Parameter((b) => b.name = 'c'),
+          ]),
+      ),
+      equalsDart(r'''
+        fib(a, b, c);
+      '''),
+    );
+  });
+
+  test('methods with four parameters have trailing commas', () {
+    expect(
+      Method(
+        (b) => b
+          ..name = 'fib'
+          ..requiredParameters.addAll([
+            Parameter((b) => b.name = 'a'),
+            Parameter((b) => b.name = 'b'),
+            Parameter((b) => b.name = 'c'),
+            Parameter((b) => b.name = 'd'),
+          ]),
+      ),
+      equalsDart(r'''
+        fib(a, b, c, d, );
       '''),
     );
   });

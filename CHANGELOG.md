@@ -1,8 +1,8 @@
 ## 4.5.0-dev
 
-* Only use trailing commas if a collection (parameter list, ...) has many
+* Use trailing commas for methods with more than a few parameters.
+* Use trailing commas for collections (parameter list, ...) with more than a few
   elements.
-* Don't use trailing commas for parameters lists without optional arguments.
 
 ## 4.4.0
 
