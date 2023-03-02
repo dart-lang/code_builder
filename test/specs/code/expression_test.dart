@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:code_builder/code_builder.dart';
+import 'package:code_builder/src/specs/expression.dart';
 import 'package:test/test.dart';
 
 import '../../common.dart';
@@ -97,6 +98,18 @@ void main() {
         refer('Map').newInstance([]): null,
       }),
       equalsDart(r"{1: 'one', 2: two, three: 3, Map(): null, }"),
+    );
+  });
+
+  test('should emit a map with spreads', () {
+    expect(
+      literalMap({
+        literalSpread(): refer('one'),
+        2: refer('two'),
+        literalNullSafeSpread(): refer('three'),
+        refer('Map').newInstance([]): null,
+      }),
+      equalsDart('{...one, 2: two, ...?three, Map(): null, }'),
     );
   });
 
