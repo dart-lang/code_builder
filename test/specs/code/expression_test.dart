@@ -639,6 +639,16 @@ void main() {
         equalsDart('final String foo = bar'));
   });
 
+  test('should emit a nullable typed final variable declaration', () {
+    final emitter = DartEmitter.scoped(useNullSafetySyntax: true);
+    expect(
+        declareFinal('foo',
+            type: TypeReference((b) => b
+              ..symbol = 'String'
+              ..isNullable = true)).assign(refer('bar')),
+        equalsDart('final String? foo = bar', emitter));
+  }, skip: 'https://github.com/dart-lang/code_builder/issues/315');
+
   test('should emit a late final variable declaration', () {
     expect(declareFinal('foo', late: true).assign(refer('bar')),
         equalsDart('late final foo = bar'));
