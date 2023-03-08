@@ -15,6 +15,8 @@ class _$TypeDef extends TypeDef {
   final BuiltList<Expression> annotations;
   @override
   final BuiltList<String> docs;
+  @override
+  final BuiltList<Reference> types;
 
   factory _$TypeDef([void Function(TypeDefBuilder)? updates]) =>
       (new TypeDefBuilder()..update(updates)).build() as _$TypeDef;
@@ -23,13 +25,15 @@ class _$TypeDef extends TypeDef {
       {required this.name,
       required this.definition,
       required this.annotations,
-      required this.docs})
+      required this.docs,
+      required this.types})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(name, r'TypeDef', 'name');
     BuiltValueNullFieldError.checkNotNull(definition, r'TypeDef', 'definition');
     BuiltValueNullFieldError.checkNotNull(
         annotations, r'TypeDef', 'annotations');
     BuiltValueNullFieldError.checkNotNull(docs, r'TypeDef', 'docs');
+    BuiltValueNullFieldError.checkNotNull(types, r'TypeDef', 'types');
   }
 
   @override
@@ -46,15 +50,20 @@ class _$TypeDef extends TypeDef {
         name == other.name &&
         definition == other.definition &&
         annotations == other.annotations &&
-        docs == other.docs;
+        docs == other.docs &&
+        types == other.types;
   }
 
   @override
   int get hashCode {
-    return $jf($jc(
-        $jc($jc($jc(0, name.hashCode), definition.hashCode),
-            annotations.hashCode),
-        docs.hashCode));
+    var _$hash = 0;
+    _$hash = $jc(_$hash, name.hashCode);
+    _$hash = $jc(_$hash, definition.hashCode);
+    _$hash = $jc(_$hash, annotations.hashCode);
+    _$hash = $jc(_$hash, docs.hashCode);
+    _$hash = $jc(_$hash, types.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
   }
 
   @override
@@ -63,7 +72,8 @@ class _$TypeDef extends TypeDef {
           ..add('name', name)
           ..add('definition', definition)
           ..add('annotations', annotations)
-          ..add('docs', docs))
+          ..add('docs', docs)
+          ..add('types', types))
         .toString();
   }
 }
@@ -119,6 +129,18 @@ class _$TypeDefBuilder extends TypeDefBuilder {
     super.docs = docs;
   }
 
+  @override
+  ListBuilder<Reference> get types {
+    _$this;
+    return super.types;
+  }
+
+  @override
+  set types(ListBuilder<Reference> types) {
+    _$this;
+    super.types = types;
+  }
+
   _$TypeDefBuilder() : super._();
 
   TypeDefBuilder get _$this {
@@ -128,6 +150,7 @@ class _$TypeDefBuilder extends TypeDefBuilder {
       super.definition = $v.definition;
       super.annotations = $v.annotations.toBuilder();
       super.docs = $v.docs.toBuilder();
+      super.types = $v.types.toBuilder();
       _$v = null;
     }
     return this;
@@ -157,7 +180,8 @@ class _$TypeDefBuilder extends TypeDefBuilder {
               definition: BuiltValueNullFieldError.checkNotNull(
                   definition, r'TypeDef', 'definition'),
               annotations: annotations.build(),
-              docs: docs.build());
+              docs: docs.build(),
+              types: types.build());
     } catch (_) {
       late String _$failedField;
       try {
@@ -165,6 +189,8 @@ class _$TypeDefBuilder extends TypeDefBuilder {
         annotations.build();
         _$failedField = 'docs';
         docs.build();
+        _$failedField = 'types';
+        types.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             r'TypeDef', _$failedField, e.toString());
@@ -176,4 +202,4 @@ class _$TypeDefBuilder extends TypeDefBuilder {
   }
 }
 
-// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new,unnecessary_lambdas
+// ignore_for_file: deprecated_member_use_from_same_package,type=lint

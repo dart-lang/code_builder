@@ -1,4 +1,5 @@
 ## 4.4.1-dev
+* Add support for emitting type parameters for typedefs.
 
 ## 4.4.0
 
