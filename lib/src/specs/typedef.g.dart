@@ -15,6 +15,8 @@ class _$TypeDef extends TypeDef {
   final BuiltList<Expression> annotations;
   @override
   final BuiltList<String> docs;
+  @override
+  final BuiltList<Reference> types;
 
   factory _$TypeDef([void Function(TypeDefBuilder)? updates]) =>
       (new TypeDefBuilder()..update(updates)).build() as _$TypeDef;
@@ -23,13 +25,15 @@ class _$TypeDef extends TypeDef {
       {required this.name,
       required this.definition,
       required this.annotations,
-      required this.docs})
+      required this.docs,
+      required this.types})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(name, r'TypeDef', 'name');
     BuiltValueNullFieldError.checkNotNull(definition, r'TypeDef', 'definition');
     BuiltValueNullFieldError.checkNotNull(
         annotations, r'TypeDef', 'annotations');
     BuiltValueNullFieldError.checkNotNull(docs, r'TypeDef', 'docs');
+    BuiltValueNullFieldError.checkNotNull(types, r'TypeDef', 'types');
   }
 
   @override
@@ -46,7 +50,8 @@ class _$TypeDef extends TypeDef {
         name == other.name &&
         definition == other.definition &&
         annotations == other.annotations &&
-        docs == other.docs;
+        docs == other.docs &&
+        types == other.types;
   }
 
   @override
@@ -56,6 +61,7 @@ class _$TypeDef extends TypeDef {
     _$hash = $jc(_$hash, definition.hashCode);
     _$hash = $jc(_$hash, annotations.hashCode);
     _$hash = $jc(_$hash, docs.hashCode);
+    _$hash = $jc(_$hash, types.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -66,7 +72,8 @@ class _$TypeDef extends TypeDef {
           ..add('name', name)
           ..add('definition', definition)
           ..add('annotations', annotations)
-          ..add('docs', docs))
+          ..add('docs', docs)
+          ..add('types', types))
         .toString();
   }
 }
@@ -122,6 +129,18 @@ class _$TypeDefBuilder extends TypeDefBuilder {
     super.docs = docs;
   }
 
+  @override
+  ListBuilder<Reference> get types {
+    _$this;
+    return super.types;
+  }
+
+  @override
+  set types(ListBuilder<Reference> types) {
+    _$this;
+    super.types = types;
+  }
+
   _$TypeDefBuilder() : super._();
 
   TypeDefBuilder get _$this {
@@ -131,6 +150,7 @@ class _$TypeDefBuilder extends TypeDefBuilder {
       super.definition = $v.definition;
       super.annotations = $v.annotations.toBuilder();
       super.docs = $v.docs.toBuilder();
+      super.types = $v.types.toBuilder();
       _$v = null;
     }
     return this;
@@ -160,7 +180,8 @@ class _$TypeDefBuilder extends TypeDefBuilder {
               definition: BuiltValueNullFieldError.checkNotNull(
                   definition, r'TypeDef', 'definition'),
               annotations: annotations.build(),
-              docs: docs.build());
+              docs: docs.build(),
+              types: types.build());
     } catch (_) {
       late String _$failedField;
       try {
@@ -168,6 +189,8 @@ class _$TypeDefBuilder extends TypeDefBuilder {
         annotations.build();
         _$failedField = 'docs';
         docs.build();
+        _$failedField = 'types';
+        types.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             r'TypeDef', _$failedField, e.toString());

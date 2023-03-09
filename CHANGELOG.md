@@ -1,5 +1,6 @@
 ## 4.5.0-dev
 
+* Add support for emitting type parameters for typedefs.
 * Add `literalSpread` and `literalNullSafeSpread` to support adding spreads to
   `literalMap`.
 

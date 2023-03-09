@@ -542,7 +542,9 @@ class DartEmitter extends Object
     for (var a in spec.annotations) {
       visitAnnotation(a, out);
     }
-    out.write('typedef ${spec.name} = ');
+    out.write('typedef ${spec.name}');
+    visitTypeParameters(spec.types.map((r) => r.type), out);
+    out.write(' = ');
     spec.definition.accept(this, out);
     out.writeln(';');
     return out;
