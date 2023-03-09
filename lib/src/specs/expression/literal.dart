@@ -65,6 +65,20 @@ Expression literalString(String value, {bool raw = false}) {
   return LiteralExpression._("${raw ? 'r' : ''}'$escaped'");
 }
 
+/// Create a literal `...` operator for use when creating a Map literal.
+///
+/// *NOTE* This is used as a sentinel when constructing a `literalMap` or a
+/// or `literalConstMap` to signify that the value should be spread. Do NOT
+/// reuse the value when creating a Map with multiple spreads.
+Expression literalSpread() => LiteralSpreadExpression._(false);
+
+/// Create a literal `...?` operator for use when creating a Map literal.
+///
+/// *NOTE* This is used as a sentinel when constructing a `literalMap` or a
+/// or `literalConstMap` to signify that the value should be spread. Do NOT
+/// reuse the value when creating a Map with multiple spreads.
+Expression literalNullSafeSpread() => LiteralSpreadExpression._(true);
+
 /// Creates a literal list expression from [values].
 LiteralListExpression literalList(Iterable<Object?> values,
         [Reference? type]) =>
@@ -120,6 +134,11 @@ class LiteralExpression extends Expression {
 
   @override
   String toString() => literal;
+}
+
+class LiteralSpreadExpression extends LiteralExpression {
+  LiteralSpreadExpression._(bool nullAware)
+      : super._('...${nullAware ? '?' : ''}');
 }
 
 class LiteralListExpression extends Expression {

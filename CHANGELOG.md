@@ -1,4 +1,23 @@
-## 4.4.1-dev
+## 4.5.0-dev
+
+* Add `literalSpread` and `literalNullSafeSpread` to support adding spreads to
+  `literalMap`.
+
+```dart
+void main() {
+  // Creates a map
+  // {
+  //   ...one,
+  //   2: two,
+  //   ...?three,
+  // }
+  final map = literalMap({
+    literalSpread(): refer('one'),
+    2: refer('two'),
+    literalNullSafeSpread(): refer('three'),
+  });
+}
+```
 
 ## 4.4.0
 
