@@ -40,6 +40,8 @@ export 'src/specs/expression.dart'
         literalMap,
         literalConstMap,
         literalString,
+        literalSpread,
+        literalNullSafeSpread,
         literalTrue,
         literalFalse;
 export 'src/specs/extension.dart' show Extension, ExtensionBuilder;
