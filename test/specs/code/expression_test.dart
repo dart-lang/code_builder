@@ -611,7 +611,7 @@ void main() {
     expect(refer('foo').operatorAdd(refer('foo2')), equalsDart('foo + foo2'));
   });
 
-  test('should emit an operator substract call', () {
+  test('should emit an operator subtract call', () {
     expect(refer('foo').operatorSubstract(refer('foo2')),
         equalsDart('foo - foo2'));
   });

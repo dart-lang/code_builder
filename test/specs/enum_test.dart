@@ -55,7 +55,7 @@ void main() {
               ..name = 'okay'
               ..annotations.addAll([
                 refer('deprecated'),
-                refer('Deprecated').call([literalString('use Good insted')]),
+                refer('Deprecated').call([literalString('use Good instead')]),
               ])),
             EnumValue((b) => b
               ..name = 'good'
@@ -66,7 +66,7 @@ void main() {
         equalsDart(r'''
       enum Status {
         @deprecated
-        @Deprecated('use Good insted')
+        @Deprecated('use Good instead')
         okay,
         @JsonKey('good')
         good

@@ -40,7 +40,7 @@ void main() {
     );
   });
 
-  test('should emit a block of code with lazyily invoked generators', () {
+  test('should emit a block of code with lazily invoked generators', () {
     expect(
       Method((b) => b
         ..name = 'main'
