@@ -4,7 +4,7 @@
 
 // ignore_for_file: deprecated_member_use_from_same_package
 
-part of code_builder.src.specs.expression;
+part of '../expression.dart';
 
 /// Represents invoking [target] as a method with arguments.
 class InvokeExpression extends Expression {

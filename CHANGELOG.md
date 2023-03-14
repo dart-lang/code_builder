@@ -1,5 +1,6 @@
 ## 4.5.0-dev
 
+* Require Dart 2.19
 * Add support for emitting type parameters for typedefs.
 * Add `literalSpread` and `literalNullSafeSpread` to support adding spreads to
   `literalMap`.
@@ -48,7 +49,7 @@ void main() {
 * Add `declareConst`, `declareFinal`, and `declareVar` to replace
   `Expression.assignConst`, `assignFinal`, and `assignVar`. Add support for late
   variables with the `declare*` utilities.
-* Add `ParameterBuilder.toSuper` so suport super formal parameters language
+* Add `ParameterBuilder.toSuper` so support super formal parameters language
   feature.
 
 ## 4.1.0
@@ -63,7 +64,7 @@ void main() {
 ## 4.0.0
 
 * Migrate to null safety.
-* Changed the DartEmittor constructor to use named optional parameters.
+* Changed the `DartEmitter` constructor to use named optional parameters.
 * Add `ParenthesizedExpression` and
   `ExpressionVisitor.visitParenthesizedExpression.`
 

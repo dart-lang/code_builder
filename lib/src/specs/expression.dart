@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-library code_builder.src.specs.expression;
-
 import 'package:meta/meta.dart';
 
 import '../base.dart';
@@ -149,6 +147,7 @@ abstract class Expression implements Spec {
       );
 
   /// Returns the result of `this` `-` [other].
+  // TODO(kevmoo): create a function spelled correctly and deprecate this one!
   Expression operatorSubstract(Expression other) => BinaryExpression._(
         expression,
         other,
@@ -314,7 +313,7 @@ abstract class Expression implements Spec {
         addSpace: false,
       );
 
-  /// This expression precenede by the null safe spread operator `?...`.
+  /// This expression preceded by the null safe spread operator `?...`.
   Expression get nullSafeSpread => BinaryExpression._(
         const LiteralExpression._('...?'),
         this,

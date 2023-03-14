@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of code_builder.src.specs.expression;
+part of '../expression.dart';
 
 /// Represents a [Code] block as an [Expression].
 class CodeExpression extends Expression {
