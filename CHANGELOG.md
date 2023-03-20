@@ -1,4 +1,4 @@
-## 4.5.0-dev
+## 4.5.0
 
 * Require Dart 2.19
 * Add support for emitting type parameters for typedefs.
