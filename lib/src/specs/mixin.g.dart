@@ -8,6 +8,8 @@ part of 'mixin.dart';
 
 class _$Mixin extends Mixin {
   @override
+  final bool base;
+  @override
   final BuiltList<Expression> annotations;
   @override
   final BuiltList<String> docs;
@@ -28,7 +30,8 @@ class _$Mixin extends Mixin {
       (new MixinBuilder()..update(updates)).build() as _$Mixin;
 
   _$Mixin._(
-      {required this.annotations,
+      {required this.base,
+      required this.annotations,
       required this.docs,
       this.on,
       required this.implements,
@@ -37,6 +40,7 @@ class _$Mixin extends Mixin {
       required this.fields,
       required this.name})
       : super._() {
+    BuiltValueNullFieldError.checkNotNull(base, r'Mixin', 'base');
     BuiltValueNullFieldError.checkNotNull(annotations, r'Mixin', 'annotations');
     BuiltValueNullFieldError.checkNotNull(docs, r'Mixin', 'docs');
     BuiltValueNullFieldError.checkNotNull(implements, r'Mixin', 'implements');
@@ -57,6 +61,7 @@ class _$Mixin extends Mixin {
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
     return other is Mixin &&
+        base == other.base &&
         annotations == other.annotations &&
         docs == other.docs &&
         on == other.on &&
@@ -70,6 +75,7 @@ class _$Mixin extends Mixin {
   @override
   int get hashCode {
     var _$hash = 0;
+    _$hash = $jc(_$hash, base.hashCode);
     _$hash = $jc(_$hash, annotations.hashCode);
     _$hash = $jc(_$hash, docs.hashCode);
     _$hash = $jc(_$hash, on.hashCode);
@@ -85,6 +91,7 @@ class _$Mixin extends Mixin {
   @override
   String toString() {
     return (newBuiltValueToStringHelper(r'Mixin')
+          ..add('base', base)
           ..add('annotations', annotations)
           ..add('docs', docs)
           ..add('on', on)
@@ -99,6 +106,18 @@ class _$Mixin extends Mixin {
 
 class _$MixinBuilder extends MixinBuilder {
   _$Mixin? _$v;
+
+  @override
+  bool get base {
+    _$this;
+    return super.base;
+  }
+
+  @override
+  set base(bool base) {
+    _$this;
+    super.base = base;
+  }
 
   @override
   ListBuilder<Expression> get annotations {
@@ -201,6 +220,7 @@ class _$MixinBuilder extends MixinBuilder {
   MixinBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
+      super.base = $v.base;
       super.annotations = $v.annotations.toBuilder();
       super.docs = $v.docs.toBuilder();
       super.on = $v.on;
@@ -233,6 +253,8 @@ class _$MixinBuilder extends MixinBuilder {
     try {
       _$result = _$v ??
           new _$Mixin._(
+              base:
+                  BuiltValueNullFieldError.checkNotNull(base, r'Mixin', 'base'),
               annotations: annotations.build(),
               docs: docs.build(),
               on: on,

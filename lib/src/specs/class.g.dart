@@ -10,6 +10,12 @@ class _$Class extends Class {
   @override
   final bool abstract;
   @override
+  final bool sealed;
+  @override
+  final bool mixin;
+  @override
+  final ClassModifier? modifier;
+  @override
   final BuiltList<Expression> annotations;
   @override
   final BuiltList<String> docs;
@@ -35,6 +41,9 @@ class _$Class extends Class {
 
   _$Class._(
       {required this.abstract,
+      required this.sealed,
+      required this.mixin,
+      this.modifier,
       required this.annotations,
       required this.docs,
       this.extend,
@@ -47,6 +56,8 @@ class _$Class extends Class {
       required this.name})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(abstract, r'Class', 'abstract');
+    BuiltValueNullFieldError.checkNotNull(sealed, r'Class', 'sealed');
+    BuiltValueNullFieldError.checkNotNull(mixin, r'Class', 'mixin');
     BuiltValueNullFieldError.checkNotNull(annotations, r'Class', 'annotations');
     BuiltValueNullFieldError.checkNotNull(docs, r'Class', 'docs');
     BuiltValueNullFieldError.checkNotNull(implements, r'Class', 'implements');
@@ -71,6 +82,9 @@ class _$Class extends Class {
     if (identical(other, this)) return true;
     return other is Class &&
         abstract == other.abstract &&
+        sealed == other.sealed &&
+        mixin == other.mixin &&
+        modifier == other.modifier &&
         annotations == other.annotations &&
         docs == other.docs &&
         extend == other.extend &&
@@ -87,6 +101,9 @@ class _$Class extends Class {
   int get hashCode {
     var _$hash = 0;
     _$hash = $jc(_$hash, abstract.hashCode);
+    _$hash = $jc(_$hash, sealed.hashCode);
+    _$hash = $jc(_$hash, mixin.hashCode);
+    _$hash = $jc(_$hash, modifier.hashCode);
     _$hash = $jc(_$hash, annotations.hashCode);
     _$hash = $jc(_$hash, docs.hashCode);
     _$hash = $jc(_$hash, extend.hashCode);
@@ -105,6 +122,9 @@ class _$Class extends Class {
   String toString() {
     return (newBuiltValueToStringHelper(r'Class')
           ..add('abstract', abstract)
+          ..add('sealed', sealed)
+          ..add('mixin', mixin)
+          ..add('modifier', modifier)
           ..add('annotations', annotations)
           ..add('docs', docs)
           ..add('extend', extend)
@@ -132,6 +152,42 @@ class _$ClassBuilder extends ClassBuilder {
   set abstract(bool abstract) {
     _$this;
     super.abstract = abstract;
+  }
+
+  @override
+  bool get sealed {
+    _$this;
+    return super.sealed;
+  }
+
+  @override
+  set sealed(bool sealed) {
+    _$this;
+    super.sealed = sealed;
+  }
+
+  @override
+  bool get mixin {
+    _$this;
+    return super.mixin;
+  }
+
+  @override
+  set mixin(bool mixin) {
+    _$this;
+    super.mixin = mixin;
+  }
+
+  @override
+  ClassModifier? get modifier {
+    _$this;
+    return super.modifier;
+  }
+
+  @override
+  set modifier(ClassModifier? modifier) {
+    _$this;
+    super.modifier = modifier;
   }
 
   @override
@@ -260,6 +316,9 @@ class _$ClassBuilder extends ClassBuilder {
     final $v = _$v;
     if ($v != null) {
       super.abstract = $v.abstract;
+      super.sealed = $v.sealed;
+      super.mixin = $v.mixin;
+      super.modifier = $v.modifier;
       super.annotations = $v.annotations.toBuilder();
       super.docs = $v.docs.toBuilder();
       super.extend = $v.extend;
@@ -296,6 +355,11 @@ class _$ClassBuilder extends ClassBuilder {
           new _$Class._(
               abstract: BuiltValueNullFieldError.checkNotNull(
                   abstract, r'Class', 'abstract'),
+              sealed: BuiltValueNullFieldError.checkNotNull(
+                  sealed, r'Class', 'sealed'),
+              mixin: BuiltValueNullFieldError.checkNotNull(
+                  mixin, r'Class', 'mixin'),
+              modifier: modifier,
               annotations: annotations.build(),
               docs: docs.build(),
               extend: extend,

@@ -115,8 +115,23 @@ class DartEmitter extends Object
     for (var a in spec.annotations) {
       visitAnnotation(a, out);
     }
-    if (spec.abstract) {
-      out.write('abstract ');
+
+    void writeModifier() {
+      if (spec.modifier != null) {
+        out.write('${spec.modifier!.name} ');
+      }
+    }
+
+    if (spec.sealed) {
+      out.write('sealed ');
+    } else {
+      if (spec.abstract) {
+        out.write('abstract ');
+      }
+      writeModifier();
+      if (spec.mixin) {
+        out.write('mixin ');
+      }
     }
     out.write('class ${spec.name}');
     visitTypeParameters(spec.types.map((r) => r.type), out);
@@ -164,6 +179,9 @@ class DartEmitter extends Object
       visitAnnotation(a, out);
     }
 
+    if (spec.base) {
+      out.write('base ');
+    }
     out.write('mixin ${spec.name}');
     visitTypeParameters(spec.types.map((r) => r.type), out);
     if (spec.on != null) {

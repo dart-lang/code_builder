@@ -30,6 +30,15 @@ abstract class Class extends Object
   /// Whether the class is `abstract`.
   bool get abstract;
 
+  /// Whether the class is `sealed`.
+  bool get sealed;
+
+  /// Whether the class is a `mixin class`.
+  bool get mixin;
+
+  /// The class modifier, i.e. `base`, `final`, `interface`.
+  ClassModifier? get modifier;
+
   @override
   BuiltList<Expression> get annotations;
 
@@ -60,6 +69,23 @@ abstract class Class extends Object
       visitor.visitClass(this, context);
 }
 
+enum ClassModifier {
+  base,
+  final$,
+  interface;
+
+  String get name {
+    switch (this) {
+      case ClassModifier.base:
+        return 'base';
+      case ClassModifier.final$:
+        return 'final';
+      case ClassModifier.interface:
+        return 'interface';
+    }
+  }
+}
+
 abstract class ClassBuilder extends Object
     with HasAnnotationsBuilder, HasDartDocsBuilder, HasGenericsBuilder
     implements Builder<Class, ClassBuilder> {
@@ -74,6 +100,15 @@ abstract class ClassBuilder extends Object
 
   /// Whether the class is `abstract`.
   bool abstract = false;
+
+  /// Whether the class is `sealed`.
+  bool sealed = false;
+
+  /// Whether the class is a `mixin class`.
+  bool mixin = false;
+
+  /// The class modifier, i.e. `base`, `final`, `interface`.
+  ClassModifier? modifier;
 
   @override
   ListBuilder<Expression> annotations = ListBuilder<Expression>();
