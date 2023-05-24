@@ -17,6 +17,7 @@ import 'specs/method.dart';
 import 'specs/mixin.dart';
 import 'specs/reference.dart';
 import 'specs/type_function.dart';
+import 'specs/type_record.dart';
 import 'specs/type_reference.dart';
 import 'specs/typedef.dart';
 
@@ -47,6 +48,8 @@ abstract class SpecVisitor<T> {
   T visitTypeDef(TypeDef spec, [T? context]);
 
   T visitMethod(Method spec, [T? context]);
+
+  T visitRecordType(RecordType spec, [T? context]);
 
   T visitReference(Reference spec, [T? context]);
 

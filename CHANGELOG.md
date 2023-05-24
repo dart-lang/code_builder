@@ -20,6 +20,7 @@ void main() {
   });
 }
 ```
+* Add support for records (both types and record literals).
 
 ## 4.4.0
 

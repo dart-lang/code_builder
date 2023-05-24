@@ -17,6 +17,7 @@ import 'specs/method.dart';
 import 'specs/mixin.dart';
 import 'specs/reference.dart';
 import 'specs/type_function.dart';
+import 'specs/type_record.dart';
 import 'specs/type_reference.dart';
 import 'specs/typedef.dart';
 import 'visitors.dart';
@@ -529,6 +530,36 @@ class DartEmitter extends Object
       out.write('}');
     }
     out.write(')');
+    if (_useNullSafetySyntax && (spec.isNullable ?? false)) {
+      out.write('?');
+    }
+    return out;
+  }
+
+  @override
+  StringSink visitRecordType(RecordType spec, [StringSink? output]) {
+    final out = (output ??= StringBuffer())..write('(');
+    visitAll<Reference>(spec.positionalFieldTypes, out, (spec) {
+      spec.accept(this, out);
+    });
+    if (spec.namedFieldTypes.isNotEmpty) {
+      if (spec.positionalFieldTypes.isNotEmpty) {
+        out.write(', ');
+      }
+      out.write('{');
+      visitAll<MapEntry<String, Reference>>(spec.namedFieldTypes.entries, out,
+          (entry) {
+        entry.value.accept(this, out);
+        out.write(' ${entry.key}');
+      });
+      out.write('}');
+    } else if (spec.positionalFieldTypes.length == 1) {
+      out.write(',');
+    }
+    out.write(')');
+    // It doesn't really make sense to use records without
+    // `_useNullSafetySyntax`, but since code_builder is generally very
+    // permissive, follow it here too.
     if (_useNullSafetySyntax && (spec.isNullable ?? false)) {
       out.write('?');
     }
