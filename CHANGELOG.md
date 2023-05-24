@@ -1,4 +1,4 @@
-## 4.5.1-dev
+## 4.6.0-dev
 
 * Add support for class modifiers.
 
