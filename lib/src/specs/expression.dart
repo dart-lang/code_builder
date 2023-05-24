@@ -412,6 +412,8 @@ abstract class ExpressionVisitor<T> implements SpecVisitor<T> {
   T visitLiteralListExpression(LiteralListExpression expression, [T? context]);
   T visitLiteralSetExpression(LiteralSetExpression expression, [T? context]);
   T visitLiteralMapExpression(LiteralMapExpression expression, [T? context]);
+  T visitLiteralRecordExpression(LiteralRecordExpression expression,
+      [T? context]);
   T visitParenthesizedExpression(ParenthesizedExpression expression,
       [T? context]);
 }
@@ -601,6 +603,33 @@ abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
         out.write(', ');
       }
       return out..write('}');
+    });
+  }
+
+  @override
+  StringSink visitLiteralRecordExpression(
+    LiteralRecordExpression expression, [
+    StringSink? output,
+  ]) {
+    final out = output ??= StringBuffer();
+    return _writeConstExpression(out, expression.isConst, () {
+      out.write('(');
+      visitAll<Object?>(expression.positionalFieldValues, out, (value) {
+        _acceptLiteral(value, out);
+      });
+      if (expression.namedFieldValues.isNotEmpty) {
+        if (expression.positionalFieldValues.isNotEmpty) {
+          out.write(', ');
+        }
+      } else if (expression.positionalFieldValues.length == 1) {
+        out.write(',');
+      }
+      visitAll<MapEntry<String, Object?>>(
+          expression.namedFieldValues.entries, out, (entry) {
+        out.write('${entry.key}: ');
+        _acceptLiteral(entry.value, out);
+      });
+      return out..write(')');
     });
   }
 

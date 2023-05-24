@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:code_builder/code_builder.dart';
+import 'package:code_builder/src/specs/expression.dart';
 import 'package:test/test.dart';
 
 import '../../common.dart';
@@ -139,6 +140,44 @@ void main() {
       ]),
       equalsDart('{[], {}, true, null, Map(), }'),
     );
+  });
+
+  test('should emit an empty record', () {
+    expect(literalRecord([], {}), equalsDart('()'));
+  });
+
+  test('should emit a const empty record', () {
+    expect(literalConstRecord([], {}), equalsDart('const ()'));
+  });
+
+  test('should emit a record with only positional fields', () {
+    expect(literalRecord([1, ''], {}), equalsDart("(1, '')"));
+  });
+
+  test('should correctly emit a record with a single positional field', () {
+    expect(literalRecord([1], {}), equalsDart('(1,)'));
+  });
+
+  test('should emit a record with only named fields', () {
+    expect(literalRecord([], {'named': 1, 'other': []}),
+        equalsDart('(named: 1, other: [])'));
+  });
+
+  test('should emit a record with both positional and named fields', () {
+    expect(literalRecord([0], {'x': true, 'y': 0}),
+        equalsDart('(0, x: true, y: 0)'));
+  });
+
+  test('should emit a record of other literals and expressions', () {
+    expect(
+        literalRecord([
+          1,
+          refer('one'),
+          'one'
+        ], {
+          'named': refer('Foo').newInstance([literalNum(1)])
+        }),
+        equalsDart("(1, one, 'one', named: Foo(1))"));
   });
 
   test('should emit a type as an expression', () {
