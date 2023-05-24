@@ -30,6 +30,100 @@ void main() {
     );
   });
 
+  test('should create an abstract base class', () {
+    expect(
+      Class((b) => b
+        ..name = 'Foo'
+        ..abstract = true
+        ..modifier = ClassModifier.base),
+      equalsDart(r'''
+        abstract base class Foo {}
+      '''),
+    );
+  });
+
+  test('should create a final class', () {
+    expect(
+      Class((b) => b
+        ..name = 'Foo'
+        ..modifier = ClassModifier.final$),
+      equalsDart(r'''
+        final class Foo {}
+      '''),
+    );
+  });
+
+  test('should create a sealed class', () {
+    expect(
+      Class((b) => b
+        ..name = 'Foo'
+        ..sealed = true),
+      equalsDart(r'''
+        sealed class Foo {}
+      '''),
+    );
+  });
+
+  test('should create an abstract interface class', () {
+    expect(
+      Class((b) => b
+        ..name = 'Foo'
+        ..abstract = true
+        ..modifier = ClassModifier.interface),
+      equalsDart(r'''
+        abstract interface class Foo {}
+      '''),
+    );
+  });
+
+  test('should create a mixin class', () {
+    expect(
+      Class((b) => b
+        ..name = 'Foo'
+        ..mixin = true),
+      equalsDart(r'''
+        mixin class Foo {}
+      '''),
+    );
+  });
+
+  test('should create an abstract mixin class', () {
+    expect(
+      Class((b) => b
+        ..name = 'Foo'
+        ..abstract = true
+        ..mixin = true),
+      equalsDart(r'''
+        abstract mixin class Foo {}
+      '''),
+    );
+  });
+
+  test('should create a base mixin class', () {
+    expect(
+      Class((b) => b
+        ..name = 'Foo'
+        ..mixin = true
+        ..modifier = ClassModifier.base),
+      equalsDart(r'''
+        base mixin class Foo {}
+      '''),
+    );
+  });
+
+  test('should create an abstract base mixin class', () {
+    expect(
+      Class((b) => b
+        ..name = 'Foo'
+        ..abstract = true
+        ..mixin = true
+        ..modifier = ClassModifier.base),
+      equalsDart(r'''
+        abstract base mixin class Foo {}
+      '''),
+    );
+  });
+
   test('should create a class with documentations', () {
     expect(
       Class(

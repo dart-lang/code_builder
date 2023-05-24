@@ -1,3 +1,7 @@
+## 4.6.0-dev
+
+* Add support for class modifiers.
+
 ## 4.5.0
 
 * Require Dart 2.19

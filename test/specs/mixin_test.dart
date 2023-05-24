@@ -19,6 +19,17 @@ void main() {
     );
   });
 
+  test('should create a base mixin', () {
+    expect(
+      Mixin((b) => b
+        ..name = 'Foo'
+        ..base = true),
+      equalsDart(r'''
+        base mixin Foo {}
+      '''),
+    );
+  });
+
   test('should create a mixin with documentations', () {
     expect(
       Mixin(
