@@ -33,6 +33,7 @@ export 'src/specs/expression.dart'
         literalBool,
         literalConstList,
         literalConstMap,
+        literalConstRecord,
         literalConstSet,
         literalFalse,
         literalList,
@@ -40,6 +41,7 @@ export 'src/specs/expression.dart'
         literalNull,
         literalNullSafeSpread,
         literalNum,
+        literalRecord,
         literalSet,
         literalSpread,
         literalString,
@@ -58,5 +60,6 @@ export 'src/specs/method.dart'
 export 'src/specs/mixin.dart' show Mixin, MixinBuilder;
 export 'src/specs/reference.dart' show Reference, refer;
 export 'src/specs/type_function.dart' show FunctionType, FunctionTypeBuilder;
+export 'src/specs/type_record.dart' show RecordType, RecordTypeBuilder;
 export 'src/specs/type_reference.dart' show TypeReference, TypeReferenceBuilder;
 export 'src/specs/typedef.dart' show TypeDef, TypeDefBuilder;
