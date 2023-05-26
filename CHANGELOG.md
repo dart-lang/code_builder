@@ -1,6 +1,7 @@
 ## 4.6.0-dev
 
 * Add support for class modifiers.
+* Add support for records (both types and record literals).
 
 ## 4.5.0
 
@@ -24,7 +25,6 @@ void main() {
   });
 }
 ```
-* Add support for records (both types and record literals).
 
 ## 4.4.0
 
