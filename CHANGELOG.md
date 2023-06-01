@@ -1,12 +1,9 @@
-## 4.6.0-dev
-
-* Add support for class modifiers.
-* Add support for records (both types and record literals).
-
 ## 4.5.0
 
 * Require Dart 2.19
 * Add support for emitting type parameters for typedefs.
+* Add support for class modifiers.
+* Add support for records (both types and record literals).
 * Add `literalSpread` and `literalNullSafeSpread` to support adding spreads to
   `literalMap`.
 
