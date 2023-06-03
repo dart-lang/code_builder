@@ -331,6 +331,8 @@ class _$EnumValue extends EnumValue {
   final BuiltList<Reference> types;
   @override
   final BuiltList<Expression> arguments;
+  @override
+  final BuiltMap<String, Expression> namedArguments;
 
   factory _$EnumValue([void Function(EnumValueBuilder)? updates]) =>
       (new EnumValueBuilder()..update(updates)).build() as _$EnumValue;
@@ -341,7 +343,8 @@ class _$EnumValue extends EnumValue {
       required this.docs,
       this.constructorName,
       required this.types,
-      required this.arguments})
+      required this.arguments,
+      required this.namedArguments})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(name, r'EnumValue', 'name');
     BuiltValueNullFieldError.checkNotNull(
@@ -349,6 +352,8 @@ class _$EnumValue extends EnumValue {
     BuiltValueNullFieldError.checkNotNull(docs, r'EnumValue', 'docs');
     BuiltValueNullFieldError.checkNotNull(types, r'EnumValue', 'types');
     BuiltValueNullFieldError.checkNotNull(arguments, r'EnumValue', 'arguments');
+    BuiltValueNullFieldError.checkNotNull(
+        namedArguments, r'EnumValue', 'namedArguments');
   }
 
   @override
@@ -367,7 +372,8 @@ class _$EnumValue extends EnumValue {
         docs == other.docs &&
         constructorName == other.constructorName &&
         types == other.types &&
-        arguments == other.arguments;
+        arguments == other.arguments &&
+        namedArguments == other.namedArguments;
   }
 
   @override
@@ -379,6 +385,7 @@ class _$EnumValue extends EnumValue {
     _$hash = $jc(_$hash, constructorName.hashCode);
     _$hash = $jc(_$hash, types.hashCode);
     _$hash = $jc(_$hash, arguments.hashCode);
+    _$hash = $jc(_$hash, namedArguments.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -391,7 +398,8 @@ class _$EnumValue extends EnumValue {
           ..add('docs', docs)
           ..add('constructorName', constructorName)
           ..add('types', types)
-          ..add('arguments', arguments))
+          ..add('arguments', arguments)
+          ..add('namedArguments', namedArguments))
         .toString();
   }
 }
@@ -471,6 +479,18 @@ class _$EnumValueBuilder extends EnumValueBuilder {
     super.arguments = arguments;
   }
 
+  @override
+  MapBuilder<String, Expression> get namedArguments {
+    _$this;
+    return super.namedArguments;
+  }
+
+  @override
+  set namedArguments(MapBuilder<String, Expression> namedArguments) {
+    _$this;
+    super.namedArguments = namedArguments;
+  }
+
   _$EnumValueBuilder() : super._();
 
   EnumValueBuilder get _$this {
@@ -482,6 +502,7 @@ class _$EnumValueBuilder extends EnumValueBuilder {
       super.constructorName = $v.constructorName;
       super.types = $v.types.toBuilder();
       super.arguments = $v.arguments.toBuilder();
+      super.namedArguments = $v.namedArguments.toBuilder();
       _$v = null;
     }
     return this;
@@ -512,7 +533,8 @@ class _$EnumValueBuilder extends EnumValueBuilder {
               docs: docs.build(),
               constructorName: constructorName,
               types: types.build(),
-              arguments: arguments.build());
+              arguments: arguments.build(),
+              namedArguments: namedArguments.build());
     } catch (_) {
       late String _$failedField;
       try {
@@ -525,6 +547,8 @@ class _$EnumValueBuilder extends EnumValueBuilder {
         types.build();
         _$failedField = 'arguments';
         arguments.build();
+        _$failedField = 'namedArguments';
+        namedArguments.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             r'EnumValue', _$failedField, e.toString());

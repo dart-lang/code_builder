@@ -381,4 +381,62 @@ void main() {
     }
     '''));
   });
+
+  test('should create an enum which named and unnamed constructor parameters',
+      () {
+    final myEnum = Enum((b) => b
+      ..name = 'MyEnum'
+      ..constructors.add(Constructor((c) => c
+        ..constant = true
+        ..requiredParameters.addAll([
+          Parameter((p) => p
+            ..toThis = true
+            ..name = 'myInt')
+        ])
+        ..optionalParameters.addAll([
+          Parameter((p) => p
+            ..toThis = true
+            ..named = true
+            ..required = true
+            ..name = 'myString')
+        ])))
+      ..fields.addAll([
+        Field((f) => f
+          ..modifier = FieldModifier.final$
+          ..type = refer('int?')
+          ..name = 'myInt'),
+        Field((f) => f
+          ..modifier = FieldModifier.final$
+          ..type = refer('String?')
+          ..name = 'myString')
+      ])
+      ..values.addAll([
+        EnumValue((v) => v..name = 'a'),
+        EnumValue((v) => v
+          ..name = 'b'
+          ..arguments.addAll([
+            literalNum(1),
+          ])
+          ..namedArguments.addAll({
+            'myString': literalString('abc'),
+          })),
+        EnumValue((v) => v..name = 'c'),
+      ]));
+    expect(myEnum, equalsDart('''
+    enum MyEnum {
+      a,
+      b(1, myString: 'abc'),
+      c;
+
+      const MyEnum(
+          this.myInt,
+          {required this.myString, }
+      );
+
+      final int? myInt;
+
+      final String? myString;
+    }
+    '''));
+  });
 }

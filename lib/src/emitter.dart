@@ -800,8 +800,9 @@ class DartEmitter extends Object
         out.write('.${v.constructorName}');
       }
       visitTypeParameters(v.types.map((r) => r.type), out);
-      final takesArguments =
-          v.constructorName != null || v.arguments.isNotEmpty;
+      final takesArguments = v.constructorName != null ||
+          v.arguments.isNotEmpty ||
+          v.namedArguments.isNotEmpty;
       if (takesArguments) {
         out.write('(');
       }
@@ -809,6 +810,15 @@ class DartEmitter extends Object
         out.writeAll(
             v.arguments.map<StringSink>((arg) => arg.accept(this)), ', ');
       }
+      if (v.arguments.isNotEmpty && v.namedArguments.isNotEmpty) {
+        out.write(', ');
+      }
+      visitAll<String>(v.namedArguments.keys, out, (name) {
+        out
+          ..write(name)
+          ..write(': ');
+        v.namedArguments[name]!.accept(this, out);
+      });
       if (takesArguments) {
         out.write(')');
       }
