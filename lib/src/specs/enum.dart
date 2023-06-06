@@ -105,6 +105,9 @@ abstract class EnumValue extends Object
 
   /// Arguments to the constructor.
   BuiltList<Expression> get arguments;
+
+  /// Named arguments to the constructor.
+  BuiltMap<String, Expression> get namedArguments;
 }
 
 abstract class EnumValueBuilder extends Object
@@ -130,4 +133,7 @@ abstract class EnumValueBuilder extends Object
 
   /// Arguments to the constructor.
   ListBuilder<Expression> arguments = ListBuilder();
+
+  /// Named arguments to the constructor.
+  MapBuilder<String, Expression> namedArguments = MapBuilder();
 }
