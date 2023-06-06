@@ -1,4 +1,4 @@
-## 4.6.0-dev
+## 4.6.0-wip
 
 * Add support for named arguments in `enum` classes
 
