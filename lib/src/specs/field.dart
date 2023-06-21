@@ -41,6 +41,9 @@ abstract class Field extends Object
   /// Whether this field should be prefixed with `late`.
   bool get late;
 
+  /// Whether the field should be prefixed with `external`.
+  bool get external;
+
   /// Name of the field.
   String get name;
 
@@ -50,9 +53,9 @@ abstract class Field extends Object
 
   @override
   R accept<R>(
-    SpecVisitor<R> visitor, [
-    R? context,
-  ]) =>
+      SpecVisitor<R> visitor, [
+        R? context,
+      ]) =>
       visitor.visitField(this, context);
 }
 
@@ -85,6 +88,9 @@ abstract class FieldBuilder extends Object
 
   /// Whether this field should be prefixed with `late`.
   bool late = false;
+
+  /// Whether the field should be prefixed with `external`.
+  bool external = false;
 
   /// Name of the field.
   String? name;

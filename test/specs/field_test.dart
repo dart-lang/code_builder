@@ -96,4 +96,20 @@ void main() {
       '''),
     );
   });
+
+  test('should create a external field', () {
+    expect(
+      Field((b) => b
+        ..name = 'value'
+        ..external = true
+        ..type = refer('double')
+        ..annotations.addAll([
+          refer('Float').call([])
+        ])),
+      equalsDart(r'''
+        @Float()
+        external double value;
+      '''),
+    );
+  });
 }
