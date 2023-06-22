@@ -28,11 +28,11 @@ import 'visitors.dart';
 ///
 /// If [elements] is at least 2 elements, inserts [separator] delimiting them.
 StringSink visitAll<T>(
-    Iterable<T> elements,
-    StringSink output,
-    void Function(T) visit, [
-      String separator = ', ',
-    ]) {
+  Iterable<T> elements,
+  StringSink output,
+  void Function(T) visit, [
+  String separator = ', ',
+]) {
   // Basically, this whole method is an improvement on
   //   output.writeAll(specs.map((s) => s.accept(visitor));
   //
@@ -77,13 +77,13 @@ class DartEmitter extends Object
   /// not automatically emit import directives.
   DartEmitter(
       {this.allocator = Allocator.none,
-        this.orderDirectives = false,
-        bool useNullSafetySyntax = false})
+      this.orderDirectives = false,
+      bool useNullSafetySyntax = false})
       : _useNullSafetySyntax = useNullSafetySyntax;
 
   /// Creates a new instance of [DartEmitter] with simple automatic imports.
   factory DartEmitter.scoped(
-      {bool orderDirectives = false, bool useNullSafetySyntax = false}) =>
+          {bool orderDirectives = false, bool useNullSafetySyntax = false}) =>
       DartEmitter(
           allocator: Allocator.simplePrefixing(),
           orderDirectives: orderDirectives,
@@ -99,7 +99,7 @@ class DartEmitter extends Object
   /// Whether the provided [constructor] is considered a lambda method.
   static bool _isLambdaConstructor(Constructor constructor) =>
       constructor.lambda ??
-          constructor.factory && _isLambdaBody(constructor.body);
+      constructor.factory && _isLambdaBody(constructor.body);
 
   @override
   StringSink visitAnnotation(Expression spec, [StringSink? output]) {
@@ -502,9 +502,9 @@ class DartEmitter extends Object
     }
     out.write('(');
     final needsTrailingComma = spec.requiredParameters.length +
-        spec.optionalParameters.length +
-        spec.namedRequiredParameters.length +
-        spec.namedParameters.length >
+            spec.optionalParameters.length +
+            spec.namedRequiredParameters.length +
+            spec.namedParameters.length >
         1;
     visitAll<Reference>(spec.requiredParameters, out, (spec) {
       spec.accept(this, out);
@@ -569,10 +569,10 @@ class DartEmitter extends Object
       }
       out.write('{');
       visitAll<MapEntry<String, Reference>>(spec.namedFieldTypes.entries, out,
-              (entry) {
-            entry.value.accept(this, out);
-            out.write(' ${entry.key}');
-          });
+          (entry) {
+        entry.value.accept(this, out);
+        out.write(' ${entry.key}');
+      });
       out.write('}');
     } else if (spec.positionalFieldTypes.length == 1) {
       out.write(',');
@@ -701,11 +701,11 @@ class DartEmitter extends Object
 
   // Expose as a first-class visit function only if needed.
   void _visitParameter(
-      Parameter spec,
-      StringSink output, {
-        bool optional = false,
-        bool named = false,
-      }) {
+    Parameter spec,
+    StringSink output, {
+    bool optional = false,
+    bool named = false,
+  }) {
     spec.docs.forEach(output.writeln);
     for (var a in spec.annotations) {
       visitAnnotation(a, output);

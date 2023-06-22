@@ -31,14 +31,14 @@ class _$Field extends Field {
 
   _$Field._(
       {required this.annotations,
-        required this.docs,
-        this.assignment,
-        required this.static,
-        required this.late,
-        required this.external,
-        required this.name,
-        this.type,
-        required this.modifier})
+      required this.docs,
+      this.assignment,
+      required this.static,
+      required this.late,
+      required this.external,
+      required this.name,
+      this.type,
+      required this.modifier})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(annotations, r'Field', 'annotations');
     BuiltValueNullFieldError.checkNotNull(docs, r'Field', 'docs');
@@ -90,15 +90,15 @@ class _$Field extends Field {
   @override
   String toString() {
     return (newBuiltValueToStringHelper(r'Field')
-      ..add('annotations', annotations)
-      ..add('docs', docs)
-      ..add('assignment', assignment)
-      ..add('static', static)
-      ..add('late', late)
-      ..add('external', external)
-      ..add('name', name)
-      ..add('type', type)
-      ..add('modifier', modifier))
+          ..add('annotations', annotations)
+          ..add('docs', docs)
+          ..add('assignment', assignment)
+          ..add('static', static)
+          ..add('late', late)
+          ..add('external', external)
+          ..add('name', name)
+          ..add('type', type)
+          ..add('modifier', modifier))
         .toString();
   }
 }
@@ -258,11 +258,11 @@ class _$FieldBuilder extends FieldBuilder {
               static: BuiltValueNullFieldError.checkNotNull(
                   static, r'Field', 'static'),
               late:
-              BuiltValueNullFieldError.checkNotNull(late, r'Field', 'late'),
+                  BuiltValueNullFieldError.checkNotNull(late, r'Field', 'late'),
               external: BuiltValueNullFieldError.checkNotNull(
                   external, r'Field', 'external'),
               name:
-              BuiltValueNullFieldError.checkNotNull(name, r'Field', 'name'),
+                  BuiltValueNullFieldError.checkNotNull(name, r'Field', 'name'),
               type: type,
               modifier: BuiltValueNullFieldError.checkNotNull(
                   modifier, r'Field', 'modifier'));

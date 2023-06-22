@@ -53,9 +53,9 @@ abstract class Field extends Object
 
   @override
   R accept<R>(
-      SpecVisitor<R> visitor, [
-        R? context,
-      ]) =>
+    SpecVisitor<R> visitor, [
+    R? context,
+  ]) =>
       visitor.visitField(this, context);
 }
 

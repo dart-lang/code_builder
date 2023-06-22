@@ -103,9 +103,7 @@ void main() {
         ..name = 'value'
         ..external = true
         ..type = refer('double')
-        ..annotations.addAll([
-          refer('Float').call([])
-        ])),
+        ..annotations.addAll([refer('Float').call([])])),
       equalsDart(r'''
         @Float()
         external double value;
