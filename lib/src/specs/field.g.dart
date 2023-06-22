@@ -18,6 +18,8 @@ class _$Field extends Field {
   @override
   final bool late;
   @override
+  final bool external;
+  @override
   final String name;
   @override
   final Reference? type;
@@ -33,6 +35,7 @@ class _$Field extends Field {
       this.assignment,
       required this.static,
       required this.late,
+      required this.external,
       required this.name,
       this.type,
       required this.modifier})
@@ -41,6 +44,7 @@ class _$Field extends Field {
     BuiltValueNullFieldError.checkNotNull(docs, r'Field', 'docs');
     BuiltValueNullFieldError.checkNotNull(static, r'Field', 'static');
     BuiltValueNullFieldError.checkNotNull(late, r'Field', 'late');
+    BuiltValueNullFieldError.checkNotNull(external, r'Field', 'external');
     BuiltValueNullFieldError.checkNotNull(name, r'Field', 'name');
     BuiltValueNullFieldError.checkNotNull(modifier, r'Field', 'modifier');
   }
@@ -61,6 +65,7 @@ class _$Field extends Field {
         assignment == other.assignment &&
         static == other.static &&
         late == other.late &&
+        external == other.external &&
         name == other.name &&
         type == other.type &&
         modifier == other.modifier;
@@ -74,6 +79,7 @@ class _$Field extends Field {
     _$hash = $jc(_$hash, assignment.hashCode);
     _$hash = $jc(_$hash, static.hashCode);
     _$hash = $jc(_$hash, late.hashCode);
+    _$hash = $jc(_$hash, external.hashCode);
     _$hash = $jc(_$hash, name.hashCode);
     _$hash = $jc(_$hash, type.hashCode);
     _$hash = $jc(_$hash, modifier.hashCode);
@@ -89,6 +95,7 @@ class _$Field extends Field {
           ..add('assignment', assignment)
           ..add('static', static)
           ..add('late', late)
+          ..add('external', external)
           ..add('name', name)
           ..add('type', type)
           ..add('modifier', modifier))
@@ -160,6 +167,18 @@ class _$FieldBuilder extends FieldBuilder {
   }
 
   @override
+  bool get external {
+    _$this;
+    return super.external;
+  }
+
+  @override
+  set external(bool external) {
+    _$this;
+    super.external = external;
+  }
+
+  @override
   String? get name {
     _$this;
     return super.name;
@@ -205,6 +224,7 @@ class _$FieldBuilder extends FieldBuilder {
       super.assignment = $v.assignment;
       super.static = $v.static;
       super.late = $v.late;
+      super.external = $v.external;
       super.name = $v.name;
       super.type = $v.type;
       super.modifier = $v.modifier;
@@ -239,6 +259,8 @@ class _$FieldBuilder extends FieldBuilder {
                   static, r'Field', 'static'),
               late:
                   BuiltValueNullFieldError.checkNotNull(late, r'Field', 'late'),
+              external: BuiltValueNullFieldError.checkNotNull(
+                  external, r'Field', 'external'),
               name:
                   BuiltValueNullFieldError.checkNotNull(name, r'Field', 'name'),
               type: type,
