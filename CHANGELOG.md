@@ -1,10 +1,7 @@
-## 4.7.0
-
-* Add support of external keyword for fieldBuilder
-
 ## 4.6.0-wip
 
 * Add support for named arguments in `enum` classes
+* Add support for external keyword on fields.
 
 ## 4.5.0
 
