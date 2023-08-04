@@ -731,4 +731,13 @@ void main() {
             .assign(refer('bar')),
         equalsDart('late String foo = bar'));
   });
+
+  test('should emit a perenthesized epression', () {
+    expect(
+        refer('foo').ifNullThen(refer('FormatException')
+            .newInstance([literalString('missing foo')])
+            .thrown
+            .parenthesized),
+        equalsDart('foo ?? (throw FormatException(\'missing foo\'))'));
+  });
 }
