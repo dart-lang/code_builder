@@ -2,6 +2,7 @@
 
 * Add support for named arguments in `enum` classes
 * Add support for external keyword on fields.
+* Add `Expression.parenthesized` to manually wrap an expression in parenthesis.
 
 ## 4.5.0
 

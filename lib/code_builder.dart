@@ -25,6 +25,7 @@ export 'src/specs/expression.dart'
         InvokeExpressionType,
         LiteralExpression,
         LiteralListExpression,
+        ParenthesizedExpression,
         ToCodeExpression,
         declareConst,
         declareFinal,

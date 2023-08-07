@@ -331,6 +331,9 @@ abstract class Expression implements Spec {
   /// May be overridden to support other types implementing [Expression].
   @visibleForOverriding
   Expression get expression => this;
+
+  /// Returns this expression wrapped in parenthesis.
+  ParenthesizedExpression get parenthesized => ParenthesizedExpression._(this);
 }
 
 /// Declare a const variable named [variableName].
