@@ -1,3 +1,33 @@
+## 4.7.0-dev
+
+* Add `Expression.operatorSubtract`
+* Deprecate `Expression.operatorSubstract`
+* Add `Expression.operatorIntDivide`
+* Add `Expression.operatorUnaryPrefixIncrement`
+* Add `Expression.operatorUnaryPostfixIncrement`
+* Add `Expression.operatorUnaryMinus`
+* Add `Expression.operatorUnaryPrefixDecrement`
+* Add `Expression.operatorUnaryPostfixDecrement`
+* Add `Expression.operatorBitwiseAnd`
+* Add `Expression.operatorBitwiseOr`
+* Add `Expression.operatorBitwiseXor`
+* Add `Expression.operatorUnaryBitwiseComplement`
+* Add `Expression.operatorShiftLeft`
+* Add `Expression.operatorShiftRight`
+* Add `Expression.operatorShiftRightUnsigned`
+* Add `Expression.assignAdd`
+* Add `Expression.assignSubtract`
+* Add `Expression.assignMultiply`
+* Add `Expression.assignDivide`
+* Add `Expression.assignIntDivide`
+* Add `Expression.assignEuclideanModulo`
+* Add `Expression.assignShiftLeft`
+* Add `Expression.assignShiftRight`
+* Add `Expression.assignShiftRightUnsigned`
+* Add `Expression.assignBitwiseAnd`
+* Add `Expression.assignBitwiseXor`
+* Add `Expression.assignBitwiseOr`
+
 ## 4.6.0
 
 * Add support for named arguments in `enum` classes
