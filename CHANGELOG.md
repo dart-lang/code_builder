@@ -1,4 +1,4 @@
-## 4.6.0-wip
+## 4.6.0
 
 * Add support for named arguments in `enum` classes
 * Add support for external keyword on fields.
