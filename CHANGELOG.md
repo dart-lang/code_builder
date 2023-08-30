@@ -1,4 +1,4 @@
-## 4.7.0-dev
+## 4.7.0-wip
 
 * Add `Expression.operatorSubtract`
 * Deprecate `Expression.operatorSubstract`
