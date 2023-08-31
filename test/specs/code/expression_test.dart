@@ -670,7 +670,7 @@ void main() {
         refer('foo').operatorMultiply(refer('foo2')), equalsDart('foo * foo2'));
   });
 
-  test('should emit an operator euclidean modulo call', () {
+  test('should emit an euclidean modulo operator call', () {
     expect(refer('foo').operatorEuclideanModulo(refer('foo2')),
         equalsDart('foo % foo2'));
   });
