@@ -666,81 +666,81 @@ void main() {
         refer('foo').operatorMultiply(refer('foo2')), equalsDart('foo * foo2'));
   });
 
-  test('should emit an euclidean modulo operator call', () {
+  test('should emit an operator euclidean modulo call', () {
     expect(refer('foo').operatorEuclideanModulo(refer('foo2')),
         equalsDart('foo % foo2'));
   });
 
-  test('should emit an int divide operator call', () {
+  test('should emit an operator int divide call', () {
     expect(
       refer('foo').operatorIntDivide(refer('foo2')),
       equalsDart('foo ~/ foo2'),
     );
   });
 
-  test('should emit an unary prefix increment operator call', () {
+  test('should emit an operator unary prefix increment call', () {
     expect(refer('foo').operatorUnaryPrefixIncrement(), equalsDart('++foo'));
   });
 
-  test('should emit an unary postfix increment operator call', () {
+  test('should emit an operator unary postfix increment call', () {
     expect(refer('foo').operatorUnaryPostfixIncrement(), equalsDart('foo++'));
   });
 
-  test('should emit an unary prefix minus operator call', () {
+  test('should emit an operator unary prefix minus call', () {
     expect(refer('foo').operatorUnaryMinus(), equalsDart('-foo'));
   });
 
-  test('should emit an unary prefix decrement operator call', () {
+  test('should emit an operator unary prefix decrement call', () {
     expect(refer('foo').operatorUnaryPrefixDecrement(), equalsDart('--foo'));
   });
 
-  test('should emit an unary postfix decrement operator call', () {
+  test('should emit an operator unary postfix decrement call', () {
     expect(refer('foo').operatorUnaryPostfixDecrement(), equalsDart('foo--'));
   });
 
-  test('should emit a bitwise and operator call', () {
+  test('should emit an operator bitwise and call', () {
     expect(
       refer('foo').operatorBitwiseAnd(refer('foo2')),
       equalsDart('foo & foo2'),
     );
   });
 
-  test('should emit a bitwise or operator call', () {
+  test('should emit an operator bitwise or call', () {
     expect(
       refer('foo').operatorBitwiseOr(refer('foo2')),
       equalsDart('foo | foo2'),
     );
   });
 
-  test('should emit a bitwise xor operator call', () {
+  test('should emit an operator bitwise xor call', () {
     expect(
       refer('foo').operatorBitwiseXor(refer('foo2')),
       equalsDart('foo ^ foo2'),
     );
   });
 
-  test('should emit a unary bitwise complement operator call', () {
+  test('should emit an operator unary bitwise complement call', () {
     expect(
       refer('foo').operatorUnaryBitwiseComplement(),
       equalsDart('~foo'),
     );
   });
 
-  test('should emit a shift left operator call', () {
+  test('should emit an operator shift left call', () {
     expect(
       refer('foo').operatorShiftLeft(refer('foo2')),
       equalsDart('foo << foo2'),
     );
   });
 
-  test('should emit a shift right operator call', () {
+  test('should emit an operator shift right call', () {
     expect(
       refer('foo').operatorShiftRight(refer('foo2')),
       equalsDart('foo >> foo2'),
     );
   });
 
-  test('should emit a shift right unsigned operator call', () {
+  test('should emit an operator shift right unsigned call', () {
     expect(
       refer('foo').operatorShiftRightUnsigned(refer('foo2')),
       equalsDart('foo >>> foo2'),
@@ -826,21 +826,21 @@ void main() {
     );
   });
 
-  test('should emit an subtraction assigment expression', () {
+  test('should emit a subtraction assigment expression', () {
     expect(
       refer('foo').assignSubtract(refer('bar')),
       equalsDart('foo -= bar'),
     );
   });
 
-  test('should emit an multiplication assigment expression', () {
+  test('should emit a multiplication assigment expression', () {
     expect(
       refer('foo').assignMultiply(refer('bar')),
       equalsDart('foo *= bar'),
     );
   });
 
-  test('should emit an division assigment expression', () {
+  test('should emit a division assigment expression', () {
     expect(
       refer('foo').assignDivide(refer('bar')),
       equalsDart('foo /= bar'),
@@ -854,49 +854,49 @@ void main() {
     );
   });
 
-  test('should emit an euclidean modulo assigment expression', () {
+  test('should emit a euclidean modulo assigment expression', () {
     expect(
       refer('foo').assignEuclideanModulo(refer('bar')),
       equalsDart('foo %= bar'),
     );
   });
 
-  test('should emit an shift left assigment expression', () {
+  test('should emit a shift left assigment expression', () {
     expect(
       refer('foo').assignShiftLeft(refer('bar')),
       equalsDart('foo <<= bar'),
     );
   });
 
-  test('should emit an shift right assigment expression', () {
+  test('should emit a shift right assigment expression', () {
     expect(
       refer('foo').assignShiftRight(refer('bar')),
       equalsDart('foo >>= bar'),
     );
   });
 
-  test('should emit an shift right unsigned assigment expression', () {
+  test('should emit a shift right unsigned assigment expression', () {
     expect(
       refer('foo').assignShiftRightUnsigned(refer('bar')),
       equalsDart('foo >>>= bar'),
     );
   });
 
-  test('should emit an bitwise and assigment expression', () {
+  test('should emit a bitwise and assigment expression', () {
     expect(
       refer('foo').assignBitwiseAnd(refer('bar')),
       equalsDart('foo &= bar'),
     );
   });
 
-  test('should emit an bitwise xor assigment expression', () {
+  test('should emit a bitwise xor assigment expression', () {
     expect(
       refer('foo').assignBitwiseXor(refer('bar')),
       equalsDart('foo ^= bar'),
     );
   });
 
-  test('should emit an bitwise or assigment expression', () {
+  test('should emit a bitwise or assigment expression', () {
     expect(
       refer('foo').assignBitwiseOr(refer('bar')),
       equalsDart('foo |= bar'),
