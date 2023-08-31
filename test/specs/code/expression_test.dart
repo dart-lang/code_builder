@@ -650,6 +650,9 @@ void main() {
   });
 
   test('should emit an operator subtract call', () {
+    expect(refer('foo').operatorSubstract(refer('foo2')),
+        equalsDart('foo - foo2'));
+
     expect(
       refer('foo').operatorSubtract(refer('foo2')),
       equalsDart('foo - foo2'),
