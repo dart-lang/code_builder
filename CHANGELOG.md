@@ -1,6 +1,6 @@
 ## 4.7.0
 
-* Add newline after lambdas.
+* Add a newline after lambdas.
 
 ## 4.6.0
 
