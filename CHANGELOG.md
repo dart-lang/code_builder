@@ -1,3 +1,7 @@
+## 4.7.0
+
+* Add a newline after lambdas.
+
 ## 4.6.0
 
 * Add support for named arguments in `enum` classes
