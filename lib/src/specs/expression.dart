@@ -13,15 +13,10 @@ import 'reference.dart';
 import 'type_function.dart';
 
 part 'expression/binary.dart';
-
 part 'expression/closure.dart';
-
 part 'expression/code.dart';
-
 part 'expression/invoke.dart';
-
 part 'expression/literal.dart';
-
 part 'expression/parenthesized.dart';
 
 /// Represents a [code] block that wraps an [Expression].
