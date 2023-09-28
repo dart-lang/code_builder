@@ -825,84 +825,84 @@ void main() {
 
   test('should emit an addition assigment expression', () {
     expect(
-      refer('foo').assignAdd(refer('bar')),
+      refer('foo').addAssign(refer('bar')),
       equalsDart('foo += bar'),
     );
   });
 
   test('should emit a subtraction assigment expression', () {
     expect(
-      refer('foo').assignSubtract(refer('bar')),
+      refer('foo').subtractAssign(refer('bar')),
       equalsDart('foo -= bar'),
     );
   });
 
   test('should emit a multiplication assigment expression', () {
     expect(
-      refer('foo').assignMultiply(refer('bar')),
+      refer('foo').multiplyAssign(refer('bar')),
       equalsDart('foo *= bar'),
     );
   });
 
   test('should emit a division assigment expression', () {
     expect(
-      refer('foo').assignDivide(refer('bar')),
+      refer('foo').divideAssign(refer('bar')),
       equalsDart('foo /= bar'),
     );
   });
 
   test('should emit an int division assigment expression', () {
     expect(
-      refer('foo').assignIntDivide(refer('bar')),
+      refer('foo').intDivideAssign(refer('bar')),
       equalsDart('foo ~/= bar'),
     );
   });
 
   test('should emit a euclidean modulo assigment expression', () {
     expect(
-      refer('foo').assignEuclideanModulo(refer('bar')),
+      refer('foo').euclideanModuloAssign(refer('bar')),
       equalsDart('foo %= bar'),
     );
   });
 
   test('should emit a shift left assigment expression', () {
     expect(
-      refer('foo').assignShiftLeft(refer('bar')),
+      refer('foo').shiftLeftAssign(refer('bar')),
       equalsDart('foo <<= bar'),
     );
   });
 
   test('should emit a shift right assigment expression', () {
     expect(
-      refer('foo').assignShiftRight(refer('bar')),
+      refer('foo').shiftRightAssign(refer('bar')),
       equalsDart('foo >>= bar'),
     );
   });
 
   test('should emit a shift right unsigned assigment expression', () {
     expect(
-      refer('foo').assignShiftRightUnsigned(refer('bar')),
+      refer('foo').shiftRightUnsignedAssign(refer('bar')),
       equalsDart('foo >>>= bar'),
     );
   });
 
   test('should emit a bitwise AND assigment expression', () {
     expect(
-      refer('foo').assignBitwiseAnd(refer('bar')),
+      refer('foo').bitwiseAndAssign(refer('bar')),
       equalsDart('foo &= bar'),
     );
   });
 
   test('should emit a bitwise XOR assigment expression', () {
     expect(
-      refer('foo').assignBitwiseXor(refer('bar')),
+      refer('foo').bitwiseXorAssign(refer('bar')),
       equalsDart('foo ^= bar'),
     );
   });
 
   test('should emit a bitwise OR assigment expression', () {
     expect(
-      refer('foo').assignBitwiseOr(refer('bar')),
+      refer('foo').bitwiseOrAssign(refer('bar')),
       equalsDart('foo |= bar'),
     );
   });

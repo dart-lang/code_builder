@@ -15,18 +15,18 @@
 * Add `Expression.operatorShiftLeft`
 * Add `Expression.operatorShiftRight`
 * Add `Expression.operatorShiftRightUnsigned`
-* Add `Expression.assignAdd`
-* Add `Expression.assignSubtract`
-* Add `Expression.assignMultiply`
-* Add `Expression.assignDivide`
-* Add `Expression.assignIntDivide`
-* Add `Expression.assignEuclideanModulo`
-* Add `Expression.assignShiftLeft`
-* Add `Expression.assignShiftRight`
-* Add `Expression.assignShiftRightUnsigned`
-* Add `Expression.assignBitwiseAnd`
-* Add `Expression.assignBitwiseXor`
-* Add `Expression.assignBitwiseOr`
+* Add `Expression.addAssign`
+* Add `Expression.subtractAssign`
+* Add `Expression.multiplyAssign`
+* Add `Expression.divideAssign`
+* Add `Expression.intDivideAssign`
+* Add `Expression.euclideanModuloAssign`
+* Add `Expression.shiftLeftAssign`
+* Add `Expression.shiftRightAssign`
+* Add `Expression.shiftRightUnsignedAssign`
+* Add `Expression.bitwiseAndAssign`
+* Add `Expression.bitwiseXorAssign`
+* Add `Expression.bitwiseOrAssign`
 
 ## 4.7.0
 

@@ -13,10 +13,15 @@ import 'reference.dart';
 import 'type_function.dart';
 
 part 'expression/binary.dart';
+
 part 'expression/closure.dart';
+
 part 'expression/code.dart';
+
 part 'expression/invoke.dart';
+
 part 'expression/literal.dart';
+
 part 'expression/parenthesized.dart';
 
 /// Represents a [code] block that wraps an [Expression].
@@ -248,51 +253,51 @@ abstract class Expression implements Spec {
       BinaryExpression._(this, other, '=', isConst: isConst);
 
   /// Return `this` += [other].
-  Expression assignAdd(Expression other) =>
+  Expression addAssign(Expression other) =>
       BinaryExpression._(this, other, '+=');
 
   /// Return `this` -= [other].
-  Expression assignSubtract(Expression other) =>
+  Expression subtractAssign(Expression other) =>
       BinaryExpression._(this, other, '-=');
 
   /// Return `this` *= [other].
-  Expression assignMultiply(Expression other) =>
+  Expression multiplyAssign(Expression other) =>
       BinaryExpression._(this, other, '*=');
 
   /// Return `this` /= [other].
-  Expression assignDivide(Expression other) =>
+  Expression divideAssign(Expression other) =>
       BinaryExpression._(this, other, '/=');
 
   /// Return `this` ~/= [other].
-  Expression assignIntDivide(Expression other) =>
+  Expression intDivideAssign(Expression other) =>
       BinaryExpression._(this, other, '~/=');
 
   /// Return `this` %= [other].
-  Expression assignEuclideanModulo(Expression other) =>
+  Expression euclideanModuloAssign(Expression other) =>
       BinaryExpression._(this, other, '%=');
 
   /// Return `this` <<= [other].
-  Expression assignShiftLeft(Expression other) =>
+  Expression shiftLeftAssign(Expression other) =>
       BinaryExpression._(this, other, '<<=');
 
   /// Return `this` >>= [other].
-  Expression assignShiftRight(Expression other) =>
+  Expression shiftRightAssign(Expression other) =>
       BinaryExpression._(this, other, '>>=');
 
   /// Return `this` >>>= [other].
-  Expression assignShiftRightUnsigned(Expression other) =>
+  Expression shiftRightUnsignedAssign(Expression other) =>
       BinaryExpression._(this, other, '>>>=');
 
   /// Return `this` &= [other].
-  Expression assignBitwiseAnd(Expression other) =>
+  Expression bitwiseAndAssign(Expression other) =>
       BinaryExpression._(this, other, '&=');
 
   /// Return `this` ^= [other].
-  Expression assignBitwiseXor(Expression other) =>
+  Expression bitwiseXorAssign(Expression other) =>
       BinaryExpression._(this, other, '^=');
 
   /// Return `this` |= [other].
-  Expression assignBitwiseOr(Expression other) =>
+  Expression bitwiseOrAssign(Expression other) =>
       BinaryExpression._(this, other, '|=');
 
   /// Return `{this} ?? {other}`.
@@ -509,16 +514,26 @@ class ToCodeExpression implements Code {
 /// **INTERNAL ONLY**.
 abstract class ExpressionVisitor<T> implements SpecVisitor<T> {
   T visitToCodeExpression(ToCodeExpression code, [T? context]);
+
   T visitBinaryExpression(BinaryExpression expression, [T? context]);
+
   T visitClosureExpression(ClosureExpression expression, [T? context]);
+
   T visitCodeExpression(CodeExpression expression, [T? context]);
+
   T visitInvokeExpression(InvokeExpression expression, [T? context]);
+
   T visitLiteralExpression(LiteralExpression expression, [T? context]);
+
   T visitLiteralListExpression(LiteralListExpression expression, [T? context]);
+
   T visitLiteralSetExpression(LiteralSetExpression expression, [T? context]);
+
   T visitLiteralMapExpression(LiteralMapExpression expression, [T? context]);
+
   T visitLiteralRecordExpression(LiteralRecordExpression expression,
       [T? context]);
+
   T visitParenthesizedExpression(ParenthesizedExpression expression,
       [T? context]);
 }
