@@ -1,4 +1,4 @@
-## 4.7.0-wip
+## 4.8.0-wip
 
 * Add `Expression.operatorSubtract`
 * Deprecate `Expression.operatorSubstract`
@@ -27,6 +27,10 @@
 * Add `Expression.assignBitwiseAnd`
 * Add `Expression.assignBitwiseXor`
 * Add `Expression.assignBitwiseOr`
+
+## 4.7.0
+
+* Add a newline after lambdas.
 
 ## 4.6.0
 
