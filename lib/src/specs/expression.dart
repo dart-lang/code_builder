@@ -514,26 +514,16 @@ class ToCodeExpression implements Code {
 /// **INTERNAL ONLY**.
 abstract class ExpressionVisitor<T> implements SpecVisitor<T> {
   T visitToCodeExpression(ToCodeExpression code, [T? context]);
-
   T visitBinaryExpression(BinaryExpression expression, [T? context]);
-
   T visitClosureExpression(ClosureExpression expression, [T? context]);
-
   T visitCodeExpression(CodeExpression expression, [T? context]);
-
   T visitInvokeExpression(InvokeExpression expression, [T? context]);
-
   T visitLiteralExpression(LiteralExpression expression, [T? context]);
-
   T visitLiteralListExpression(LiteralListExpression expression, [T? context]);
-
   T visitLiteralSetExpression(LiteralSetExpression expression, [T? context]);
-
   T visitLiteralMapExpression(LiteralMapExpression expression, [T? context]);
-
   T visitLiteralRecordExpression(LiteralRecordExpression expression,
       [T? context]);
-
   T visitParenthesizedExpression(ParenthesizedExpression expression,
       [T? context]);
 }
