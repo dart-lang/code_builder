@@ -1,3 +1,33 @@
+## 4.8.0-wip
+
+* Add `Expression.operatorSubtract`
+* Deprecate `Expression.operatorSubstract`
+* Add `Expression.operatorIntDivide`
+* Add `Expression.operatorUnaryPrefixIncrement`
+* Add `Expression.operatorUnaryPostfixIncrement`
+* Add `Expression.operatorUnaryMinus`
+* Add `Expression.operatorUnaryPrefixDecrement`
+* Add `Expression.operatorUnaryPostfixDecrement`
+* Add `Expression.operatorBitwiseAnd`
+* Add `Expression.operatorBitwiseOr`
+* Add `Expression.operatorBitwiseXor`
+* Add `Expression.operatorUnaryBitwiseComplement`
+* Add `Expression.operatorShiftLeft`
+* Add `Expression.operatorShiftRight`
+* Add `Expression.operatorShiftRightUnsigned`
+* Add `Expression.addAssign`
+* Add `Expression.subtractAssign`
+* Add `Expression.multiplyAssign`
+* Add `Expression.divideAssign`
+* Add `Expression.intDivideAssign`
+* Add `Expression.euclideanModuloAssign`
+* Add `Expression.shiftLeftAssign`
+* Add `Expression.shiftRightAssign`
+* Add `Expression.shiftRightUnsignedAssign`
+* Add `Expression.bitwiseAndAssign`
+* Add `Expression.bitwiseXorAssign`
+* Add `Expression.bitwiseOrAssign`
+
 ## 4.7.0
 
 * Add a newline after lambdas.

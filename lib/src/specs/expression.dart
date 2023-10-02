@@ -147,12 +147,14 @@ abstract class Expression implements Spec {
       );
 
   /// Returns the result of `this` `-` [other].
-  // TODO(kevmoo): create a function spelled correctly and deprecate this one!
-  Expression operatorSubstract(Expression other) => BinaryExpression._(
+  Expression operatorSubtract(Expression other) => BinaryExpression._(
         expression,
         other,
         '-',
       );
+
+  @Deprecated('Use `operatorSubtract` instead')
+  Expression operatorSubstract(Expression other) => operatorSubtract(other);
 
   /// Returns the result of `this` `/` [other].
   Expression operatorDivide(Expression other) => BinaryExpression._(
@@ -175,6 +177,10 @@ abstract class Expression implements Spec {
         '%',
       );
 
+  /// Returns the result of `this` `~/` [other].
+  Expression operatorIntDivide(Expression other) =>
+      BinaryExpression._(expression, other, '~/');
+
   Expression conditional(Expression whenTrue, Expression whenFalse) =>
       BinaryExpression._(
         expression,
@@ -189,9 +195,105 @@ abstract class Expression implements Spec {
         'await',
       );
 
+  /// Returns the result of `++this`.
+  Expression operatorUnaryPrefixIncrement() =>
+      BinaryExpression._(_empty, expression, '++', addSpace: false);
+
+  /// Return the result of `this++`.
+  Expression operatorUnaryPostfixIncrement() =>
+      BinaryExpression._(expression, _empty, '++', addSpace: false);
+
+  /// Returns the result of `-this`.
+  Expression operatorUnaryMinus() =>
+      BinaryExpression._(_empty, expression, '-', addSpace: false);
+
+  /// Returns the result of `--this`.
+  Expression operatorUnaryPrefixDecrement() =>
+      BinaryExpression._(_empty, expression, '--', addSpace: false);
+
+  /// Return the result of `this--`.
+  Expression operatorUnaryPostfixDecrement() =>
+      BinaryExpression._(expression, _empty, '--', addSpace: false);
+
+  /// Returns the result of `this` `&` [other].
+  Expression operatorBitwiseAnd(Expression other) =>
+      BinaryExpression._(expression, other, '&');
+
+  /// Returns the result of `this` `|` [other].
+  Expression operatorBitwiseOr(Expression other) =>
+      BinaryExpression._(expression, other, '|');
+
+  /// Returns the result of `this` `^` [other].
+  Expression operatorBitwiseXor(Expression other) =>
+      BinaryExpression._(expression, other, '^');
+
+  /// Returns the result of `~this`.
+  Expression operatorUnaryBitwiseComplement() =>
+      BinaryExpression._(_empty, expression, '~', addSpace: false);
+
+  /// Returns the result of `this` `<<` [other].
+  Expression operatorShiftLeft(Expression other) =>
+      BinaryExpression._(expression, other, '<<');
+
+  /// Returns the result of `this` `>>` [other].
+  Expression operatorShiftRight(Expression other) =>
+      BinaryExpression._(expression, other, '>>');
+
+  /// Returns the result of `this` `>>>` [other].
+  Expression operatorShiftRightUnsigned(Expression other) =>
+      BinaryExpression._(expression, other, '>>>');
+
   /// Return `{this} = {other}`.
   Expression assign(Expression other) =>
       BinaryExpression._(this, other, '=', isConst: isConst);
+
+  /// Return `this` += [other].
+  Expression addAssign(Expression other) =>
+      BinaryExpression._(this, other, '+=');
+
+  /// Return `this` -= [other].
+  Expression subtractAssign(Expression other) =>
+      BinaryExpression._(this, other, '-=');
+
+  /// Return `this` *= [other].
+  Expression multiplyAssign(Expression other) =>
+      BinaryExpression._(this, other, '*=');
+
+  /// Return `this` /= [other].
+  Expression divideAssign(Expression other) =>
+      BinaryExpression._(this, other, '/=');
+
+  /// Return `this` ~/= [other].
+  Expression intDivideAssign(Expression other) =>
+      BinaryExpression._(this, other, '~/=');
+
+  /// Return `this` %= [other].
+  Expression euclideanModuloAssign(Expression other) =>
+      BinaryExpression._(this, other, '%=');
+
+  /// Return `this` <<= [other].
+  Expression shiftLeftAssign(Expression other) =>
+      BinaryExpression._(this, other, '<<=');
+
+  /// Return `this` >>= [other].
+  Expression shiftRightAssign(Expression other) =>
+      BinaryExpression._(this, other, '>>=');
+
+  /// Return `this` >>>= [other].
+  Expression shiftRightUnsignedAssign(Expression other) =>
+      BinaryExpression._(this, other, '>>>=');
+
+  /// Return `this` &= [other].
+  Expression bitwiseAndAssign(Expression other) =>
+      BinaryExpression._(this, other, '&=');
+
+  /// Return `this` ^= [other].
+  Expression bitwiseXorAssign(Expression other) =>
+      BinaryExpression._(this, other, '^=');
+
+  /// Return `this` |= [other].
+  Expression bitwiseOrAssign(Expression other) =>
+      BinaryExpression._(this, other, '|=');
 
   /// Return `{this} ?? {other}`.
   Expression ifNullThen(Expression other) => BinaryExpression._(
