@@ -8,30 +8,15 @@ part of '../expression.dart';
 ///
 /// Unsupported inputs invoke the [onError] callback.
 Expression literal(Object? literal, {Expression Function(Object)? onError}) {
-  if (literal is bool) {
-    return literalBool(literal);
-  }
-  if (literal is num) {
-    return literalNum(literal);
-  }
-  if (literal is String) {
-    return literalString(literal);
-  }
-  if (literal is List) {
-    return literalList(literal);
-  }
-  if (literal is Set) {
-    return literalSet(literal);
-  }
-  if (literal is Map) {
-    return literalMap(literal);
-  }
-  if (literal == null) {
-    return literalNull;
-  }
-  if (onError != null) {
-    return onError(literal);
-  }
+  if (literal is Expression) return literal;
+  if (literal is bool) return literalBool(literal);
+  if (literal is num) return literalNum(literal);
+  if (literal is String) return literalString(literal);
+  if (literal is List) return literalList(literal);
+  if (literal is Set) return literalSet(literal);
+  if (literal is Map) return literalMap(literal);
+  if (literal == null) return literalNull;
+  if (onError != null) return onError(literal);
   throw UnsupportedError('Not a supported literal type: $literal.');
 }
 

@@ -14,6 +14,48 @@ void main() {
     expect(literalNull, equalsDart('null'));
   });
 
+  group('literal', () {
+    test('forwards values that are already expressions', () {
+      expect(literal(refer('foo')), equalsDart('foo'));
+      expect(literal([refer('foo')]), equalsDart('[foo]'));
+    });
+    group('wraps', () {
+      test('bool values', () {
+        expect(literal(true), equalsDart('true'));
+      });
+      test('numeric values', () {
+        expect(literal(1), equalsDart('1'));
+        expect(literal(1.0), equalsDart('1.0'));
+      });
+      test('string values', () {
+        expect(literal('foo'), equalsDart("'foo'"));
+      });
+      test('list values', () {
+        expect(literal([1]), equalsDart('[1]'));
+      });
+      test('set values', () {
+        expect(literal({1}), equalsDart('{1}'));
+      });
+      test('map values', () {
+        expect(literal({'foo': 1}), equalsDart("{'foo': 1}"));
+      });
+      test('null', () {
+        expect(literal(null), equalsDart('null'));
+      });
+    });
+    test('uses `onError` for unhandled types', () {
+      expect(
+          literal(Uri.https('google.com'), onError: (value) {
+            if (value is Uri) {
+              return refer('Uri')
+                  .newInstanceNamed('parse', [literalString(value.toString())]);
+            }
+            throw UnsupportedError('Not supported: $value');
+          }),
+          equalsDart("Uri.parse('https://google.com')"));
+    });
+  });
+
   test('should emit a String', () {
     expect(literalString(r'$monkey'), equalsDart(r"'$monkey'"));
   });
@@ -124,6 +166,10 @@ void main() {
       ]),
       equalsDart('[[], {}, true, null, Map(), ]'),
     );
+  });
+
+  test('can toString a list literal with an expression as a value', () {
+    expect(literalList([refer('foo')]).toString, isNot(throwsA(anything)));
   });
 
   test('should emit a set of other literals and expressions', () {
