@@ -6,6 +6,8 @@ part of '../expression.dart';
 
 /// Converts a runtime Dart [literal] value into an [Expression].
 ///
+/// If the [literal] is already an [Expression] it is returned without change.
+/// Supported Dart types are translated into literal expressions.
 /// Unsupported inputs invoke the [onError] callback.
 Expression literal(Object? literal, {Expression Function(Object)? onError}) {
   if (literal is Expression) return literal;
