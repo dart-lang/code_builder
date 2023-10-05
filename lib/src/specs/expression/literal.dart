@@ -6,32 +6,21 @@ part of '../expression.dart';
 
 /// Converts a runtime Dart [literal] value into an [Expression].
 ///
+/// Supported Dart types are translated into literal expressions.
+/// If the [literal] is already an [Expression] it is returned without change to
+/// allow operating on a collection of mixed simple literals and more complex
+/// expressions.
 /// Unsupported inputs invoke the [onError] callback.
 Expression literal(Object? literal, {Expression Function(Object)? onError}) {
-  if (literal is bool) {
-    return literalBool(literal);
-  }
-  if (literal is num) {
-    return literalNum(literal);
-  }
-  if (literal is String) {
-    return literalString(literal);
-  }
-  if (literal is List) {
-    return literalList(literal);
-  }
-  if (literal is Set) {
-    return literalSet(literal);
-  }
-  if (literal is Map) {
-    return literalMap(literal);
-  }
-  if (literal == null) {
-    return literalNull;
-  }
-  if (onError != null) {
-    return onError(literal);
-  }
+  if (literal is Expression) return literal;
+  if (literal is bool) return literalBool(literal);
+  if (literal is num) return literalNum(literal);
+  if (literal is String) return literalString(literal);
+  if (literal is List) return literalList(literal);
+  if (literal is Set) return literalSet(literal);
+  if (literal is Map) return literalMap(literal);
+  if (literal == null) return literalNull;
+  if (onError != null) return onError(literal);
   throw UnsupportedError('Not a supported literal type: $literal.');
 }
 

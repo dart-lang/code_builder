@@ -27,6 +27,7 @@
 * Add `Expression.bitwiseAndAssign`
 * Add `Expression.bitwiseXorAssign`
 * Add `Expression.bitwiseOrAssign`
+* Allow passing an `Expression` through `literal` without an exception.
 
 ## 4.7.0
 
