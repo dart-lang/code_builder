@@ -28,6 +28,7 @@
 * Add `Expression.bitwiseXorAssign`
 * Add `Expression.bitwiseOrAssign`
 * Allow passing an `Expression` through `literal` without an exception.
+* Add support for extension types.
 
 ## 4.7.0
 

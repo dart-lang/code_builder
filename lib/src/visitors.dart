@@ -11,6 +11,7 @@ import 'specs/directive.dart';
 import 'specs/enum.dart';
 import 'specs/expression.dart';
 import 'specs/extension.dart';
+import 'specs/extension_type.dart';
 import 'specs/field.dart';
 import 'specs/library.dart';
 import 'specs/method.dart';
@@ -32,6 +33,8 @@ abstract class SpecVisitor<T> {
   T visitMixin(Mixin spec, [T? context]);
 
   T visitExtension(Extension spec, [T? context]);
+
+  T visitExtensionType(ExtensionType spec, [T? context]);
 
   T visitEnum(Enum spec, [T? context]);
 
