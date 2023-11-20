@@ -5,7 +5,7 @@ description: >-
 repository: https://github.com/dart-lang/code_builder
 
 environment:
-  sdk: '>=2.19.0 <3.0.0'
+  sdk: '>=3.0.0 <4.0.0'
 
 dependencies:
   built_collection: ^5.0.0
@@ -19,11 +19,6 @@ dev_dependencies:
   build_runner: ^2.0.3
   built_value_generator: ^8.0.0
   dart_flutter_team_lints: ^1.0.0
-  # TODO(srujzs): Restore this to ^2.0.0 once 2.3.4 is released and format the
-  # expectations in test/specs/extension_type_test.dart. We don't yet have a
-  # released version of dart_style that formats extension types. If we do not
-  # pin this version, the above test would start failing when dart_style
-  # publishes the new version.
-  dart_style: 2.3.3
+  dart_style: ^2.3.3
   source_gen: ^1.0.0
   test: ^1.16.0
