@@ -11,6 +11,7 @@ import 'specs/directive.dart';
 import 'specs/enum.dart';
 import 'specs/expression.dart';
 import 'specs/extension.dart';
+import 'specs/extension_type.dart';
 import 'specs/field.dart';
 import 'specs/library.dart';
 import 'specs/method.dart';
@@ -334,6 +335,62 @@ class DartEmitter extends Object
     }
     out.writeln(' }');
     return out;
+  }
+
+  @override
+  StringSink visitExtensionType(ExtensionType spec, [StringSink? output]) {
+    final out = output ??= StringBuffer();
+    spec.docs.forEach(out.writeln);
+    for (var a in spec.annotations) {
+      visitAnnotation(a, out);
+    }
+
+    out.write('extension type ');
+    if (spec.constant) out.write('const ');
+    out.write(spec.name);
+    visitTypeParameters(spec.types.map((r) => r.type), out);
+    if (spec.primaryConstructorName.isNotEmpty) {
+      out.write('.${spec.primaryConstructorName}');
+    }
+    out.write('(');
+    _visitRepresentationDeclaration(spec.representationDeclaration, out);
+    out.write(')');
+
+    if (spec.implements.isNotEmpty) {
+      out
+        ..write(' implements ')
+        ..writeAll(
+            spec.implements.map<StringSink>((m) => m.type.accept(this)), ',');
+    }
+
+    out.writeln(' {');
+    for (var c in spec.constructors) {
+      visitConstructor(c, spec.name, out);
+      out.writeln();
+    }
+    for (var f in spec.fields) {
+      visitField(f, out);
+      out.writeln();
+    }
+    for (var m in spec.methods) {
+      visitMethod(m, out);
+      if (_isLambdaMethod(m)) {
+        out.writeln(';');
+      }
+      out.writeln();
+    }
+    out.writeln('}');
+    return out;
+  }
+
+  void _visitRepresentationDeclaration(
+      RepresentationDeclaration spec, StringSink out) {
+    spec.docs.forEach(out.writeln);
+    for (var a in spec.annotations) {
+      visitAnnotation(a, out);
+    }
+    spec.declaredRepresentationType.accept(this, out);
+    out.write(' ${spec.name}');
   }
 
   @override

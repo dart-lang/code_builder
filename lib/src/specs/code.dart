@@ -87,7 +87,7 @@ abstract class CodeVisitor<T> implements SpecVisitor<T> {
 }
 
 /// Knowledge of how to write valid Dart code from [CodeVisitor].
-abstract class CodeEmitter implements CodeVisitor<StringSink> {
+abstract mixin class CodeEmitter implements CodeVisitor<StringSink> {
   @protected
   Allocator get allocator;
 

@@ -1,4 +1,4 @@
-## 4.8.0-wip
+## 4.8.0
 
 * Add `Expression.operatorSubtract`
 * Deprecate `Expression.operatorSubstract`
@@ -28,6 +28,8 @@
 * Add `Expression.bitwiseXorAssign`
 * Add `Expression.bitwiseOrAssign`
 * Allow passing an `Expression` through `literal` without an exception.
+* Add support for extension types.
+* Update SDK version constraints to `>=3.0.0`.
 
 ## 4.7.0
 

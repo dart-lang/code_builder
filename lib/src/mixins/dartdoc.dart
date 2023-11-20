@@ -4,12 +4,12 @@
 
 import 'package:built_collection/built_collection.dart';
 
-abstract class HasDartDocs {
+abstract mixin class HasDartDocs {
   /// Dart docs.
   BuiltList<String> get docs;
 }
 
-abstract class HasDartDocsBuilder {
+abstract mixin class HasDartDocsBuilder {
   /// Dart docs.
   abstract ListBuilder<String> docs;
 }

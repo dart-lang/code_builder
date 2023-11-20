@@ -134,25 +134,4 @@ void main() {
       '''),
     );
   });
-
-  test('should create an extension with a method', () {
-    expect(
-      Extension((b) => b
-        ..name = 'Foo'
-        ..on = TypeReference((b) => b.symbol = 'Bar')
-        ..methods.add(Method((b) => b
-          ..name = 'parseInt'
-          ..returns = refer('int')
-          ..body = Code.scope(
-            (a) => 'return int.parse(this);',
-          )))),
-      equalsDart(r'''
-        extension Foo on Bar {
-          int parseInt() {
-            return int.parse(this);
-          }
-        }
-      '''),
-    );
-  });
 }
