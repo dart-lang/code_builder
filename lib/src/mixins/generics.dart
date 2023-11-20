@@ -6,12 +6,12 @@ import 'package:built_collection/built_collection.dart';
 
 import '../specs/reference.dart';
 
-abstract class HasGenerics {
+abstract mixin class HasGenerics {
   /// Generic type parameters.
   BuiltList<Reference> get types;
 }
 
-abstract class HasGenericsBuilder {
+abstract mixin class HasGenericsBuilder {
   /// Generic type parameters.
   abstract ListBuilder<Reference> types;
 }

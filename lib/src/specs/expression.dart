@@ -526,7 +526,8 @@ abstract class ExpressionVisitor<T> implements SpecVisitor<T> {
 /// Knowledge of how to write valid Dart code from [ExpressionVisitor].
 ///
 /// **INTERNAL ONLY**.
-abstract class ExpressionEmitter implements ExpressionVisitor<StringSink> {
+abstract mixin class ExpressionEmitter
+    implements ExpressionVisitor<StringSink> {
   @override
   StringSink visitToCodeExpression(ToCodeExpression expression,
       [StringSink? output]) {
