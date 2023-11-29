@@ -506,13 +506,16 @@ class DartEmitter extends Object
       }
     }
 
+    for (var a in spec.annotations) {
+      visitAnnotation(a, output);
+    }
     if (spec.name != null) {
-      for (var a in spec.annotations) {
-        visitAnnotation(a, output);
-      }
       output.write('library ${spec.name!};');
     } else if (spec.annotations.isNotEmpty) {
-      throw StateError('a library name is required for annotations');
+      // An explicit _unnamed_ library directive is only required if there are
+      // annotations or doc comments on the library (though doc comments are not
+      // currently supported in code_builder).
+      output.write('library;');
     }
 
     final directives = <Directive>[...allocator.imports, ...spec.directives];

@@ -1,3 +1,7 @@
+## 4.9.0-dev
+
+* Support emitting an unnamed library with annotations.
+
 ## 4.8.0
 
 * Add `Expression.operatorSubtract`
