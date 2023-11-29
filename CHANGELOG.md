@@ -1,3 +1,7 @@
+## 4.8.1
+
+* Emit empty line comments as empty lines.
+
 ## 4.8.0
 
 * Add `Expression.operatorSubtract`

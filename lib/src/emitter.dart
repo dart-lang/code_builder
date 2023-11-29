@@ -479,7 +479,9 @@ class DartEmitter extends Object
     output ??= StringBuffer();
 
     if (spec.comments.isNotEmpty) {
-      spec.comments.map((line) => '// $line').forEach(output.writeln);
+      spec.comments
+          .map((line) => line.isEmpty ? '' : '// $line')
+          .forEach(output.writeln);
       output.writeln();
     }
 
