@@ -1,6 +1,6 @@
 ## 4.8.1
 
-* Emit empty line comments as empty lines.
+* Add the ability to emit empty lines with comments.
 
 ## 4.8.0
 
