@@ -31,7 +31,7 @@ abstract class Library
   ///
   /// Adding a `null` String to this list will insert a blank line between
   /// groups of comments.
-  BuiltList<String?> get comments;
+  BuiltList<String> get comments;
 
   /// A list of analysis issues to ignore (`ignore_for_file: ...`).
   BuiltList<String> get ignoreForFile;
@@ -61,7 +61,7 @@ abstract class LibraryBuilder
   ListBuilder<Spec> body = ListBuilder<Spec>();
   ListBuilder<Directive> directives = ListBuilder<Directive>();
 
-  ListBuilder<String?> comments = ListBuilder<String?>();
+  ListBuilder<String> comments = ListBuilder<String>();
   ListBuilder<String> ignoreForFile = ListBuilder<String>();
   String? name;
 }

@@ -14,7 +14,7 @@ class _$Library extends Library {
   @override
   final BuiltList<Spec> body;
   @override
-  final BuiltList<String?> comments;
+  final BuiltList<String> comments;
   @override
   final BuiltList<String> ignoreForFile;
   @override
@@ -125,13 +125,13 @@ class _$LibraryBuilder extends LibraryBuilder {
   }
 
   @override
-  ListBuilder<String?> get comments {
+  ListBuilder<String> get comments {
     _$this;
     return super.comments;
   }
 
   @override
-  set comments(ListBuilder<String?> comments) {
+  set comments(ListBuilder<String> comments) {
     _$this;
     super.comments = comments;
   }
