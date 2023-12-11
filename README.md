@@ -103,9 +103,7 @@ run from the snapshot instead of from source to avoid problems with deleted
 files. These steps must be run without deleting the source files.
 
 ```bash
-$ dart run build_runner generate-build-script
-$ dart compile kernel .dart_tool/build/entrypoint/build.dart
-$ dart .dart_tool/build/entrypoint/build.dill build --delete-conflicting-outputs
+./tool/regenerate.sh 
 ```
 
 [build_runner]: https://pub.dev/packages/build_runner
