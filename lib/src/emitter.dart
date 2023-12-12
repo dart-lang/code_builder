@@ -483,6 +483,12 @@ class DartEmitter extends Object
       output.writeln();
     }
 
+    if (spec.generatedByComment != null) {
+      output
+        ..writeln('// ${spec.generatedByComment}')
+        ..writeln();
+    }
+
     if (spec.ignoreForFile.isNotEmpty) {
       final ignores = spec.ignoreForFile.toList()..sort();
       final lines = ['// ignore_for_file: ${ignores.first}'];
