@@ -277,17 +277,19 @@ void main() {
       );
     });
 
-    test('should error on unnamed library with annotations', () {
+    test('should emit an unnamed library source file with annotations', () {
       expect(
-        () {
-          Library(
-            (b) => b
-              ..annotations.add(
-                refer('JS', 'package:js/js.dart').call([]),
-              ),
-          ).accept(DartEmitter());
-        },
-        throwsStateError,
+        Library(
+          (b) => b
+            ..annotations.add(
+              refer('JS', 'package:js/js.dart').call([]),
+            ),
+        ),
+        equalsDart(r'''
+          @JS()
+          library;
+          import 'package:js/js.dart';
+        ''', DartEmitter(allocator: Allocator())),
       );
     });
   });
