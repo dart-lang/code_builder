@@ -16,6 +16,8 @@ class _$Library extends Library {
   @override
   final BuiltList<String> comments;
   @override
+  final String? generatedByComment;
+  @override
   final BuiltList<String> ignoreForFile;
   @override
   final String? name;
@@ -28,6 +30,7 @@ class _$Library extends Library {
       required this.directives,
       required this.body,
       required this.comments,
+      this.generatedByComment,
       required this.ignoreForFile,
       this.name})
       : super._() {
@@ -55,6 +58,7 @@ class _$Library extends Library {
         directives == other.directives &&
         body == other.body &&
         comments == other.comments &&
+        generatedByComment == other.generatedByComment &&
         ignoreForFile == other.ignoreForFile &&
         name == other.name;
   }
@@ -66,6 +70,7 @@ class _$Library extends Library {
     _$hash = $jc(_$hash, directives.hashCode);
     _$hash = $jc(_$hash, body.hashCode);
     _$hash = $jc(_$hash, comments.hashCode);
+    _$hash = $jc(_$hash, generatedByComment.hashCode);
     _$hash = $jc(_$hash, ignoreForFile.hashCode);
     _$hash = $jc(_$hash, name.hashCode);
     _$hash = $jf(_$hash);
@@ -79,6 +84,7 @@ class _$Library extends Library {
           ..add('directives', directives)
           ..add('body', body)
           ..add('comments', comments)
+          ..add('generatedByComment', generatedByComment)
           ..add('ignoreForFile', ignoreForFile)
           ..add('name', name))
         .toString();
@@ -137,6 +143,18 @@ class _$LibraryBuilder extends LibraryBuilder {
   }
 
   @override
+  String? get generatedByComment {
+    _$this;
+    return super.generatedByComment;
+  }
+
+  @override
+  set generatedByComment(String? generatedByComment) {
+    _$this;
+    super.generatedByComment = generatedByComment;
+  }
+
+  @override
   ListBuilder<String> get ignoreForFile {
     _$this;
     return super.ignoreForFile;
@@ -169,6 +187,7 @@ class _$LibraryBuilder extends LibraryBuilder {
       super.directives = $v.directives.toBuilder();
       super.body = $v.body.toBuilder();
       super.comments = $v.comments.toBuilder();
+      super.generatedByComment = $v.generatedByComment;
       super.ignoreForFile = $v.ignoreForFile.toBuilder();
       super.name = $v.name;
       _$v = null;
@@ -199,6 +218,7 @@ class _$LibraryBuilder extends LibraryBuilder {
               directives: directives.build(),
               body: body.build(),
               comments: comments.build(),
+              generatedByComment: generatedByComment,
               ignoreForFile: ignoreForFile.build(),
               name: name);
     } catch (_) {
@@ -212,6 +232,7 @@ class _$LibraryBuilder extends LibraryBuilder {
         body.build();
         _$failedField = 'comments';
         comments.build();
+
         _$failedField = 'ignoreForFile';
         ignoreForFile.build();
       } catch (e) {
