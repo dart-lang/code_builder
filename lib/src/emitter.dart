@@ -512,15 +512,15 @@ class DartEmitter extends Object
       }
     }
 
+    spec.docs.forEach(output.writeln);
     for (var a in spec.annotations) {
       visitAnnotation(a, output);
     }
     if (spec.name != null) {
       output.write('library ${spec.name!};');
-    } else if (spec.annotations.isNotEmpty) {
+    } else if (spec.annotations.isNotEmpty || spec.docs.isNotEmpty) {
       // An explicit _unnamed_ library directive is only required if there are
-      // annotations or doc comments on the library (though doc comments are not
-      // currently supported in code_builder).
+      // annotations or doc comments on the library.
       output.write('library;');
     }
 
