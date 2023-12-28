@@ -8,6 +8,7 @@ import 'package:meta/meta.dart';
 
 import '../base.dart';
 import '../mixins/annotations.dart';
+import '../mixins/dartdoc.dart';
 import '../visitors.dart';
 import 'directive.dart';
 import 'expression.dart';
@@ -16,13 +17,16 @@ part 'library.g.dart';
 
 @immutable
 abstract class Library
-    with HasAnnotations
+    with HasAnnotations, HasDartDocs
     implements Built<Library, LibraryBuilder>, Spec {
   factory Library([void Function(LibraryBuilder) updates]) = _$Library;
   Library._();
 
   @override
   BuiltList<Expression> get annotations;
+
+  @override
+  BuiltList<String> get docs;
 
   BuiltList<Directive> get directives;
   BuiltList<Spec> get body;
@@ -53,13 +57,16 @@ abstract class Library
 }
 
 abstract class LibraryBuilder
-    with HasAnnotationsBuilder
+    with HasAnnotationsBuilder, HasDartDocsBuilder
     implements Builder<Library, LibraryBuilder> {
   factory LibraryBuilder() = _$LibraryBuilder;
   LibraryBuilder._();
 
   @override
   ListBuilder<Expression> annotations = ListBuilder<Expression>();
+
+  @override
+  ListBuilder<String> docs = ListBuilder<String>();
 
   ListBuilder<Spec> body = ListBuilder<Spec>();
   ListBuilder<Directive> directives = ListBuilder<Directive>();

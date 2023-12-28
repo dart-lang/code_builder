@@ -292,5 +292,22 @@ void main() {
         ''', DartEmitter(allocator: Allocator())),
       );
     });
+
+    test('should emit an unnamed library source file with documentation', () {
+      expect(
+        Library(
+          (b) => b
+            ..docs.addAll(
+              const [
+                '/// My favorite library.',
+              ],
+            ),
+        ),
+        equalsDart(r'''
+        /// My favorite library.
+        library;
+      '''),
+      );
+    });
   });
 }

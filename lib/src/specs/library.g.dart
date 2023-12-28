@@ -10,6 +10,8 @@ class _$Library extends Library {
   @override
   final BuiltList<Expression> annotations;
   @override
+  final BuiltList<String> docs;
+  @override
   final BuiltList<Directive> directives;
   @override
   final BuiltList<Spec> body;
@@ -27,6 +29,7 @@ class _$Library extends Library {
 
   _$Library._(
       {required this.annotations,
+      required this.docs,
       required this.directives,
       required this.body,
       required this.comments,
@@ -36,6 +39,7 @@ class _$Library extends Library {
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
         annotations, r'Library', 'annotations');
+    BuiltValueNullFieldError.checkNotNull(docs, r'Library', 'docs');
     BuiltValueNullFieldError.checkNotNull(directives, r'Library', 'directives');
     BuiltValueNullFieldError.checkNotNull(body, r'Library', 'body');
     BuiltValueNullFieldError.checkNotNull(comments, r'Library', 'comments');
@@ -55,6 +59,7 @@ class _$Library extends Library {
     if (identical(other, this)) return true;
     return other is Library &&
         annotations == other.annotations &&
+        docs == other.docs &&
         directives == other.directives &&
         body == other.body &&
         comments == other.comments &&
@@ -67,6 +72,7 @@ class _$Library extends Library {
   int get hashCode {
     var _$hash = 0;
     _$hash = $jc(_$hash, annotations.hashCode);
+    _$hash = $jc(_$hash, docs.hashCode);
     _$hash = $jc(_$hash, directives.hashCode);
     _$hash = $jc(_$hash, body.hashCode);
     _$hash = $jc(_$hash, comments.hashCode);
@@ -81,6 +87,7 @@ class _$Library extends Library {
   String toString() {
     return (newBuiltValueToStringHelper(r'Library')
           ..add('annotations', annotations)
+          ..add('docs', docs)
           ..add('directives', directives)
           ..add('body', body)
           ..add('comments', comments)
@@ -104,6 +111,18 @@ class _$LibraryBuilder extends LibraryBuilder {
   set annotations(ListBuilder<Expression> annotations) {
     _$this;
     super.annotations = annotations;
+  }
+
+  @override
+  ListBuilder<String> get docs {
+    _$this;
+    return super.docs;
+  }
+
+  @override
+  set docs(ListBuilder<String> docs) {
+    _$this;
+    super.docs = docs;
   }
 
   @override
@@ -184,6 +203,7 @@ class _$LibraryBuilder extends LibraryBuilder {
     final $v = _$v;
     if ($v != null) {
       super.annotations = $v.annotations.toBuilder();
+      super.docs = $v.docs.toBuilder();
       super.directives = $v.directives.toBuilder();
       super.body = $v.body.toBuilder();
       super.comments = $v.comments.toBuilder();
@@ -215,6 +235,7 @@ class _$LibraryBuilder extends LibraryBuilder {
       _$result = _$v ??
           new _$Library._(
               annotations: annotations.build(),
+              docs: docs.build(),
               directives: directives.build(),
               body: body.build(),
               comments: comments.build(),
@@ -226,6 +247,8 @@ class _$LibraryBuilder extends LibraryBuilder {
       try {
         _$failedField = 'annotations';
         annotations.build();
+        _$failedField = 'docs';
+        docs.build();
         _$failedField = 'directives';
         directives.build();
         _$failedField = 'body';
