@@ -48,7 +48,12 @@ export 'src/specs/expression.dart'
         literalString,
         literalTrue;
 export 'src/specs/extension.dart' show Extension, ExtensionBuilder;
-export 'src/specs/extension_type.dart' show ExtensionType, ExtensionTypeBuilder;
+export 'src/specs/extension_type.dart'
+    show
+        ExtensionType,
+        ExtensionTypeBuilder,
+        RepresentationDeclaration,
+        RepresentationDeclarationBuilder;
 export 'src/specs/field.dart' show Field, FieldBuilder, FieldModifier;
 export 'src/specs/library.dart' show Library, LibraryBuilder;
 export 'src/specs/method.dart'

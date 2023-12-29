@@ -1,6 +1,9 @@
-## 4.10.0-wip
+## 4.10.0
 
 * Add `Library.docs` to support emitting doc comments on libraries.
+* Export `RepresentationDeclaration` and `RepresentationDeclarationBuilder` so
+  they can be used when generating extension types.
+* Upgrade to `dart_style` 2.3.4.
 
 ## 4.9.0
 
