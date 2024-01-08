@@ -3,18 +3,12 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:code_builder/code_builder.dart';
-import 'package:code_builder/src/specs/extension_type.dart';
 import 'package:test/test.dart';
 
-// import '../common.dart';
+import '../common.dart';
 
 void main() {
-  // TODO(srujzs): Uncomment this and the import once we have dart_style 2.3.4.
-  // When 2.3.4 is published, extension type formatting will be enabled and
-  // these expectations will start failing. To avoid that, we don't use dart
-  // format temporarily. Once 2.3.4 is published, we can update the expectations
-  // in this file and re-enable dart format.
-  // useDartfmt();
+  useDartfmt();
 
   test('minimum extension type', () {
     expect(
