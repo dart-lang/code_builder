@@ -1,3 +1,8 @@
+## 4.11.0-wip
+
+* Merge `no_leading_underscores_for_library_prefixes` from the simplePrefixing
+  allocator with other file ignores.
+
 ## 4.10.0
 
 * Add `Library.docs` to support emitting doc comments on libraries.
