@@ -225,6 +225,7 @@ void main() {
             ..assignment = Code.scope((a) => '${a($LinkedHashMap)}()')))),
         equalsDart(r'''
           // ignore_for_file: no_leading_underscores_for_library_prefixes
+          
           import 'dart:collection' as _i1;
           
           final test = _i1.LinkedHashMap();
@@ -309,5 +310,28 @@ void main() {
       '''),
       );
     });
+
+    test('should emit a source file with library allocation + prefixing', () {
+      expect(
+        Library((b) => b
+          ..docs.add(
+            '/// My favorite library.',
+          )
+          ..body.add(Field((b) => b
+            ..name = 'test'
+            ..modifier = FieldModifier.final$
+            ..assignment = Code.scope((a) => '${a($LinkedHashMap)}()')))),
+        equalsDart(r'''
+          // ignore_for_file: no_leading_underscores_for_library_prefixes
+          
+          /// My favorite library.
+          library;
+          
+          import 'dart:collection' as _i1;
+          
+          final test = _i1.LinkedHashMap();
+        ''', DartEmitter(allocator: Allocator.simplePrefixing())),
+      );
+    }, skip: true);
   });
 }
