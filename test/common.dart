@@ -9,7 +9,7 @@ final DartFormatter _dartfmt = DartFormatter();
 String _format(String source) {
   try {
     return _dartfmt.format(source);
-  } on FormatException catch (_) {
+  } on FormatterException catch (_) {
     return _dartfmt.formatStatement(source);
   }
 }

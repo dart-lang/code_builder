@@ -186,7 +186,10 @@ void main() {
       equalsDart(r'''
         extension type Foo._(int bar) {
           Foo(this.bar);
-          factory Foo.named(int baz) { return Foo(baz); }
+
+          factory Foo.named(int baz) {
+            return Foo(baz);
+          }
         }
       '''),
     );
