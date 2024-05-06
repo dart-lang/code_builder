@@ -5,11 +5,9 @@
 import 'package:code_builder/code_builder.dart';
 import 'package:test/test.dart';
 
-import '../../common.dart';
+import '../../matchers.dart';
 
 void main() {
-  useDartfmt();
-
   test('should emit a block of code', () {
     expect(
       Block.of([

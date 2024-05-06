@@ -5,11 +5,9 @@
 import 'package:code_builder/code_builder.dart';
 import 'package:test/test.dart';
 
-import '../common.dart';
+import '../matchers.dart';
 
 void main() {
-  useDartfmt();
-
   test('should create a class', () {
     expect(
       Class((b) => b..name = 'Foo'),

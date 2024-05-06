@@ -5,15 +5,17 @@
 import 'package:code_builder/code_builder.dart';
 import 'package:test/test.dart';
 
+import 'matchers.dart';
+
 void main() {
   test('describes mismatches', () {
     const actual = Code('final x=1;');
     equalsDart('final y=2;').expectMismatch(actual, '''
-  Expected: final y=2;
+  Expected: final y = 2;
     Actual: StaticCode:<final x=1;>
      Which: is different.
-            Expected: final y=2;
-              Actual: final x=1;
+            Expected: final y = 2;
+              Actual: final x = 1;
                             ^
              Differ at offset 6
 ''');

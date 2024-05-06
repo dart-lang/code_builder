@@ -1,4 +1,7 @@
-## 4.10.1-wip
+## 5.0.0-wip
+
+* Remove the regular dependency on `package:matcher`.
+* Remove the `EqualsDart` class and `equalsDart()` top-level function.
 
 ## 4.10.0
 
