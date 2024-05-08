@@ -57,8 +57,7 @@ void main() {
       expect(
         TypeReference((t) => t
           ..symbol = 'Foo'
-          ..isNullable = true)
-          .newInstanceNamed('bar', []),
+          ..isNullable = true).newInstanceNamed('bar', []),
         equalsDart('Foo.bar()', emitter),
       );
     });
