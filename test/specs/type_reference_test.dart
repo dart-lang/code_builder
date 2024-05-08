@@ -52,5 +52,15 @@ void main() {
         equalsDart(r'List<int?>', emitter),
       );
     });
+
+    test('should create a call to named constructor despite isNullable', () {
+      expect(
+        TypeReference((t) => t
+          ..symbol = 'Foo'
+          ..isNullable = true)
+          .newInstanceNamed('bar', []),
+        equalsDart('Foo.bar()', emitter),
+      );
+    });
   });
 }

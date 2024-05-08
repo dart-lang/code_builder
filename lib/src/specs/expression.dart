@@ -11,6 +11,7 @@ import 'code.dart';
 import 'method.dart';
 import 'reference.dart';
 import 'type_function.dart';
+import 'type_reference.dart';
 
 part 'expression/binary.dart';
 part 'expression/closure.dart';
@@ -577,7 +578,12 @@ abstract mixin class ExpressionEmitter
       [StringSink? output]) {
     final out = output ??= StringBuffer();
     return _writeConstExpression(out, expression.isConst, () {
-      expression.target.accept(this, out);
+      final target = expression.target;
+      if (target is TypeReference) {
+        target.rebuild((t) => t..isNullable = false).accept(this, out);
+      } else {
+        target.accept(this, out);
+      }
       if (expression.name != null) {
         out
           ..write('.')
