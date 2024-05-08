@@ -8,6 +8,16 @@ import 'package:matcher/matcher.dart';
 
 final DartFormatter _dartfmt = DartFormatter();
 
+/// Returns a matcher for [Spec] objects that emit code matching [source].
+///
+/// Both [source] and the result emitted from the compared [Spec] are formatted
+/// with dart_style.
+Matcher equalsDart(String source, [DartEmitter? emitter]) =>
+    _EqualsDart._(_EqualsDart._format(source), emitter ?? DartEmitter());
+
+String _emitDart(Spec spec, DartEmitter emitter) =>
+    _EqualsDart._format(spec.accept<StringSink>(emitter).toString());
+
 String _dartFormatAttempt(String source) {
   try {
     return _dartfmt.format(source);
@@ -20,18 +30,6 @@ String _dartFormatAttempt(String source) {
   return collapseWhitespace(source).trim();
 }
 
-/// Returns a matcher for [Spec] objects that emit code matching [source].
-///
-/// Both [source] and the result emitted from the compared [Spec] are formatted
-/// with dart_style.
-Matcher equalsDart(String source, [DartEmitter? emitter]) =>
-    _EqualsDart._(_EqualsDart._format(source), emitter ?? DartEmitter());
-
-/// Encodes [spec] as Dart source code.
-String _dart(Spec spec, DartEmitter emitter) =>
-    _EqualsDart._format(spec.accept<StringSink>(emitter).toString());
-
-/// Implementation detail of using the [equalsDart] matcher.
 class _EqualsDart extends Matcher {
   static String _format(String source) => _dartFormatAttempt(source).trim();
 
@@ -51,7 +49,7 @@ class _EqualsDart extends Matcher {
     Map<dynamic, dynamic> matchState,
     bool verbose,
   ) {
-    final actualSource = _dart(item, _emitter);
+    final actualSource = _emitDart(item, _emitter);
     return equals(_expectedSource).describeMismatch(
       actualSource,
       mismatchDescription,
@@ -62,5 +60,5 @@ class _EqualsDart extends Matcher {
 
   @override
   bool matches(covariant Spec item, Object? matchState) =>
-      _dart(item, _emitter) == _expectedSource;
+      _emitDart(item, _emitter) == _expectedSource;
 }
