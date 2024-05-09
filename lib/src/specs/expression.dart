@@ -544,7 +544,12 @@ abstract mixin class ExpressionEmitter
   StringSink visitBinaryExpression(BinaryExpression expression,
       [StringSink? output]) {
     output ??= StringBuffer();
-    expression.left.accept(this, output);
+    final left = expression.left;
+    if (left is TypeReference) {
+      left.rebuild((t) => t..isNullable = false).accept(this, output);
+    } else {
+      left.accept(this, output);
+    }
     if (expression.addSpace) {
       output.write(' ');
     }

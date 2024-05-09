@@ -61,5 +61,14 @@ void main() {
         equalsDart('Foo.bar()', emitter),
       );
     });
+
+    test('should create a call to static property despite isNullable', () {
+      expect(
+        TypeReference((t) => t
+          ..symbol = 'Foo'
+          ..isNullable = true).property('bar').call([]),
+        equalsDart('Foo.bar()', emitter),
+      );
+    });
   });
 }
