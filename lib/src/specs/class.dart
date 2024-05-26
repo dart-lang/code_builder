@@ -74,16 +74,11 @@ enum ClassModifier {
   final$,
   interface;
 
-  String get name {
-    switch (this) {
-      case ClassModifier.base:
-        return 'base';
-      case ClassModifier.final$:
-        return 'final';
-      case ClassModifier.interface:
-        return 'interface';
-    }
-  }
+  String get name => switch (this) {
+        ClassModifier.base => 'base',
+        ClassModifier.final$ => 'final',
+        ClassModifier.interface => 'interface'
+      };
 }
 
 abstract class ClassBuilder extends Object

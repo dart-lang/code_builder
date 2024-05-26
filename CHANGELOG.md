@@ -1,5 +1,7 @@
 ## 4.10.1-wip
 
+* Require Dart `^3.1.0`
+
 ## 4.10.0
 
 * Add `Library.docs` to support emitting doc comments on libraries.
