@@ -5,11 +5,9 @@
 import 'package:code_builder/code_builder.dart';
 import 'package:test/test.dart';
 
-import 'common.dart';
+import 'matchers.dart';
 
 void main() {
-  useDartfmt();
-
   final $LinkedHashMap = refer('LinkedHashMap', 'dart:collection');
 
   final library = Library((b) => b
