@@ -578,7 +578,7 @@ abstract mixin class ExpressionEmitter
     final out = output ??= StringBuffer();
     return _writeConstExpression(out, expression.isConst, () {
       expression.target.accept(this, out);
-      if (expression.name != null) {
+      if (expression.name case final name? when name.isNotEmpty) {
         out
           ..write('.')
           ..write(expression.name);

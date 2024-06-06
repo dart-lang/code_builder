@@ -251,6 +251,13 @@ void main() {
     );
   });
 
+  test('should emit invoking unnamed constructor when name is empty', () {
+    expect(
+      refer('Foo').newInstanceNamed('', []),
+      equalsDart('Foo()'),
+    );
+  });
+
   test('should emit invoking const Type()', () {
     expect(
       refer('Object').constInstance([]),
