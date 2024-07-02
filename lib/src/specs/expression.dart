@@ -11,6 +11,7 @@ import 'code.dart';
 import 'method.dart';
 import 'reference.dart';
 import 'type_function.dart';
+import 'type_reference.dart';
 
 part 'expression/binary.dart';
 part 'expression/closure.dart';
@@ -543,7 +544,12 @@ abstract mixin class ExpressionEmitter
   StringSink visitBinaryExpression(BinaryExpression expression,
       [StringSink? output]) {
     output ??= StringBuffer();
-    expression.left.accept(this, output);
+    final left = expression.left;
+    if (left is TypeReference) {
+      left.rebuild((t) => t..isNullable = false).accept(this, output);
+    } else {
+      left.accept(this, output);
+    }
     if (expression.addSpace) {
       output.write(' ');
     }
@@ -577,7 +583,12 @@ abstract mixin class ExpressionEmitter
       [StringSink? output]) {
     final out = output ??= StringBuffer();
     return _writeConstExpression(out, expression.isConst, () {
-      expression.target.accept(this, out);
+      final target = expression.target;
+      if (target is TypeReference) {
+        target.rebuild((t) => t..isNullable = false).accept(this, out);
+      } else {
+        target.accept(this, out);
+      }
       if (expression.name != null) {
         out
           ..write('.')
