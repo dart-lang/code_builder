@@ -5,12 +5,15 @@
 import 'package:code_builder/code_builder.dart';
 import 'package:dart_style/dart_style.dart';
 
-final DartFormatter _dartfmt = DartFormatter();
 String _format(String source) {
+  final formatter = DartFormatter(
+    languageVersion: DartFormatter.latestLanguageVersion,
+  );
+
   try {
-    return _dartfmt.format(source);
+    return formatter.format(source);
   } on FormatterException catch (_) {
-    return _dartfmt.formatStatement(source);
+    return formatter.formatStatement(source);
   }
 }
 
