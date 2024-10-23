@@ -25,7 +25,10 @@ void main() {
       ..name = 'eat'
       ..body = const Code("print('Yum!');"))));
   final emitter = DartEmitter();
-  print(DartFormatter().format('${animal.accept(emitter)}'));
+  print(
+    DartFormatter(languageVersion: DartFormatter.latestLanguageVersion)
+        .format('${animal.accept(emitter)}'),
+  );
 }
 ```
 
@@ -57,7 +60,10 @@ void main() {
           ..returns = refer('Other', 'package:b/b.dart')),
       ]));
   final emitter = DartEmitter.scoped();
-  print(DartFormatter().format('${library.accept(emitter)}'));
+  print(
+    DartFormatter(languageVersion: DartFormatter.latestLanguageVersion)
+        .format('${library.accept(emitter)}'),
+  );
 }
 ```
 
@@ -103,7 +109,7 @@ run from the snapshot instead of from source to avoid problems with deleted
 files. These steps must be run without deleting the source files.
 
 ```bash
-./tool/regenerate.sh 
+./tool/regenerate.sh
 ```
 
 [build_runner]: https://pub.dev/packages/build_runner
