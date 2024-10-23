@@ -1,7 +1,7 @@
 ## 4.10.1-wip
 
-* Require Dart `^3.1.0`
-* Upgrade to dart_style `2.3.7`.
+* Require Dart `^3.5.0`
+* Upgrade to `dart_style` 2.3.7.
 
 ## 4.10.0
 
