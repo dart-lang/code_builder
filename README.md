@@ -1,3 +1,6 @@
+> [!IMPORTANT]  
+> This repo has moved to https://github.com/dart-lang/tools/tree/main/pkgs/code_builder
+
 [![Dart CI](https://github.com/dart-lang/code_builder/actions/workflows/test-package.yml/badge.svg)](https://github.com/dart-lang/code_builder/actions/workflows/test-package.yml)
 [![Pub package](https://img.shields.io/pub/v/code_builder.svg)](https://pub.dev/packages/code_builder)
 [![package publisher](https://img.shields.io/pub/publisher/code_builder.svg)](https://pub.dev/packages/code_builder/publisher)
